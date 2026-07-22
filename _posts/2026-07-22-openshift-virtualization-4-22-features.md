@@ -5,7 +5,7 @@ description: >-
   networking, storage, lifecycle—plus Technology Preview and deprecation notes.
 date: 2026-07-22 13:00:00 -0500
 categories: [OpenShift, Virtualization]
-tags: [openshift-virtualization, 4.22, release-notes, vms, hybrid-cloud]
+tags: [openshift-virtualization, "4.22", release-notes, vms, hybrid-cloud]
 permalink: /posts/openshift-virtualization-4-22-features/
 ---
 
