@@ -3,7 +3,6 @@ title: "OpenShift Security for Regulated Hybrid Cloud: Platform and Supply Chain
 description: >-
   How ACS, Compliance Operator, and signed supply-chain controls help teams
   prove security posture across hybrid OpenShift estates.
-author: thomasphall
 date: 2026-07-22 12:00:00 -0500
 categories: [OpenShift, Security]
 tags: [acs, compliance, supply-chain, hybrid-cloud]
