@@ -1,0 +1,25 @@
+# Notices
+
+## Theme and site scaffolding
+
+This repository is based on the [Chirpy Starter](https://github.com/cotes2020/chirpy-starter)
+and uses the [jekyll-theme-chirpy](https://github.com/cotes2020/jekyll-theme-chirpy) theme.
+
+Theme and scaffolding code are licensed under the MIT License.
+See `LICENSE` (Copyright (c) 2021 Cotes Chung).
+
+## Blog posts and original writing
+
+Unless otherwise noted, original blog posts and other original written content
+by Thomas Hall in this repository are licensed under the
+[Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/)
+(CC BY 4.0).
+
+## Trademarks
+
+Red Hat, OpenShift, and related marks are trademarks of Red Hat, Inc. or its
+affiliates, in the United States and other countries. Other names may be
+trademarks of their respective owners. Use of these marks does not imply
+endorsement.
+
+This site is a personal project and is not an official Red Hat website.

@@ -16,11 +16,12 @@ timezone: America/Chicago
 
 title: Thomas Hall
 
-tagline: OpenShift Solutions Architect
+tagline: Solutions Architect · Views are my own
 
 description: >-
-  Staff Solution Architect & OpenShift Specialist at Red Hat | Houston, TX |
-  Cloud-native tech, containers, hybrid cloud | Fitness, music, gaming & spicy vibes 🌶️
+  Personal site of Thomas Hall, a solutions architect focused on hybrid cloud
+  and platform engineering. Opinions are my own and do not represent Red Hat
+  or any other organization. Houston, TX.
 
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
@@ -229,6 +230,7 @@ exclude:
   - tools
   - README.md
   - LICENSE
+  - NOTICE
   - purgecss.js
   - "*.config.js"
   - "package*.json"

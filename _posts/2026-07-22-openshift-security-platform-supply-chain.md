@@ -1,23 +1,30 @@
 ---
-title: "OpenShift Security for Regulated Hybrid Cloud: Platform and Supply Chain"
+title: "Platform and Supply-Chain Security for Regulated Hybrid Cloud"
 description: >-
-  How ACS, Compliance Operator, and signed supply-chain controls help teams
-  prove security posture across hybrid OpenShift estates.
+  How Red Hat Advanced Cluster Security, the Compliance Operator, and signed
+  supply-chain controls help teams prove security posture across hybrid
+  Red Hat OpenShift estates.
 date: 2026-07-22 12:00:00 -0500
-categories: [OpenShift, Security]
+categories: [Platform, Security]
 tags: [acs, compliance, supply-chain, hybrid-cloud]
+permalink: /posts/openshift-security-platform-supply-chain/
 ---
+
+> Personal site note: views expressed here are my own and do not necessarily
+> represent Red Hat or any other organization.
+{: .prompt-info }
 
 Regulated organizations rarely fail an audit because they lack security tools.
 They fail because posture is inconsistent: one cluster hardened, another drifted;
 one pipeline signing images, another promoting unsigned builds; evidence scattered
 across spreadsheets when an assessor asks for proof.
 
-For hybrid OpenShift estates—on-premises, ROSA, or other managed OpenShift—the
-winning pattern is the same: **observe risk continuously, prove configuration
-against known baselines, and gate what is allowed to run**. Recent OpenShift
-platform and supply-chain capabilities make that pattern repeatable instead of
-heroic.
+For hybrid [Red Hat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift)
+estates—on-premises, Red Hat OpenShift Service on AWS (ROSA), or other managed
+OpenShift—the winning pattern is the same: **observe risk continuously, prove
+configuration against known baselines, and gate what is allowed to run**. Recent
+platform and supply-chain capabilities on OpenShift make that pattern repeatable
+instead of heroic.
 
 ## See risk across the estate with RHACS
 
@@ -42,7 +49,7 @@ is what auditors and risk committees actually buy.
 Visibility alone is not enough. Regulated customers need evidence that the
 *platform* itself matches an agreed baseline.
 
-The [OpenShift Compliance Operator](https://docs.redhat.com/en/documentation/openshift_container_platform/4.19/html/security_and_compliance/compliance-operator)
+The [Compliance Operator for OpenShift](https://docs.redhat.com/en/documentation/openshift_container_platform/4.19/html/security_and_compliance/compliance-operator)
 automates inspection of cluster and node configuration against industry profiles
 (for example CIS-oriented OpenShift profiles) using OpenSCAP. Administrators get
 a clear picture of gaps and recommended remediations—expressed as Kubernetes
