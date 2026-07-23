@@ -140,8 +140,6 @@ the hypervisor” if the host kernel reports `Vulnerable` with no mitigation.
 
 ## The SA takeaway
 
-Lead with a sequence customers can remember:
-
 1. **Least privilege** — migrations, exec, VNC, CDI, and cluster instance types.
 2. **Least device surface** — empty pass-through allowlists; closed feature gates.
 3. **Least data sharing** — no casual cross-namespace clones or shareable disks.
