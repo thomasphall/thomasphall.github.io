@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Pepper">
+  <!-- stem -->
+  <path
+    d="M86 34c10-14 24-18 34-14-4 12-14 20-28 24"
+    fill="none"
+    stroke="#3d8b3d"
+    stroke-width="7"
+    stroke-linecap="round"
+  />
+  <!-- leaf -->
+  <ellipse cx="112" cy="36" rx="11" ry="6.5" transform="rotate(-30 112 36)" fill="#4caf50" />
+  <!-- calyx -->
+  <path
+    d="M70 36c4-6 14-10 24-6 4 6 2 12-2 16-8 4-18 4-24-2-4-4-2-6 2-8z"
+    fill="#3d8b3d"
+  />
+  <!-- pepper body -->
+  <path
+    d="M84 48c14 4 24 18 20 36-6 30-34 42-58 36C20 114 8 88 16 62c8-24 34-34 56-28 6 2 10 6 12 14z"
+    fill="#e53935"
+  />
+  <!-- highlight -->
+  <path
+    d="M74 56c8 2 14 12 12 22-4 14-16 20-28 16-10-2-16-12-12-24 4-10 16-16 28-14z"
+    fill="#ff7043"
+    opacity=".28"
+  />
+</svg>
