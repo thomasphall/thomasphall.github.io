@@ -54,7 +54,7 @@ Red Hat documentation draws the contrast cleanly: virtualized control planes
 run as VMs with hypervisor-level isolation; hosted control planes run as pods
 with container-level isolation.
 
-## Technology Preview, stated once
+## Technology Preview
 
 KubeVirt Redfish—the piece that exposes those control-plane VMs through
 Redfish API endpoints for VCP—is a Technology Preview in 4.22. Technology
