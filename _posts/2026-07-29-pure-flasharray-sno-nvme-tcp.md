@@ -479,12 +479,42 @@ Bound PVC plus a mounted filesystem is enough to call the path good.
   up LVMS/PVCs before you yank the disk out from under a volume group.
 - Never commit real NQNs, portal IPs, API tokens, or pull secrets.
 
+## Other storage paths on SNO
+
+This post is one path: NVMe/TCP attach → MachineConfig → LVMS. If the same
+SNO also runs Advanced Cluster Management (ACM), Observability, and OpenShift
+Virtualization, I usually choose among four patterns. Storage choice will not
+fix an undersized node—those three stacks are heavy on CPU, RAM, and disk.
+
+1. **LVMS on dedicated disks (this lab).** Edge-friendly default. Local NVMe
+   or a Pure NVMe/TCP namespace, then `lvms-*` StorageClasses for RWO: operator
+   PVs, Prometheus, and most VM disks. Keep the OS disk out of
+   `deviceSelector`.
+2. **Array-centric CSI.** Same fabric (NVMe/TCP, iSCSI, or FC), but volumes
+   come from the vendor CSI (for example Pure) instead of TopoLVM. Prefer this
+   when you want array snapshots, replication, or first-class LUN lifecycle on
+   the FlashArray.
+3. **Hybrid block + file.** LVMS or block CSI for RWO (boots, observability
+   TSDB, most ACM/operator claims) plus a small NFS/RWX class only when
+   Virtualization needs shared disks. On SNO you do not get real off-box live
+   migration, so RWX is for shared-volume patterns—not HA mobility.
+4. **OpenShift Data Foundation.** Full platform storage (block, file, object)
+   when you explicitly want Ceph features on that node—or ODF external mode
+   if Ceph/RHCS already exists elsewhere. Heaviest footprint; size disks and
+   memory before you treat it as the default for a single-node lab.
+
+Sizing notes that bite in practice: Observability retention fills disks
+quietly; pin by-id/by-path whenever a provisioner consumes raw devices; and
+do not let auto-discovery claim the boot disk.
+
 ## Wrap-up
 
 The durable SNO pattern is small on purpose: Pure host + volume on NVMe/TCP,
 a MachineConfig that loads `nvme-tcp` and reconnects after `network-online`,
 then an `LVMCluster` that selects a stable by-id path. Manual `nvme connect`
 is for validation; Ignition `source` data URLs are for survival across reboot.
+When LVMS is not enough, step up to vendor CSI, a hybrid RWX class, or ODF—
+in that order of operational weight.
 
 ### References
 
