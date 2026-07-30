@@ -73,7 +73,6 @@ Virtualization only consumes a StorageClass—keep those jobs separate.
 | `<NODE_IQN>` | RHCOS worker initiator IQN |
 | `<STORAGE_POOL>` | Unity pool name for the StorageClass |
 | `<STORAGE_CLASS>` | StorageClass name, e.g. `unity-<ARRAY_ID>-iscsi` |
-| `<SECRET_NAME>` | Array config Secret (`unity-config` in OpenShift CSM docs) |
 | `<NAMESPACE>` / `<VM_NAME>` / `<PVC_NAME>` | Workload identifiers |
 | `<worker-node>` | A worker node name for debug checks |
 
@@ -391,10 +390,16 @@ oc apply -f sc-unity-iscsi.yaml
 oc get sc
 ```
 
-That name is your `<STORAGE_CLASS>`. Optional parameters such as
-`tieringPolicy` or `hostIOLimitName` belong in Unisphere—only set them when
-they exist on your array. Dell’s sample catalog under the CSI Unity repo is
-the right place to copy richer StorageClass variants.
+That name is your `<STORAGE_CLASS>`. Kubernetes object names must be
+lowercase RFC 1123 subdomains, but Unity array IDs are usually mixed case
+(`APM…`). Lowercase the array ID fragment when you substitute it into
+`metadata.name`—keep the real value only in the `arrayId` parameter, which
+is a plain string and has no case restriction.
+
+Optional parameters such as `tieringPolicy` or `hostIOLimitName` belong in
+Unisphere—only set them when they exist on your array. Dell’s sample catalog
+under the CSI Unity repo is the right place to copy richer StorageClass
+variants.
 
 Optional VolumeSnapshotClass:
 
@@ -505,7 +510,6 @@ spec:
           interfaces:
             - name: default
               masquerade: {}
-        resources: {}
       networks:
         - name: default
           pod: {}
