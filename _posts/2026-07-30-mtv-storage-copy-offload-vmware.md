@@ -54,24 +54,16 @@ its fabric) do more of the work in place.
 
 Conceptually:
 
-```mermaid
-flowchart LR
-  subgraph source [VMware]
-    VM[Source VM disks]
-    ESXi[ESXi + vmkfstools]
-  end
-  subgraph san [SAN / array]
-    XCOPY[Array-assisted copy]
-  end
-  subgraph target [OpenShift]
-    MTV[MTV migration plan]
-    OCPV[OpenShift Virtualization PVCs]
-  end
-  VM --> ESXi
-  ESXi --> XCOPY
-  XCOPY --> OCPV
-  MTV -. orchestrates .-> ESXi
-  MTV -. orchestrates .-> OCPV
+```text
+VMware                              SAN / array                 OpenShift
+┌─────────────────────┐             ┌──────────────────┐        ┌──────────────────────────────┐
+│ Source VM disks     │             │                  │        │ MTV migration plan           │
+│         │           │  vmkfstools │ Array-assisted   │        │   (orchestrates copy + land) │
+│         v           │────────────>│ copy (XCOPY when │───────>│              │               │
+│ ESXi host           │  iSCSI/FC   │ the array can)   │        │              v               │
+└─────────────────────┘             └──────────────────┘        │ OpenShift Virtualization     │
+                                                                │ PVCs / VM disks              │
+                                                                └──────────────────────────────┘
 ```
 
 MTV still owns the migration plan and the landing on OpenShift Virtualization.
