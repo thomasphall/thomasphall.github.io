@@ -71,15 +71,20 @@ Virtualization only consumes a StorageClass—keep those jobs separate.
 | `<UNITY_ISCSI_PORTAL>` | Unity iSCSI portal IP (list all portals you use) |
 | `<UNITY_IQN>` | Unity target IQN (from Unisphere / discovery) |
 | `<NODE_IQN>` | RHCOS worker initiator IQN |
-| `<STORAGE_POOL>` | Unity pool name for the StorageClass |
-| `<STORAGE_CLASS>` | StorageClass name, e.g. `unity-<ARRAY_ID>-iscsi` |
+| `<STORAGE_POOL>` | Unity pool CLI ID for the StorageClass (e.g. `pool_0`, not a display name) |
+| `<STORAGE_CLASS>` | StorageClass name, e.g. `unity-<array_id>-iscsi-retain` |
 | `<NAMESPACE>` / `<VM_NAME>` / `<PVC_NAME>` | Workload identifiers |
 | `<worker-node>` | A worker node name for debug checks |
 
-> Verify Dell CSM / CSI Unity **supported OpenShift versions** and
-> `configVersion` against current Dell docs before you pin numbers in
-> GitOps. The CR examples below use values from Dell’s OpenShift Unity XT
-> CSM Operator guide; bump them when your operator channel requires it.
+> **Version alignment matters more than it looks.** As of this writing,
+> Dell’s published CSM 1.17 support matrix lists Red Hat OpenShift
+> **4.18–4.21** as supported orchestrator versions for Unity XT, paired with
+> CSM Operator **1.12.x**, CSM **1.17.x**, and CSI Driver for Unity
+> **2.17.0**, against Unity OE **5.3.x, 5.4.x, or 5.5**. This lab ran on
+> OpenShift 4.22—if you’re also ahead of the published matrix, treat that as
+> “worked in practice,” not “certified support.” Check the current Dell CSM
+> support matrix, `oc get clusterversion`, and Unisphere’s reported Unity OE
+> release before calling any combination production-supported.
 {: .prompt-warning }
 
 ## Dell Unity setup
@@ -131,6 +136,12 @@ driver create and map volumes from the StorageClass. If your security model
 requires pre-created hosts, register each `<NODE_IQN>` under a host / host
 group up front and keep IQNs stable across rebuilds.
 
+> Once the driver is live, don’t resize, delete, remap, or rename
+> CSI-managed Unity LUNs directly in Unisphere or with UEMCLI. Out-of-band
+> changes can leave Kubernetes and array metadata inconsistent—manage those
+> volumes through OpenShift and the CSI workflow instead.
+{: .prompt-warning }
+
 ## RHCOS initiator side (MachineConfig)
 
 On recent OpenShift/RHCOS releases, `iscsid` and a per-node initiator name
@@ -151,6 +162,11 @@ oc debug node/<worker-node> -- chroot /host bash -c '
 
 That `InitiatorName=…` value is `<NODE_IQN>`. Each worker should have a
 **unique** IQN. If two nodes share one, Unisphere host mapping will hurt.
+
+A common way to hit this: workers cloned from the same template or image can
+inherit the same initiator IQN. Don’t write one MachineConfig that pushes an
+identical `InitiatorName` to every node—each node must keep, or regenerate,
+its own unique value.
 
 ### 2. Optional: prove discovery before CSI
 
@@ -214,6 +230,16 @@ devices {
   }
 }
 ```
+
+If this cluster already has another vendor’s device stanza in
+`/etc/multipath.conf` (my [Pure FlashArray lab](/posts/pure-flasharray-sno-nvme-tcp/)
+uses NVMe/TCP instead, but other arrays do use multipath), don’t blindly
+overwrite the whole file—add the Unity `devices { device { ... } }` stanza
+alongside the existing ones. Coordinate settings like `no_path_retry` and
+queueing behavior with Dell’s current Host Connectivity Guide and whatever
+the other vendor already requires; an unsuitable queueing policy can turn a
+storage blip into indefinitely hung application I/O instead of a fast,
+observable failure.
 
 Encode and wrap in a MachineConfig. Prefer Ignition `contents.source` data
 URLs (base64). I avoid `contents.inline` after hitting `RenderDegraded` on
@@ -292,6 +318,31 @@ oc debug node/<worker-node> -- chroot /host bash -c '
 
 ## Install Dell CSM Operator and Unity CSI
 
+### CSI vs. CSM — what you’re actually installing
+
+Three related but different things get lumped under “Dell CSM,” and mixing
+them up leads to bad assumptions:
+
+- **Dell CSI Driver for Unity XT** — required. It creates Unity LUNs, maps
+  them to OpenShift nodes, attaches/mounts them for pods, expands volumes,
+  and integrates snapshots.
+- **Dell CSM Operator** — the Red Hat–certified install and lifecycle
+  mechanism *for* the CSI driver. This is what you install from OperatorHub.
+- **Optional CSM modules** (Authorization, Replication, Observability,
+  Resiliency) — separate Dell features layered on top of CSM. As of the CSM
+  1.17 support matrix, Unity XT is **not** on the supported list for
+  Authorization, Replication, or Observability through the Operator.
+  Resiliency shows up as supported for Unity XT in some Dell Helm-based
+  compatibility matrices but not consistently through the Operator path—if
+  Resiliency becomes a hard requirement, pick one Dell-supported deployment
+  model and validate it with Dell support before production.
+
+Creating a `ContainerStorageModule` custom resource does **not** mean you’ve
+enabled all of Dell’s optional modules—the CRD name is the same regardless.
+This guide only deploys the core Unity CSI driver; for Unity XT, use
+OpenShift RBAC/`ResourceQuota`, your own backup/DR process, and OpenShift
+monitoring in place of the modules above.
+
 ### 1. OperatorHub
 
 In the OpenShift console: **OperatorHub** → search **Dell Container Storage
@@ -340,8 +391,11 @@ install the Unisphere CA into the cert Secrets Dell documents
 
 ### 3. ContainerStorageModule CR
 
-Minimal shape from Dell’s OpenShift guide (confirm `configVersion` for your
-CSM release):
+Starting with CSM 1.16, the Operator schema moved the driver version out of
+`driver.configVersion` and into a top-level `spec.version` field to enable
+one-click upgrades. Start from the exact versioned sample shipped with your
+installed Operator release—the sidecar list, env vars, and schema shift
+between releases—and trim it down rather than building this from memory:
 
 ```yaml
 apiVersion: storage.dell.com/v1
@@ -350,11 +404,31 @@ metadata:
   name: unity
   namespace: unity
 spec:
+  version: v1.17.2
   driver:
     csiDriverType: unity
-    configVersion: v2.16.0
+    csiDriverSpec:
+      fSGroupPolicy: ReadWriteOnceWithFSType
+      storageCapacity: true
+    replicas: 2
     forceRemoveDriver: true
+    common:
+      envs:
+        # RHCOS-specific: required for the driver to run iSCSI commands
+        # against the host's iSCSI stack from inside its container.
+        - name: X_CSI_ISCSI_CHROOT
+          value: "/noderoot"
+        - name: X_CSI_UNITY_ALLOW_MULTI_POD_ACCESS
+          value: "false"
+        # Lab only — see the certificate note above; set to "false" and
+        # add a unity-cert-* Secret before production.
+        - name: X_CSI_UNITY_SKIP_CERTIFICATE_VALIDATION
+          value: "true"
 ```
+
+`X_CSI_ISCSI_CHROOT: /noderoot` is the detail most likely to bite you on
+OpenShift specifically—without it the node plug-in can’t correctly reach the
+host’s iSCSI stack from inside RHCOS.
 
 ```bash
 oc apply -f csm-unity.yaml
@@ -368,20 +442,29 @@ before you touch Virtualization.
 
 ### 4. StorageClass (iSCSI)
 
+For the first production-oriented class, prefer `WaitForFirstConsumer` (so
+topology-aware placement happens before the volume binds) and
+`reclaimPolicy: Retain` (so an accidental PVC delete doesn’t silently delete
+the Unity volume behind it). Add a second, `Delete`-based class later—once
+the operational process is proven—for development or disposable workloads:
+
 ```yaml
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: unity-<ARRAY_ID>-iscsi
+  name: unity-<array_id>-iscsi-retain
 provisioner: csi-unity.dellemc.com
-reclaimPolicy: Delete
+reclaimPolicy: Retain
 allowVolumeExpansion: true
-volumeBindingMode: Immediate
+volumeBindingMode: WaitForFirstConsumer
 parameters:
   protocol: iSCSI
   arrayId: "<ARRAY_ID>"
-  storagepool: "<STORAGE_POOL>"
+  storagePool: "<STORAGE_POOL>"
   thinProvisioned: "true"
+  isDataReductionEnabled: "false"
+  tieringPolicy: ""
+  hostIOLimitName: ""
   csi.storage.k8s.io/fstype: ext4
 ```
 
@@ -394,12 +477,28 @@ That name is your `<STORAGE_CLASS>`. Kubernetes object names must be
 lowercase RFC 1123 subdomains, but Unity array IDs are usually mixed case
 (`APM…`). Lowercase the array ID fragment when you substitute it into
 `metadata.name`—keep the real value only in the `arrayId` parameter, which
-is a plain string and has no case restriction.
+is a plain string and has no case restriction. `storagePool` takes the
+pool’s **CLI ID** (e.g. `pool_0`), not its friendly display name.
 
-Optional parameters such as `tieringPolicy` or `hostIOLimitName` belong in
-Unisphere—only set them when they exist on your array. Dell’s sample catalog
-under the CSI Unity repo is the right place to copy richer StorageClass
-variants.
+Leave `tieringPolicy` and `hostIOLimitName` blank unless a specific Unity
+FAST VP policy or Host I/O Limits policy already exists on your array; set
+`isDataReductionEnabled: "true"` only when the target is an all-flash pool
+with data reduction deliberately enabled. Dell’s sample catalog under the
+CSI Unity repo is the right place to copy richer StorageClass variants.
+
+#### Optional: pin topology to verified nodes
+
+Dell’s sample can include an `allowedTopologies` block keyed on a
+driver-generated label such as `csi-unity.dellemc.com/<array-id>-iscsi`.
+**Don’t guess that key or its casing.** Deploy the CSI driver first, then
+read the labels it actually created:
+
+```bash
+oc get nodes --show-labels | grep csi-unity
+```
+
+Only add `allowedTopologies` once you’ve copied the exact key and value from
+a real node—not from a sample or from memory.
 
 Optional VolumeSnapshotClass:
 
@@ -412,9 +511,38 @@ driver: csi-unity.dellemc.com
 deletionPolicy: Delete
 ```
 
+### 5. Govern shared-pool consumption (optional)
+
+Multiple StorageClasses pointing at the same Unity pool are different
+Kubernetes policies, not physical isolation. If more than one team will
+consume the pool, scope an OpenShift `ResourceQuota` per namespace—both
+overall and per StorageClass:
+
+```yaml
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: unity-storage-quota
+  namespace: <NAMESPACE>
+spec:
+  hard:
+    persistentvolumeclaims: "20"
+    requests.storage: 2Ti
+    unity-<array_id>-iscsi-retain.storageclass.storage.k8s.io/persistentvolumeclaims: "20"
+    unity-<array_id>-iscsi-retain.storageclass.storage.k8s.io/requests.storage: 2Ti
+```
+
+Quota limits requested *logical* capacity. It does not replace watching
+Unity pool physical/thin-provisioned capacity, latency, IOPS, and SP
+utilization in Unisphere—especially once thin-provisioned CSI volumes are
+competing with whatever else already lives in that pool.
+
 ## Validate storage before VMs
 
-Prove CSI before you involve CDI/DataVolumes.
+Prove CSI before you involve CDI/DataVolumes. Because the StorageClass above
+uses `volumeBindingMode: WaitForFirstConsumer`, the PVC will show `Pending`
+until a pod that references it is also applied and schedulable—that’s
+expected, not a failure, so apply both objects together:
 
 ```yaml
 apiVersion: v1
@@ -425,7 +553,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: unity-<ARRAY_ID>-iscsi
+  storageClassName: unity-<array_id>-iscsi-retain
   resources:
     requests:
       storage: 8Gi
@@ -489,7 +617,7 @@ spec:
           resources:
             requests:
               storage: 30Gi
-          storageClassName: unity-<ARRAY_ID>-iscsi
+          storageClassName: unity-<array_id>-iscsi-retain
         source:
           blank: {}
   template:
@@ -546,12 +674,13 @@ matrix before you promise VMotion-like behavior to stakeholders.
 | Symptom | What I check |
 | ------- | ------------ |
 | MCP `RenderDegraded` | Ignition `contents.inline` vs `contents.source`; invalid base64 |
-| PVC Pending forever | CSM pods, `unity-config` endpoint/credentials/`arrayId`, StorageClass `storagepool` / `protocol` |
-| Node plugin errors / attach fails | Worker → portal `:3260`, `iscsid` active, unique `<NODE_IQN>`, Unity host registration |
-| Single path only / odd device names | `multipathd` enabled, Unity stanza in `/etc/multipath.conf`, dual portals reachable |
+| PVC stuck `Pending` | Expected with `WaitForFirstConsumer` until a pod exists; otherwise check CSM pods, Secret endpoint/credentials/`arrayId`, StorageClass `storagePool` / `protocol` |
+| Node plugin errors / attach fails | Worker → portal `:3260`, `iscsid` active, unique `<NODE_IQN>` (watch for cloned-template duplicates), missing `X_CSI_ISCSI_CHROOT` |
+| Single path only / odd device names | `multipathd` enabled, Unity stanza present alongside any other vendor’s in `/etc/multipath.conf`, dual portals reachable |
 | VM created, disk missing | PVC/DV status first; then VMI volume status; StorageClass typo in the template |
 | Cert errors to Unisphere | `skipCertificateValidation` vs proper `unity-cert-*` Secrets |
 | Wrong Secret name | Align Secret with the sample for your CSM operator version |
+| CR stuck `Failed` after copying an old sample | Confirm `spec.version` vs the older `driver.configVersion`—don’t mix CR schemas across Operator eras |
 
 Driver logs (namespace `unity` unless you renamed it):
 
@@ -561,13 +690,17 @@ oc logs -n unity -l app=csi-unity --tail=200
 
 ## Cleanup and safety notes
 
-- Delete VMs / DataVolumes / PVCs before removing the StorageClass or CSM CR
-  if you care about Unisphere cleanup order (`reclaimPolicy: Delete` will
-  remove array volumes when PVCs go away).
+- With `reclaimPolicy: Retain` (the primary class above), deleting a PVC
+  does **not** delete the underlying Unity volume—clean up released volumes
+  in Unisphere yourself once you’ve confirmed they’re no longer needed. If
+  you also created a `Delete`-based class for dev/test, deleting *those*
+  PVCs will remove the array volume, so delete VMs/DataVolumes/PVCs
+  deliberately and know which class you’re working with.
 - Rotating Unisphere passwords means updating the Secret and confirming the
   driver reloads config—do not leave stale credentials in git history.
 - Multipath misconfiguration can confuse more than iSCSI alone; change
-  `multipath.conf` deliberately and watch `mcp/worker`.
+  `multipath.conf` deliberately, coordinate with any other vendor’s device
+  stanza already in the file, and watch `mcp/worker`.
 - Never commit real IQNs, portal IPs, Unisphere passwords, tokens, or pull
   secrets.
 
@@ -599,8 +732,11 @@ you debug guest images.
 
 ### References
 
+- [Dell CSM — Support Matrix](https://dell.github.io/csm-docs/docs/supportmatrix/)
 - [Dell CSM — Install CSI Unity XT on OpenShift (CSM Operator)](https://dell.github.io/csm-docs/docs/getting-started/installation/openshift/unityxt/csmoperator/)
 - [Dell CSM — Unity XT driver (Operator parameters)](https://dell.github.io/csm-docs/v3/deployment/csmoperator/drivers/unity/)
+- [Dell CSM Operator — upgrading drivers (`spec.version` vs `configVersion`)](https://dell.github.io/csm-docs/docs/getting-started/upgrade/openshift/unityxt/operator/)
+- [Dell CSI Unity — releases](https://github.com/dell/csi-unity/releases)
 - [Dell CSI Unity — samples](https://github.com/dell/csi-unity/tree/main/samples)
 - [OpenShift 4.22 — Virtualization storage](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/storage)
 - [OpenShift 4.22 — Machine configuration](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/machine_configuration/index)
