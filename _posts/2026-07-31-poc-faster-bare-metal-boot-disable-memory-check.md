@@ -22,7 +22,7 @@ permalink: /posts/poc-faster-bare-metal-boot-disable-memory-check/
 OpenShift bare-metal PoCs punish you twice: once while the installer waits on
 POST, and again every time you wipe a node and retry. On dense memory servers,
 software memory tests during UEFI/POST can add minutes per reboot. Across a
-three-node rack and a week of agent-install / Metal3 / MachineConfig loops,
+multi-node rack and a week of agent-install / Metal3 / MachineConfig loops,
 that tax becomes the loudest part of the engagement.
 
 This post is a field runbook for **temporary** OpenShift PoCs: what “memory
@@ -43,7 +43,8 @@ PoC you reboot constantly:
 
 Saving even five to fifteen minutes per cold boot compounds quickly. A
 six-node PoC that reboots twice a day for five days is sixty POST cycles. Cut
-ten minutes each and you reclaim roughly a working day of waiting.
+ten minutes each and you reclaim ten hours—more than a full workday—of
+waiting.
 
 ## What “memory checking” means during POST
 
@@ -143,8 +144,8 @@ racadm -r <idrac-host> -u <user> -p <password> \
 **Setting:** Extended Memory Test  
 **Redfish attribute (common):** `ExtendedMemTest`  
 **Values:** `Enabled` / `Disabled`  
-**Generations:** Documented on Gen10/Gen11-class ProLiant with iLO 5/iLO 6;
-confirm with a GET of `/redfish/v1/systems/1/bios`.
+**Generations:** Documented on Gen10/Gen10 Plus ProLiant with iLO 5 and
+Gen11 ProLiant with iLO 6; confirm with a GET of `/redfish/v1/systems/1/bios`.
 
 HPE’s own description: when enabled, the system validates memory during
 initialization, can map out failed DIMMs to the IML, and **can significantly
@@ -254,9 +255,10 @@ OneCli config set IMM.UEFIMemoryTest Disabled --override \
   --bmc <user>:<password>@<xcc-host>
 ```
 
-Restart the system for the change to take effect. AMD generations and older
-XCC firmware may use `IMM.UEFIMemoryTestOptions` instead—check Lenovo’s
-OneCLI memory-test topic for your Exact firmware stream.
+Restart the system for the change to take effect. On XCC firmware older than
+`d8e130f-2.60`, use `IMM.UEFIMemoryTestOptions` instead of `IMM.UEFIMemoryTest`
+(some AMD EPYC platforms, such as SR645/SR665, use this path too); check
+Lenovo’s OneCLI memory-test topic for your exact firmware stream.
 
 #### OneCLI (re-enable before handback)
 
