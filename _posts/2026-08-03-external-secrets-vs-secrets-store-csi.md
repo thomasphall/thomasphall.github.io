@@ -22,7 +22,7 @@ without landing in Git, images, or tribal runbooks. On OpenShift 4.22, two first
 patterns answer that question differently: the
 [External Secrets Operator for Red Hat OpenShift](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/security_and_compliance/external-secrets-operator-for-red-hat-openshift)
 and the
-[Secrets Store CSI Driver](https://docs.redhat.com/en/learn/learning-paths/how-manage-kubernetes-secrets-red-hat-openshift/how-are-kubernetes-secrets-managed-red-hat-openshift).
+[Secrets Store CSI Driver](https://docs.okd.io/4.22/storage/container_storage_interface/persistent-storage-csi-secrets-store.html).
 
 They are not two installers for the same idea. One syncs external credentials into
 native Kubernetes `Secret` objects. The other mounts credentials into the pod as a
@@ -235,6 +235,7 @@ Authoritative starting points:
 
 - [Understanding secrets management (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/security_and_compliance/understanding-secrets-management)
 - [External Secrets Operator for Red Hat OpenShift (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/security_and_compliance/external-secrets-operator-for-red-hat-openshift)
+- [Secrets Store CSI Driver Operator (OpenShift 4.22)](https://docs.okd.io/4.22/storage/container_storage_interface/persistent-storage-csi-secrets-store.html)
 - [How to manage Kubernetes Secrets with Red Hat OpenShift](https://docs.redhat.com/en/learn/learning-paths/how-manage-kubernetes-secrets-red-hat-openshift/how-are-kubernetes-secrets-managed-red-hat-openshift)
 - [Managing secrets with Secrets Store CSI and OpenShift GitOps](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.20/html/security/managing-secrets-securely-using-sscsid-with-gitops)
 
