@@ -4,7 +4,7 @@ description: >-
   How External Secrets Operator and the Secrets Store CSI Driver differ on
   OpenShift 4.22—sync into Kubernetes Secrets versus mount at runtime—and when
   each delivery model fits platform teams.
-date: 2026-08-03 12:00:00 -0500
+date: 2026-08-03 10:00:00 -0500
 categories: [OpenShift, Security]
 tags: [external-secrets, secrets-store-csi, secrets, "4.22", gitops]
 permalink: /posts/external-secrets-vs-secrets-store-csi/
