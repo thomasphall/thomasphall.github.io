@@ -50,9 +50,13 @@ Answer those before debating product names. The form factor follows.
 In practice the topologies stack like this:
 
 ```text
-Device edge          Site edge              Near-edge hub
-MicroShift      →    SNO / three-node   ←→  RHACM + GitOps ZTP
-(appliance)          (plant / store)        (policy, content, lifecycle)
+ Far / device edge          Site edge                 Near-edge hub
+┌──────────────────┐     ┌──────────────────┐     ┌──────────────────────┐
+│ MicroShift       │     │ SNO or           │     │ RHACM + GitOps ZTP   │
+│ Device Edge      │────▶│ three-node       │◀───▶│ content mirrors      │
+│ (appliance host) │     │ (plant / store)  │     │ fleet lifecycle      │
+└──────────────────┘     └──────────────────┘     └──────────────────────┘
+   footprint first          full OCP API              scale the sameness
 ```
 
 ## Example A — Device edge with MicroShift
@@ -68,6 +72,27 @@ on an edge-optimized OS such as RHEL for Edge. Together, that pairing is the
 story: a single-node Kubernetes runtime aimed at resource-constrained field
 environments, with a focused API surface for orchestration, networking, ingress,
 storage, and security.
+
+```text
+ Field site (gateway / kiosk)
+┌──────────────────────────────────────────────┐
+│  Red Hat Device Edge                         │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │ MicroShift                             │  │
+│  │  pods / routes / SCCs (focused APIs)   │  │
+│  └──────────────────▲─────────────────────┘  │
+│                     │ runs on                │
+│  ┌──────────────────┴─────────────────────┐  │
+│  │ RHEL for Edge (rpm-ostree image)       │  │
+│  │  OS lifecycle, updates, local storage  │  │
+│  └────────────────────────────────────────┘  │
+└───────────────────────┬──────────────────────┘
+                        │ intermittent / thin WAN
+                        v
+              optional fleet / image source
+              (not a full OCP control plane)
+```
 
 **Why it fits**
 
@@ -112,6 +137,31 @@ site:
 - Mirrored catalogs and pinned images when the WAN is thin or the site is
   disconnected for stretches
 
+```text
+ Manufacturing cell / retail store
+┌────────────────────────────────────────────────────┐
+│  Single Node OpenShift (one host = one failure     │
+│  domain)                                           │
+│                                                    │
+│  ┌──────────────┐  ┌────────────┐  ┌────────────┐  │
+│  │ Control plane│  │ Workloads  │  │ Optional   │  │
+│  │ + workers    │  │ (pods)     │  │ OpenShift  │  │
+│  │ (same node)  │  │            │  │ Virt VMs   │  │
+│  └──────┬───────┘  └─────┬──────┘  └─────┬──────┘  │
+│         └────────────────┼───────────────┘         │
+│                          v                         │
+│               ┌────────────────────┐               │
+│               │ LVMS / local disks │               │
+│               │ GitOps (desired)   │               │
+│               │ local image mirror │               │
+│               └────────────────────┘               │
+└──────────────────────────┬─────────────────────────┘
+                           │ WAN (may be thin)
+                           v
+                    hub / content source
+                    (rebuild-from-spare model)
+```
+
 **Why it fits**
 
 - One machine, full OpenShift operational model—ideal when platform consistency
@@ -151,6 +201,32 @@ in a hub-and-spoke model. GitOps ZTP keeps site definitions and desired
 configuration in Git; the hub’s assisted service provisions spokes; policies
 and lifecycle tooling keep day-2 aligned across the fleet. At scale, that is how
 you avoid “SSH to each site and hope.”
+
+```text
+ Git (site defs + policies)
+        │
+        v
+┌───────────────────────────────────────────┐
+│ Near-edge / regional hub                  │
+│  RHACM + assisted service                 │
+│  OpenShift GitOps (ZTP pipeline)          │
+│  content mirrors / release images         │
+└───────┬─────────────┬─────────────┬───────┘
+        │ provision   │ provision   │ policy +
+        │ + lifecycle │ + lifecycle │ content
+        v             v             v
+┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+│ Spoke site   │ │ Spoke site   │ │ Spoke site   │
+│ SNO          │ │ three-node   │ │ standard /   │
+│              │ │ compact      │ │ larger       │
+│ local apps   │ │ local apps   │ │ local apps   │
+│ local cache  │ │ local cache  │ │ local cache  │
+└──────────────┘ └──────────────┘ └──────────────┘
+        ▲             ▲             ▲
+        └─────────────┴─────────────┘
+           sites keep running if WAN
+           blips; hub owns fleet sameness
+```
 
 **What belongs where**
 
