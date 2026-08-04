@@ -2,11 +2,11 @@
 title: "OpenShift Edge Architectures: Pick the Form Factor, Then the Fleet"
 description: >-
   Edge is not one OpenShift shape. Compare MicroShift, Single Node OpenShift,
-  and compact hub-and-spoke patterns—with concrete examples and the trade-offs
-  that decide which fits.
+  and compact hub-and-spoke patterns—plus LVMS, external CSI, and ODF storage
+  choices that match each site’s failure domain.
 date: 2026-08-04 16:00:00 -0500
 categories: [OpenShift]
-tags: [openshift, edge, sno, microshift, gitops, acm, ztp]
+tags: [openshift, edge, sno, microshift, gitops, acm, ztp, storage, lvms, odf]
 permalink: /posts/openshift-edge-architectures/
 ---
 
@@ -243,6 +243,112 @@ definitions, policy groups for single-node vs three-node vs standard shapes,
 and Topology Aware Lifecycle Manager patterns for controlled rollouts. Full
 policy YAML belongs in the Git repo, not on the first architecture slide.
 
+## Storage options at the edge
+
+Form factor picks the cluster shape. Storage picks whether that shape can host
+stateful workloads without pretending the site is a datacenter. Keep the
+conversation on **where the disks live**, **what failure domain you accept**,
+and **whether you need block only or also file/object**.
+
+```text
+ Workloads (PVC / VM disk)
+           │
+           v
+ ┌─────────────────────┐
+ │ StorageClass choice │
+ └──────────┬──────────┘
+            │
+   ┌────────┼─────────┬──────────────────┐
+   v        v         v                  v
+ LVMS    LSO/local  External CSI      ODF (when
+ (host    volumes   (array / SAN)     footprint +
+ disks)                               HA justify)
+```
+
+### Logical Volume Manager Storage (LVMS)
+
+The default answer for many edge sites. [LVM Storage](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/storage/persistent-storage-using-local-storage)
+(TopoLVM CSI) turns unused disks or partitions on the node into dynamically
+provisioned PVs. It shows up in two places you already met above:
+
+- **MicroShift** ships LVMS as the built-in CSI provider for dynamic
+  provisioning on the device ([MicroShift storage](https://docs.redhat.com/en/documentation/red_hat_build_of_microshift/4.22/html/storage/index)).
+- **SNO / compact** commonly install LVM Storage when there is a raw disk and
+  you want PVCs without standing up an array stack.
+
+**Fits when:** local disks are enough, dynamic PVC provisioning matters, and
+you accept that data lives with the node (or thin-pool snapshot discipline you
+actually test). On multi-node clusters, LVMS still provisions *local* storage—it
+does not magically replicate across nodes.
+
+**Lab path:** attaching an external NVMe namespace and consuming it with LVMS on
+SNO is exactly the pattern in
+[Pure FlashArray on SNO with NVMe/TCP](/posts/pure-flasharray-sno-nvme-tcp/).
+
+### Local Storage Operator (and friends)
+
+[Local Storage Operator (LSO)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/storage/persistent-storage-using-local-storage)
+and related local-volume patterns still matter when you want explicit PVs from
+named devices, or when another stack (for example OpenShift Data Foundation
+internal mode) expects local volumes as the underlying capacity. Prefer LVMS
+for most greenfield SNO “just give me a StorageClass” conversations; reach for
+LSO when the design calls for static local PVs or a documented dependency on
+them.
+
+### External array CSI (site has a real array)
+
+Some sites already own SAN/NAS gear—or a small flash array in the rack. Then
+the edge cluster is a *consumer*, not the storage product:
+
+- Block over **NVMe/TCP**, **iSCSI**, Fibre Channel, or vendor CSI
+- Array features (snapshots, clones, QoS) stay on the array; OpenShift binds
+  PVCs through the CSI driver
+- Network design matters: storage VLANs, multipath, and “what happens when the
+  array path blips” belong in the architecture review
+
+Examples from this site:
+[Dell Unity over iSCSI for OpenShift Virtualization](/posts/openshift-virt-dell-unity-iscsi/)
+and the Pure NVMe/TCP + LVMS lab above (array presents a namespace; LVMS or CSI
+owns the Kubernetes surface).
+
+**Fits when:** capacity, performance, or backup already lives on shared storage
+and the OpenShift node should not be the only copy of truth. **Wrong answer
+when:** the “array” is really one USB disk and you are inventing operational
+complexity for a single failure domain.
+
+### OpenShift Data Foundation (ODF)
+
+[OpenShift Data Foundation](https://docs.redhat.com/en/documentation/red_hat_openshift_data_foundation/)
+is the consolidated block/file/object answer when the site needs Ceph-backed
+services, replication, or S3-style object—not merely a local PVC. It is also
+the heavier footprint: more CPU/RAM/disk, more day-2, and clearer multi-disk /
+multi-node expectations.
+
+**Fits when:** three-node (or larger) sites need resilient storage services,
+object storage, or a storage platform that matches regional/datacenter ODF
+muscle memory. **Usually wrong for:** MicroShift appliances and lean SNO cells
+whose recovery model is rebuild-from-spare—LVMS (or external CSI) is the
+smaller honest design.
+
+None of LVMS, LSO, or host-local patterns replace object storage by themselves.
+If the app needs S3 APIs at the site, plan ODF (or an external object endpoint)
+explicitly—do not assume a local `StorageClass` covers it.
+
+### Storage chooser (edge)
+
+| Site reality | Lean toward |
+| ------------ | ----------- |
+| Device Edge / MicroShift, local disks | Built-in LVMS |
+| SNO, spare disk, dynamic PVCs, rebuild-from-spare OK | LVM Storage |
+| Named local devices / ODF internal dependency | Local Storage Operator |
+| Existing array in the rack; CSI or NVMe/TCP/iSCSI path | External array + CSI (or array LUN → LVMS when that is the documented pattern) |
+| Multi-node site needs replicated block/file/object | OpenShift Data Foundation |
+| App needs S3 at the edge | ODF or external object—call it out early |
+
+Storage should match the failure domain you already accepted for the form
+factor. SNO plus LVMS is coherent. SNO plus “datacenter HA storage expectations”
+is how edge projects get stuck in review.
+
 ## Decision guide
 
 | Constraint | Lean toward |
@@ -253,6 +359,9 @@ policy YAML belongs in the Git repo, not on the first architecture slide.
 | Many similar sites, bare-metal factory installs | RHACM + GitOps ZTP early |
 | Disconnected or thin WAN | Content mirrors and pinned upgrades before day 1 |
 | Leftover VMs at a site that already needs full OCP | SNO/compact + OpenShift Virtualization—not MicroShift |
+| Stateful PVCs on local disks at SNO/MicroShift | LVM Storage (LVMS) |
+| Shared array already in the rack | External CSI / NVMe/TCP / iSCSI |
+| Replicated block/file/object at a larger site | OpenShift Data Foundation |
 
 A useful facilitation line: *“If this site dies, what is the recovery
 unit—reimage a device, rebuild one OpenShift node, or fail over across three?”*
@@ -270,10 +379,13 @@ That answer selects the form factor faster than a feature matrix.
 4. **Connectivity is a day-0 design input** — mirrors, upgrade windows, and
    break-glass access decide whether the pretty topology survives first contact
    with the WAN.
+5. **Storage follows the failure domain** — LVMS for local disks, external CSI
+   when an array is real, ODF when the site earns replicated block/file/object.
 
 Start the next conversation with constraints, not product logos: how much
-hardware, how much downtime, how bad the network, how many identical sites.
-Pick the form factor that matches, then make the fleet boring on purpose.
+hardware, how much downtime, how bad the network, how many identical sites,
+and where state is allowed to live. Pick the form factor that matches, then
+make the fleet boring on purpose.
 
 > Want a deeper walkthrough for your environment? Reach out to your Red Hat
 > account team—or evaluate one representative site pattern in a lab before you
@@ -285,4 +397,7 @@ Pick the form factor that matches, then make the fleet boring on purpose.
 - [Edge computing (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/edge_computing/index)
 - [Installing on a single node (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/installing_on_a_single_node/index)
 - [Understanding MicroShift (4.22)](https://docs.redhat.com/en/documentation/red_hat_build_of_microshift/4.22/html/understanding_microshift/microshift-understanding)
+- [MicroShift storage (4.22)](https://docs.redhat.com/en/documentation/red_hat_build_of_microshift/4.22/html/storage/index)
+- [Persistent storage using local storage (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/storage/persistent-storage-using-local-storage)
+- [Red Hat OpenShift Data Foundation documentation](https://docs.redhat.com/en/documentation/red_hat_openshift_data_foundation/)
 - [Red Hat Advanced Cluster Management documentation](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/)
