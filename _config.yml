@@ -30,9 +30,6 @@ url: "https://thomasphall.github.io"
 github:
   username: thomasphall
 
-twitter:
-  username: thomasphall
-
 social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
@@ -40,15 +37,10 @@ social:
   # email: your@email.com   # ← uncomment & fill if you want a contact email shown
   links:
     # The first element serves as the copyright owner's link
-    - https://twitter.com/thomasphall
     - https://github.com/thomasphall
     - https://www.linkedin.com/in/thomasphall
-    - https://www.instagram.com/thomasphall/
-    - https://www.facebook.com/thomaspatrickhall/
-    - https://www.youtube.com/user/thomasphall
-    - https://www.twitch.tv/thomasphall
-    - https://open.spotify.com/user/thomasphall          # confirmed via Linktree
-    - https://soundcloud.com/thomasphall                 # confirmed via Linktree
+    - https://open.spotify.com/user/1237602206
+    - https://soundcloud.com/thomas-hall-319034295
 
 # Site Verification Settings
 webmaster_verifications:
