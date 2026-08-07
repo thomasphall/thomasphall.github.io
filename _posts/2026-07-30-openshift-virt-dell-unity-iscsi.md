@@ -722,6 +722,13 @@ Quick chooser:
 | Dynamic provision per VM, Unisphere snapshots | Dell CSI Unity (this post) |
 | Full platform block + file + object | OpenShift Data Foundation (heavier) |
 
+When large VMware disks are moving onto that Unity-backed OpenShift
+Virtualization landing zone, storage copy offload may shrink the migration
+window—see
+[MTV storage copy offload](/posts/mtv-storage-copy-offload-vmware/). For where
+array CSI sits in SNO vs compact edge designs, see
+[OpenShift edge architectures](/posts/openshift-edge-architectures/).
+
 ## Wrap-up
 
 The durable pattern is small on purpose: Unity iSCSI portals and pool,
@@ -729,6 +736,12 @@ MachineConfig for `iscsid` + Unity multipath, CSM Operator +
 `ContainerStorageModule`, an iSCSI StorageClass, then VirtualMachine disks
 as ordinary PVCs/DataVolumes. Prove Bound storage with a smoke pod before
 you debug guest images.
+
+## Related posts
+
+- [Installing Pure Storage FlashArray on Single-Node OpenShift with NVMe over TCP](/posts/pure-flasharray-sno-nvme-tcp/)
+- [OpenShift Edge Architectures: Pick the Form Factor, Then the Fleet](/posts/openshift-edge-architectures/)
+- [Storage Copy Offload for VMware Migrations to OpenShift Virtualization](/posts/mtv-storage-copy-offload-vmware/)
 
 ### References
 

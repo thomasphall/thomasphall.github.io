@@ -25,10 +25,12 @@ Cluster User Defined Networks for VLAN attach. This post is a
 solution-architect field guide—not a full CNI catalog.
 
 For release context around networking and day-2 operations, see also
-[what's new in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/).
+[What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/).
 Segmentation and MAC spoof filtering sit beside the broader
 [hardening priorities](/posts/openshift-virtualization-hardening-priorities/)
-conversation.
+conversation. Network maps also show up in VMware exit waves—see
+[storage copy offload for MTV](/posts/mtv-storage-copy-offload-vmware/) when disk
+copy is the bottleneck and VLAN/port-group mapping is still on the critical path.
 
 ## Foundation: CNI, Multus, and OVN-Kubernetes
 
@@ -331,6 +333,12 @@ the rest of the platform. For authoritative detail, start with the OpenShift
 [secondary networks](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/multiple_networks/secondary-networks),
 and
 [OpenShift Virtualization networking](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/networking).
+
+## Related posts
+
+- [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
+- [Hardening OpenShift Virtualization: Security Priorities That Matter First](/posts/openshift-virtualization-hardening-priorities/)
+- [Storage Copy Offload for VMware Migrations to OpenShift Virtualization](/posts/mtv-storage-copy-offload-vmware/)
 
 > Want help mapping these patterns into a landing zone or VMware migration
 > design? Reach out to your Red Hat account team—or prove the dual-bond + CUDN

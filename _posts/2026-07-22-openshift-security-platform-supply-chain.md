@@ -105,6 +105,23 @@ Compliance Operator profiles, connect a cluster to RHACS, and require signed
 images on one critical pipeline. The conversation with risk and audit gets much
 easier when you can show the same controls working—quietly—every day.
 
+When OpenShift Virtualization is in scope, keep the same observe/prove/gate
+habit for virt-launcher workloads—see
+[RHACS Still Applies: Securing OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
+and the
+[hardening priorities](/posts/openshift-virtualization-hardening-priorities/)
+digest. For how secrets leave the vault without landing in Git, compare
+[External Secrets Operator vs Secrets Store CSI](/posts/external-secrets-vs-secrets-store-csi/).
+For GPU-backed AI where attestation gates key release, see
+[Confidential AI on OpenShift](/posts/confidential-ai-openshift-trustee-nras/).
+
+## Related posts
+
+- [Hardening OpenShift Virtualization: Security Priorities That Matter First](/posts/openshift-virtualization-hardening-priorities/)
+- [RHACS Still Applies: Securing OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
+- [External Secrets Operator vs Secrets Store CSI on OpenShift 4.22](/posts/external-secrets-vs-secrets-store-csi/)
+- [Confidential AI on OpenShift: From CPU TEEs to NVIDIA GPUs and Trustee Attestation](/posts/confidential-ai-openshift-trustee-nras/)
+
 > Want a deeper walkthrough for your environment? Reach out to your Red Hat
 > account team—or try the pattern on a non-prod OpenShift cluster first.
 {: .prompt-tip }

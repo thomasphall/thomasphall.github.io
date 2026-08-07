@@ -97,7 +97,9 @@ line up:
 - **You run wave-based migration factories**—many VMs, repeated weekends—and
   network contention is already visible in earlier pilots.
 - **Target OpenShift Virtualization and provisioning are ready**, including
-  StorageClasses and capacity on the destination side.
+  StorageClasses and capacity on the destination side (for array-backed VM
+  disks on OpenShift, see for example
+  [Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)).
 
 If the topology cannot support offload, fall back to network copy. That is a
 normal outcome, not a failure of the migration program. Design the factory so
@@ -213,6 +215,17 @@ absorb another wave.
 If you are planning a VMware exit onto OpenShift Virtualization and want a
 second set of eyes on whether offload fits your array topology, that is a useful
 architecture conversation to have before the first production weekend—not after.
+Keep network mapping on the same critical path as storage—see
+[OpenShift Virtualization networking](/posts/openshift-virtualization-networking/)—
+and use
+[What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
+for destination-platform context.
+
+## Related posts
+
+- [Configuring OpenShift Virtualization with Dell Unity Storage over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
+- [OpenShift Virtualization Networking: From Pod Network to Localnet](/posts/openshift-virtualization-networking/)
+- [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
 
 For planning detail and current prerequisites, start with Red Hat’s
 [MTV documentation for migrating from VMware vSphere](https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.11/html/planning_your_migration_to_red_hat_openshift_virtualization/assembly_planning-migration-vmware_mtv).

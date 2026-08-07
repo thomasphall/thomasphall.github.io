@@ -99,8 +99,8 @@ Use `--insecure-skip-tls-verify` only in throwaway labs. For real environments,
 fix trust: corporate root CAs belong in the Windows certificate store or in a
 kubeconfig CA bundle—not as a permanent CLI flag. Newer clients also support
 browser-assisted login with `oc login <cluster_url> --web` when that fits your
-environment; token copy-from-console remains the most reliable default on locked
-down corporate laptops.
+environment; token copy-from-console remains the most reliable default on
+locked-down corporate laptops.
 
 A successful login writes credentials into your kubeconfig, typically:
 

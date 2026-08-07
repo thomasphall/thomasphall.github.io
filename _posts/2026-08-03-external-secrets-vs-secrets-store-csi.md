@@ -239,6 +239,15 @@ Authoritative starting points:
 - [How to manage Kubernetes Secrets with Red Hat OpenShift](https://docs.redhat.com/en/learn/learning-paths/how-manage-kubernetes-secrets-red-hat-openshift/how-are-kubernetes-secrets-managed-red-hat-openshift)
 - [Managing secrets with Secrets Store CSI and OpenShift GitOps](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.20/html/security/managing-secrets-securely-using-sscsid-with-gitops)
 
+When attestation—not only sync or mount—must gate model keys or registry
+credentials inside a confidential VM, that is a different control story: see
+[Confidential AI on OpenShift](/posts/confidential-ai-openshift-trustee-nras/).
+
 If you are mapping either pattern into a broader platform or regulated landing-zone
 conversation, that is exactly the kind of design discussion Red Hat solution
 architects exist for.
+
+## Related posts
+
+- [Platform and Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
+- [Confidential AI on OpenShift: From CPU TEEs to NVIDIA GPUs and Trustee Attestation](/posts/confidential-ai-openshift-trustee-nras/)

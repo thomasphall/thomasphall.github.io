@@ -332,7 +332,10 @@ Inside the guest, after attestation, the Confidential Data Hub path looks like
 `http://127.0.0.1:8006/cdh/resource/<repo>/<type>/<id>`. Sealed secrets that
 point at `kbs:///` URIs are the Kubernetes-shaped way to mount the same gated
 material. Prefer **signed images** and initdata image policy so supply chain
-integrity is part of the measured story, not an afterthought.
+integrity is part of the measured story, not an afterthought—the same
+gate habit as
+[platform and supply-chain security](/posts/openshift-security-platform-supply-chain/),
+applied inside the TEE.
 
 > Current practical constraint to say out loud in design reviews: confidential
 > GPU pods often start at **one** cold-plugged confidential GPU per pod.
@@ -354,7 +357,10 @@ integrity is part of the measured story, not an afterthought.
 
 That last row maps cleanly onto the usual OpenShift GitOps split: cluster
 configuration gets the platform to “TEE + CC GPU ready,” application
-configuration deploys only after attestation wiring exists.
+configuration deploys only after attestation wiring exists. Vault behind KBS
+is for attestation-gated release into the confidential guest; delivery of
+ordinary app Secrets on OpenShift remains a separate choice—see
+[External Secrets Operator vs Secrets Store CSI](/posts/external-secrets-vs-secrets-store-csi/).
 
 ## What this is not
 
@@ -383,6 +389,12 @@ respectively, with TDX/SNP leading the current OpenShift confidential GPU
 path. NVIDIA is the GPU chapter. Trustee is the gate that refuses to hand over
 the model key until both chapters check out. If your design stops after
 enabling a CPU TEE, you protected the wrong half of the workload.
+
+## Related posts
+
+- [Platform and Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
+- [External Secrets Operator vs Secrets Store CSI on OpenShift 4.22](/posts/external-secrets-vs-secrets-store-csi/)
+- [RHACS Still Applies: Securing OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 
 ## Further reading
 

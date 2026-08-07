@@ -128,7 +128,9 @@ Then layer MultiNetworkPolicy for microsegmentation inside those networks
 (OVN-Kubernetes localnet). Once a policy selects a VM and its
 NetworkAttachmentDefinition, traffic that is not allowed is denied. That is the
 same story you already tell for pod NetworkPolicy—extended to VM secondary
-networks.
+networks. For how those attachments land on the host (NNCP, bridge mappings,
+CUDN), see
+[OpenShift Virtualization Networking](/posts/openshift-virtualization-networking/).
 
 ## Host posture, briefly
 
@@ -149,7 +151,9 @@ the hypervisor” if the host kernel reports `Vulnerable` with no mitigation.
 Manage the baseline through HyperConverged and GitOps so drift shows up as a
 pull request, not a Friday surprise. For release-specific operational context,
 see also
-[what is new in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/).
+[What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/).
+For continuous risk and policy on virt-launcher workloads, see
+[RHACS Still Applies](/posts/acs-openshift-virtualization/).
 
 If you are standing up or migrating a virtualization landing zone, start in
 non-production: lock RBAC for migration and console access, confirm no host
@@ -160,6 +164,13 @@ guide.
 For the full control list, audit commands, and remediations, use the official
 Red Hat OpenShift Virtualization hardening guide as the source of truth—and
 keep OpenShift platform hardening and guest OS hardening on their own tracks.
+
+## Related posts
+
+- [Platform and Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
+- [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
+- [OpenShift Virtualization Networking: From Pod Network to Localnet](/posts/openshift-virtualization-networking/)
+- [RHACS Still Applies: Securing OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 
 > Want help mapping these controls to your landing zone? Reach out to your
 > Red Hat account team—or apply the sequence above on a non-prod OpenShift

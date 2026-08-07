@@ -91,7 +91,8 @@ Deprecated and removed below).
 Networking changes in 4.22 are practical for teams that already live in
 secondary networks and VLAN segmentation—the common pattern when VMs must speak
 to existing data-center fabrics rather than only the cluster’s default pod
-network.
+network. For the layered mental model (pod network → UDN → CUDN localnet), see
+[OpenShift Virtualization Networking](/posts/openshift-virtualization-networking/).
 
 IPv6 single-stack support for OpenShift Virtualization is generally available for
 VMs connected through OVN-Kubernetes localnet, Linux bridge CNI, or SR-IOV.
@@ -212,7 +213,17 @@ agenda rather than discovering hardware prerequisites in production.
 
 Hybrid should mean *where* the cluster runs—not a different quality bar for VM
 operations. Use 4.22 to make the VM control plane look as intentional as the
-container one.
+container one. Pair the release digest with
+[hardening priorities](/posts/openshift-virtualization-hardening-priorities/)
+before you promote a landing zone, and with
+[hosted vs virtualized control planes](/posts/hosted-vs-virtualized-control-planes/)
+when densification is on the table.
+
+## Related posts
+
+- [OpenShift Virtualization Networking: From Pod Network to Localnet](/posts/openshift-virtualization-networking/)
+- [Hardening OpenShift Virtualization: Security Priorities That Matter First](/posts/openshift-virtualization-hardening-priorities/)
+- [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
 
 > Dig into the
 > [OpenShift Virtualization 4.22 release notes](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/release-notes)
