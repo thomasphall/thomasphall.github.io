@@ -514,7 +514,16 @@ a MachineConfig that loads `nvme-tcp` and reconnects after `network-online`,
 then an `LVMCluster` that selects a stable by-id path. Manual `nvme connect`
 is for validation; Ignition `source` data URLs are for survival across reboot.
 When LVMS is not enough, step up to vendor CSI, a hybrid RWX class, or ODF—
-in that order of operational weight.
+in that order of operational weight. For the array-centric CSI path on
+multi-node Virtualization, see
+[Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/). For when SNO
+plus LVMS is the right *edge* form factor—not just a lab trick—see
+[OpenShift edge architectures](/posts/openshift-edge-architectures/).
+
+## Related posts
+
+- [Configuring OpenShift Virtualization with Dell Unity Storage over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
+- [OpenShift Edge Architectures: Pick the Form Factor, Then the Fleet](/posts/openshift-edge-architectures/)
 
 ### References
 

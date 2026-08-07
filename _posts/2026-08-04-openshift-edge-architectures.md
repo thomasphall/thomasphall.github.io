@@ -387,6 +387,20 @@ hardware, how much downtime, how bad the network, how many identical sites,
 and where state is allowed to live. Pick the form factor that matches, then
 make the fleet boring on purpose.
 
+Hub-and-spoke densification of *control planes* (hosted vs virtualized) is a
+related fleet conversation—see
+[hosted vs virtualized control planes](/posts/hosted-vs-virtualized-control-planes/).
+In bare-metal PoCs that reboot constantly while you prove a site shape,
+[temporarily disabling firmware memory checks](/posts/poc-faster-bare-metal-boot-disable-memory-check/)
+can reclaim hours of POST wait (restore before handback).
+
+## Related posts
+
+- [Installing Pure Storage FlashArray on Single-Node OpenShift with NVMe over TCP](/posts/pure-flasharray-sno-nvme-tcp/)
+- [Configuring OpenShift Virtualization with Dell Unity Storage over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
+- [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
+- [Speed Up Bare Metal Boots in OpenShift PoCs by Disabling Memory Checking](/posts/poc-faster-bare-metal-boot-disable-memory-check/)
+
 > Want a deeper walkthrough for your environment? Reach out to your Red Hat
 > account team—or evaluate one representative site pattern in a lab before you
 > scale the GitOps factory.

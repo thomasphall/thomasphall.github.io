@@ -139,7 +139,10 @@ This is where virtualization and platform teams sometimes talk past each other.
 VCP is designed so Agent-based Installer or GitOps Zero Touch Provisioning can
 target Redfish URLs that front KubeVirt VMs—same shape as talking to a BMC on
 bare metal. If your factory already speaks Redfish, image-based installs, and
-ZTP policies, VCP extends that factory onto OpenShift Virtualization.
+ZTP policies, VCP extends that factory onto OpenShift Virtualization. That
+fleet shape—hub, spokes, and GitOps ZTP—is the same conversation as
+[OpenShift edge architectures](/posts/openshift-edge-architectures/), just aimed
+at densifying control planes rather than plant cells.
 
 HCP asks you to think in `HostedCluster` and `NodePool` objects. Provisioning
 is fast because control planes are pods, but the API surface and personas
@@ -211,6 +214,17 @@ a modern multicluster API. VCP optimizes for VM-isolated control-plane nodes and
 familiar install workflows on top of OpenShift Virtualization. Pick the
 isolation and operations model you can run at 2 a.m.—not only the slide that
 shows the highest cluster count per rack.
+
+In bare-metal PoCs that reboot constantly while you prove either path, reclaiming
+POST time is often worth a temporary BIOS tweak—see
+[speeding up bare-metal boots by disabling memory checks](/posts/poc-faster-bare-metal-boot-disable-memory-check/)
+(PoC only; restore before handback).
+
+## Related posts
+
+- [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
+- [OpenShift Edge Architectures: Pick the Form Factor, Then the Fleet](/posts/openshift-edge-architectures/)
+- [Speed Up Bare Metal Boots in OpenShift PoCs by Disabling Memory Checking](/posts/poc-faster-bare-metal-boot-disable-memory-check/)
 
 Authoritative starting points:
 

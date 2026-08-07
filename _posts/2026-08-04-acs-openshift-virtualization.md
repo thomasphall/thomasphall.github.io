@@ -175,6 +175,16 @@ virt-launcher workload in the same risk view as your applications, agree which
 policies stay enforced in virtualization namespaces, and decide whether
 Technology Preview VM scanning belongs in a non-production evaluation track.
 
+For GPU-backed AI where the security story is TEE attestation rather than
+deployment policy alone, see
+[Confidential AI on OpenShift](/posts/confidential-ai-openshift-trustee-nras/).
+
+## Related posts
+
+- [Platform and Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
+- [Hardening OpenShift Virtualization: Security Priorities That Matter First](/posts/openshift-virtualization-hardening-priorities/)
+- [Confidential AI on OpenShift: From CPU TEEs to NVIDIA GPUs and Trustee Attestation](/posts/confidential-ai-openshift-trustee-nras/)
+
 > Want a deeper walkthrough for your environment? Reach out to your Red Hat
 > account team—or evaluate the pattern on a non-prod OpenShift cluster first.
 {: .prompt-tip }

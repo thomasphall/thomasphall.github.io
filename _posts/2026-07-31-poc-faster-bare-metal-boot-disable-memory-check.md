@@ -399,6 +399,18 @@ same six nodes until the demo story works. Disable the vendor software or
 extended memory test on Dell, HPE, Cisco, and Lenovo to reclaim POST time;
 keep a restore path; and never confuse “PoC fast” with “production ready.”
 
+This pairs well with
+[edge form-factor](/posts/openshift-edge-architectures/) and
+[hosted vs virtualized control plane](/posts/hosted-vs-virtualized-control-planes/)
+labs that lean on Agent-based Installer, Metal3, and Redfish-heavy reboot
+loops—use the PoC BIOS tweak for the engagement window, then restore before
+you call the gear production-ready.
+
+## Related posts
+
+- [OpenShift Edge Architectures: Pick the Form Factor, Then the Fleet](/posts/openshift-edge-architectures/)
+- [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
+
 ### References
 
 Confirm against your exact generation before publishing changes to a shared
