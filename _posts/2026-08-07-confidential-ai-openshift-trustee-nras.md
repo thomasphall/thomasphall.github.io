@@ -1,12 +1,12 @@
 ---
 title: "Confidential AI on OpenShift: From CPU TEEs to NVIDIA GPUs and Trustee Attestation"
 description: >-
-  CPU TEEs alone do not protect AI on GPUs. Compare Intel TDX and AMD SEV-SNP,
-  close the GPU gap with NVIDIA Confidential Computing, and wire composite
-  attestation on OpenShift with Trustee and NRAS.
+  CPU TEEs alone do not protect AI on GPUs. Compare Intel TDX, AMD SEV-SNP, and
+  ARM CCA, close the GPU gap with NVIDIA Confidential Computing, and wire
+  composite attestation on OpenShift with Trustee and NRAS.
 date: 2026-08-07 14:00:00 -0500
 categories: [OpenShift, Security]
-tags: [openshift, confidential-computing, tdx, sev-snp, nvidia, gpu, trustee, attestation, sandboxed-containers, coco]
+tags: [openshift, confidential-computing, tdx, sev-snp, arm, cca, nvidia, gpu, trustee, attestation, sandboxed-containers, coco]
 permalink: /posts/confidential-ai-openshift-trustee-nras/
 ---
 
@@ -24,9 +24,10 @@ moment inference or training touches a GPU.
 Confidential computing closes that gap with hardware-backed trusted execution
 environments (TEEs). For AI on
 [Red Hat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift),
-the useful story is not “pick Intel or AMD and you are done.” It is a chain:
+the useful story is not “pick a CPU vendor and you are done.” It is a chain:
 
-1. A **CPU TEE** (Intel TDX or AMD SEV-SNP) that isolates a confidential VM
+1. A **CPU TEE** (Intel TDX, AMD SEV-SNP, or ARM CCA Realms) that isolates a
+   confidential VM
 2. An **NVIDIA Confidential Computing GPU** that extends that isolation into
    accelerator memory
 3. **Composite attestation** so secrets release only after both TEEs prove
@@ -56,36 +57,54 @@ CPU TEE and a measured GPU TEE.*
 That claim is what Red Hat build of Trustee exists to enforce, and what NVIDIA
 Remote Attestation Service (NRAS) contributes on the GPU side.
 
-## CPU TEEs: Intel TDX vs AMD SEV-SNP
+## CPU TEEs: Intel TDX, AMD SEV-SNP, and ARM CCA
 
 For whole-VM confidential computing, the apples-to-apples comparison is
-**Intel Trust Domain Extensions (TDX)** and **AMD SEV-SNP** (Secure Encrypted
-Virtualization with Secure Nested Paging). Both aim to keep guest memory and
+**Intel Trust Domain Extensions (TDX)**, **AMD SEV-SNP** (Secure Encrypted
+Virtualization with Secure Nested Paging), and **ARM Confidential Compute
+Architecture (CCA)** with **Realms**. All three aim to keep guest memory and
 CPU state away from a compromised host or hypervisor. They get there with
 different silicon.
 
-| | **Intel TDX** | **AMD SEV-SNP** |
-|---|---|---|
-| Isolation unit | Trust Domain (TD) | Confidential VM |
-| Architectural shape | New SEAM privilege world + TDX Module | Extends AMD SVM; on-die Secure Processor |
-| Memory story | Per-TD encryption + integrity metadata | Per-VM keys + Reverse Map Table (RMP) against remapping / aliasing |
-| Attestation | Intel quote / PCS (and related services) | AMD Secure Processor report / KDS / VCEK |
-| Typical SKUs | Xeon with TDX (e.g. Emerald / Granite Rapids class) | EPYC with SNP (Milan / Genoa / Turin class) |
+| | **Intel TDX** | **AMD SEV-SNP** | **ARM CCA** |
+|---|---|---|---|
+| Isolation unit | Trust Domain (TD) | Confidential VM | Realm |
+| Architectural shape | SEAM privilege world + TDX Module | Extends AMD SVM; on-die Secure Processor | Realm Management Extension (RME) + Realm Management Monitor (RMM) |
+| Memory story | Per-TD encryption + integrity metadata | Per-VM keys + Reverse Map Table (RMP) against remapping / aliasing | Per-Realm protection via Granule Protection Table (GPT) + Realm keys |
+| Attestation | Intel quote / PCS (and related services) | AMD Secure Processor report / KDS / VCEK | CCA attestation of Realm state (platform-specific roots) |
+| Typical SKUs | Xeon with TDX (e.g. Emerald / Granite Rapids class) | EPYC with SNP (Milan / Genoa / Turin class) | Armv9 / Neoverse designs that implement RME |
 
 **Same job, different trust boundary implementation.** TDX creates a distinct
 trust-domain execution model above the hypervisor. SEV-SNP hardens the
 existing VM model so the hypervisor cannot usefully remap or forge guest
-physical memory. Neither removes the need to trust the CPU vendor’s
-attestation PKI. Neither replaces guest hardening.
+physical memory. CCA introduces a **Realm** world—isolated from both Normal
+World and TrustZone’s Secure World—managed by the RMM. None of these remove
+the need to trust the CPU vendor’s attestation PKI. None replace guest
+hardening.
+
+**Do not confuse CCA with TrustZone.** TrustZone is the older Secure World
+model common on phones and edge devices. It is useful, but it is not the
+VM-class confidential computing story. CCA Realms are the ARM analogue to TDX
+Trust Domains and SEV-SNP confidential VMs.
 
 **Practical fleet rule for OpenShift confidential containers:** pick the TEE
 that matches the servers you already buy, and keep worker nodes
-**homogeneous**—all TDX or all SEV-SNP—for a given confidential GPU pool. Mixing
-TEE types in one worker set fights the operators and the mental model.
+**homogeneous**—all TDX, all SEV-SNP, or all CCA—for a given confidential GPU
+pool. Mixing TEE types in one worker set fights the operators and the mental
+model.
+
+**Maturity note for architecture reviews:** TDX and SEV-SNP are the production
+CPU TEEs behind today’s OpenShift sandboxed containers + NVIDIA confidential
+GPU path. CCA silicon is shipping into Armv9 / Neoverse platforms, but
+Realm-based confidential containers and the confidential GPU composition on
+OpenShift are still catching up versus x86. Treat ARM CCA as the right
+mental model for ARM fleets—and confirm current product support before you
+promise the same GA path you get on TDX or SNP.
 
 Intel SGX still exists as a process/enclave model. For lift-and-shift AI pods
-on OpenShift, the path that matters is VM-class TEEs (TDX / SNP), not rewriting
-the inference stack into SGX enclaves.
+on OpenShift, the path that matters is VM-class TEEs (TDX / SNP today; CCA
+Realms as that ecosystem lands), not rewriting the inference stack into SGX
+enclaves.
 
 ## The GPU gap: CPU TEEs are not enough
 
@@ -93,7 +112,7 @@ Here is the failure mode that kills half-finished confidential AI designs:
 
 ```text
   ┌─────────────────────────────────────────────┐
-  │ Confidential VM (TDX or SEV-SNP)            │
+  │ Confidential VM (TDX / SNP / CCA Realm)     │
   │  guest RAM encrypted / isolated from host   │
   │                                             │
   │   app ──copy──▶ GPU memory  ✗ still host-   │
@@ -113,7 +132,7 @@ VFIO—so the guest owns the accelerator inside the TEE boundary.
 
 ```text
   ┌──────────────────────────────────────────────┐
-  │ Confidential VM (TDX or SEV-SNP)             │
+  │ Confidential VM (TDX / SNP / CCA Realm)      │
   │                                              │
   │  guest RAM  ◄──isolated──►  NVIDIA GPU (CC)  │
   │  CPU TEE                  GPU TEE            │
@@ -127,10 +146,12 @@ VFIO—so the guest owns the accelerator inside the TEE boundary.
            (Trustee + NRAS) before secrets
 ```
 
-Intel versus AMD still matters for the **CPU** side of that diagram. For the
-**GPU** side, both TDX and SEV-SNP host the same NVIDIA CC stack. You are not
-choosing “Intel GPU crypto versus AMD GPU crypto.” You are choosing which CPU
-TEE your bare-metal fleet provides underneath NVIDIA’s confidential GPU path.
+CPU vendor still matters for the **CPU** side of that diagram. For the **GPU**
+side, the confidential accelerator story is NVIDIA’s CC stack hosted inside
+whichever CPU TEE you run. You are not choosing “Intel GPU crypto versus AMD
+GPU crypto versus ARM GPU crypto.” You are choosing which CPU TEE your
+bare-metal fleet provides underneath NVIDIA’s confidential GPU path—and today
+that OpenShift path is documented primarily for TDX and SEV-SNP.
 
 ## Composite attestation: Trustee + NRAS
 
@@ -217,7 +238,7 @@ recent guidance.
 │   Containers                                               │
 │                                                            │
 │  Pod → runtimeClassName: kata-cc-nvidia-gpu                │
-│        └─ CVM (TDX|SNP) + nvidia.com/pgpu                  │
+│        └─ CVM (TDX|SNP|CCA) + nvidia.com/pgpu              │
 └───────────────────────────┬────────────────────────────────┘
                             │ attest
                             ▼
@@ -326,7 +347,7 @@ integrity is part of the measured story, not an afterthought.
 |---|---|
 | Trustee placement | Separate trusted cluster; Restricted `TrusteeConfig` |
 | Secret storage | HashiCorp Vault as KBS resource backend |
-| TEE homogeneity | All TDX or all SNP workers in the confidential GPU pool |
+| TEE homogeneity | All TDX, all SNP, or all CCA workers in the confidential GPU pool (x86 TEEs for the GA NVIDIA CC path today) |
 | Images | Signed; policy enforced via initdata |
 | Starting topology | Single confidential GPU inference / eval first |
 | GitOps | Cluster repo for MachineConfig / operators / `KataConfig`; app (or trusted) repo for TrusteeConfig, RVPS values, workloads |
@@ -355,12 +376,13 @@ configuration deploys only after attestation wiring exists.
 
 Confidential AI on OpenShift is a **composition** problem:
 
-**CPU TEE (TDX or SEV-SNP) + NVIDIA CC GPU + Trustee/NRAS attestation + sandboxed containers runtime class.**
+**CPU TEE (TDX, SEV-SNP, or CCA Realms) + NVIDIA CC GPU + Trustee/NRAS attestation + sandboxed containers runtime class.**
 
-Intel versus AMD is the CPU chapter. NVIDIA is the GPU chapter. Trustee is the
-gate that refuses to hand over the model key until both chapters check out. If
-your design stops after enabling a CPU TEE, you protected the wrong half of the
-workload.
+Intel, AMD, and ARM are the CPU chapter—TDX, SEV-SNP, and CCA Realms
+respectively, with TDX/SNP leading the current OpenShift confidential GPU
+path. NVIDIA is the GPU chapter. Trustee is the gate that refuses to hand over
+the model key until both chapters check out. If your design stops after
+enabling a CPU TEE, you protected the wrong half of the workload.
 
 ## Further reading
 
@@ -369,4 +391,5 @@ workload.
 - [An overview of confidential containers on OpenShift bare metal](https://developers.redhat.com/articles/2026/06/04/overview-confidential-containers-openshift-bare-metal) (Red Hat Developer)
 - [NVIDIA Confidential Containers architecture](https://docs.nvidia.com/datacenter/cloud-native/confidential-containers/latest/overview.html)
 - [NVIDIA attestation / NRAS documentation](https://docs.nvidia.com/attestation/)
+- [ARM Confidential Compute Architecture](https://www.arm.com/architecture/security-features/arm-confidential-compute-architecture)
 - [Upstream Trustee NVIDIA verifier notes](https://github.com/confidential-containers/trustee/blob/main/deps/verifier/src/nvidia/README.md)
