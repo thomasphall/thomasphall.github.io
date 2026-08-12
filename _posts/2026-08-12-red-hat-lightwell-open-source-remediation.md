@@ -1,8 +1,9 @@
 ---
-title: "Red Hat Lightwell: Fixing Open Source Vulns Without the Upgrade Deadlock"
+title: "Red Hat Lightwell: Fixing Open Source Vulnerabilities Without the Upgrade Deadlock"
 description: >-
-  How Red Hat and IBM Lightwell remediates pinned application dependencies so
-  enterprises can patch supply-chain risk without disruptive full-version upgrades.
+  How Lightwell, a joint Red Hat and IBM initiative, remediates pinned
+  application dependencies so enterprises can patch supply-chain risk without
+  disruptive full-version upgrades.
 date: 2026-08-12 08:00:00 -0500
 categories: [Security, Supply Chain]
 tags: [lightwell, supply-chain, security, java, python, red-hat, ibm]
@@ -91,7 +92,7 @@ runtime policy remain complementary controls.
 | **Availability** | Generally available | Limited availability (critical infrastructure focus) |
 | **Core value** | Consolidated annual access to Lightwell remediations and mitigations for eligible open source vulnerabilities | Everything in Network, plus deeper member-specific engagement |
 | **Delivery** | Lightwell repositories integrated into existing software delivery workflows | Same repository model, plus coordinated remediation services |
-| **Extras** | Expanding catalog across application ecosystems (launch emphasis includes Java/Maven and Python) | Member-specific package versions, novel vulnerability verification/disclosure handling, anonymized visibility into other member requests, patch embargo coordination, TAM services |
+| **Extras** | Expanding catalog across application ecosystems (launch emphasis includes Java/Maven and Python) | Member-specific package versions, novel vulnerability verification/disclosure handling, anonymized visibility into other member requests, patch embargo coordination, Technical Account Manager (TAM) services |
 
 Lightwell Network is the broad engagement path for organizations that need
 trusted remediations they can consume through normal build tooling. Clearinghouse
@@ -103,7 +104,7 @@ plans to expand.
 Exact catalog size, language coverage, and eligibility rules will keep moving as
 the service scales. Treat public launch messaging (including remediated package
 counts and ecosystem roadmaps) as directional, and confirm current coverage with
-Red Hat before committing an architecture.
+Red Hat before committing to an architecture.
 
 ## Who should care first
 
@@ -181,30 +182,3 @@ it is worth a serious look.
 - [IBM and Red Hat expand Lightwell offerings (Red Hat press release)](https://www.redhat.com/en/about/press-releases/ibm-and-red-hat-expand-lightwell-new-offerings-build-trust-infrastructure-ai-era-open-source)
 - Related on this site:
   [Platform and supply-chain security for regulated hybrid cloud](/posts/openshift-security-platform-supply-chain/)
-
----
-
-### Alternate titles
-
-- When “Just Upgrade” Is Not an Option: Introducing Red Hat Lightwell
-- Trust Infrastructure for AI-Era Open Source: A Practical Look at Lightwell
-
-### Suggested SEO keywords
-
-lightwell, red hat lightwell, ibm lightwell, open source supply chain security,
-dependency remediation, java maven vulnerability remediation, python package
-security, pinned dependencies, software supply chain, backport security patches,
-lightwell network, lightwell clearinghouse premier
-
-### Social teasers
-
-**LinkedIn:** Scanners find vulnerable libraries faster than enterprises can safely
-upgrade them. Red Hat and IBM Lightwell brings backport-style remediation to
-pinned application dependencies—so you can reduce supply-chain risk without
-breaking certification and release windows. New post on what Lightwell is, how
-Network vs Clearinghouse Premier differ, and where it fits next to OpenShift and
-RHACS.
-
-**X/Twitter:** The upgrade deadlock is real: CVE found, major bump blocked by
-certs and freezes. Red Hat + IBM Lightwell remediates pinned app deps through
-existing build workflows. Notes on Network vs Clearinghouse Premier:
