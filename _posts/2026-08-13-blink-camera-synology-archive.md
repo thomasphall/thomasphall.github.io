@@ -1,9 +1,8 @@
 ---
 title: "Archiving Blink Camera Clips to a Synology NAS"
 description: >-
-  How I automated downloads of Blink cloud motion clips onto a Synology share
-  with Docker, saved OAuth tokens, and DSM Task Scheduler—without Sync Module 2
-  USB tricks or a paid Blink subscription for API access.
+  How I automate Blink cloud clip downloads to a Synology NAS with Docker,
+  saved OAuth tokens, and DSM Task Scheduler—no Sync Module 2 hardware required.
 date: 2026-08-13 14:00:00 -0500
 categories: [Homelab, Automation]
 tags: [blink, synology, docker, homelab, nas, python, archival]
@@ -27,7 +26,7 @@ re-authenticate only when Blink’s tokens actually die—not every hour. (Same
 [Tesla Sentry → Synology](/posts/tesla-sentry-synology-archive/)
 setup—different source, same destination discipline.)
 
-I keep the implementation in a **private** GitHub repo. This post is the
+I keep the implementation in a **private** GitHub repo. This post covers the
 architecture and ops notes, not a public install guide for that code.
 
 ## Constraints that shaped the design
@@ -40,20 +39,20 @@ architecture and ops notes, not a public install guide for that code.
 - **No Blink subscription purchased “for API access.”** A subscription does not
   give you an official developer API. It changes cloud retention and some local
   USB behaviors; it is not a stable integration contract.
-- Synology-first: Container Manager / Docker Compose, DSM Task Scheduler, clips
-  on a dedicated share.
+- **Synology-first.** Container Manager / Docker Compose, DSM Task Scheduler,
+  clips on a dedicated share.
 
 ## What exists in the ecosystem
 
 | Approach | Verdict for my setup |
 | --- | --- |
 | Official Blink public API | Does not exist for third-party clip download |
-| [`blinkpy`](https://github.com/fronzbot/blinkpy) (Home Assistant’s library) | Best maintained unofficial client; supports video metadata + download |
+| [`blinkpy`](https://github.com/fronzbot/blinkpy) (Home Assistant’s library) | Best-maintained unofficial client; supports video metadata + download |
 | USB gadget archivers (BlinkPi, Watchman, …) | Great if you have Sync Module 2; not applicable here |
 | Stale Docker images / old PowerShell downloaders | Easy to find; often broken after 2025 OAuth changes |
 
 So the shape of the solution is small: a Python job on top of current
-`blinkpy`, packaged as a one-shot container, scheduled by DSM.
+`blinkpy`, packaged as a one-shot container, scheduled by DSM Task Scheduler.
 
 ## Architecture
 
@@ -88,48 +87,50 @@ Example object path:
 
 ### Idempotency
 
-Each media item gets a stable clip id (Blink’s id when present, otherwise a
+Each media item gets a stable clip ID (Blink’s ID when present, otherwise a
 hash of the media path). Before download:
 
-1. Skip if id is already in `seen.json`
+1. Skip if the ID is already in `seen.json`
 2. Skip if the destination file already exists
 3. Write to `*.partial`, then rename
-4. Only then record the id
+4. Only then record the ID
 
 A lookback watermark (for example 48 hours) means a failed mid-run still
 re-lists recent clips; `seen.json` prevents double copies.
 
 ## Auth and MFA (the part that actually hurts)
 
-Amazon moved Blink login through OAuth changes in late 2025. Password-grant
-flows died; libraries had to catch up. Unattended archival only works if you:
+Amazon pushed Blink’s login flow through several OAuth changes in late 2025.
+Password-grant flows died; libraries had to catch up. Unattended archival only
+works if you:
 
 1. Bootstrap **once** interactively (email/password + 2FA)
-2. Persist the full credential JSON (access + refresh material + device ids)
+2. Persist the full credential JSON (access + refresh material + device IDs)
 3. Save credentials again after every successful run so rotated refresh tokens
    are not lost
 4. Fail loudly when MFA is required again—do not spin on bad logins
 
 In practice I re-auth when a scheduled run exits with an auth failure, after a
-password change, or after another Blink OAuth break. Hourly jobs should not
-prompt for 2FA.
+password change, or after another Blink OAuth change breaks login. Hourly jobs
+should not prompt for 2FA.
 
-Also: share one `aiohttp` `ClientSession` with both `Blink` and `Auth`. If Auth
-opens its own session and you only close yours, you get noisy “Unclosed client
-session” errors even when login succeeded.
+One subtlety: share a single `aiohttp` `ClientSession` between `Blink` and
+`Auth`. If `Auth` opens its own session and you only close yours, you get
+noisy “Unclosed client session” errors even when login succeeded.
 
 ## Synology ops
 
 ### Permissions
 
 DSM often denies non-admin access to `/var/run/docker.sock`. If `docker compose
-build` returns permission denied, use an administrators account or `sudo`, and
+build` returns permission denied, use an administrator account or `sudo`, and
 run Task Scheduler as a user that can talk to Docker.
 
 ### Env files and File Station
 
 Copies to the NAS frequently **drop dotfiles**. If `.env.example` never
-arrived, ship a non-hidden `env.example` and `cp env.example .env` on the box.
+arrived, ship a non-hidden `env.example` too, then run `cp env.example .env`
+on the box.
 
 ### Schedule
 
@@ -153,7 +154,7 @@ Blink. Do not poll every minute.
 - `.state/last_success.txt` as a freshness signal
 - A tiny health command that fails if last success is too old
 
-Optional: webhook on non-zero exit (ntfy, Slack incoming URL, etc.).
+Optional: webhook on non-zero exit (ntfy, Slack incoming webhook, etc.).
 
 ## Validation checklist I actually used
 
@@ -167,8 +168,9 @@ Optional: webhook on non-zero exit (ntfy, Slack incoming URL, etc.).
 ## Risks I am accepting
 
 - **Unofficial API / ToS gray area**, even for personal footage I own
-- **Auth breakage** whenever Blink changes OAuth again—mitigation is pin
-  `blinkpy`, watch HA/blinkpy releases, keep a one-shot re-bootstrap path
+- **Auth breakage** whenever Blink changes OAuth again—mitigate by pinning
+  `blinkpy`, watching HA/blinkpy releases, and keeping a one-shot re-bootstrap
+  path ready
 - **Rate limits / lockouts** if you schedule too aggressively
 - **Cloud retention** on a free plan: if a clip expires before your interval,
   it is gone; schedule inside the retention window
