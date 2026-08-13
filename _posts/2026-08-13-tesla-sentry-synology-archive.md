@@ -89,8 +89,9 @@ What I actually did, compressed:
    point at the Synology share.
 4. On DSM: create a share (for example `teslacam`) and a **non-admin** user with
    read/write on that share only; use those credentials in the wizard.
-5. Power off the Pi, then connect **glovebox USB-A → short data-capable USB-A
-   to USB-C** into the Pi’s USB-C port (power + gadget on one cable).
+5. Power off the Pi, then run a short, **data-capable USB-A to USB-C cable**
+   from the vehicle’s glovebox USB-A port to the Pi’s USB-C port (power +
+   gadget on one cable).
 6. Confirm the dashcam icon records. If the vehicle offers **Encrypt Dashcam
    Recordings** (newer software), leave it off—encrypted clips are not useful
    to the archiver today.
@@ -125,7 +126,7 @@ while you can still watch the Archive Loop log.
 ### Dedicated Synology user and share
 
 Do not archive as admin into a kitchen-sink share. Create a DSM user for the
-Pi, grant **Read/Write** only on the TeslaCam share, and enable SMB. If the
+Pi, grant **Read/Write** only on that dedicated share, and enable SMB. If the
 wizard cannot mount, check SMB is on and—on older DSM quirks—whether an
 explicit CIFS version is required (upstream Archive docs cover that field).
 
