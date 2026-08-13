@@ -24,7 +24,7 @@ What I wanted was boring and reliable: pull motion clips on a schedule, drop
 them on the Synology with a predictable folder layout, skip duplicates, and
 re-authenticate only when Blink’s tokens actually die—not every hour. (Same
 “capture elsewhere, archive on the NAS” idea as my
-[Cybertruck Sentry → Synology](/posts/cybertruck-sentry-synology-archive/)
+[Tesla Sentry → Synology](/posts/tesla-sentry-synology-archive/)
 setup—different source, same destination discipline.)
 
 I keep the implementation in a **private** GitHub repo. This post is the
@@ -185,4 +185,4 @@ boring. Most of the failure modes are auth and permissions, not video codecs.
 
 ## Related posts
 
-- [Automating Cybertruck Sentry Footage to a Synology NAS with a Raspberry Pi](/posts/cybertruck-sentry-synology-archive/)
+- [Automating Tesla Sentry Footage to a Synology NAS with a Raspberry Pi](/posts/tesla-sentry-synology-archive/)

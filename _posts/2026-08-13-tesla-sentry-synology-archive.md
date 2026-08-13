@@ -1,13 +1,12 @@
 ---
-title: "Automating Cybertruck Sentry Footage to a Synology NAS with a Raspberry Pi"
+title: "Automating Tesla Sentry Footage to a Synology NAS with a Raspberry Pi"
 description: >-
-  How a Raspberry Pi 4 running Sentry-USB-Rusty in a Cybertruck archives
-  TeslaCam and Sentry clips to a Synology share over SMB when home Wi‑Fi
-  appears.
+  How a Raspberry Pi 4 running Sentry-USB-Rusty in a Tesla archives TeslaCam
+  and Sentry clips to a Synology share over SMB when home Wi‑Fi appears.
 date: 2026-08-13 15:00:00 -0500
 categories: [Homelab, Automation]
-tags: [cybertruck, tesla, sentry-mode, sentry-usb, raspberry-pi, synology, smb, homelab]
-permalink: /posts/cybertruck-sentry-synology-archive/
+tags: [tesla, sentry-mode, sentry-usb, raspberry-pi, synology, smb, homelab, archival]
+permalink: /posts/tesla-sentry-synology-archive/
 ---
 
 > Personal site note: views expressed here are my own and do not necessarily
@@ -18,26 +17,26 @@ permalink: /posts/cybertruck-sentry-synology-archive/
 {: .prompt-info }
 
 The Tesla app is fine for glancing at a Sentry event. A USB stick in the
-glovebox is fine until it fills, the truck sleeps, or you actually want a
+glovebox is fine until it fills, the car sleeps, or you actually want a
 searchable archive on the NAS next to everything else you already keep.
 
-What I wanted was boring and automatic: the Cybertruck keeps writing
-TeslaCam/Sentry clips in the truck, and when I park at home the footage lands
-on the Synology without me yanking a drive every night.
+What I wanted was boring and automatic: the Tesla keeps writing TeslaCam/Sentry
+clips in the car, and when I park at home the footage lands on the Synology
+without me yanking a drive every night.
 
-I ended up with a Raspberry Pi 4 in the truck running
+I ended up with a Raspberry Pi 4 in the car running
 [Sentry-USB-Rusty](https://github.com/Sentry-Six/Sentry-USB-Rusty)—the modern
 “Sentry USB” stack—archiving over SMB to a dedicated Synology share. This post
 is the architecture and ops notes, not a clone of the upstream install wizard.
 
 ## Constraints that shaped the design
 
-- **Stay in the truck.** No nightly USB swap ritual.
+- **Stay in the car.** No nightly USB swap ritual.
 - **Use home Wi‑Fi when parked.** Archive should start when the Pi joins a known
   network, not while I am on cellular or a random hotspot.
 - **Synology-first.** SMB share, dedicated DSM user, clips on disk I already
   back up.
-- **Pi 4 as the USB gadget.** The truck sees a drive; the Pi also runs the
+- **Pi 4 as the USB gadget.** The Tesla sees a drive; the Pi also runs the
   archive loop.
 
 ## What exists in the ecosystem
@@ -55,7 +54,7 @@ shell glue. Sentry USB fit.
 ## Architecture
 
 ```text
-Cybertruck (TeslaCam / Sentry)
+Tesla (TeslaCam / Sentry)
         │  USB gadget (glovebox USB-A → Pi USB-C)
         ▼
   Raspberry Pi 4 + Sentry-USB-Rusty
@@ -65,7 +64,7 @@ Cybertruck (TeslaCam / Sentry)
   Synology share (e.g. teslacam/)
 ```
 
-The important split: the truck only ever talks to the **emulated drive**. The
+The important split: the car only ever talks to the **emulated drive**. The
 NAS only ever receives what the **archive loop** copies when the Pi is on a
 known network. Manual “Archive Sync” in the web UI is the escape hatch when
 automatic did not fire.
@@ -103,23 +102,23 @@ What I actually did, compressed:
 
 ### One cable, glovebox port, short data cable
 
-On a Pi 4, USB-C is both power and the OTG/gadget port. In the Cybertruck I use
-the **glovebox USB-A** (the storage port), not a rear charge-only port. Buy a
-short **data + charging** cable; charge-only or long thin cables brown out the
-Pi under load.
+On a Pi 4, USB-C is both power and the OTG/gadget port. In the Tesla I use the
+**glovebox USB-A** (the storage port), not a rear charge-only port. Buy a short
+**data + charging** cable; charge-only or long thin cables brown out the Pi
+under load.
 
 ### Auto-archive on known Wi‑Fi; manual sync as fallback
 
 The happy path is: arrive home → Pi joins known Wi‑Fi → archive loop runs →
 clips land on the Synology. When that does not happen (Wi‑Fi flaky, share
 offline, I am debugging), **Archive Sync** in Settings is the explicit kick.
-Do not treat “the truck recorded” as “the NAS has a copy.”
+Do not treat “the car recorded” as “the NAS has a copy.”
 
-### Truck sleep cuts USB power
+### Vehicle sleep cuts USB power
 
 When the vehicle sleeps, USB power usually drops and the Pi dies with it. That
 is expected. If a large sync is still running, you can lose the window.
-**Keep Awake** (and related hold settings in Sentry USB) exists so the truck
+**Keep Awake** (and related hold settings in Sentry USB) exists so the car
 stays powered long enough for the archive to finish. Time the first real sync
 while you can still watch the Archive Loop log.
 
@@ -134,7 +133,7 @@ explicit CIFS version is required (upstream Archive docs cover that field).
 
 1. Bench install completes; `http://sentryusb.local` loads the UI
 2. Wizard saves known home Wi‑Fi and SMB settings without mount errors
-3. In the truck, dashcam icon appears and new clips land on the emulated drive
+3. In the car, dashcam icon appears and new clips land on the emulated drive
 4. Park at home → Archive Loop shows a successful run; files appear on the share
 5. Force a second **Archive Sync** → no duplicate storm (already-archived clips
    stay put)
@@ -154,8 +153,8 @@ explicit CIFS version is required (upstream Archive docs cover that field).
 
 A dumb stick records. A Pi that *looks* like a stick can also empty itself onto
 the NAS when you get home. For me the durable choices were Sentry-USB-Rusty,
-SMB to Synology, a dedicated DSM identity, and treating truck sleep as a first-class
-scheduling constraint—not an afterthought.
+SMB to Synology, a dedicated DSM identity, and treating vehicle sleep as a
+first-class scheduling constraint—not an afterthought.
 
 Keep the share boring, the credentials off the blog, and the first validation
 run where you can still see the Archive Loop.
