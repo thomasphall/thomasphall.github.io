@@ -162,7 +162,11 @@ inside those images and services.
    coverage, repository integration into your build tools, and which subscription
    model matches your vertical and disclosure needs.
 5. Keep platform controls in place: remediation of libraries complements—never
-   replaces—scanning, signing, and runtime policy on OpenShift.
+   replaces—scanning, signing, and runtime policy on OpenShift. Treat Lightwell
+   as one layer beside the
+   [platform and supply-chain security](/posts/openshift-security-platform-supply-chain/)
+   pattern (observe, prove, gate)—and keep vault delivery choices clear via
+   [External Secrets Operator vs Secrets Store CSI](/posts/external-secrets-vs-secrets-store-csi/).
 
 ## Closing
 
@@ -175,10 +179,14 @@ consumable through existing workflows, and designed for production constraints.
 If your risk register is full of pinned libraries with no clean upgrade path,
 it is worth a serious look.
 
+## Related posts
+
+- [Platform and Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
+- [External Secrets Operator vs Secrets Store CSI on OpenShift 4.22](/posts/external-secrets-vs-secrets-store-csi/)
+- [RHACS Still Applies: Securing OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
+
 ## Further reading
 
 - [Lightwell (Red Hat)](https://www.redhat.com/en/lightwell)
 - [Lightwell Network documentation](https://docs.redhat.com/en/documentation/lightwell_network/current)
 - [IBM and Red Hat expand Lightwell offerings (Red Hat press release)](https://www.redhat.com/en/about/press-releases/ibm-and-red-hat-expand-lightwell-new-offerings-build-trust-infrastructure-ai-era-open-source)
-- Related on this site:
-  [Platform and supply-chain security for regulated hybrid cloud](/posts/openshift-security-platform-supply-chain/)

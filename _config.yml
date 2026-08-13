@@ -43,9 +43,13 @@ social:
     - https://soundcloud.com/thomas-hall-319034295
 
 # Site Verification Settings
+# Google Search Console: property → Settings → Ownership verification → HTML tag.
+# Paste only the content= value (e.g. AbCdEf...), not the full <meta> element.
+# Bing Webmaster Tools: use the same meta-tag content token if you verify via Bing.
+# Full steps: README.md § Search Console
 webmaster_verifications:
-  google: # fill in your Google verification code
-  bing: # fill in your Bing verification code
+  google: HxeM84g7j1nLIkavlaP3YdHQlUjlTyY07SMlHIsqTlk
+  bing: # PLACEHOLDER — paste Bing HTML-tag content token here
   alexa: # fill in your Alexa verification code
   yandex: # fill in your Yandex verification code
   baidu: # fill in your Baidu verification code

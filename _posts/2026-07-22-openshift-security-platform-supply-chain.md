@@ -114,6 +114,8 @@ digest. For how secrets leave the vault without landing in Git, compare
 [External Secrets Operator vs Secrets Store CSI](/posts/external-secrets-vs-secrets-store-csi/).
 For GPU-backed AI where attestation gates key release, see
 [Confidential AI on OpenShift](/posts/confidential-ai-openshift-trustee-nras/).
+When scanners find pinned app libraries with no safe major upgrade path, see
+[Red Hat Lightwell: Fixing Open Source Vulnerabilities Without the Upgrade Deadlock](/posts/red-hat-lightwell-open-source-remediation/).
 
 ## Related posts
 
@@ -121,6 +123,7 @@ For GPU-backed AI where attestation gates key release, see
 - [RHACS Still Applies: Securing OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 - [External Secrets Operator vs Secrets Store CSI on OpenShift 4.22](/posts/external-secrets-vs-secrets-store-csi/)
 - [Confidential AI on OpenShift: From CPU TEEs to NVIDIA GPUs and Trustee Attestation](/posts/confidential-ai-openshift-trustee-nras/)
+- [Red Hat Lightwell: Fixing Open Source Vulnerabilities Without the Upgrade Deadlock](/posts/red-hat-lightwell-open-source-remediation/)
 
 > Want a deeper walkthrough for your environment? Reach out to your Red Hat
 > account team—or try the pattern on a non-prod OpenShift cluster first.
