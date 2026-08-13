@@ -22,7 +22,10 @@ app is fine for glancing at events. It is a terrible long-term archive.
 
 What I wanted was boring and reliable: pull motion clips on a schedule, drop
 them on the Synology with a predictable folder layout, skip duplicates, and
-re-authenticate only when Blink’s tokens actually die—not every hour.
+re-authenticate only when Blink’s tokens actually die—not every hour. (Same
+“capture elsewhere, archive on the NAS” idea as my
+[Cybertruck Sentry → Synology](/posts/cybertruck-sentry-synology-archive/)
+setup—different source, same destination discipline.)
 
 I keep the implementation in a **private** GitHub repo. This post is the
 architecture and ops notes, not a public install guide for that code.
@@ -179,3 +182,7 @@ cloud OAuth. If you do not—as I do not—the maintainable path today is still
 Keep the scheduler dumb, the state directory sacred, and the archive tree
 boring. Most of the failure modes are auth and permissions, not video codecs.
 {: .prompt-tip }
+
+## Related posts
+
+- [Automating Cybertruck Sentry Footage to a Synology NAS with a Raspberry Pi](/posts/cybertruck-sentry-synology-archive/)
