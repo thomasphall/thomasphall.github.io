@@ -3,7 +3,7 @@ title: "vSAN-like Storage for OpenShift Virtualization Engine Without ODF"
 description: >-
   Replace vSAN-style local disks on OpenShift Virtualization Engine without
   ODF using Portworx, PowerFlex, LINSTOR, IBM Fusion, or certified CSI arrays.
-date: 2026-08-14 13:00:00 -0500
+date: 2026-08-14 12:00:00 -0500
 categories: [OpenShift, Virtualization]
 tags: [openshift-virtualization, ove, odf, vsan, portworx, csi, storage]
 permalink: /posts/ove-vsan-storage-alternatives/

@@ -9,7 +9,9 @@ canonicals from front matter.
 - [ ] `title` — clear, query-shaped (what someone would search), not only clever
 - [ ] `description` — 1–2 sentences (~150–160 characters) that answer the query;
       used as the meta description / OG blurb
-- [ ] `date` — with timezone offset (site is `America/Chicago`)
+- [ ] `date` — with timezone offset (site is `America/Chicago`). Must be in
+      the past at build time; Jekyll skips future-dated posts, htmlproofer
+      then fails on reciprocal links, and GitHub Pages never publishes.
 - [ ] `categories` — 1–2 stable pillars (e.g. Security, Platform)
 - [ ] `tags` — specific terms readers/search might use (products, protocols)
 - [ ] `permalink` — `/posts/<stable-slug>/` (do not change after publish)
