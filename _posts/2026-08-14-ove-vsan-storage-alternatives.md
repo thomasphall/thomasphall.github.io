@@ -27,8 +27,8 @@ SAN and should not invent an HCI layer on top of it. It is not an install
 runbook, and it is not a support matrix. Partner listings move. Confirm the
 current
 [OpenShift Virtualization storage compatibility article](https://access.redhat.com/articles/7128992)
-and the [Red Hat Ecosystem Catalog](https://catalog.redhat.com/) for your
-OpenShift version before you freeze a design.
+(KCS 7128992) and the [Red Hat Ecosystem Catalog](https://catalog.redhat.com/)
+for your OpenShift version before you freeze a design.
 
 ## OVE is not a storage subscription
 
@@ -39,8 +39,8 @@ storage as infrastructure containers that back VM disks. That pattern is
 explicit in the
 [self-managed OpenShift subscription guide](https://www.redhat.com/en/resources/self-managed-openshift-subscription-guide):
 storage drivers and SDS that exist to serve VMs are infrastructure, not
-guest applications. Confirm borderline workloads with Red Hat if they are
-not a CSI driver or storage control plane.
+guest applications. Confirm any borderline workload with Red Hat if it is
+not clearly a CSI driver or a storage control plane.
 
 If the conversation is “we picked OVE so we would not buy ODF,” the next
 question is which certified CSI still gives you live migration. That is the
@@ -66,11 +66,11 @@ vendor features, not a CSI standard.
 | RWX + Block             | Live migration, node drain, cluster upgrades   | vMotion on a shared datastore       |
 | CSI snapshots / clones  | Fast provision, MTV, crash-consistent backup   | vSAN snapshots / linked clones      |
 | Volume expansion        | Grow VM disks online                           | Datastore / VMDK expand             |
-| Replication / DR        | Host failure and site recovery (vendor-specific) | FTT, stretched cluster, SRM       |
+| Replication / DR        | Host failure and site recovery (vendor-specific) | Failures to tolerate, stretched cluster, Site Recovery Manager |
 
-LVM Storage (LVMS / TopoLVM) and the Local Storage Operator fail that table
-on purpose. They bind a volume to **one node** (RWO) and do not replicate
-across hosts. Fine for a lab disk, including the
+LVM Storage (LVMS / TopoLVM) and the Local Storage Operator do not clear any
+row in that table, by design. They bind a volume to **one node** (RWO) and do
+not replicate across hosts. Fine for a lab disk, including the
 [Pure FlashArray + NVMe/TCP + LVMS SNO pattern](/posts/pure-flasharray-sno-nvme-tcp/).
 Not a vSAN replacement on a multi-node OVE cluster. If the PVC is RWO, live
 migration is blocked and the VM powers off on drain.
@@ -141,7 +141,7 @@ simplyblock and Lightbits market NVMe/TCP SDS as an ODF/vSAN alternative
 and show up in catalog or vendor virt pages. They were **not** on KCS
 7128992 when I last checked. Treat them as evaluation candidates, not the
 default shortlist, until the vendor shows a current OpenShift Virtualization
-badge for your OCP version.
+badge for your OpenShift version.
 
 ## Certified arrays: keep the SAN, skip the HCI story
 
@@ -153,7 +153,7 @@ snapshots, and clones.
 | ------------------- | ---------------------------------------------------- | ---------------------------------------- | ------------------------------------------------- |
 | Everpure / Portworx | FlashArray via Portworx CSI or PX Enterprise         | iSCSI, FC, NVMe/TCP, NVMe/RDMA           | Yes, including VDI                                |
 | Dell                | PowerMax, PowerStore, PowerFlex                      | FC, iSCSI, NVMe/TCP, NFS (varies)        | Yes via Container Storage Modules                 |
-| NetApp              | AFF / FAS via Trident (certified operator)           | iSCSI, NVMe/TCP, NFS, SMB; FC tech preview | Yes, including VDI. SAN raw block or NAS for RWX |
+| NetApp              | AFF / FAS via Trident (certified operator)           | iSCSI, NVMe/TCP, NFS, SMB; FC tech preview | Yes, including VDI. Use SAN raw block or NAS for RWX live migration. |
 | IBM                 | FlashSystem, SVC, Storage Virtualize, DS8000         | FC, iSCSI                                | Yes via IBM block storage CSI                     |
 | HPE                 | Alletra / Primera / Nimble; XP8; GreenLake File      | FC, iSCSI, NFS, NVMe (XP8)               | Yes via HPE CSI operators                         |
 | Hitachi Vantara     | VSP One Block; VSP One SDS                           | FC, iSCSI, NVMe-oF                       | Yes via Hitachi Storage Plug-in for Containers    |
@@ -176,11 +176,11 @@ storage copy offload can matter more than which HCI you pick. See
 | Local Storage Operator / hostPath   | Static local PVs. Same node affinity. Fine for a lab, not HA VMs.                                                 |
 | StorMagic SvSAN                     | Two-node HCI aimed at vSphere/Hyper-V. CSI docs target Tanzu on VMware, not OVE.                                  |
 | StarWind VSAN, Longhorn, OpenEBS    | May replicate local disks. Not on the Red Hat Virtualization compatibility article. You own live-migration proof. |
-| Nutanix AHV as the hypervisor       | Different hypervisor. Nutanix CSI can attach storage to OpenShift in some designs. That is not OVE + Nutanix vSAN.|
+| Nutanix AHV as the hypervisor       | Different hypervisor. Nutanix CSI can attach storage to OpenShift in some designs. That is not OVE + Nutanix vSAN. |
 
 ## How I would choose on an OVE cluster
 
-If the requirement is **location-local disks like vSAN**, shortlist Portworx
+If the requirement is **local disks like vSAN**, shortlist Portworx
 on local disks, Dell PowerFlex, LINBIT LINSTOR, or IBM Fusion HCI. Portworx
 is the most common OpenShift Virtualization HCI path. PowerFlex fits Dell
 SDS accounts. LINSTOR is the lightest certified replica of local NVMe.
@@ -194,7 +194,8 @@ support on the same ticket as the cluster.
 Starting with OpenShift 4.17, CSI certification includes the
 kubevirt-storage-checkup suite. A driver can pass generic CSI tests and
 still be a poor VM backend. Ask the vendor for RWX Block, snapshots,
-clones, live migration, and the catalog badge for *your* OpenShift version.
+clones, live migration, and the catalog badge for *your* OpenShift version—not
+just an older release.
 
 > Listings in this post are a snapshot, not a support statement. Re-check
 > [KCS 7128992](https://access.redhat.com/articles/7128992) and the
