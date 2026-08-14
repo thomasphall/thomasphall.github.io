@@ -215,12 +215,15 @@ Hybrid should mean *where* the cluster runs—not a different quality bar for VM
 operations. Use 4.22 to make the VM control plane look as intentional as the
 container one. Pair the release digest with
 [hardening priorities](/posts/openshift-virtualization-hardening-priorities/)
-before you promote a landing zone, and with
+before you promote a landing zone, with
 [hosted vs virtualized control planes](/posts/hosted-vs-virtualized-control-planes/)
-when densification is on the table.
+when densification is on the table, and with
+[vSAN-like storage for OVE without ODF](/posts/ove-vsan-storage-alternatives/)
+when the VMware estate is leaving a local-disk HCI pool.
 
 ## Related posts
 
+- [vSAN-like Storage for OpenShift Virtualization Engine Without ODF](/posts/ove-vsan-storage-alternatives/)
 - [OpenShift Virtualization Networking: From Pod Network to Localnet](/posts/openshift-virtualization-networking/)
 - [Hardening OpenShift Virtualization: Security Priorities That Matter First](/posts/openshift-virtualization-hardening-priorities/)
 - [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)

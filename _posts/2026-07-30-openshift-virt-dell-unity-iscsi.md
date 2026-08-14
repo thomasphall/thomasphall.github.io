@@ -739,6 +739,7 @@ you debug guest images.
 
 ## Related posts
 
+- [vSAN-like Storage for OpenShift Virtualization Engine Without ODF](/posts/ove-vsan-storage-alternatives/)
 - [Installing Pure Storage FlashArray on Single-Node OpenShift with NVMe over TCP](/posts/pure-flasharray-sno-nvme-tcp/)
 - [OpenShift Edge Architectures: Pick the Form Factor, Then the Fleet](/posts/openshift-edge-architectures/)
 - [Storage Copy Offload for VMware Migrations to OpenShift Virtualization](/posts/mtv-storage-copy-offload-vmware/)

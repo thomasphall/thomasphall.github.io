@@ -219,10 +219,14 @@ Keep network mapping on the same critical path as storage—see
 [OpenShift Virtualization networking](/posts/openshift-virtualization-networking/)—
 and use
 [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
-for destination-platform context.
+for destination-platform context. If the source estate is vSAN rather than a
+SAN, start with
+[vSAN-like storage for OpenShift Virtualization Engine without ODF](/posts/ove-vsan-storage-alternatives/)
+before you assume ODF is the only landing pool.
 
 ## Related posts
 
+- [vSAN-like Storage for OpenShift Virtualization Engine Without ODF](/posts/ove-vsan-storage-alternatives/)
 - [Configuring OpenShift Virtualization with Dell Unity Storage over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
 - [OpenShift Virtualization Networking: From Pod Network to Localnet](/posts/openshift-virtualization-networking/)
 - [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)

@@ -516,12 +516,17 @@ is for validation; Ignition `source` data URLs are for survival across reboot.
 When LVMS is not enough, step up to vendor CSI, a hybrid RWX class, or ODF—
 in that order of operational weight. For the array-centric CSI path on
 multi-node Virtualization, see
-[Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/). For when SNO
+[Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/). LVMS is still
+local RWO—it is not a vSAN-style shared pool. For HCI SDS and certified CSI
+options on OVE, see
+[vSAN-like storage for OpenShift Virtualization Engine without ODF](/posts/ove-vsan-storage-alternatives/).
+For when SNO
 plus LVMS is the right *edge* form factor—not just a lab trick—see
 [OpenShift edge architectures](/posts/openshift-edge-architectures/).
 
 ## Related posts
 
+- [vSAN-like Storage for OpenShift Virtualization Engine Without ODF](/posts/ove-vsan-storage-alternatives/)
 - [Configuring OpenShift Virtualization with Dell Unity Storage over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
 - [OpenShift Edge Architectures: Pick the Form Factor, Then the Fleet](/posts/openshift-edge-architectures/)
 
