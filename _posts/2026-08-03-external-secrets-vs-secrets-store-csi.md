@@ -1,12 +1,13 @@
 ---
-title: "External Secrets Operator vs Secrets Store CSI on OpenShift 4.22"
+title: "External Secrets vs Secrets Store CSI on OpenShift"
 description: >-
   How External Secrets Operator and the Secrets Store CSI Driver differ on
-  OpenShift 4.22—sync into Kubernetes Secrets versus mount at runtime—and when
-  each delivery model fits platform teams.
+  OpenShift: sync into Kubernetes Secrets versus mount at runtime for
+  platform teams.
 date: 2026-08-03 10:00:00 -0500
 categories: [OpenShift, Security]
-tags: [external-secrets, secrets-store-csi, secrets, "4.22", gitops]
+tags: [openshift, security, secrets, gitops]
+image: /assets/img/og/external-secrets.png
 permalink: /posts/external-secrets-vs-secrets-store-csi/
 ---
 
@@ -196,7 +197,7 @@ the precise answer is usually “which consumption contract and etcd posture are
 standardizing—and which exception path do we document?” That clarification alone
 prevents a surprising number of circular design reviews. For broader platform
 security context on hybrid OpenShift estates, see
-[Platform and Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/).
+[Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/).
 
 ## When to choose which
 
@@ -253,5 +254,5 @@ architects exist for.
 
 ## Related posts
 
-- [Platform and Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
-- [Confidential AI on OpenShift: From CPU TEEs to NVIDIA GPUs and Trustee Attestation](/posts/confidential-ai-openshift-trustee-nras/)
+- [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
+- [Confidential AI on OpenShift: TEEs, GPUs, and Trustee](/posts/confidential-ai-openshift-trustee-nras/)

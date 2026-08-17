@@ -26,29 +26,32 @@ Theme documentation: [Chirpy wiki](https://github.com/cotes2020/jekyll-theme-chi
 
 New posts: follow the [post SEO checklist](docs/seo-post-checklist.md).
 
+Site title and tagline live in `_config.yml`. The homepage document title is
+`title | tagline`; paginated indexes (`/page2/`, …) are `Page N | title` so
+they do not collide with home. See [site-level titles](docs/seo-post-checklist.md#site-level-titles).
+
+Default social preview is `assets/img/og/site.png` (1200×630). Flagship posts
+override it with `image:` in front matter.
+
 ## Search Console
 
 Chirpy renders verification meta tags from `_config.yml` →
-`webmaster_verifications`. Tokens stay as placeholders until you paste real
-values (do not commit secrets you treat as sensitive ops data if your policy
-requires it—these tokens are public once the site is live).
+`webmaster_verifications`. The Google HTML-tag token is already set. Bing is
+still a placeholder until you paste a token (these values are public once the
+site is live).
 
 ### Google Search Console
 
-1. Open [Google Search Console](https://search.google.com/search-console) and
-   add a **URL prefix** property for `https://thomasphall.github.io`.
-2. Choose **HTML tag** verification. Copy only the `content="..."` value
-   (not the full `<meta>` element).
-3. Set it in `_config.yml`:
+The URL-prefix property `https://thomasphall.github.io` is verified via the
+HTML tag in `_config.yml`. After each notable publish wave:
 
-   ```yaml
-   webmaster_verifications:
-     google: PASTE_TOKEN_HERE
-   ```
+1. Open [Google Search Console](https://search.google.com/search-console).
+2. Confirm the sitemap `https://thomasphall.github.io/sitemap.xml` is submitted
+   under **Sitemaps**. Submit it if it is missing.
+3. After a few days, check **Pages** / **Performance** for new URLs.
 
-4. Commit, push, wait for GitHub Pages to deploy, then click **Verify** in
-   Search Console.
-5. Submit the sitemap: `https://thomasphall.github.io/sitemap.xml`.
+To re-verify a new property, copy only the `content="..."` value from the
+HTML tag method into `webmaster_verifications.google`.
 
 ### Bing Webmaster Tools
 

@@ -1,11 +1,12 @@
 ---
-title: "Installing Pure Storage FlashArray on Single-Node OpenShift with NVMe over TCP"
+title: "Pure FlashArray on Single-Node OpenShift with NVMe/TCP"
 description: >-
-  Connect a Pure FlashArray volume to SNO over NVMe/TCP, persist it with
-  MachineConfig, and consume it with LVMS using a stable by-id path.
+  Connect a Pure FlashArray volume to Single Node OpenShift over NVMe/TCP,
+  persist the path with MachineConfig, and consume it with LVMS using
+  by-id paths.
 date: 2026-07-29 08:30:00 -0500
 categories: [OpenShift]
-tags: [openshift, sno, pure-storage, nvme-tcp, lvms]
+tags: [openshift, storage, sno, pure-storage]
 permalink: /posts/pure-flasharray-sno-nvme-tcp/
 ---
 
@@ -531,9 +532,9 @@ plus LVMS is the right *edge* form factor—not just a lab trick—see
 
 ## Related posts
 
-- [vSAN-like Storage for OpenShift Virtualization Engine Without ODF](/posts/ove-vsan-storage-alternatives/)
-- [Configuring OpenShift Virtualization with Dell Unity Storage over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
-- [OpenShift Edge Architectures: Pick the Form Factor, Then the Fleet](/posts/openshift-edge-architectures/)
+- [vSAN-like Storage for OpenShift Virtualization Engine](/posts/ove-vsan-storage-alternatives/)
+- [OpenShift Virtualization with Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
+- [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
 
 ### References
 

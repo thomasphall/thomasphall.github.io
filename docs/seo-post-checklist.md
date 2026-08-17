@@ -4,29 +4,56 @@ Use this when drafting or shipping a post under `_posts/`. Chirpy +
 `jekyll-seo-tag` already emit titles, meta descriptions, Open Graph, and
 canonicals from front matter.
 
+## Site-level titles
+
+Homepage and paginated indexes share Chirpy’s `layout: home`, so they would
+otherwise all title as `site.title`. `_plugins/home-seo-title.rb` rewrites
+them after render:
+
+| URL        | Title                                      |
+| ---------- | ------------------------------------------ |
+| `/`        | `{{ site.title }} \| {{ site.tagline }}`   |
+| `/pageN/`  | `Page N \| {{ site.title }}`               |
+
+Set `title` and `tagline` in `_config.yml`. Do not put the topic into
+`site.title` — that string is the suffix on every post (`Post | Thomas Hall`).
+
 ## Required front matter
 
-- [ ] `title` — clear, query-shaped (what someone would search), not only clever
-- [ ] `description` — 1–2 sentences (~150–160 characters) that answer the query;
-      used as the meta description / OG blurb
+- [ ] `title` — clear, query-shaped (what someone would search), not only clever.
+      Keep the visible title around **55 characters** so Google does not
+      truncate the useful keywords (`Post | Thomas Hall` also consumes SERP
+      space).
+- [ ] `description` — 1–2 sentences (**150–160 characters**) that answer the
+      query; used as the meta description / OG blurb
 - [ ] `date` — with timezone offset (site is `America/Chicago`). Must be in
       the past at build time; Jekyll skips future-dated posts, htmlproofer
       then fails on reciprocal links, and GitHub Pages never publishes.
-- [ ] `categories` — 1–2 stable pillars (e.g. Security, Platform)
-- [ ] `tags` — specific terms readers/search might use (products, protocols)
+- [ ] `categories` — 1–2 stable pillars (e.g. Security, OpenShift)
+- [ ] `tags` — **2–6** from the reusable set below. Do not mint a one-off tag
+      unless you expect more posts on that term (product names that *are* the
+      post topic are fine: `lightwell`, `tesla`, `dell-unity`).
 - [ ] `permalink` — `/posts/<stable-slug>/` (do not change after publish)
+
+Reusable tags in use today: `openshift`, `openshift-virtualization`,
+`security`, `storage`, `gitops`, `homelab`, `automation`, `synology`,
+`acs`, `supply-chain`, `networking`, `csi`, `sno`, `edge`, `secrets`,
+`migration`, `vmware`, `bare-metal`, `ansible`, `windows`,
+`hosted-control-planes`, `confidential-computing`, `trustee`, `lightwell`,
+`pure-storage`, `dell-unity`, `blink`, `tesla`, `vsan`.
 
 Example:
 
 ```yaml
 ---
-title: "External Secrets Operator vs Secrets Store CSI on OpenShift 4.22"
+title: "External Secrets vs Secrets Store CSI on OpenShift"
 description: >-
-  When to use External Secrets Operator versus Secrets Store CSI Driver on
-  OpenShift 4.22 for vault-backed secrets without committing them to Git.
+  How External Secrets Operator and the Secrets Store CSI Driver differ on
+  OpenShift: sync into Kubernetes Secrets versus mount at runtime for
+  platform teams.
 date: 2026-08-03 08:00:00 -0500
-categories: [Platform, Security]
-tags: [external-secrets, secrets-store-csi, vault, openshift]
+categories: [OpenShift, Security]
+tags: [openshift, security, secrets, gitops]
 permalink: /posts/external-secrets-vs-secrets-store-csi/
 ---
 ```
@@ -42,8 +69,10 @@ permalink: /posts/external-secrets-vs-secrets-store-csi/
 
 ## Optional
 
-- [ ] `image: /path/or/url` — per-post social preview (overrides site
-      `social_preview_image` in `_config.yml`)
+- [ ] `image: /assets/img/og/<slug>.png` — per-post 1200×630 social preview
+      (overrides `social_preview_image` in `_config.yml`). Flagship comparison
+      / architecture posts should have one; the site default is
+      `assets/img/og/site.png`.
 - [ ] External “Further reading” for official docs (does not replace Related posts).
       When a post overlaps an OpenShift PoC topic, link the matching page on
       [openshift-ssa.github.io/openshift-poc](https://openshift-ssa.github.io/openshift-poc/home/)

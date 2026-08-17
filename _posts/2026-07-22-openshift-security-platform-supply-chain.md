@@ -1,12 +1,12 @@
 ---
-title: "Platform and Supply-Chain Security for Regulated Hybrid Cloud"
+title: "Supply-Chain Security for Regulated Hybrid Cloud"
 description: >-
-  How Red Hat Advanced Cluster Security, the Compliance Operator, and signed
-  supply-chain controls help teams prove security posture across hybrid
-  Red Hat OpenShift estates.
+  How ACS, the Compliance Operator, and signed supply-chain controls help
+  teams prove security posture across hybrid OpenShift production estates
+  today.
 date: 2026-07-22 12:00:00 -0500
 categories: [Platform, Security]
-tags: [acs, compliance, supply-chain, hybrid-cloud]
+tags: [security, supply-chain, acs]
 permalink: /posts/openshift-security-platform-supply-chain/
 ---
 
@@ -107,7 +107,7 @@ easier when you can show the same controls working—quietly—every day.
 
 When OpenShift Virtualization is in scope, keep the same observe/prove/gate
 habit for virt-launcher workloads—see
-[RHACS Still Applies: Securing OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
+[RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 and the
 [hardening priorities](/posts/openshift-virtualization-hardening-priorities/)
 digest. For how secrets leave the vault without landing in Git, compare
@@ -115,7 +115,7 @@ digest. For how secrets leave the vault without landing in Git, compare
 For GPU-backed AI where attestation gates key release, see
 [Confidential AI on OpenShift](/posts/confidential-ai-openshift-trustee-nras/).
 When scanners find pinned app libraries with no safe major upgrade path, see
-[Red Hat Lightwell: Fixing Open Source Vulnerabilities Without the Upgrade Deadlock](/posts/red-hat-lightwell-open-source-remediation/).
+[Red Hat Lightwell: Patch CVEs Without Full Upgrades](/posts/red-hat-lightwell-open-source-remediation/).
 PoC-sized day-2 controls that match this pattern:
 [External Secrets Operator](https://openshift-ssa.github.io/openshift-poc/post-installation/external-secrets-operator/),
 [identity providers](https://openshift-ssa.github.io/openshift-poc/post-installation/configuring-identity-providers/),
@@ -125,11 +125,11 @@ and the
 
 ## Related posts
 
-- [Hardening OpenShift Virtualization: Security Priorities That Matter First](/posts/openshift-virtualization-hardening-priorities/)
-- [RHACS Still Applies: Securing OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
-- [External Secrets Operator vs Secrets Store CSI on OpenShift 4.22](/posts/external-secrets-vs-secrets-store-csi/)
-- [Confidential AI on OpenShift: From CPU TEEs to NVIDIA GPUs and Trustee Attestation](/posts/confidential-ai-openshift-trustee-nras/)
-- [Red Hat Lightwell: Fixing Open Source Vulnerabilities Without the Upgrade Deadlock](/posts/red-hat-lightwell-open-source-remediation/)
+- [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
+- [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
+- [External Secrets vs Secrets Store CSI on OpenShift](/posts/external-secrets-vs-secrets-store-csi/)
+- [Confidential AI on OpenShift: TEEs, GPUs, and Trustee](/posts/confidential-ai-openshift-trustee-nras/)
+- [Red Hat Lightwell: Patch CVEs Without Full Upgrades](/posts/red-hat-lightwell-open-source-remediation/)
 
 > Want a deeper walkthrough for your environment? Reach out to your Red Hat
 > account team—or try the pattern on a non-prod OpenShift cluster first.

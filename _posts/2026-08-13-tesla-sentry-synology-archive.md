@@ -1,11 +1,11 @@
 ---
-title: "Automating Tesla Sentry Footage to a Synology NAS with a Raspberry Pi"
+title: "Tesla Sentry Footage to Synology NAS with a Raspberry Pi"
 description: >-
   How a Raspberry Pi 4 running Sentry-USB-Rusty in a Tesla archives TeslaCam
-  and Sentry clips to a Synology share over SMB when home Wi‑Fi appears.
+  and Sentry Mode clips to a Synology share over SMB when home Wi‑Fi appears.
 date: 2026-08-13 14:30:00 -0500
 categories: [Homelab, Automation]
-tags: [tesla, sentry-mode, sentry-usb, raspberry-pi, synology, smb, homelab, archival]
+tags: [homelab, automation, synology, tesla]
 permalink: /posts/tesla-sentry-synology-archive/
 ---
 

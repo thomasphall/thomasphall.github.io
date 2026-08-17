@@ -1,12 +1,12 @@
 ---
-title: "RHACS Still Applies: Securing OpenShift Virtualization Workloads"
+title: "RHACS for OpenShift Virtualization Workloads"
 description: >-
-  Why Red Hat Advanced Cluster Security still matters when VMs run on
-  OpenShift Virtualization—what ACS sees, which policies help, and where
-  guest OS hardening remains a separate layer.
+  Why RHACS still matters for VMs on OpenShift Virtualization—what ACS
+  sees, which policies help, and where guest OS hardening remains a
+  separate layer.
 date: 2026-08-04 10:00:00 -0500
 categories: [OpenShift, Virtualization, Security]
-tags: [acs, openshift-virtualization, rhacs, security]
+tags: [openshift-virtualization, security, acs]
 permalink: /posts/acs-openshift-virtualization/
 ---
 
@@ -186,9 +186,9 @@ and
 
 ## Related posts
 
-- [Platform and Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
-- [Hardening OpenShift Virtualization: Security Priorities That Matter First](/posts/openshift-virtualization-hardening-priorities/)
-- [Confidential AI on OpenShift: From CPU TEEs to NVIDIA GPUs and Trustee Attestation](/posts/confidential-ai-openshift-trustee-nras/)
+- [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
+- [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
+- [Confidential AI on OpenShift: TEEs, GPUs, and Trustee](/posts/confidential-ai-openshift-trustee-nras/)
 
 > Want a deeper walkthrough for your environment? Reach out to your Red Hat
 > account team—or evaluate the pattern on a non-prod OpenShift cluster first.

@@ -1,12 +1,13 @@
 ---
-title: "Confidential AI on OpenShift: From CPU TEEs to NVIDIA GPUs and Trustee Attestation"
+title: "Confidential AI on OpenShift: TEEs, GPUs, and Trustee"
 description: >-
-  CPU TEEs alone do not protect AI on GPUs. Compare Intel TDX, AMD SEV-SNP, and
-  ARM CCA, close the GPU gap with NVIDIA Confidential Computing, and wire
-  composite attestation on OpenShift with Trustee and NRAS.
+  CPU TEEs do not protect AI on GPUs. Compare TDX, SEV-SNP, and CCA, close
+  the GPU gap with NVIDIA CC, and wire Trustee plus NRAS attestation on
+  OpenShift.
 date: 2026-08-07 14:00:00 -0500
 categories: [OpenShift, Security]
-tags: [openshift, confidential-computing, tdx, sev-snp, arm, cca, nvidia, gpu, trustee, attestation, sandboxed-containers, coco]
+tags: [openshift, security, confidential-computing, trustee]
+image: /assets/img/og/confidential-ai.png
 permalink: /posts/confidential-ai-openshift-trustee-nras/
 ---
 
@@ -397,9 +398,9 @@ enabling a CPU TEE, you protected the wrong half of the workload.
 
 ## Related posts
 
-- [Platform and Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
-- [External Secrets Operator vs Secrets Store CSI on OpenShift 4.22](/posts/external-secrets-vs-secrets-store-csi/)
-- [RHACS Still Applies: Securing OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
+- [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
+- [External Secrets vs Secrets Store CSI on OpenShift](/posts/external-secrets-vs-secrets-store-csi/)
+- [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 
 ## Further reading
 

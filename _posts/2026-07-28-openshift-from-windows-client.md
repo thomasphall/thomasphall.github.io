@@ -2,10 +2,11 @@
 title: "Interacting with OpenShift from a Windows Client"
 description: >-
   Install the OpenShift CLI on Windows, put oc on your PATH, log in with
-  PowerShell, and handle kubeconfig, contexts, and common Windows gotchas.
+  PowerShell, and handle kubeconfig, contexts, and common Windows client
+  gotchas.
 date: 2026-07-28 07:30:00 -0500
 categories: [OpenShift]
-tags: [oc, windows, powershell, kubeconfig, cli]
+tags: [openshift, windows]
 permalink: /posts/openshift-from-windows-client/
 ---
 

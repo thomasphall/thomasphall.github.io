@@ -5,7 +5,7 @@ description: >-
   networking, storage, lifecycle—plus Technology Preview and deprecation notes.
 date: 2026-07-22 13:00:00 -0500
 categories: [OpenShift, Virtualization]
-tags: [openshift-virtualization, "4.22", release-notes, vms, hybrid-cloud]
+tags: [openshift, openshift-virtualization]
 permalink: /posts/openshift-virtualization-4-22-features/
 ---
 
@@ -228,9 +228,9 @@ when the VMware estate is leaving a local-disk HCI pool.
 
 ## Related posts
 
-- [vSAN-like Storage for OpenShift Virtualization Engine Without ODF](/posts/ove-vsan-storage-alternatives/)
-- [OpenShift Virtualization Networking: From Pod Network to Localnet](/posts/openshift-virtualization-networking/)
-- [Hardening OpenShift Virtualization: Security Priorities That Matter First](/posts/openshift-virtualization-hardening-priorities/)
+- [vSAN-like Storage for OpenShift Virtualization Engine](/posts/ove-vsan-storage-alternatives/)
+- [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)
+- [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
 - [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
 
 > Dig into the

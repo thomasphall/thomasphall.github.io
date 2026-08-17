@@ -5,7 +5,7 @@ description: >-
   saved OAuth tokens, and DSM Task Scheduler—no Sync Module 2 hardware required.
 date: 2026-08-13 14:00:00 -0500
 categories: [Homelab, Automation]
-tags: [blink, synology, docker, homelab, nas, python, archival]
+tags: [homelab, automation, synology, blink]
 permalink: /posts/blink-camera-synology-archive/
 ---
 
@@ -187,4 +187,4 @@ boring. Most of the failure modes are auth and permissions, not video codecs.
 
 ## Related posts
 
-- [Automating Tesla Sentry Footage to a Synology NAS with a Raspberry Pi](/posts/tesla-sentry-synology-archive/)
+- [Tesla Sentry Footage to Synology NAS with a Raspberry Pi](/posts/tesla-sentry-synology-archive/)

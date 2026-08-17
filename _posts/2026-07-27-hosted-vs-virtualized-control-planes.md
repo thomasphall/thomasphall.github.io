@@ -1,12 +1,12 @@
 ---
 title: "Hosted vs Virtualized Control Planes on OpenShift 4.22"
 description: >-
-  How hosted and virtualized control planes differ on OpenShift 4.22—isolation,
-  densification, and day-2 operations—when OpenShift Virtualization is the
-  hosting substrate.
+  How hosted and virtualized control planes differ on OpenShift
+  4.22—isolation, densification, and day-2 operations when Virtualization
+  hosts the control plane.
 date: 2026-07-27 16:00:00 -0500
 categories: [OpenShift, Virtualization]
-tags: [hosted-control-planes, virtualized-control-planes, openshift-virtualization, "4.22", hypershift]
+tags: [openshift, openshift-virtualization, hosted-control-planes]
 permalink: /posts/hosted-vs-virtualized-control-planes/
 ---
 
@@ -225,8 +225,8 @@ POST time is often worth a temporary BIOS tweak—see
 ## Related posts
 
 - [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
-- [OpenShift Edge Architectures: Pick the Form Factor, Then the Fleet](/posts/openshift-edge-architectures/)
-- [Speed Up Bare Metal Boots in OpenShift PoCs by Disabling Memory Checking](/posts/poc-faster-bare-metal-boot-disable-memory-check/)
+- [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
+- [Faster Bare-Metal Boots in OpenShift PoCs](/posts/poc-faster-bare-metal-boot-disable-memory-check/)
 
 Authoritative starting points:
 

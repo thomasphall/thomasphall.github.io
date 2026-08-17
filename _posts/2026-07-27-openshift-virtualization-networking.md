@@ -1,12 +1,12 @@
 ---
-title: "OpenShift Virtualization Networking: From Pod Network to Localnet"
+title: "OpenShift Virtualization Networking: Pod to Localnet"
 description: >-
-  A layered OpenShift 4.22 mental model for OpenShift Virtualization
-  networking—pod network, User-Defined Networks, host architectures, and CUDN
-  localnets—with field YAML for platform teams.
+  A layered OpenShift 4.22 Virtualization networking model: pod network,
+  User-Defined Networks, host architectures, and CUDN localnets for
+  platform teams.
 date: 2026-07-27 18:00:00 -0500
 categories: [OpenShift, Virtualization, Networking]
-tags: [openshift-virtualization, networking, udn, localnet, ovn-kubernetes, "4.22"]
+tags: [openshift-virtualization, networking]
 permalink: /posts/openshift-virtualization-networking/
 ---
 
@@ -348,8 +348,8 @@ in the [OpenShift PoC docs](https://openshift-ssa.github.io/openshift-poc/home/)
 ## Related posts
 
 - [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
-- [Hardening OpenShift Virtualization: Security Priorities That Matter First](/posts/openshift-virtualization-hardening-priorities/)
-- [Storage Copy Offload for VMware Migrations to OpenShift Virtualization](/posts/mtv-storage-copy-offload-vmware/)
+- [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
+- [Storage Copy Offload for VMware to OpenShift Virtualization](/posts/mtv-storage-copy-offload-vmware/)
 
 > Want help mapping these patterns into a landing zone or VMware migration
 > design? Reach out to your Red Hat account team—or prove the dual-bond + CUDN

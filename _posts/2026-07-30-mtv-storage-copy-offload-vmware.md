@@ -1,11 +1,11 @@
 ---
-title: "Storage Copy Offload for VMware Migrations to OpenShift Virtualization"
+title: "Storage Copy Offload for VMware to OpenShift Virtualization"
 description: >-
   How Migration Toolkit for Virtualization storage copy offload moves disk data
   on the SAN instead of the IP network—and when that path fits a VMware exit.
 date: 2026-07-30 15:00:00 -0500
 categories: [OpenShift, Virtualization, Migration]
-tags: [openshift-virtualization, mtv, vmware, storage-offload, migration]
+tags: [openshift-virtualization, migration, vmware, storage]
 permalink: /posts/mtv-storage-copy-offload-vmware/
 ---
 
@@ -229,9 +229,9 @@ before you assume ODF is the only landing pool.
 
 ## Related posts
 
-- [vSAN-like Storage for OpenShift Virtualization Engine Without ODF](/posts/ove-vsan-storage-alternatives/)
-- [Configuring OpenShift Virtualization with Dell Unity Storage over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
-- [OpenShift Virtualization Networking: From Pod Network to Localnet](/posts/openshift-virtualization-networking/)
+- [vSAN-like Storage for OpenShift Virtualization Engine](/posts/ove-vsan-storage-alternatives/)
+- [OpenShift Virtualization with Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
+- [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)
 - [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
 
 For planning detail and current prerequisites, start with Red Hat’s

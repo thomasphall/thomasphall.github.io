@@ -16,7 +16,9 @@ timezone: America/Chicago
 
 title: Thomas Hall
 
-tagline: Solutions Architect · Views are my own
+# Sidebar subtitle and homepage <title> / og:title (see _plugins/home-seo-title.rb).
+# Paginated indexes use "Page N | Thomas Hall" so they do not collide with home.
+tagline: OpenShift, virtualization, and platform engineering
 
 description: >-
   Personal site of Thomas Hall, a solutions architect focused on hybrid cloud
@@ -41,6 +43,11 @@ social:
     - https://www.linkedin.com/in/thomasphall
     - https://open.spotify.com/user/1237602206
     - https://soundcloud.com/thomas-hall-319034295
+
+# jekyll-seo-tag Person / BlogPosting.author (name + url, not a Twitter handle)
+author:
+  name: Thomas Hall
+  url: "https://thomasphall.github.io/about/"
 
 # Site Verification Settings
 # Google Search Console: property → Settings → Ownership verification → HTML tag.
@@ -105,8 +112,8 @@ cdn:
 avatar: https://avatars.githubusercontent.com/thomasphall
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
-# It can be overridden by a customized `page.image` in front matter.
-social_preview_image: https://avatars.githubusercontent.com/thomasphall
+# 1200×630. Override per post with `image:` in front matter.
+social_preview_image: /assets/img/og/site.png
 
 # boolean type, the global switch for TOC in posts.
 toc: true

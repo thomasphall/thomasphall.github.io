@@ -1,11 +1,12 @@
 ---
-title: "vSAN-like Storage for OpenShift Virtualization Engine Without ODF"
+title: "vSAN-like Storage for OpenShift Virtualization Engine"
 description: >-
   Replace vSAN-style local disks on OpenShift Virtualization Engine without
   ODF using Portworx, PowerFlex, LINSTOR, IBM Fusion, or certified CSI arrays.
 date: 2026-08-14 12:00:00 -0500
 categories: [OpenShift, Virtualization]
-tags: [openshift-virtualization, ove, odf, vsan, portworx, csi, storage]
+tags: [openshift-virtualization, storage, csi, vsan]
+image: /assets/img/og/ove-vsan.png
 permalink: /posts/ove-vsan-storage-alternatives/
 ---
 
@@ -207,9 +208,9 @@ just an older release.
 
 ## Related posts
 
-- [Configuring OpenShift Virtualization with Dell Unity Storage over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
-- [Installing Pure Storage FlashArray on Single-Node OpenShift with NVMe over TCP](/posts/pure-flasharray-sno-nvme-tcp/)
-- [Storage Copy Offload for VMware Migrations to OpenShift Virtualization](/posts/mtv-storage-copy-offload-vmware/)
+- [OpenShift Virtualization with Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
+- [Pure FlashArray on Single-Node OpenShift with NVMe/TCP](/posts/pure-flasharray-sno-nvme-tcp/)
+- [Storage Copy Offload for VMware to OpenShift Virtualization](/posts/mtv-storage-copy-offload-vmware/)
 - [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
 
 ## Further reading

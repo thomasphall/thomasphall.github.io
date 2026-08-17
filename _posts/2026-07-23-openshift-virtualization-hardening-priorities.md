@@ -1,12 +1,12 @@
 ---
-title: "Hardening OpenShift Virtualization: Security Priorities That Matter First"
+title: "Hardening OpenShift Virtualization: First Priorities"
 description: >-
-  The highest-impact controls from the OpenShift Virtualization hardening
-  guide—RBAC, device pass-through, storage isolation, and network
-  segmentation—for platform teams.
+  The highest-impact OpenShift Virtualization hardening controls: RBAC,
+  device pass-through, storage isolation, and network segmentation for
+  platform teams.
 date: 2026-07-23 10:00:00 -0500
 categories: [OpenShift, Virtualization, Security]
-tags: [openshift-virtualization, hardening, security, rbac, networking]
+tags: [openshift-virtualization, security, networking]
 permalink: /posts/openshift-virtualization-hardening-priorities/
 ---
 
@@ -153,7 +153,7 @@ pull request, not a Friday surprise. For release-specific operational context,
 see also
 [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/).
 For continuous risk and policy on virt-launcher workloads, see
-[RHACS Still Applies](/posts/acs-openshift-virtualization/).
+[RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/).
 
 If you are standing up or migrating a virtualization landing zone, start in
 non-production: lock RBAC for migration and console access, confirm no host
@@ -174,10 +174,10 @@ is the usual PoC sequence before you freeze HyperConverged defaults.
 
 ## Related posts
 
-- [Platform and Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
+- [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
 - [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
-- [OpenShift Virtualization Networking: From Pod Network to Localnet](/posts/openshift-virtualization-networking/)
-- [RHACS Still Applies: Securing OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
+- [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)
+- [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 
 > Want help mapping these controls to your landing zone? Reach out to your
 > Red Hat account team—or apply the sequence above on a non-prod OpenShift

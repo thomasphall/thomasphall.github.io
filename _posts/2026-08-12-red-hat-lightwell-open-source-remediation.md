@@ -1,12 +1,13 @@
 ---
-title: "Red Hat Lightwell: Fixing Open Source Vulnerabilities Without the Upgrade Deadlock"
+title: "Red Hat Lightwell: Patch CVEs Without Full Upgrades"
 description: >-
-  How Lightwell, a joint Red Hat and IBM initiative, remediates pinned
-  application dependencies so enterprises can patch supply-chain risk without
-  disruptive full-version upgrades.
+  How Lightwell, a Red Hat and IBM initiative, remediates pinned
+  dependencies so you can patch supply-chain risk without a disruptive
+  full-version upgrade.
 date: 2026-08-12 08:00:00 -0500
 categories: [Security, Supply Chain]
-tags: [lightwell, supply-chain, security, java, python, red-hat, ibm]
+tags: [security, supply-chain, lightwell]
+image: /assets/img/og/lightwell.png
 permalink: /posts/red-hat-lightwell-open-source-remediation/
 ---
 
@@ -181,9 +182,9 @@ it is worth a serious look.
 
 ## Related posts
 
-- [Platform and Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
-- [External Secrets Operator vs Secrets Store CSI on OpenShift 4.22](/posts/external-secrets-vs-secrets-store-csi/)
-- [RHACS Still Applies: Securing OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
+- [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
+- [External Secrets vs Secrets Store CSI on OpenShift](/posts/external-secrets-vs-secrets-store-csi/)
+- [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 
 ## Further reading
 

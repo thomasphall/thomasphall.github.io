@@ -1,12 +1,12 @@
 ---
-title: "Speed Up Bare Metal Boots in OpenShift PoCs by Disabling Memory Checking"
+title: "Faster Bare-Metal Boots in OpenShift PoCs"
 description: >-
-  A PoC-focused runbook for cutting POST wait time on Dell, HPE, Cisco, and
-  Lenovo servers during repeated OpenShift bare-metal redeploys—plus how to
-  turn the checks back on before handback.
+  Cut POST wait time on Dell, HPE, Cisco, and Lenovo servers during
+  OpenShift bare-metal PoC redeploys, then turn memory checks back on
+  before handback.
 date: 2026-07-31 12:50:00 -0500
 categories: [OpenShift, Bare Metal]
-tags: [poc, bare-metal, bios, idrac, ilo, ucs, redfish, ansible]
+tags: [openshift, bare-metal, ansible]
 permalink: /posts/poc-faster-bare-metal-boot-disable-memory-check/
 ---
 
@@ -410,7 +410,7 @@ you call the gear production-ready. For the rest of a bare-metal OpenShift PoC
 
 ## Related posts
 
-- [OpenShift Edge Architectures: Pick the Form Factor, Then the Fleet](/posts/openshift-edge-architectures/)
+- [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
 - [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
 
 ### References

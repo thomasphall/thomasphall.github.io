@@ -1,12 +1,12 @@
 ---
-title: "OpenShift Edge Architectures: Pick the Form Factor, Then the Fleet"
+title: "OpenShift Edge Architectures: Form Factor, Then Fleet"
 description: >-
-  Edge is not one OpenShift shape. Compare MicroShift, Single Node OpenShift,
-  and compact hub-and-spoke patterns—plus LVMS, external CSI, and ODF storage
-  choices that match each site’s failure domain.
+  Compare MicroShift, Single Node OpenShift, and hub-and-spoke edge
+  patterns—plus LVMS, external CSI, and ODF storage that matches each
+  site’s failure domain.
 date: 2026-08-04 16:00:00 -0500
 categories: [OpenShift]
-tags: [openshift, edge, sno, microshift, gitops, acm, ztp, storage, lvms, odf]
+tags: [openshift, edge, sno, gitops, storage]
 permalink: /posts/openshift-edge-architectures/
 ---
 
@@ -399,10 +399,10 @@ can reclaim hours of POST wait (restore before handback).
 
 ## Related posts
 
-- [Installing Pure Storage FlashArray on Single-Node OpenShift with NVMe over TCP](/posts/pure-flasharray-sno-nvme-tcp/)
-- [Configuring OpenShift Virtualization with Dell Unity Storage over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
+- [Pure FlashArray on Single-Node OpenShift with NVMe/TCP](/posts/pure-flasharray-sno-nvme-tcp/)
+- [OpenShift Virtualization with Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
 - [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
-- [Speed Up Bare Metal Boots in OpenShift PoCs by Disabling Memory Checking](/posts/poc-faster-bare-metal-boot-disable-memory-check/)
+- [Faster Bare-Metal Boots in OpenShift PoCs](/posts/poc-faster-bare-metal-boot-disable-memory-check/)
 
 > Want a deeper walkthrough for your environment? Reach out to your Red Hat
 > account team—or evaluate one representative site pattern in a lab before you

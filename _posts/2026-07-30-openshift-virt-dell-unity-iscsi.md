@@ -1,11 +1,12 @@
 ---
-title: "Configuring OpenShift Virtualization with Dell Unity Storage over iSCSI"
+title: "OpenShift Virtualization with Dell Unity over iSCSI"
 description: >-
-  Attach Dell Unity block storage to OpenShift over iSCSI and use it for
-  OpenShift Virtualization VM disks via a CSI StorageClass.
+  Attach Dell Unity block storage to OpenShift over iSCSI and present CSI
+  volumes as OpenShift Virtualization VM disks in a lab or small
+  production design.
 date: 2026-07-30 07:00:00 -0500
 categories: [OpenShift]
-tags: [openshift, openshift-virtualization, dell-unity, iscsi, csi, storage]
+tags: [openshift-virtualization, storage, dell-unity, csi]
 permalink: /posts/openshift-virt-dell-unity-iscsi/
 ---
 
@@ -791,10 +792,10 @@ you debug guest images.
 
 ## Related posts
 
-- [vSAN-like Storage for OpenShift Virtualization Engine Without ODF](/posts/ove-vsan-storage-alternatives/)
-- [Installing Pure Storage FlashArray on Single-Node OpenShift with NVMe over TCP](/posts/pure-flasharray-sno-nvme-tcp/)
-- [OpenShift Edge Architectures: Pick the Form Factor, Then the Fleet](/posts/openshift-edge-architectures/)
-- [Storage Copy Offload for VMware Migrations to OpenShift Virtualization](/posts/mtv-storage-copy-offload-vmware/)
+- [vSAN-like Storage for OpenShift Virtualization Engine](/posts/ove-vsan-storage-alternatives/)
+- [Pure FlashArray on Single-Node OpenShift with NVMe/TCP](/posts/pure-flasharray-sno-nvme-tcp/)
+- [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
+- [Storage Copy Offload for VMware to OpenShift Virtualization](/posts/mtv-storage-copy-offload-vmware/)
 
 ### References
 
