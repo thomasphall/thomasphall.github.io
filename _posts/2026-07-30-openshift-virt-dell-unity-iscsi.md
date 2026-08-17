@@ -498,7 +498,9 @@ oc get nodes --show-labels | grep csi-unity
 ```
 
 Only add `allowedTopologies` once you’ve copied the exact key and value from
-a real node—not from a sample or from memory.
+a real node—not from a sample or from memory. Those labels can also
+disappear after a storage-network blip; see
+[After a network blip: missing topology labels](#after-a-network-blip-missing-topology-labels).
 
 Optional VolumeSnapshotClass:
 
@@ -675,6 +677,7 @@ matrix before you promise VMotion-like behavior to stakeholders.
 | ------- | ------------ |
 | MCP `RenderDegraded` | Ignition `contents.inline` vs `contents.source`; invalid base64 |
 | PVC stuck `Pending` | Expected with `WaitForFirstConsumer` until a pod exists; otherwise check CSM pods, Secret endpoint/credentials/`arrayId`, StorageClass `storagePool` / `protocol` |
+| PVC `Pending` with `no available topology found` or `no topology key found for node` | Worker missing `csi-unity.dellemc.com/<array-id>-iscsi` after a network blip or iSCSI login race—bounce Unity CSI pods (below) |
 | Node plugin errors / attach fails | Worker → portal `:3260`, `iscsid` active, unique `<NODE_IQN>` (watch for cloned-template duplicates), missing `X_CSI_ISCSI_CHROOT` |
 | Single path only / odd device names | `multipathd` enabled, Unity stanza present alongside any other vendor’s in `/etc/multipath.conf`, dual portals reachable |
 | VM created, disk missing | PVC/DV status first; then VMI volume status; StorageClass typo in the template |
@@ -687,6 +690,53 @@ Driver logs (namespace `unity` unless you renamed it):
 ```bash
 oc logs -n unity -l app=csi-unity --tail=200
 ```
+
+### After a network blip: missing topology labels
+
+Unity CSI only provisions on nodes it has labeled after checking array
+connectivity. The `WaitForFirstConsumer` class above makes that topology
+check part of every bind. If the CSI **node** plugin starts before iSCSI
+login finishes—Dell documents this on a fresh cluster, and the same race
+shows up after a storage-VLAN outage, portal flap, or worker reboot—workers
+come back without:
+
+```text
+csi-unity.dellemc.com/<array-id>-iscsi=true
+```
+
+CDI upload pods and virt-launcher then land on an unlabeled worker, the
+controller fails with `no topology key found for node <worker-node>` (or
+`no available topology found`), and the PVC stays `Pending`.
+
+Confirm the labels first:
+
+```bash
+oc get nodes --show-labels | grep csi-unity
+oc get node <worker-node> --show-labels | tr ',' '\n' | grep csi-unity
+oc get pods -n unity
+```
+
+Workers that should take Unity volumes need the
+`csi-unity.dellemc.com/...=true` label. If the node plugin is Running but
+the label is missing, check portal reachability from the worker
+(`nc -vz <UNITY_ISCSI_PORTAL> 3260`, as in the setup section), then bounce
+the driver so it re-discovers initiators. Dell’s documented restart for
+this case, using `oc`:
+
+```bash
+oc get pods -n unity --no-headers | awk '/unity-/{print $1}' | xargs oc delete -n unity pod
+```
+
+Use the actual driver namespace if it is not `unity`. After controller and
+node pods are Running again, re-check the labels. Delete any stuck
+`Pending` PVC or DataVolume (the prime PVC from a `virtctl image-upload` is
+the usual leftover), then retry the workload.
+
+If labels stay missing on a node after the bounce, that worker still has
+no path to the array—fix iSCSI/multipath on the node, not Virtualization.
+The same restart is also required after you add or remove arrays when
+using topology-based StorageClasses; without topology, the driver detects
+array changes on its own.
 
 ## Cleanup and safety notes
 
@@ -752,6 +802,7 @@ you debug guest images.
 - [Dell CSM Operator — upgrading drivers (`spec.version` vs `configVersion`)](https://dell.github.io/csm-docs/docs/getting-started/upgrade/openshift/unityxt/operator/)
 - [Dell CSI Unity — releases](https://github.com/dell/csi-unity/releases)
 - [Dell CSI Unity — samples](https://github.com/dell/csi-unity/tree/main/samples)
+- [Dell CSM — Unity XT driver troubleshooting](https://dell.github.io/csm-docs/docs/concepts/csidriver/troubleshooting/unity/)
 - [OpenShift 4.22 — Virtualization storage](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/storage)
 - [OpenShift 4.22 — Machine configuration](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/machine_configuration/index)
 - Related lab: [Pure FlashArray on SNO with NVMe/TCP + LVMS](/posts/pure-flasharray-sno-nvme-tcp/)
