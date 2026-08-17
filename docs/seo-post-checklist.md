@@ -69,10 +69,10 @@ permalink: /posts/external-secrets-vs-secrets-store-csi/
 
 ## Optional
 
-- [ ] `image: /assets/img/og/<slug>.png` — per-post 1200×630 social preview
-      (overrides `social_preview_image` in `_config.yml`). Flagship comparison
-      / architecture posts should have one; the site default is
-      `assets/img/og/site.png`.
+- [ ] `og_image: /assets/img/og/<slug>.png` — per-post 1200×630 social
+      preview (LinkedIn/Twitter). Do **not** use Chirpy’s `image:` for these
+      cards; `image:` is rendered as a cover photo at the top of the post.
+      Default fallback is `assets/img/og/site.png`.
 - [ ] External “Further reading” for official docs (does not replace Related posts).
       When a post overlaps an OpenShift PoC topic, link the matching page on
       [openshift-ssa.github.io/openshift-poc](https://openshift-ssa.github.io/openshift-poc/home/)

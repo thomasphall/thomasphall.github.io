@@ -31,7 +31,8 @@ Site title and tagline live in `_config.yml`. The homepage document title is
 they do not collide with home. See [site-level titles](docs/seo-post-checklist.md#site-level-titles).
 
 Default social preview is `assets/img/og/site.png` (1200×630). Flagship posts
-override it with `image:` in front matter.
+override it with `og_image:` in front matter (not Chirpy `image:`, which
+renders a cover photo in the article).
 
 ## Search Console
 

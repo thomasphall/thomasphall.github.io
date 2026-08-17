@@ -112,7 +112,7 @@ cdn:
 avatar: https://avatars.githubusercontent.com/thomasphall
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
-# 1200×630. Override per post with `image:` in front matter.
+# 1200×630. Override per post with `og_image:` (not Chirpy `image:`, which is a cover photo).
 social_preview_image: /assets/img/og/site.png
 
 # boolean type, the global switch for TOC in posts.

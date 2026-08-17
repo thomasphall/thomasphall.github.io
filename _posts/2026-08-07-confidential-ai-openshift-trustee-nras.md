@@ -7,7 +7,7 @@ description: >-
 date: 2026-08-07 14:00:00 -0500
 categories: [OpenShift, Security]
 tags: [openshift, security, confidential-computing, trustee]
-image: /assets/img/og/confidential-ai.png
+og_image: /assets/img/og/confidential-ai.png
 permalink: /posts/confidential-ai-openshift-trustee-nras/
 ---
 
