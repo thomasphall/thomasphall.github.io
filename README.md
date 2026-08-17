@@ -43,7 +43,8 @@ site is live).
 ### Google Search Console
 
 The URL-prefix property `https://thomasphall.github.io` is verified via the
-HTML tag in `_config.yml`. After each notable publish wave:
+HTML tag in `_config.yml` (personal Gmail Search Console). After each notable
+publish wave:
 
 1. Open [Google Search Console](https://search.google.com/search-console).
 2. Confirm the sitemap `https://thomasphall.github.io/sitemap.xml` is submitted
