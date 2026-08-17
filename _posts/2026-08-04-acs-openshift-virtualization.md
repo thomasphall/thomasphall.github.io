@@ -148,7 +148,9 @@ finish security:
 - **Compliance Operator** helps prove the OpenShift platform itself against
   agreed baselines and produces evidence you can manage as Kubernetes objects.
 - **OpenShift Virtualization hardening** reduces blast radius with RBAC, device
-  allowlists, storage isolation, and network segmentation.
+  allowlists, storage isolation, and network segmentation. For the tenant vs
+  admin vs secondary-network policy split, see
+  [OpenShift Network Policies: Tenant, Admin, Secondary](/posts/openshift-network-policies/).
 - **RHACS** keeps multi-cluster risk and workload policy continuous—including
   for virt-launcher-backed VMs—and, in Technology Preview, begins unifying guest
   package vulnerability visibility for supported VMs.
@@ -188,6 +190,7 @@ and
 
 - [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
 - [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
+- [OpenShift Network Policies: Tenant, Admin, Secondary](/posts/openshift-network-policies/)
 - [Confidential AI on OpenShift: TEEs, GPUs, and Trustee](/posts/confidential-ai-openshift-trustee-nras/)
 
 > Want a deeper walkthrough for your environment? Reach out to your Red Hat

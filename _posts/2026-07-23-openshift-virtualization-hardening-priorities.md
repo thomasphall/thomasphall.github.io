@@ -131,6 +131,9 @@ same story you already tell for pod NetworkPolicy—extended to VM secondary
 networks. For how those attachments land on the host (NNCP, bridge mappings,
 CUDN), see
 [OpenShift Virtualization Networking](/posts/openshift-virtualization-networking/).
+For who owns `NetworkPolicy` versus `AdminNetworkPolicy` versus
+`MultiNetworkPolicy`, see
+[OpenShift Network Policies: Tenant, Admin, Secondary](/posts/openshift-network-policies/).
 
 ## Host posture, briefly
 
@@ -177,6 +180,7 @@ is the usual PoC sequence before you freeze HyperConverged defaults.
 - [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
 - [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
 - [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)
+- [OpenShift Network Policies: Tenant, Admin, Secondary](/posts/openshift-network-policies/)
 - [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 
 > Want help mapping these controls to your landing zone? Reach out to your

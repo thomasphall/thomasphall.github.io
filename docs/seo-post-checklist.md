@@ -90,8 +90,8 @@ permalink: /posts/external-secrets-vs-secrets-store-csi/
 
 | Cluster | Hub / peers |
 | ------- | ----------- |
-| Security / supply chain | Platform supply-chain, ACS + Virt, External Secrets, Confidential AI, Lightwell |
-| Virtualization | 4.22 features, hardening, networking, hosted vs VCP, MTV offload, OVE vSAN-like storage |
+| Security / supply chain | Platform supply-chain, ACS + Virt, External Secrets, Confidential AI, Lightwell, network policies |
+| Virtualization | 4.22 features, hardening, networking, hosted vs VCP, MTV offload, OVE vSAN-like storage, network policies |
 | Storage / edge | OVE vSAN-like storage, Pure NVMe/TCP, Dell Unity iSCSI, edge architectures, PoC boot tip |
 | Homelab / automation | Blink Synology archive, Tesla Sentry Synology archive |
 
