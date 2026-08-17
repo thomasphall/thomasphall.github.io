@@ -178,6 +178,11 @@ Technology Preview VM scanning belongs in a non-production evaluation track.
 For GPU-backed AI where the security story is TEE attestation rather than
 deployment policy alone, see
 [Confidential AI on OpenShift](/posts/confidential-ai-openshift-trustee-nras/).
+If you are standing up Virtualization in a PoC so ACS has a virt surface to
+observe, start with
+[OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
+and
+[deploying virtual machines](https://openshift-ssa.github.io/openshift-poc/workloads/workload-virtual-machines/).
 
 ## Related posts
 

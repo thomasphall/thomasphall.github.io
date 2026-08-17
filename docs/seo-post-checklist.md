@@ -44,7 +44,11 @@ permalink: /posts/external-secrets-vs-secrets-store-csi/
 
 - [ ] `image: /path/or/url` — per-post social preview (overrides site
       `social_preview_image` in `_config.yml`)
-- [ ] External “Further reading” for official docs (does not replace Related posts)
+- [ ] External “Further reading” for official docs (does not replace Related posts).
+      When a post overlaps an OpenShift PoC topic, link the matching page on
+      [openshift-ssa.github.io/openshift-poc](https://openshift-ssa.github.io/openshift-poc/home/)
+      (home plus the specific install/day-2 page—not a generic dump of the
+      whole nav).
 
 ## After publish
 

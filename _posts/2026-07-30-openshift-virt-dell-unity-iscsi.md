@@ -23,7 +23,9 @@ This is a sequential lab guide for OpenShift admins who already know basic
 `oc` and RHCOS. It is the **array-centric CSI** path—not host-attached LUNs
 plus LVMS. Use LVMS when you already own a raw disk on the node and want a
 local thin pool; use Unity CSI when you want Unisphere to own LUN lifecycle,
-snapshots, and pool placement.
+snapshots, and pool placement. A matching PoC runbook—MachineConfigs, CSM
+Operator, StorageClass, and smoke test—is in
+[Dell Unity XT (iSCSI) (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/dell/dell-unity/).
 
 ## Architecture overview
 
@@ -796,6 +798,10 @@ you debug guest images.
 
 ### References
 
+- [Dell Unity XT (iSCSI) (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/dell/dell-unity/)
+- [Storage (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/)
+- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
+- [Machine Config (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/operations/machine-config/)
 - [Dell CSM — Support Matrix](https://dell.github.io/csm-docs/docs/supportmatrix/)
 - [Dell CSM — Install CSI Unity XT on OpenShift (CSM Operator)](https://dell.github.io/csm-docs/docs/getting-started/installation/openshift/unityxt/csmoperator/)
 - [Dell CSM — Unity XT driver (Operator parameters)](https://dell.github.io/csm-docs/v3/deployment/csmoperator/drivers/unity/)

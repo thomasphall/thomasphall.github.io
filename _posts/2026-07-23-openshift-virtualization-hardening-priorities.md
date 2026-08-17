@@ -164,6 +164,13 @@ guide.
 For the full control list, audit commands, and remediations, use the official
 Red Hat OpenShift Virtualization hardening guide as the source of truth—and
 keep OpenShift platform hardening and guest OS hardening on their own tracks.
+When you are standing up the landing zone itself, the
+[OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
+install, plus
+[identity providers](https://openshift-ssa.github.io/openshift-poc/post-installation/configuring-identity-providers/)
+and
+[OpenShift GitOps](https://openshift-ssa.github.io/openshift-poc/post-installation/openshift-gitops/),
+is the usual PoC sequence before you freeze HyperConverged defaults.
 
 ## Related posts
 

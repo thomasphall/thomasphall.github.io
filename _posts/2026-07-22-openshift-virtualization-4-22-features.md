@@ -25,6 +25,11 @@ months.
 This post is a themed digest, not a complete changelog. For the authoritative
 list—including fixed and known issues—start with the
 [OpenShift Virtualization 4.22 release notes](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/release-notes).
+To install Virtualization in a PoC and land a first VM, use
+[OpenShift Virtualization](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
+and
+[deploying virtual machines](https://openshift-ssa.github.io/openshift-poc/workloads/workload-virtual-machines/)
+in the OpenShift PoC docs.
 
 ## VM management and operations
 
@@ -232,4 +237,11 @@ when the VMware estate is leaving a local-disk HCI pool.
 > [OpenShift Virtualization 4.22 release notes](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/release-notes)
 > for fixed and known issues, then try the patterns that matter on a non-prod
 > cluster—or talk with your Red Hat account team about upgrade planning.
+> PoC install and first-VM steps:
+> [OpenShift Virtualization](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/),
+> [Workload Availability](https://openshift-ssa.github.io/openshift-poc/post-installation/workload-availability/)
+> (needed before live-migration tests),
+> [deploying virtual machines](https://openshift-ssa.github.io/openshift-poc/workloads/workload-virtual-machines/),
+> and
+> [VM failover](https://openshift-ssa.github.io/openshift-poc/operations/vm-failover/).
 {: .prompt-tip }

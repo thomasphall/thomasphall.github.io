@@ -189,7 +189,10 @@ Fusion is the IBM appliance/software path.
 If a **SAN already exists**, use the vendor CSI. Do not add ODF “because
 that is what the slide said.” ODF is still the right buy when you want
 first-party Ceph, one stack for block/file/object, and Red Hat storage
-support on the same ticket as the cluster.
+support on the same ticket as the cluster. A PoC ODF install is in
+[OpenShift Data Foundation (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/odf/);
+array CSI examples start from
+[Storage](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/).
 
 Starting with OpenShift 4.17, CSI certification includes the
 kubevirt-storage-checkup suite. A driver can pass generic CSI tests and
@@ -215,6 +218,12 @@ just an older release.
 - [Storage considerations for OpenShift Virtualization (Red Hat Developer)](https://developers.redhat.com/articles/2025/07/10/storage-considerations-openshift-virtualization)
 - [Self-managed OpenShift subscription guide](https://www.redhat.com/en/resources/self-managed-openshift-subscription-guide)
 - [Red Hat Ecosystem Catalog](https://catalog.redhat.com/)
+- [OpenShift PoC overview](https://openshift-ssa.github.io/openshift-poc/home/)
+- [Storage (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/)
+- [OpenShift Data Foundation (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/odf/)
+- [Dell Unity XT (iSCSI) (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/dell/dell-unity/)
+- [VMware vSphere CSI (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/vsphere-csi/)
+- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
 
 > Mapping this into a landing zone or a VMware-exit storage design? That is
 > a conversation for your Red Hat account team—or prove RWX Block live

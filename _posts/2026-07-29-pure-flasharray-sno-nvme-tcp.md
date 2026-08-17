@@ -22,7 +22,12 @@ then hand one unused Pure NVMe namespace to LVM Storage (LVMS) using a stable
 
 This is a sequential lab guide for OpenShift admins who already know basic
 `oc` and RHCOS. It is **not** a Portworx or Pure CSI walkthrough—just the host
-path, the reboot story, and LVMS on top.
+path, the reboot story, and LVMS on top. For standing up the SNO itself and
+the usual hub-storage choices, see the
+[OpenShift PoC SNO hub](https://openshift-ssa.github.io/openshift-poc/fleet-management/sno-hub/)
+and
+[hub storage](https://openshift-ssa.github.io/openshift-poc/fleet-management/hub-storage/)
+pages.
 
 ## Architecture overview
 
@@ -536,3 +541,8 @@ plus LVMS is the right *edge* form factor—not just a lab trick—see
 - [OpenShift 4.22 — Persistent storage using local storage (LVM Storage)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/storage/persistent-storage-using-local-storage)
 - [NVM Express — NVMe over Fabrics / TCP overview](https://nvmexpress.org/specification/nvme-of-specification/)
 - [OpenShift 4.22 — Machine configuration](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/machine_configuration/index)
+- [OpenShift PoC overview](https://openshift-ssa.github.io/openshift-poc/home/)
+- [Hub install on SNO (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/fleet-management/sno-hub/)
+- [Hub storage (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/fleet-management/hub-storage/)
+- [Storage (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/)
+- [Machine Config (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/operations/machine-config/)

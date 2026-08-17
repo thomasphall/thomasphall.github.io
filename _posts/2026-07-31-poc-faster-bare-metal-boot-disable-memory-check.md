@@ -35,9 +35,9 @@ checklist before you return the gear or promote anything toward production.
 In production you reboot rarely and you want every hardware safety net. In a
 PoC you reboot constantly:
 
-- Assisted Installer / Agent-based Installer discovery boots
+- [Assisted Installer](https://openshift-ssa.github.io/openshift-poc/installation/assisted-installer/) / [Agent-based Installer](https://openshift-ssa.github.io/openshift-poc/installation/agent-based/) discovery boots
 - Ironic / Metal3 inspection and provisioning cycles
-- “Break the MachineConfig → reboot → watch the node come back” debugging
+- “Break the [MachineConfig](https://openshift-ssa.github.io/openshift-poc/operations/machine-config/) → reboot → watch the node come back” debugging
 - Day-2 operator installs that bounce workers
 - Full cluster wipe and rebuild between customer scenarios
 
@@ -404,7 +404,9 @@ This pairs well with
 [hosted vs virtualized control plane](/posts/hosted-vs-virtualized-control-planes/)
 labs that lean on Agent-based Installer, Metal3, and Redfish-heavy reboot
 loops—use the PoC BIOS tweak for the engagement window, then restore before
-you call the gear production-ready.
+you call the gear production-ready. For the rest of a bare-metal OpenShift PoC
+(prerequisites through install), start at the
+[OpenShift PoC overview](https://openshift-ssa.github.io/openshift-poc/home/).
 
 ## Related posts
 
@@ -423,3 +425,7 @@ lab image:
 - Cisco UCS Manager / Intersight — Enhanced Memory Test / `AdvancedMemTest`
 - Lenovo OneCLI — `Memory.MemoryTest` / `IMM.UEFIMemoryTest`
 - OpenShift bare metal / Agent-based Installer docs for your cluster version
+- [OpenShift PoC overview](https://openshift-ssa.github.io/openshift-poc/home/)
+- [Assisted Installer (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/installation/assisted-installer/)
+- [Agent-Based Installer (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/installation/agent-based/)
+- [Machine Config (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/operations/machine-config/)

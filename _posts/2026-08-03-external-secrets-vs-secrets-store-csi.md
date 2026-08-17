@@ -29,7 +29,9 @@ native Kubernetes `Secret` objects. The other mounts credentials into the pod as
 CSI volume. The real choice is operating model—where secret material lives, how
 apps consume it, and what your control-plane trust story can accept. This post is
 a solution-architect comparison for platform and security teams making that
-call—not an install runbook.
+call—not an install runbook. For a PoC install of the Red Hat External Secrets
+Operator, see
+[External Secrets Operator (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/external-secrets-operator/).
 
 ## Two delivery models
 
@@ -238,6 +240,8 @@ Authoritative starting points:
 - [Secrets Store CSI Driver Operator (OpenShift 4.22)](https://docs.okd.io/4.22/storage/container_storage_interface/persistent-storage-csi-secrets-store.html)
 - [How to manage Kubernetes Secrets with Red Hat OpenShift](https://docs.redhat.com/en/learn/learning-paths/how-manage-kubernetes-secrets-red-hat-openshift/how-are-kubernetes-secrets-managed-red-hat-openshift)
 - [Managing secrets with Secrets Store CSI and OpenShift GitOps](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.20/html/security/managing-secrets-securely-using-sscsid-with-gitops)
+- [External Secrets Operator (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/external-secrets-operator/)
+- [OpenShift GitOps (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/openshift-gitops/)
 
 When attestation—not only sync or mount—must gate model keys or registry
 credentials inside a confidential VM, that is a different control story: see

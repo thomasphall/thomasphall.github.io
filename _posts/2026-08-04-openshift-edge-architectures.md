@@ -200,7 +200,10 @@ when the site justifies separating those roles.
 in a hub-and-spoke model. GitOps ZTP keeps site definitions and desired
 configuration in Git; the hub’s assisted service provisions spokes; policies
 and lifecycle tooling keep day-2 aligned across the fleet. At scale, that is how
-you avoid “SSH to each site and hope.”
+you avoid “SSH to each site and hope.” For a PoC-sized hub (SNO + ACM + spoke
+provisioning), follow the
+[OpenShift PoC fleet management](https://openshift-ssa.github.io/openshift-poc/fleet-management/)
+guide.
 
 ```text
  Git (site defs + policies)
@@ -415,3 +418,10 @@ can reclaim hours of POST wait (restore before handback).
 - [Persistent storage using local storage (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/storage/persistent-storage-using-local-storage)
 - [Red Hat OpenShift Data Foundation documentation](https://docs.redhat.com/en/documentation/red_hat_openshift_data_foundation/)
 - [Red Hat Advanced Cluster Management documentation](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/)
+- [OpenShift PoC overview](https://openshift-ssa.github.io/openshift-poc/home/)
+- [Architecture — hub and spoke (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/home/architecture/)
+- [Fleet management (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/fleet-management/)
+- [Hub install on SNO (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/fleet-management/sno-hub/)
+- [Advanced Cluster Management (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/fleet-management/acm-install/)
+- [OpenShift GitOps (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/openshift-gitops/)
+- [OpenShift Data Foundation (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/odf/)

@@ -24,7 +24,10 @@ your estate sits on suitable SAN storage.
 
 This post is a solution-architect digest for platform, virtualization, and
 storage teams evaluating that path on MTV 2.11. It is not a click-by-click
-runbook.
+runbook. For operator install, a vSphere provider, and VDDK setup in a PoC,
+use the
+[Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/mtv/)
+guide.
 
 ## The traditional MTV path hits the network
 
@@ -233,3 +236,9 @@ before you assume ODF is the only landing pool.
 
 For planning detail and current prerequisites, start with Red Hat’s
 [MTV documentation for migrating from VMware vSphere](https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.11/html/planning_your_migration_to_red_hat_openshift_virtualization/assembly_planning-migration-vmware_mtv).
+Companion PoC pages:
+
+- [Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/mtv/)
+- [VMware vSphere IPI (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/installation/vmware-install/)
+- [VMware vSphere CSI (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/vsphere-csi/)
+- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
