@@ -5,7 +5,7 @@ description: >-
   ODF using Portworx, PowerFlex, LINSTOR, IBM Fusion, or certified CSI arrays.
 date: 2026-08-14 12:00:00 -0500
 categories: [OpenShift, Virtualization]
-tags: [openshift-virtualization, storage, csi, vsan]
+tags: [openshift, openshift-virtualization, storage, csi, vsan]
 og_image: /assets/img/og/ove-vsan.png
 permalink: /posts/ove-vsan-storage-alternatives/
 ---
@@ -206,11 +206,20 @@ just an older release.
 > [Ecosystem Catalog](https://catalog.redhat.com/) before procurement.
 {: .prompt-warning }
 
+## The SA takeaway
+
+1. **Local disks like vSAN** — shortlist Portworx, PowerFlex, LINSTOR, or
+   IBM Fusion HCI. Portworx is the usual OpenShift Virtualization HCI path.
+2. **A SAN already exists** — use the vendor CSI. Do not add ODF because a
+   slide said to.
+3. **Ask for the virt badge** — RWX Block, snapshots, clones, live migration,
+   and the catalog result for *this* OpenShift version.
+
 ## Related posts
 
 - [OpenShift Virtualization with Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
-- [Pure FlashArray on Single-Node OpenShift with NVMe/TCP](/posts/pure-flasharray-sno-nvme-tcp/)
-- [Storage Copy Offload for VMware to OpenShift Virtualization](/posts/mtv-storage-copy-offload-vmware/)
+- [Pure FlashArray on Single Node OpenShift with NVMe/TCP](/posts/pure-flasharray-sno-nvme-tcp/)
+- [VMware to OpenShift Virtualization: Copy Offload](/posts/mtv-storage-copy-offload-vmware/)
 - [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
 
 ## Further reading
@@ -226,7 +235,7 @@ just an older release.
 - [VMware vSphere CSI (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/vsphere-csi/)
 - [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
 
-> Mapping this into a landing zone or a VMware-exit storage design? That is
-> a conversation for your Red Hat account team—or prove RWX Block live
-> migration on a non-prod OVE cluster before you standardize on a StorageClass.
+> Want help mapping vSAN-like storage onto an OVE landing zone? Reach out to
+> your Red Hat account team—or prove RWX Block live migration on a non-prod
+> OVE cluster before you standardize on a StorageClass.
 {: .prompt-tip }

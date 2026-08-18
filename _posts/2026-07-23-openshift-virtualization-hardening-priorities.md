@@ -5,8 +5,8 @@ description: >-
   device pass-through, storage isolation, and network segmentation for
   platform teams.
 date: 2026-07-23 10:00:00 -0500
-categories: [OpenShift, Virtualization, Security]
-tags: [openshift-virtualization, security, networking]
+categories: [OpenShift, Virtualization]
+tags: [openshift, openshift-virtualization, security, networking]
 permalink: /posts/openshift-virtualization-hardening-priorities/
 ---
 
@@ -178,7 +178,6 @@ is the usual PoC sequence before you freeze HyperConverged defaults.
 ## Related posts
 
 - [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
-- [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
 - [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)
 - [OpenShift Network Policies: Tenant, Admin, Secondary](/posts/openshift-network-policies/)
 - [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)

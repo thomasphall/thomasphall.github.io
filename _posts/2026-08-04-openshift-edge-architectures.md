@@ -200,7 +200,7 @@ when the site justifies separating those roles.
 in a hub-and-spoke model. GitOps ZTP keeps site definitions and desired
 configuration in Git; the hub’s assisted service provisions spokes; policies
 and lifecycle tooling keep day-2 aligned across the fleet. At scale, that is how
-you avoid “SSH to each site and hope.” For a PoC-sized hub (SNO + ACM + spoke
+you avoid “SSH to each site and hope.” For a PoC-sized hub (SNO + RHACM + spoke
 provisioning), follow
 [how to get started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
 and the
@@ -407,18 +407,16 @@ can reclaim hours of POST wait (restore before handback).
 ## Related posts
 
 - [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
-- [Pure FlashArray on Single-Node OpenShift with NVMe/TCP](/posts/pure-flasharray-sno-nvme-tcp/)
-- [OpenShift Virtualization with Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
 - [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
-- [ACM as the Fleet Control Plane for OpenShift VMs](/posts/acm-openshift-virtualization/)
-- [Faster Bare-Metal Boots in OpenShift PoCs](/posts/poc-faster-bare-metal-boot-disable-memory-check/)
+- [GitOps Should Manage ACM, Not the Cluster](/posts/gitops-should-manage-acm/)
+- [Pure FlashArray on Single Node OpenShift with NVMe/TCP](/posts/pure-flasharray-sno-nvme-tcp/)
 
-> Want a deeper walkthrough for your environment? Reach out to your Red Hat
+> Want help applying this in your environment? Reach out to your Red Hat
 > account team—or evaluate one representative site pattern in a lab before you
 > scale the GitOps factory.
 {: .prompt-tip }
 
-## References
+## Further reading
 
 - [Edge computing (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/edge_computing/index)
 - [Installing on a single node (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/installing_on_a_single_node/index)

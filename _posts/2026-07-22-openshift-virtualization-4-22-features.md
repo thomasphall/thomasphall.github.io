@@ -228,20 +228,21 @@ when the VMware estate is leaving a local-disk HCI pool.
 
 ## Related posts
 
-- [vSAN-like Storage for OpenShift Virtualization Engine](/posts/ove-vsan-storage-alternatives/)
 - [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)
 - [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
 - [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
+- [ACM as the Fleet Control Plane for OpenShift VMs](/posts/acm-openshift-virtualization/)
 
-> Dig into the
+> Want help planning a Virtualization 4.22 upgrade? Reach out to your Red Hat
+> account team—or read the
 > [OpenShift Virtualization 4.22 release notes](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/release-notes)
-> for fixed and known issues, then try the patterns that matter on a non-prod
-> cluster—or talk with your Red Hat account team about upgrade planning.
-> PoC install and first-VM steps:
-> [OpenShift Virtualization](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/),
-> [Workload Availability](https://openshift-ssa.github.io/openshift-poc/post-installation/workload-availability/)
-> (needed before live-migration tests),
-> [deploying virtual machines](https://openshift-ssa.github.io/openshift-poc/workloads/workload-virtual-machines/),
-> and
-> [VM failover](https://openshift-ssa.github.io/openshift-poc/operations/vm-failover/).
+> and try the patterns that matter on a non-prod cluster first.
 {: .prompt-tip }
+
+## Further reading
+
+- [OpenShift Virtualization 4.22 release notes](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/release-notes)
+- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
+- [Workload Availability (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/workload-availability/)
+- [Deploying virtual machines (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/workloads/workload-virtual-machines/)
+- [VM failover (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/operations/vm-failover/)

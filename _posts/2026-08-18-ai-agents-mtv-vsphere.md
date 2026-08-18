@@ -5,8 +5,8 @@ description: >-
   migrations from vSphere to OpenShift Virtualization—assessment, waves,
   and troubleshooting.
 date: 2026-08-18 09:20:00 -0500
-categories: [OpenShift, Virtualization, Migration]
-tags: [openshift-virtualization, migration, vmware, automation, ansible]
+categories: [OpenShift, Virtualization]
+tags: [openshift, openshift-virtualization, migration, vmware, ansible, gitops]
 permalink: /posts/ai-agents-mtv-vsphere/
 ---
 
@@ -285,7 +285,7 @@ If the first agent-generated plan is the first plan you have ever run, you
 will debug the model, the map, and MTV at the same time. That is not a
 factory. That is a weekend.
 
-## SA takeaway
+## The SA takeaway
 
 Lead with outcomes:
 
@@ -311,12 +311,12 @@ For the copy path when the SAN can take the load, see
 
 ## Related posts
 
-- [Storage Copy Offload for VMware to OpenShift Virtualization](/posts/mtv-storage-copy-offload-vmware/)
+- [VMware to OpenShift Virtualization: Copy Offload](/posts/mtv-storage-copy-offload-vmware/)
 - [ACM as the Fleet Control Plane for OpenShift VMs](/posts/acm-openshift-virtualization/)
-- [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)
-- [External Secrets vs Secrets Store CSI on OpenShift](/posts/external-secrets-vs-secrets-store-csi/)
+- [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
+- [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
 
-> Want a deeper walkthrough for your environment? Reach out to your Red Hat
+> Want help applying this in your environment? Reach out to your Red Hat
 > account team—or evaluate Lightspeed plus one GitOps-managed plan on a
 > non-prod cluster first.
 {: .prompt-tip }

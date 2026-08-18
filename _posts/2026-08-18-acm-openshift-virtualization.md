@@ -6,7 +6,7 @@ description: >-
   migration, and VM RBAC.
 date: 2026-08-18 06:00:00 -0500
 categories: [OpenShift, Virtualization]
-tags: [acm, openshift, openshift-virtualization]
+tags: [acm, openshift, openshift-virtualization, gitops]
 permalink: /posts/acm-openshift-virtualization/
 ---
 
@@ -24,7 +24,7 @@ UI does not scale. The objects do.
 
 Each VM is still a Kubernetes `VirtualMachine`. That is why
 [Red Hat Advanced Cluster Management for Kubernetes (RHACM) 2.16](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.16/)
-has a job here. The hub already inventories and governs managed clusters. ACM
+has a job here. The hub already inventories and governs managed clusters. RHACM
 Virtualization extends that same hub to the VM workload class: search and
 actions, Observability, policy-driven backup, cross-cluster live migration, and
 fine-grained RBAC so those actions are not cluster-admin for everyone.
@@ -38,7 +38,7 @@ still matter; they do not replace a fleet hub.
 
 ## Inventory and actions from the hub
 
-Day-2 virtualization is mostly inventory plus control. ACM Search can list and
+Day-2 virtualization is mostly inventory plus control. RHACM Search can list and
 filter `VirtualMachine` resources across every managed cluster that runs
 OpenShift Virtualization. The Fleet Virtualization console is the operational
 view of that inventory: one place to see what is running instead of a bookmark
@@ -55,7 +55,7 @@ a unique operational model for “the VM clusters.” If the platform is OpenShi
 the VM is a Kubernetes workload, and the hub that already knows the clusters
 should know the VMs.
 
-OpenShift Virtualization 4.20.1 or later is the floor for ACM Virtualization
+OpenShift Virtualization 4.20.1 or later is the floor for RHACM Virtualization
 features. This site’s latest stable OpenShift line is 4.22, which satisfies
 that requirement. Confirm pairing against the
 [ACM 2.16 support matrix](https://access.redhat.com/articles/7136928)
@@ -82,9 +82,9 @@ work that decides who may attach devices and which networks a VM may join.
 
 ## Policy-driven backup is not DR
 
-Backup for OpenShift Virtualization VMs in ACM is policy plus
+Backup for OpenShift Virtualization VMs in RHACM is policy plus
 [OpenShift APIs for Data Protection (OADP)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/backup_and_restore/oadp-application-backup-and-restore).
-Enable the backup component, place the virtualization policies, and ACM will
+Enable the backup component, place the virtualization policies, and RHACM will
 install and configure OADP on managed clusters according to a hub ConfigMap.
 The operator model is GitOps-shaped even when you never open OpenShift
 GitOps: labels select clusters and VMs; policies create Velero schedules;
@@ -136,13 +136,13 @@ get “satisfied” by a feature that does not survive a storage-domain loss.
 Hosted control planes change where the API server runs; they do not remove the
 need for a fleet hub. See
 [hosted vs virtualized control planes](/posts/hosted-vs-virtualized-control-planes/).
-ACM still manages the hosted clusters and the VMs on the compute clusters
+RHACM still manages the hosted clusters and the VMs on the compute clusters
 underneath them.
 
 ## Fine-grained RBAC for VM admins
 
 A hub that can stop or migrate every VM in the estate is a privilege
-concentrator. ACM 2.16 makes fine-grained RBAC for virtualization generally
+concentrator. RHACM 2.16 makes fine-grained RBAC for virtualization generally
 available so VM operators are not cluster-admins.
 
 Permissions are declared on the hub with `MulticlusterRoleAssignment` and
@@ -167,10 +167,10 @@ a complementary control plane, not a substitute.
 ## ACM for Virtualization
 
 [ACM for Virtualization](https://www.redhat.com/en/resources/advanced-cluster-management-for-virtualization-datasheet)
-is the same ACM operational surface, entitled only for
+is the same RHACM operational surface, entitled only for
 OpenShift Virtualization Engine clusters and the VMs on them. If the estate is
 VMs on OVE and nothing else, that SKU matches the buy. Mixed container and VM
-fleets stay on ACM for Kubernetes. Do not let the SKU conversation replace the
+fleets stay on RHACM for Kubernetes. Do not let the SKU conversation replace the
 architecture conversation: either way, the hub is how you stop managing each
 virt cluster as a pet.
 
@@ -178,7 +178,7 @@ virt cluster as a pet.
 
 Lead with outcomes:
 
-1. **The OpenShift console does not scale to a VM fleet** — ACM 2.16 is the
+1. **The OpenShift console does not scale to a VM fleet** — RHACM 2.16 is the
    hub for inventory, actions, Observability, backup policy, and live
    migration.
 2. **Right-sizing is GA with Observability** — use it for capacity talk; do
@@ -211,7 +211,7 @@ and
 - [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
 - [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 
-> Want a deeper walkthrough for your environment? Reach out to your Red Hat
+> Want help applying this in your environment? Reach out to your Red Hat
 > account team—or evaluate the pattern on a non-prod hub and two spoke
 > clusters first.
 {: .prompt-tip }

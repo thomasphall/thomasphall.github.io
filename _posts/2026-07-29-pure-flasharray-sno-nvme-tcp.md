@@ -1,5 +1,5 @@
 ---
-title: "Pure FlashArray on Single-Node OpenShift with NVMe/TCP"
+title: "Pure FlashArray on Single Node OpenShift with NVMe/TCP"
 description: >-
   Connect a Pure FlashArray volume to Single Node OpenShift over NVMe/TCP,
   persist the path with MachineConfig, and consume it with LVMS using
@@ -488,7 +488,9 @@ Bound PVC plus a mounted filesystem is enough to call the path good.
 ## Other storage paths on SNO
 
 This post is one path: NVMe/TCP attach → MachineConfig → LVMS. If the same
-SNO also runs Advanced Cluster Management (ACM), Observability, and OpenShift
+SNO also runs
+[Red Hat Advanced Cluster Management (RHACM)](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/),
+Observability, and OpenShift
 Virtualization, I usually choose among four patterns. Storage choice will not
 fix an undersized node—those three stacks are heavy on CPU, RAM, and disk.
 
@@ -501,7 +503,7 @@ fix an undersized node—those three stacks are heavy on CPU, RAM, and disk.
    when you want array snapshots, replication, or first-class LUN lifecycle on
    the FlashArray.
 3. **Hybrid block + file.** LVMS or block CSI for RWO (boots, observability
-   TSDB, most ACM/operator claims) plus a small NFS/RWX class only when
+   TSDB, most RHACM/operator claims) plus a small NFS/RWX class only when
    Virtualization needs shared disks. On SNO you do not get real off-box live
    migration, so RWX is for shared-volume patterns—not HA mobility.
 4. **OpenShift Data Foundation.** Full platform storage (block, file, object)
@@ -536,7 +538,7 @@ plus LVMS is the right *edge* form factor—not just a lab trick—see
 - [OpenShift Virtualization with Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
 - [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
 
-### References
+## Further reading
 
 - [Pure Storage — NVMe-TCP on RHEL/Rocky/AlmaLinux quick start](https://support.purestorage.com/bundle/m_linux/page/Solutions/Linux/topics/t_rhel_nvme-tcp_quickstart.html)
 - [OpenShift 4.22 — Persistent storage using local storage (LVM Storage)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/storage/persistent-storage-using-local-storage)

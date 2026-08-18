@@ -5,7 +5,7 @@ description: >-
   OpenShift bare-metal PoC redeploys, then turn memory checks back on
   before handback.
 date: 2026-07-31 12:50:00 -0500
-categories: [OpenShift, Bare Metal]
+categories: [OpenShift]
 tags: [openshift, bare-metal, ansible]
 permalink: /posts/poc-faster-bare-metal-boot-disable-memory-check/
 ---
@@ -416,7 +416,7 @@ or the
 - [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
 - [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
 
-### References
+## Further reading
 
 Confirm against your exact generation before publishing changes to a shared
 lab image:

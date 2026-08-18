@@ -212,7 +212,6 @@ in the
 ## Related posts
 
 - [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
-- [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
 
 > Want help splitting Karpenter NodePools from the machine-pool floor on a
 > ROSA HCP cluster? Reach out to your Red Hat account team—or prove one

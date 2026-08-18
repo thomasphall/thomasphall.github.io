@@ -6,7 +6,7 @@ description: >-
   Installer and day-2 operators.
 date: 2026-08-18 13:00:00 -0500
 categories: [OpenShift]
-tags: [openshift, bare-metal, sno, acm]
+tags: [openshift, bare-metal, sno, acm, gitops]
 permalink: /posts/getting-started-openshift-poc/
 ---
 
@@ -28,19 +28,19 @@ documents a 4.21 line; this blog’s latest stable line is 4.22.
 ## Pick the path before you rack
 
 The [OpenShift PoC guide](https://openshift-ssa.github.io/openshift-poc/home/)
-recommends two starting architectures. Do not mix them on day one.
+recommends two starting architectures. Do not mix them on day one. Fleet work
+uses
+[Red Hat Advanced Cluster Management for Kubernetes (RHACM) 2.16](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.16/).
 
-| Path              | Use it when                                                          | First cluster                                  |
-| ----------------- | -------------------------------------------------------------------- | ---------------------------------------------- |
-| Installation      | OpenShift as an application platform, Virtualization, or both        | Connected multi-node cluster (typically 3 + 3) |
-| Fleet management  | You also need ACM to provision and govern more than one cluster      | SNO hub, then spokes from ACM                  |
+| Path             | Use it when                                                         | First cluster                   |
+| ---------------- | ------------------------------------------------------------------- | ------------------------------- |
+| Installation     | OpenShift as an application platform, Virtualization, or both       | Connected multi-node (3 + 3)    |
+| Fleet management | You also need RHACM to provision and govern more than one cluster   | SNO hub, then spokes from RHACM |
 
 [Installation](https://openshift-ssa.github.io/openshift-poc/installation/)
 is the platform path.
 [Fleet management](https://openshift-ssa.github.io/openshift-poc/fleet-management/)
-is the
-[Red Hat Advanced Cluster Management](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.16/)
-path.
+is the RHACM path.
 
 The hub is a management plane. Do not park the customer’s first production-like
 workload on it. Form factor still comes first if the story is edge—see
@@ -140,10 +140,10 @@ Use a different installer only when the constraint is real:
 The fleet path is the same installer with SNO settings: one control plane, no
 workers, no VIPs. Then
 [hub storage](https://openshift-ssa.github.io/openshift-poc/fleet-management/hub-storage/),
-[ACM](https://openshift-ssa.github.io/openshift-poc/fleet-management/acm-install/),
+[RHACM](https://openshift-ssa.github.io/openshift-poc/fleet-management/acm-install/),
 and
 [spoke provisioning](https://openshift-ssa.github.io/openshift-poc/fleet-management/acm-provision-bare-metal-cluster/).
-How ACM itself should be fed from Git is a separate split—
+How RHACM itself should be fed from Git is a separate split—
 [GitOps should manage ACM, not the cluster](/posts/gitops-should-manage-acm/).
 
 ## Day-2 in order, then prove one workload
@@ -174,7 +174,7 @@ A green `clusterversion` with no PVC and no idp is not a finished PoC.
 ## The SA takeaway
 
 1. **Pick installation or fleet, not both** — six-node platform cluster, or
-   SNO hub plus ACM spokes.
+   SNO hub plus RHACM spokes.
 2. **Prerequisites are the critical path** — account, DNS, static IPs,
    firewall, BMC, and NTP before any ISO.
 3. **Assisted Installer is the default** — agent-based, disconnected, vSphere,
@@ -196,7 +196,7 @@ of operations.
 - [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
 - [GitOps Should Manage ACM, Not the Cluster](/posts/gitops-should-manage-acm/)
 
-> Want a deeper walkthrough for your environment? Reach out to your Red Hat
+> Want help applying this in your environment? Reach out to your Red Hat
 > account team—or run the prerequisites checklist on paper with networking and
 > storage before you generate a discovery ISO.
 {: .prompt-tip }
@@ -204,9 +204,7 @@ of operations.
 ## Further reading
 
 - [OpenShift PoC overview](https://openshift-ssa.github.io/openshift-poc/home/)
-- [Architecture (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/home/architecture/)
 - [Prerequisites (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/prerequisites/)
 - [Assisted Installer (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/installation/assisted-installer/)
 - [Fleet management (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/fleet-management/)
-- [Post-installation (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/)
 - [Assisted Installer product docs](https://docs.redhat.com/en/documentation/assisted_installer_for_openshift_container_platform/latest/html/installing_openshift_container_platform_with_the_assisted_installer/index)

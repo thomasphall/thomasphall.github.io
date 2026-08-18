@@ -384,7 +384,7 @@ ordinary app Secrets on OpenShift remains a separate choice—see
   [NVIDIA confidential containers](https://docs.nvidia.com/datacenter/cloud-native/confidential-containers/latest/overview.html)
   documentation for the install you actually run.
 
-## Closing
+## The SA takeaway
 
 Confidential AI on OpenShift is a **composition** problem:
 
@@ -401,6 +401,11 @@ enabling a CPU TEE, you protected the wrong half of the workload.
 - [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
 - [External Secrets vs Secrets Store CSI on OpenShift](/posts/external-secrets-vs-secrets-store-csi/)
 - [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
+
+> Want help composing TEEs, confidential GPUs, and Trustee on OpenShift?
+> Reach out to your Red Hat account team—or prove attestation on a non-prod
+> sandboxed-containers cluster first.
+{: .prompt-tip }
 
 ## Further reading
 

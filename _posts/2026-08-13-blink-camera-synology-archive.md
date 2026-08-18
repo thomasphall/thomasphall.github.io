@@ -187,4 +187,4 @@ boring. Most of the failure modes are auth and permissions, not video codecs.
 
 ## Related posts
 
-- [Tesla Sentry Footage to Synology NAS with a Raspberry Pi](/posts/tesla-sentry-synology-archive/)
+- [Tesla Sentry to Synology NAS with a Raspberry Pi](/posts/tesla-sentry-synology-archive/)

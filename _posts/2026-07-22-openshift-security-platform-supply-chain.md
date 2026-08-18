@@ -1,12 +1,12 @@
 ---
 title: "Supply-Chain Security for Regulated Hybrid Cloud"
 description: >-
-  How ACS, the Compliance Operator, and signed supply-chain controls help
+  How RHACS, the Compliance Operator, and signed supply-chain controls help
   teams prove security posture across hybrid OpenShift production estates
   today.
 date: 2026-07-22 12:00:00 -0500
-categories: [Platform, Security]
-tags: [security, supply-chain, acs]
+categories: [OpenShift, Security]
+tags: [openshift, security, supply-chain, acs]
 permalink: /posts/openshift-security-platform-supply-chain/
 ---
 
@@ -125,12 +125,11 @@ and the
 
 ## Related posts
 
-- [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
 - [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 - [External Secrets vs Secrets Store CSI on OpenShift](/posts/external-secrets-vs-secrets-store-csi/)
 - [Confidential AI on OpenShift: TEEs, GPUs, and Trustee](/posts/confidential-ai-openshift-trustee-nras/)
 - [Red Hat Lightwell: Patch CVEs Without Full Upgrades](/posts/red-hat-lightwell-open-source-remediation/)
 
-> Want a deeper walkthrough for your environment? Reach out to your Red Hat
+> Want help applying this in your environment? Reach out to your Red Hat
 > account team—or try the pattern on a non-prod OpenShift cluster first.
 {: .prompt-tip }

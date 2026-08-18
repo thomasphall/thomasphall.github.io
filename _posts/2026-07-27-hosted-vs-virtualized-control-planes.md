@@ -215,7 +215,7 @@ operating model fits, and treat virtualized control planes as the path when
 isolation or installer-compatibility requirements outweigh the hosted form
 factor—and when TP constraints are acceptable for the engagement.
 
-## Closing
+## The SA takeaway
 
 Hosted and virtualized control planes solve the same densification pressure with
 different boundaries. HCP optimizes for control planes as managed workloads and
@@ -234,9 +234,14 @@ POST time is often worth a temporary BIOS tweak—see
 - [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
 - [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
 - [Karpenter vs Machine Pools on ROSA HCP](/posts/karpenter-vs-machine-pools-rosa/)
-- [Faster Bare-Metal Boots in OpenShift PoCs](/posts/poc-faster-bare-metal-boot-disable-memory-check/)
+- [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
 
-Authoritative starting points:
+> Want help choosing hosted versus virtualized control planes? Reach out to
+> your Red Hat account team—or prove one path on a non-prod management
+> cluster first.
+{: .prompt-tip }
+
+## Further reading
 
 - [Hosted control planes (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/hosted_control_planes/index)
 - [Virtualized control planes overview (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualized_control_planes/vcp-overview)
@@ -244,7 +249,3 @@ Authoritative starting points:
 - [Architecture — hub and spoke (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/home/architecture/)
 - [Fleet management (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/fleet-management/)
 - [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
-
-If you are mapping either pattern into a broader platform or virtualization
-architecture conversation, that is exactly the kind of design discussion Red Hat
-solution architects exist for.

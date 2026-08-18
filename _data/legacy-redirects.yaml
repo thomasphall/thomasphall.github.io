@@ -1,0 +1,32 @@
+# Old public URLs that must keep working (LinkedIn, Search Console, inbound links).
+# Each entry becomes a small HTML page at `from` that sends browsers to `to`.
+# Add a row here whenever a published permalink or archive URL would otherwise 404.
+# Do not change live post permalinks; redirect the old path instead.
+
+# Post slug renamed 2026-08-13 (cybertruck → tesla). Already 404 on the live site.
+- from:  /posts/cybertruck-sentry-synology-archive/
+  to:    /posts/tesla-sentry-synology-archive/
+  title: Tesla Sentry to Synology NAS with a Raspberry Pi
+
+# Tag dropped in that same rename (never keep a one-off vehicle tag).
+- from: /tags/cybertruck/
+  to:   /tags/tesla/
+  title: Tesla
+
+# Category archive pages that disappear after the house-style taxonomy (one
+# primary category per post). Targets are the closest remaining archive.
+- from: /categories/platform/
+  to:   /categories/openshift/
+  title: OpenShift
+- from: /categories/bare-metal/
+  to:   /categories/openshift/
+  title: OpenShift
+- from: /categories/networking/
+  to:   /categories/virtualization/
+  title: Virtualization
+- from: /categories/supply-chain/
+  to:   /categories/security/
+  title: Security
+- from: /categories/migration/
+  to:   /categories/virtualization/
+  title: Virtualization

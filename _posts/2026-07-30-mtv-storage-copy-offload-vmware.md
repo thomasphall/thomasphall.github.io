@@ -1,11 +1,11 @@
 ---
-title: "Storage Copy Offload for VMware to OpenShift Virtualization"
+title: "VMware to OpenShift Virtualization: Copy Offload"
 description: >-
   How Migration Toolkit for Virtualization storage copy offload moves disk data
   on the SAN instead of the IP network—and when that path fits a VMware exit.
 date: 2026-07-30 15:00:00 -0500
-categories: [OpenShift, Virtualization, Migration]
-tags: [openshift-virtualization, migration, vmware, storage]
+categories: [OpenShift, Virtualization]
+tags: [openshift, openshift-virtualization, migration, vmware, storage]
 permalink: /posts/mtv-storage-copy-offload-vmware/
 ---
 
@@ -205,7 +205,7 @@ rollback. Offload removes a bottleneck; it does not invent operational maturity.
 Quote your pilot numbers. Borrow partner marketing multipliers only as
 context, not as a contractual schedule.
 
-## SA takeaway
+## The SA takeaway
 
 Use storage copy offload when the SAN path exists and large VMware disks are
 dominating the migration calendar. On MTV 2.11, build production waves around
@@ -234,10 +234,14 @@ before you assume ODF is the only landing pool.
 - [OpenShift Virtualization with Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
 - [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)
 
-For planning detail and current prerequisites, start with Red Hat’s
-[MTV documentation for migrating from VMware vSphere](https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.11/html/planning_your_migration_to_red_hat_openshift_virtualization/assembly_planning-migration-vmware_mtv).
-Companion PoC pages:
+> Want help deciding whether storage copy offload fits your array topology?
+> Reach out to your Red Hat account team—or prove one cold offload wave on a
+> non-prod MTV plan first.
+{: .prompt-tip }
 
+## Further reading
+
+- [MTV documentation for migrating from VMware vSphere](https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.11/html/planning_your_migration_to_red_hat_openshift_virtualization/assembly_planning-migration-vmware_mtv)
 - [Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/mtv/)
 - [VMware vSphere IPI (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/installation/vmware-install/)
 - [VMware vSphere CSI (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/vsphere-csi/)

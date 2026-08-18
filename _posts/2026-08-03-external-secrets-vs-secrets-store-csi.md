@@ -23,7 +23,7 @@ without landing in Git, images, or tribal runbooks. On OpenShift 4.22, two first
 patterns answer that question differently: the
 [External Secrets Operator for Red Hat OpenShift](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/security_and_compliance/external-secrets-operator-for-red-hat-openshift)
 and the
-[Secrets Store CSI Driver](https://docs.okd.io/4.22/storage/container_storage_interface/persistent-storage-csi-secrets-store.html).
+[Secrets Store CSI Driver](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/storage/using-container-storage-interface-csi).
 
 They are not two installers for the same idea. One syncs external credentials into
 native Kubernetes `Secret` objects. The other mounts credentials into the pod as a
@@ -224,7 +224,7 @@ with OpenShift GitOps—then introduce Secrets Store CSI for the workloads and
 tenancy cases that genuinely require mount-only, non-etcd delivery. Reversing that
 order forces every Secret-native integration through an awkward sync or rewrite.
 
-## Closing
+## The SA takeaway
 
 External Secrets Operator and the Secrets Store CSI Driver solve the same pressure—
 get enterprise vault material onto OpenShift without putting it in Git—with different
@@ -234,26 +234,28 @@ etcd-light posture at the cost of app and privileged-driver complexity. Pick the
 delivery model you can rotate, audit, and debug at 2 a.m.—not only the one that
 looks cleanest on a zero-trust slide.
 
-Authoritative starting points:
-
-- [Understanding secrets management (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/security_and_compliance/understanding-secrets-management)
-- [External Secrets Operator for Red Hat OpenShift (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/security_and_compliance/external-secrets-operator-for-red-hat-openshift)
-- [Secrets Store CSI Driver Operator (OpenShift 4.22)](https://docs.okd.io/4.22/storage/container_storage_interface/persistent-storage-csi-secrets-store.html)
-- [How to manage Kubernetes Secrets with Red Hat OpenShift](https://docs.redhat.com/en/learn/learning-paths/how-manage-kubernetes-secrets-red-hat-openshift/how-are-kubernetes-secrets-managed-red-hat-openshift)
-- [Managing secrets with Secrets Store CSI and OpenShift GitOps](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.20/html/security/managing-secrets-securely-using-sscsid-with-gitops)
-- [External Secrets Operator (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/external-secrets-operator/)
-- [OpenShift GitOps (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/openshift-gitops/)
-
 When attestation—not only sync or mount—must gate model keys or registry
 credentials inside a confidential VM, that is a different control story: see
 [Confidential AI on OpenShift](/posts/confidential-ai-openshift-trustee-nras/).
-
-If you are mapping either pattern into a broader platform or regulated landing-zone
-conversation, that is exactly the kind of design discussion Red Hat solution
-architects exist for.
 
 ## Related posts
 
 - [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
 - [Confidential AI on OpenShift: TEEs, GPUs, and Trustee](/posts/confidential-ai-openshift-trustee-nras/)
 - [GitOps Should Manage ACM, Not the Cluster](/posts/gitops-should-manage-acm/)
+- [Red Hat Lightwell: Patch CVEs Without Full Upgrades](/posts/red-hat-lightwell-open-source-remediation/)
+
+> Want help choosing External Secrets versus Secrets Store CSI? Reach out to
+> your Red Hat account team—or prove one delivery model on a non-prod
+> OpenShift cluster first.
+{: .prompt-tip }
+
+## Further reading
+
+- [Understanding secrets management (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/security_and_compliance/understanding-secrets-management)
+- [External Secrets Operator for Red Hat OpenShift (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/security_and_compliance/external-secrets-operator-for-red-hat-openshift)
+- [Secrets Store CSI Driver Operator (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/storage/using-container-storage-interface-csi)
+- [How to manage Kubernetes Secrets with Red Hat OpenShift](https://docs.redhat.com/en/learn/learning-paths/how-manage-kubernetes-secrets-red-hat-openshift/how-are-kubernetes-secrets-managed-red-hat-openshift)
+- [Managing secrets with Secrets Store CSI and OpenShift GitOps](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.20/html/security/managing-secrets-securely-using-sscsid-with-gitops)
+- [External Secrets Operator (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/external-secrets-operator/)
+- [OpenShift GitOps (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/openshift-gitops/)

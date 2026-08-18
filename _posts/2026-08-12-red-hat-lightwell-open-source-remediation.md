@@ -5,7 +5,7 @@ description: >-
   dependencies so you can patch supply-chain risk without a disruptive
   full-version upgrade.
 date: 2026-08-12 08:00:00 -0500
-categories: [Security, Supply Chain]
+categories: [Security]
 tags: [security, supply-chain, lightwell]
 og_image: /assets/img/og/lightwell.png
 permalink: /posts/red-hat-lightwell-open-source-remediation/
@@ -169,7 +169,7 @@ inside those images and services.
    pattern (observe, prove, gate)—and keep vault delivery choices clear via
    [External Secrets Operator vs Secrets Store CSI](/posts/external-secrets-vs-secrets-store-csi/).
 
-## Closing
+## The SA takeaway
 
 The software supply chain problem for enterprises is no longer “we cannot see
 vulnerabilities.” It is “we can see them faster than we can safely upgrade.”
@@ -185,6 +185,11 @@ it is worth a serious look.
 - [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
 - [External Secrets vs Secrets Store CSI on OpenShift](/posts/external-secrets-vs-secrets-store-csi/)
 - [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
+
+> Want help placing Lightwell beside scanning and runtime policy? Reach out
+> to your Red Hat account team—or verify catalog coverage for the libraries
+> you actually pin first.
+{: .prompt-tip }
 
 ## Further reading
 

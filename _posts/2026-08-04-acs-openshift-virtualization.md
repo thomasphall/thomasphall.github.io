@@ -1,12 +1,12 @@
 ---
 title: "RHACS for OpenShift Virtualization Workloads"
 description: >-
-  Why RHACS still matters for VMs on OpenShift Virtualization—what ACS
+  Why RHACS still matters for VMs on OpenShift Virtualization—what RHACS
   sees, which policies help, and where guest OS hardening remains a
   separate layer.
 date: 2026-08-04 10:00:00 -0500
-categories: [OpenShift, Virtualization, Security]
-tags: [openshift-virtualization, security, acs]
+categories: [OpenShift, Security]
+tags: [openshift, openshift-virtualization, security, acs]
 permalink: /posts/acs-openshift-virtualization/
 ---
 
@@ -45,13 +45,13 @@ disappear when the workload is a VM.
 virtualization components show up in the same multi-cluster inventory and risk
 views you use for application Deployments. Capabilities, privileged paths, host
 devices, and other host↔guest expansions are the kinds of signals platform teams
-already triage in ACS—now applied to the virtualization surface as well as to
+already triage in RHACS—now applied to the virtualization surface as well as to
 your applications.
 
 **Images that feed VMs.** Many VM boot disks arrive as container disks or other
 image-backed artifacts. Image risk does not stop being relevant because the
 consumer is a VM. If an insecure or outdated image is how you seed guests,
-treating that path as outside ACS scope recreates a blind spot you already
+treating that path as outside RHACS scope recreates a blind spot you already
 closed for containers.
 
 **Consistency across hybrid estates.** The value of RHACS in hybrid designs is
@@ -67,7 +67,7 @@ documentation.
 
 ## Policies that matter when CNV is in play
 
-The useful ACS conversation for OpenShift Virtualization is not “turn on every
+The useful RHACS conversation for OpenShift Virtualization is not “turn on every
 default and hope.” It is “keep the risk plane on, and make exceptions intentional.”
 
 **Deployment-time policy** still helps. Teams use RHACS to warn or block
@@ -85,7 +85,7 @@ visibility around them supports the least-privilege story in
 
 **Expect legitimate noise—and scope it.** OpenShift Virtualization components
 may require capabilities and SCC allowances that look aggressive next to a
-typical restricted application pod. That is not a reason to disable ACS policy
+typical restricted application pod. That is not a reason to disable RHACS policy
 cluster-wide. Identify platform-owned virt namespaces and service accounts,
 allowlist known-good virtualization behavior narrowly, and keep application
 namespaces under the stricter baseline. In customer language: policy noise from
@@ -93,7 +93,7 @@ CNV is a scoping problem, not proof that “security tools don’t work on VMs.�
 
 ## VM vulnerability visibility in RHACS 4.10 (Technology Preview)
 
-Workload and configuration visibility is the durable ACS story for OpenShift
+Workload and configuration visibility is the durable RHACS story for OpenShift
 Virtualization today. RHACS is also extending that story into guest package
 risk.
 
@@ -127,7 +127,7 @@ every design review.
 | Virtualization hardening | Who can migrate/console, device allowlists, storage cloning, network segmentation | RBAC, HyperConverged device allowlists, MultiNetworkPolicy |
 | Guest OS | Patching, CIS/STIGs inside RHEL or Windows, identity, endpoint controls | Guest OS hardening programs (separate from CNV posture) |
 
-ACS helps you observe and gate the **platform and Kubernetes/virt control plane
+RHACS helps you observe and gate the **platform and Kubernetes/virt control plane
 around the VM**. Guest antivirus, guest patch SLAs, and OS baselines inside the
 VM remain necessary. That boundary matches the
 [OpenShift Virtualization hardening](/posts/openshift-virtualization-hardening-priorities/)
@@ -162,7 +162,7 @@ and evidence, not a single product logo.
 
 Lead with outcomes:
 
-1. **ACS still applies** — OpenShift Virtualization VMs run as Kubernetes
+1. **RHACS still applies** — OpenShift Virtualization VMs run as Kubernetes
    workloads; RHACS can still surface risk and enforce policy on that surface.
 2. **Scope exceptions** — virt components may need allowances that look noisy;
    allowlist intentionally instead of disabling policy.
@@ -180,7 +180,7 @@ Technology Preview VM scanning belongs in a non-production evaluation track.
 For GPU-backed AI where the security story is TEE attestation rather than
 deployment policy alone, see
 [Confidential AI on OpenShift](/posts/confidential-ai-openshift-trustee-nras/).
-If you are standing up Virtualization in a PoC so ACS has a virt surface to
+If you are standing up Virtualization in a PoC so RHACS has a virt surface to
 observe, start with
 [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
 and
@@ -191,8 +191,8 @@ and
 - [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
 - [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
 - [OpenShift Network Policies: Tenant, Admin, Secondary](/posts/openshift-network-policies/)
-- [Confidential AI on OpenShift: TEEs, GPUs, and Trustee](/posts/confidential-ai-openshift-trustee-nras/)
+- [ACM as the Fleet Control Plane for OpenShift VMs](/posts/acm-openshift-virtualization/)
 
-> Want a deeper walkthrough for your environment? Reach out to your Red Hat
+> Want help applying this in your environment? Reach out to your Red Hat
 > account team—or evaluate the pattern on a non-prod OpenShift cluster first.
 {: .prompt-tip }

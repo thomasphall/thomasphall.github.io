@@ -1,5 +1,5 @@
 ---
-title: "Tesla Sentry Footage to Synology NAS with a Raspberry Pi"
+title: "Tesla Sentry to Synology NAS with a Raspberry Pi"
 description: >-
   How a Raspberry Pi 4 running Sentry-USB-Rusty in a Tesla archives TeslaCam
   and Sentry Mode clips to a Synology share over SMB when home Wi‑Fi appears.

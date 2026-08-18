@@ -6,7 +6,7 @@ description: >-
   secondary nets.
 date: 2026-08-17 08:00:00 -0500
 categories: [OpenShift, Security]
-tags: [openshift, security, networking]
+tags: [openshift, security, networking, gitops]
 permalink: /posts/openshift-network-policies/
 ---
 
@@ -147,7 +147,7 @@ Allows will break API and DNS; do not learn that in production.
 These objects belong in the **cluster** configuration repository under
 [OpenShift GitOps](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/),
 not in tenant app repos. Cluster admins own them; tenants should not. Across
-a fleet, that cluster-repo intent is usually an ACM policy the hub places by
+a fleet, that cluster-repo intent is usually an RHACM policy the hub places by
 label, not an Argo Application per spoke—see
 [GitOps should manage ACM, not the cluster](/posts/gitops-should-manage-acm/).
 
@@ -200,7 +200,7 @@ spoof filtering from the
 [hardening priorities](/posts/openshift-virtualization-hardening-priorities/)
 digest. RHACS still observes the virt-launcher workload; it does not replace
 this control. See
-[RHACS for OpenShift Virtualization workloads](/posts/acs-openshift-virtualization/).
+[RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/).
 
 ## When to use what
 
@@ -230,16 +230,6 @@ namespace-scoped north-south policy on OVN-Kubernetes. Do not treat it as anothe
    Tenant `NetworkPolicy` lives in the application repo. `MultiNetworkPolicy`
    usually rides with platform networking because it is tied to NAD names.
 
-Authoritative starting points:
-
-- [Understanding network policy APIs (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/network_security/network-policy-apis)
-- [Admin network policy (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/network_security/admin-network-policy)
-- [Network policy (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/network_security/network-policy)
-- [Configuring multi-network policy (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/multiple_networks/secondary-networks)
-
-For a PoC-sized day-2 networking pass, see
-[Networking](https://openshift-ssa.github.io/openshift-poc/post-installation/networking/)
-in the [OpenShift PoC docs](https://openshift-ssa.github.io/openshift-poc/home/).
 The broader observe / prove / gate pattern still sits above this:
 [supply-chain security for regulated hybrid cloud](/posts/openshift-security-platform-supply-chain/).
 
@@ -254,3 +244,11 @@ The broader observe / prove / gate pattern still sits above this:
 > landing zone? Reach out to your Red Hat account team—or prove ANP/BANP
 > plus a default-deny NetworkPolicy on a non-prod cluster first.
 {: .prompt-tip }
+
+## Further reading
+
+- [Understanding network policy APIs (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/network_security/network-policy-apis)
+- [Admin network policy (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/network_security/admin-network-policy)
+- [Network policy (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/network_security/network-policy)
+- [Configuring multi-network policy (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/multiple_networks/secondary-networks)
+- [Networking (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/networking/)

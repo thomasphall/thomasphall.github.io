@@ -25,6 +25,8 @@ See [NOTICE](NOTICE) for trademark attribution and further detail.
 Theme documentation: [Chirpy wiki](https://github.com/cotes2020/jekyll-theme-chirpy/wiki).
 
 New posts: follow the [post SEO checklist](docs/seo-post-checklist.md).
+Published permalinks must not change; map old public paths in
+`_data/legacy-redirects.yaml`.
 
 Site title and tagline live in `_config.yml`. The homepage document title is
 `title | tagline`; paginated indexes (`/page2/`, …) are `Page N | title` so

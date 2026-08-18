@@ -5,8 +5,8 @@ description: >-
   volumes as OpenShift Virtualization VM disks in a lab or small
   production design.
 date: 2026-07-30 07:00:00 -0500
-categories: [OpenShift]
-tags: [openshift-virtualization, storage, dell-unity, csi]
+categories: [OpenShift, Virtualization]
+tags: [openshift, openshift-virtualization, storage, dell-unity, csi]
 permalink: /posts/openshift-virt-dell-unity-iscsi/
 ---
 
@@ -793,11 +793,11 @@ you debug guest images.
 ## Related posts
 
 - [vSAN-like Storage for OpenShift Virtualization Engine](/posts/ove-vsan-storage-alternatives/)
-- [Pure FlashArray on Single-Node OpenShift with NVMe/TCP](/posts/pure-flasharray-sno-nvme-tcp/)
+- [Pure FlashArray on Single Node OpenShift with NVMe/TCP](/posts/pure-flasharray-sno-nvme-tcp/)
 - [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
-- [Storage Copy Offload for VMware to OpenShift Virtualization](/posts/mtv-storage-copy-offload-vmware/)
+- [VMware to OpenShift Virtualization: Copy Offload](/posts/mtv-storage-copy-offload-vmware/)
 
-### References
+## Further reading
 
 - [Dell Unity XT (iSCSI) (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/dell/dell-unity/)
 - [Storage (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/)

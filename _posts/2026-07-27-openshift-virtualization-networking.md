@@ -5,8 +5,8 @@ description: >-
   User-Defined Networks, host architectures, and CUDN localnets for
   platform teams.
 date: 2026-07-27 18:00:00 -0500
-categories: [OpenShift, Virtualization, Networking]
-tags: [openshift-virtualization, networking]
+categories: [OpenShift, Virtualization]
+tags: [openshift, openshift-virtualization, networking]
 permalink: /posts/openshift-virtualization-networking/
 ---
 
@@ -352,7 +352,7 @@ in the [OpenShift PoC docs](https://openshift-ssa.github.io/openshift-poc/home/)
 - [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
 - [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
 - [OpenShift Network Policies: Tenant, Admin, Secondary](/posts/openshift-network-policies/)
-- [Storage Copy Offload for VMware to OpenShift Virtualization](/posts/mtv-storage-copy-offload-vmware/)
+- [VMware to OpenShift Virtualization: Copy Offload](/posts/mtv-storage-copy-offload-vmware/)
 
 > Want help mapping these patterns into a landing zone or VMware migration
 > design? Reach out to your Red Hat account team—or prove the dual-bond + CUDN
