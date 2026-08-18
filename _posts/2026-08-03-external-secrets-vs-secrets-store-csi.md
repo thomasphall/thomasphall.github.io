@@ -256,3 +256,4 @@ architects exist for.
 
 - [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
 - [Confidential AI on OpenShift: TEEs, GPUs, and Trustee](/posts/confidential-ai-openshift-trustee-nras/)
+- [GitOps Should Manage ACM, Not the Cluster](/posts/gitops-should-manage-acm/)

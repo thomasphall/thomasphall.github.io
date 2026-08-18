@@ -146,7 +146,10 @@ Allows will break API and DNS; do not learn that in production.
 
 These objects belong in the **cluster** configuration repository under
 [OpenShift GitOps](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/),
-not in tenant app repos. Cluster admins own them; tenants should not.
+not in tenant app repos. Cluster admins own them; tenants should not. Across
+a fleet, that cluster-repo intent is usually an ACM policy the hub places by
+label, not an Argo Application per spoke—see
+[GitOps should manage ACM, not the cluster](/posts/gitops-should-manage-acm/).
 
 ## MultiNetworkPolicy: secondary networks and VMs
 
@@ -242,10 +245,10 @@ The broader observe / prove / gate pattern still sits above this:
 
 ## Related posts
 
+- [GitOps Should Manage ACM, Not the Cluster](/posts/gitops-should-manage-acm/)
 - [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)
 - [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
 - [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
-- [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
 
 > Want help mapping tenant, admin, and secondary-network policy into a
 > landing zone? Reach out to your Red Hat account team—or prove ANP/BANP

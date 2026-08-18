@@ -92,6 +92,7 @@ permalink: /posts/external-secrets-vs-secrets-store-csi/
 | ------- | ----------- |
 | Security / supply chain | Platform supply-chain, ACS + Virt, External Secrets, Confidential AI, Lightwell, network policies |
 | Virtualization | 4.22 features, hardening, networking, hosted vs VCP, MTV offload, AI agents for MTV, OVE vSAN-like storage, network policies, ACM fleet virt |
+| GitOps / ACM fleet | ACM fleet virt, GitOps should manage ACM, edge architectures, network policies GitOps split, External Secrets |
 | ROSA / autoscaling | Karpenter vs machine pools, hosted vs VCP |
 | Storage / edge | OVE vSAN-like storage, Pure NVMe/TCP, Dell Unity iSCSI, edge architectures, PoC boot tip |
 | Homelab / automation | Blink Synology archive, Tesla Sentry Synology archive |
