@@ -201,7 +201,9 @@ in a hub-and-spoke model. GitOps ZTP keeps site definitions and desired
 configuration in Git; the hub’s assisted service provisions spokes; policies
 and lifecycle tooling keep day-2 aligned across the fleet. At scale, that is how
 you avoid “SSH to each site and hope.” For a PoC-sized hub (SNO + ACM + spoke
-provisioning), follow the
+provisioning), follow
+[how to get started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
+and the
 [OpenShift PoC fleet management](https://openshift-ssa.github.io/openshift-poc/fleet-management/)
 guide.
 
@@ -404,6 +406,7 @@ can reclaim hours of POST wait (restore before handback).
 
 ## Related posts
 
+- [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
 - [Pure FlashArray on Single-Node OpenShift with NVMe/TCP](/posts/pure-flasharray-sno-nvme-tcp/)
 - [OpenShift Virtualization with Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
 - [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)

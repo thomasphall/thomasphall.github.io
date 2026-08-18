@@ -95,4 +95,5 @@ permalink: /posts/external-secrets-vs-secrets-store-csi/
 | GitOps / ACM fleet | ACM fleet virt, GitOps should manage ACM, edge architectures, network policies GitOps split, External Secrets |
 | ROSA / autoscaling | Karpenter vs machine pools, hosted vs VCP |
 | Storage / edge | OVE vSAN-like storage, Pure NVMe/TCP, Dell Unity iSCSI, edge architectures, PoC boot tip |
+| PoC / on-prem install | Getting started with an OpenShift PoC, PoC boot tip, edge architectures, hosted vs VCP |
 | Homelab / automation | Blink Synology archive, Tesla Sentry Synology archive |

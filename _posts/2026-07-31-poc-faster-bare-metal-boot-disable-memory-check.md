@@ -405,11 +405,14 @@ This pairs well with
 labs that lean on Agent-based Installer, Metal3, and Redfish-heavy reboot
 loops—use the PoC BIOS tweak for the engagement window, then restore before
 you call the gear production-ready. For the rest of a bare-metal OpenShift PoC
-(prerequisites through install), start at the
+(prerequisites through install), start at
+[how to get started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
+or the
 [OpenShift PoC overview](https://openshift-ssa.github.io/openshift-poc/home/).
 
 ## Related posts
 
+- [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
 - [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
 - [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
 
