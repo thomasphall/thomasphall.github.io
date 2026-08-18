@@ -40,7 +40,7 @@ Reusable tags in use today: `openshift`, `openshift-virtualization`,
 `acs`, `acm`, `supply-chain`, `networking`, `csi`, `sno`, `edge`, `secrets`,
 `migration`, `vmware`, `bare-metal`, `ansible`, `windows`,
 `hosted-control-planes`, `confidential-computing`, `trustee`, `lightwell`,
-`pure-storage`, `dell-unity`, `blink`, `tesla`, `vsan`.
+`pure-storage`, `dell-unity`, `blink`, `tesla`, `vsan`, `karpenter`, `rosa`.
 
 Example:
 
@@ -92,5 +92,6 @@ permalink: /posts/external-secrets-vs-secrets-store-csi/
 | ------- | ----------- |
 | Security / supply chain | Platform supply-chain, ACS + Virt, External Secrets, Confidential AI, Lightwell, network policies |
 | Virtualization | 4.22 features, hardening, networking, hosted vs VCP, MTV offload, OVE vSAN-like storage, network policies, ACM fleet virt |
+| ROSA / autoscaling | Karpenter vs machine pools, hosted vs VCP |
 | Storage / edge | OVE vSAN-like storage, Pure NVMe/TCP, Dell Unity iSCSI, edge architectures, PoC boot tip |
 | Homelab / automation | Blink Synology archive, Tesla Sentry Synology archive |

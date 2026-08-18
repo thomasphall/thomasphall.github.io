@@ -154,6 +154,12 @@ fleet platforms and ROSA-like operating models, that is usually a feature. For
 a team that just finished standardizing on Agent/ZTP for every site, it is a
 conscious platform bet.
 
+On ROSA with hosted control planes, worker compute has a further split:
+machine pools versus
+[Karpenter vs Machine Pools on ROSA HCP](/posts/karpenter-vs-machine-pools-rosa/).
+HCP is where those controllers run; Karpenter is which workers they should
+provision.
+
 ## OpenShift Virtualization is the substrate, not the rival
 
 Both architectures can involve OpenShift Virtualization. Do not let the naming
@@ -226,6 +232,7 @@ POST time is often worth a temporary BIOS tweak—see
 
 - [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
 - [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
+- [Karpenter vs Machine Pools on ROSA HCP](/posts/karpenter-vs-machine-pools-rosa/)
 - [Faster Bare-Metal Boots in OpenShift PoCs](/posts/poc-faster-bare-metal-boot-disable-memory-check/)
 
 Authoritative starting points:
