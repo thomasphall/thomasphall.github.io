@@ -4,7 +4,7 @@ description: >-
   How AI agents, OpenShift Lightspeed, and Ansible can automate MTV
   migrations from vSphere to OpenShift Virtualization—assessment, waves,
   and troubleshooting.
-date: 2026-08-18 10:00:00 -0500
+date: 2026-08-18 09:20:00 -0500
 categories: [OpenShift, Virtualization, Migration]
 tags: [openshift-virtualization, migration, vmware, automation, ansible]
 permalink: /posts/ai-agents-mtv-vsphere/
