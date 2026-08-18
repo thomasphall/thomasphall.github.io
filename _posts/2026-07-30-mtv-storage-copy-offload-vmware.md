@@ -229,10 +229,10 @@ before you assume ODF is the only landing pool.
 
 ## Related posts
 
+- [AI Agents for MTV: vSphere to OpenShift Virtualization](/posts/ai-agents-mtv-vsphere/)
 - [vSAN-like Storage for OpenShift Virtualization Engine](/posts/ove-vsan-storage-alternatives/)
 - [OpenShift Virtualization with Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
 - [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)
-- [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
 
 For planning detail and current prerequisites, start with Red Hat’s
 [MTV documentation for migrating from VMware vSphere](https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.11/html/planning_your_migration_to_red_hat_openshift_virtualization/assembly_planning-migration-vmware_mtv).

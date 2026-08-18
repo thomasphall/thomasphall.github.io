@@ -204,7 +204,7 @@ and
 
 ## Related posts
 
-- [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
+- [AI Agents for MTV: vSphere to OpenShift Virtualization](/posts/ai-agents-mtv-vsphere/)
 - [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
 - [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
 - [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
