@@ -41,7 +41,7 @@ is the migration engine. The objects are Kubernetes custom resources:
 
 | Object | Job |
 | ------ | --- |
-| `Provider` | Talks to vCenter (and the in-cluster OpenShift target) |
+| `Provider` | Talks to vCenter (and to the in-cluster OpenShift destination) |
 | `NetworkMap` | Source port group or network → NAD, pod network, or ignored |
 | `StorageMap` | Datastore → StorageClass, including offload when the SAN path exists |
 | `Plan` | Which VMs, cold vs warm, hooks, transfer network, landing namespace |
@@ -96,15 +96,11 @@ mappings and hook playbooks are boring.
 Conceptually:
 
 ```text
-vSphere                     Agents / automation                 OpenShift 4.22
-┌─────────────────┐         ┌──────────────────────────┐        ┌─────────────────────────────┐
-│ vCenter inventory│         │ Author: draft CRs, hooks │ GitOps │ MTV ForkliftController      │
-│        │         │ Provider│ Assist: Lightspeed + MCP │───────►│  Provider / Maps / Plan     │
-│        v         │────────►│ Act: AAP job templates   │        │            │                │
-│ VM disks / NICs  │         │        │                 │ status │            v                │
-└─────────────────┘         │        v                 │◄───────│ OpenShift Virtualization    │
-                            │ Human gate: cutover      │        │ PVCs, NADs, running VMs     │
-                            └──────────────────────────┘        └─────────────────────────────┘
+vSphere                    Agents & GitOps                        OpenShift 4.22
+┌───────────────────┐      ┌─────────────────────────┐            ┌───────────────────────────┐
+│ vCenter inventory  │      │ Assist / Author / Act   │            │ MTV ForkliftController   │
+│ VM disks / NICs    │─Provider─►│ Human gate: cutover │──GitOps──►│ Provider / Maps / Plan   │
+└───────────────────┘      └─────────────────────────┘            └───────────────────────────┘
 ```
 
 Secrets stay out of the agent’s prompt. The vSphere `Provider` secret belongs
@@ -224,7 +220,7 @@ AAP inventories the estate, opens the change record, applies the GitOps-merged
 CRs, waits on `Migration` status, and runs the guest/app steps MTV should not
 own.
 
-MTV hooks already run Ansible around a VM (pre and post). On MTV 2.12, **direct
+MTV hooks already run Ansible before and after a VM migrates. On MTV 2.12, **direct
 hook triggers into AAP** are Technology Preview: the plan can call AAP instead
 of only a hook image plus ConfigMap. Evaluate that when you already run AAP as
 the enterprise automation control plane. Until it is GA, keep the GA hook
