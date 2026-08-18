@@ -378,7 +378,9 @@ That answer selects the form factor faster than a feature matrix.
    compact/multi-node solve different constraints; do not stretch one to cover
    the others.
 3. **Fleet ops is the multiplier** — once you leave a handful of sites, RHACM
-   and GitOps ZTP are how install and drift stay intentional.
+   and GitOps ZTP are how install and drift stay intentional. The same hub is
+   how you operate VMs across those clusters—see
+   [ACM as the fleet control plane for OpenShift VMs](/posts/acm-openshift-virtualization/).
 4. **Connectivity is a day-0 design input** — mirrors, upgrade windows, and
    break-glass access decide whether the pretty topology survives first contact
    with the WAN.
@@ -402,6 +404,7 @@ can reclaim hours of POST wait (restore before handback).
 - [Pure FlashArray on Single-Node OpenShift with NVMe/TCP](/posts/pure-flasharray-sno-nvme-tcp/)
 - [OpenShift Virtualization with Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
 - [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
+- [ACM as the Fleet Control Plane for OpenShift VMs](/posts/acm-openshift-virtualization/)
 - [Faster Bare-Metal Boots in OpenShift PoCs](/posts/poc-faster-bare-metal-boot-disable-memory-check/)
 
 > Want a deeper walkthrough for your environment? Reach out to your Red Hat
