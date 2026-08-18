@@ -156,9 +156,10 @@ conscious platform bet.
 
 On ROSA with hosted control planes, worker compute has a further split:
 machine pools versus
-[Karpenter vs Machine Pools on ROSA HCP](/posts/karpenter-vs-machine-pools-rosa/).
-HCP is where those controllers run; Karpenter is which workers they should
-provision.
+[Red Hat build of Karpenter](/posts/karpenter-vs-machine-pools-rosa/).
+The hosted control plane is where those Karpenter controllers run.
+Karpenter's `NodePool` (`karpenter.sh/v1`) decides which EC2 workers to
+provision; that is not the HyperShift `NodePool` in the paragraph above.
 
 ## OpenShift Virtualization is the substrate, not the rival
 
