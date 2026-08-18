@@ -41,12 +41,12 @@ controllers run in the
 [hosted control plane](/posts/hosted-vs-virtualized-control-planes/), so there
 is no extra Karpenter footprint competing with application pods. You can enable
 it on an existing ROSA HCP cluster once the cluster is on 4.22. In OpenShift
-Cluster Manager the toggle is AutoNode; name the product Red Hat build of
+Cluster Manager, the toggle is AutoNode; name the product Red Hat build of
 Karpenter in architecture reviews.
 
 The object you write is a `NodePool` (`karpenter.sh/v1`). Red Hat’s
-`OpenshiftEC2NodeClass` wraps the upstream `EC2NodeClass`; NodePools
-`nodeClassRef` the `EC2NodeClass`. When you enable Karpenter, a default
+`OpenshiftEC2NodeClass` wraps the upstream `EC2NodeClass`; NodePools reference
+the `EC2NodeClass` through `nodeClassRef`. When you enable Karpenter, a default
 `OpenshiftEC2NodeClass` appears with the hosted control plane’s OpenShift
 version. That default class is immutable. Do not plan a design that starts
 with “we will edit `default`.”
@@ -100,13 +100,13 @@ inventing instance types. Batch and CI that come and go. Anything you would
 happily right-size every week if you had the time.
 
 **Move last—or never.** Ingress, registry, and monitoring if a reclaim or a
-Spot interruption would take the cluster’s face with it. Workloads that cannot
+Spot interruption would take the cluster’s face down with it. Workloads that cannot
 tolerate node expiry. Families you already purchased as a reservation *and*
 must keep as a named pool for procurement or support reasons.
 
 The hosted control plane still upgrades on its own cadence. NodePools that
-reference the default `OpenshiftEC2NodeClass` follow the control plane.
-Independent worker versioning is a non-default class with `spec.version`
+reference the default `OpenshiftEC2NodeClass` follow the control plane. For
+independent worker versioning, use a non-default class with `spec.version`
 pinned—out of scope here, but it is why “edit `default`” is the wrong instinct.
 For how hosted clusters split control-plane and worker lifecycle, see
 [hosted vs virtualized control planes](/posts/hosted-vs-virtualized-control-planes/).
@@ -139,8 +139,8 @@ MachineSet sets min and max replica counts. The autoscaler adds or removes
 *copies of that MachineSet*. It does not pick a new instance type per pending
 pod.
 
-That is the same split as ROSA, with a blunter API. Diverse, bursty, mixed
-constraint workloads still want many MachineSets (or they sit pending until
+That is the same split as ROSA, with a blunter API. Diverse, bursty,
+mixed-constraint workloads still want many MachineSets (or they sit pending until
 a human invents another). Known, interrupt-intolerant, pinned capacity still
 wants a MachineSet that does not shrink to zero. Upstream Karpenter on
 self-managed OpenShift is not the Red Hat build. Do not install it and tell
