@@ -37,7 +37,7 @@ Set `title` and `tagline` in `_config.yml`. Do not put the topic into
 
 Reusable tags in use today: `openshift`, `openshift-virtualization`,
 `security`, `storage`, `gitops`, `homelab`, `automation`, `synology`,
-`acs`, `supply-chain`, `networking`, `csi`, `sno`, `edge`, `secrets`,
+`acs`, `acm`, `supply-chain`, `networking`, `csi`, `sno`, `edge`, `secrets`,
 `migration`, `vmware`, `bare-metal`, `ansible`, `windows`,
 `hosted-control-planes`, `confidential-computing`, `trustee`, `lightwell`,
 `pure-storage`, `dell-unity`, `blink`, `tesla`, `vsan`.
@@ -91,7 +91,7 @@ permalink: /posts/external-secrets-vs-secrets-store-csi/
 | Cluster | Hub / peers |
 | ------- | ----------- |
 | Security / supply chain | Platform supply-chain, ACS + Virt, External Secrets, Confidential AI, Lightwell, network policies |
-| Virtualization | 4.22 features, hardening, networking, hosted vs VCP, MTV offload, OVE vSAN-like storage, network policies |
+| Virtualization | 4.22 features, hardening, networking, hosted vs VCP, MTV offload, OVE vSAN-like storage, network policies, ACM fleet virt |
 | Storage / edge | OVE vSAN-like storage, Pure NVMe/TCP, Dell Unity iSCSI, edge architectures, PoC boot tip |
 | Homelab / automation | Blink Synology archive, Tesla Sentry Synology archive |
 
