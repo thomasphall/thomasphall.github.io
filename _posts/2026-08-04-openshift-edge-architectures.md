@@ -381,6 +381,9 @@ That answer selects the form factor faster than a feature matrix.
    and GitOps ZTP are how install and drift stay intentional. The same hub is
    how you operate VMs across those clusters—see
    [ACM as the fleet control plane for OpenShift VMs](/posts/acm-openshift-virtualization/).
+   After install, GitOps should feed that hub’s policies rather than push
+   platform CRs to every spoke—see
+   [GitOps should manage ACM, not the cluster](/posts/gitops-should-manage-acm/).
 4. **Connectivity is a day-0 design input** — mirrors, upgrade windows, and
    break-glass access decide whether the pretty topology survives first contact
    with the WAN.

@@ -193,7 +193,9 @@ Lead with outcomes:
 If you already run RHACM for cluster lifecycle or GitOps ZTP, the next proof
 point is small: show one `VirtualMachine` from a spoke in Search, agree who
 may stop and migrate it, and decide whether Observability and the backup
-policies belong on the same hub. Edge form factor still comes first—see
+policies belong on the same hub. How those policies get onto the hub is a
+separate split—[GitOps should manage ACM, not the cluster](/posts/gitops-should-manage-acm/).
+Edge form factor still comes first—see
 [OpenShift edge architectures](/posts/openshift-edge-architectures/)—
 then make the fleet boring on purpose, including the VMs.
 
@@ -204,9 +206,9 @@ and
 
 ## Related posts
 
+- [GitOps Should Manage ACM, Not the Cluster](/posts/gitops-should-manage-acm/)
 - [AI Agents for MTV: vSphere to OpenShift Virtualization](/posts/ai-agents-mtv-vsphere/)
 - [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
-- [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
 - [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 
 > Want a deeper walkthrough for your environment? Reach out to your Red Hat
