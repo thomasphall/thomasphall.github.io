@@ -4,7 +4,7 @@ description: >-
   When OpenShift GitOps should feed RHACM policies instead of applying CRs
   to every cluster, and when a field framework like AutoShift is the
   example—not the SKU.
-date: 2026-08-19 06:00:00 -0500
+date: 2026-08-18 10:00:00 -0500
 categories: [OpenShift]
 tags: [openshift, gitops, acm]
 permalink: /posts/gitops-should-manage-acm/
