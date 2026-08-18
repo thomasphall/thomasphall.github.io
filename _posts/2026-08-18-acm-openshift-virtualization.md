@@ -48,7 +48,7 @@ From that console you can start, stop, restart, pause, unpause, and snapshot
 VMs. Those are the documented hub actions. They are enough to change the
 conversation from “SSH to the right cluster and find the YAML” to “the hub
 operates the VM fleet.” Live migration between clusters is a separate, GA
-capability—not a sixth Search button to invent in a pitch.
+capability—not another Search button to invent in a pitch.
 
 That split matches how customers already think about containers. Nobody wants
 a unique operational model for “the VM clusters.” If the platform is OpenShift,
@@ -86,11 +86,11 @@ Backup for OpenShift Virtualization VMs in ACM is policy plus
 [OpenShift APIs for Data Protection (OADP)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/backup_and_restore/oadp-application-backup-and-restore).
 Enable the backup component, place the virtualization policies, and ACM will
 install and configure OADP on managed clusters according to a hub ConfigMap.
-The operator model is GitOps-shaped even when you never open Argo CD: labels
-select clusters and VMs; policies create Velero schedules; compliance tells you
-whether the last backup completed.
+The operator model is GitOps-shaped even when you never open OpenShift
+GitOps: labels select clusters and VMs; policies create Velero schedules;
+compliance tells you whether the last backup completed.
 
-Supported storage for those VM backups is CSI, or CSI with DataMover. File
+Supported storage for those VM backups is CSI or CSI with DataMover. File
 system backup and volume-snapshot backup are not supported for this path. Say
 that in the design review before someone assumes “we have OADP, so every
 Velero feature applies to VMs.”
