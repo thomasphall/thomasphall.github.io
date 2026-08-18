@@ -94,5 +94,3 @@ permalink: /posts/external-secrets-vs-secrets-store-csi/
 | Virtualization | 4.22 features, hardening, networking, hosted vs VCP, MTV offload, OVE vSAN-like storage, network policies, ACM fleet virt |
 | Storage / edge | OVE vSAN-like storage, Pure NVMe/TCP, Dell Unity iSCSI, edge architectures, PoC boot tip |
 | Homelab / automation | Blink Synology archive, Tesla Sentry Synology archive |
-
-See also: [blog SEO wiring design](superpowers/specs/2026-08-13-blog-seo-wiring-design.md).

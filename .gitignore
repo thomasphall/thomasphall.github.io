@@ -28,3 +28,6 @@ assets/js/dist
 
 # Git worktrees
 .worktrees
+
+# Local draft notes
+docs/superpowers/
