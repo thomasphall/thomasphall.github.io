@@ -161,7 +161,9 @@ Everything else is optional and should match the customer story: identity,
 GitOps, virtualization (after
 [workload availability](https://openshift-ssa.github.io/openshift-poc/post-installation/workload-availability/)),
 [MTV](https://openshift-ssa.github.io/openshift-poc/post-installation/mtv/),
-logging, Service Mesh. Mark the console with the
+logging, Service Mesh, and
+[Network Observability](/posts/network-observability-openshift/)
+after CSI and the underlay. Mark the console with the
 [PoC banner](https://openshift-ssa.github.io/openshift-poc/post-installation/poc-banner/)
 so nobody treats kubeadmin as production.
 

@@ -30,7 +30,11 @@ Segmentation and MAC spoof filtering sit beside the broader
 [hardening priorities](/posts/openshift-virtualization-hardening-priorities/)
 conversation. Microsegmentation on those attachments is a different API than
 pod-network `NetworkPolicy`—see
-[OpenShift Network Policies: Tenant, Admin, Secondary](/posts/openshift-network-policies/). Network maps also show up in VMware exit waves—see
+[OpenShift Network Policies: Tenant, Admin, Secondary](/posts/openshift-network-policies/).
+Default pod-network VM traffic shows up in
+[Network Observability](/posts/network-observability-openshift/) without extra
+flags; secondary NICs need privileged eBPF agents. Network maps also show up in
+VMware exit waves—see
 [storage copy offload for MTV](/posts/mtv-storage-copy-offload-vmware/) when disk
 copy is the bottleneck and VLAN/port-group mapping is still on the critical path.
 
@@ -352,7 +356,7 @@ in the [OpenShift PoC docs](https://openshift-ssa.github.io/openshift-poc/home/)
 - [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
 - [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
 - [OpenShift Network Policies: Tenant, Admin, Secondary](/posts/openshift-network-policies/)
-- [VMware to OpenShift Virtualization: Copy Offload](/posts/mtv-storage-copy-offload-vmware/)
+- [How to Install Network Observability on OpenShift 4.22](/posts/network-observability-openshift/)
 
 > Want help mapping these patterns into a landing zone or VMware migration
 > design? Reach out to your Red Hat account team—or prove the dual-bond + CUDN

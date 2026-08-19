@@ -201,6 +201,9 @@ spoof filtering from the
 digest. RHACS still observes the virt-launcher workload; it does not replace
 this control. See
 [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/).
+To see whether ANP or `NetworkPolicy` is actually dropping packets, install
+[Network Observability on OpenShift 4.22](/posts/network-observability-openshift/)
+and look for `OVS_DROP_LAST_ACTION` after you enable `PacketDrop`.
 
 ## When to use what
 
@@ -235,9 +238,9 @@ The broader observe / prove / gate pattern still sits above this:
 
 ## Related posts
 
+- [How to Install Network Observability on OpenShift 4.22](/posts/network-observability-openshift/)
 - [GitOps Should Manage ACM, Not the Cluster](/posts/gitops-should-manage-acm/)
 - [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)
-- [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
 - [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 
 > Want help mapping tenant, admin, and secondary-network policy into a
