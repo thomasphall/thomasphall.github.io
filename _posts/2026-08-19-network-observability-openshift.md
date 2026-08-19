@@ -100,8 +100,8 @@ quote for your cluster:
 | Processor replicas  | 3                       | 6                 | 18                 |
 | eBPF sampling       | 50                      | 50                | 50                 |
 
-Labs can drop processor replicas to `1`. Do not take that into a size you would
-call production.
+Labs can drop processor replicas to `1`. Do not carry that setting into
+anything you would call production.
 
 ## Prerequisites
 
@@ -346,7 +346,7 @@ Quick sampling change without opening the YAML tab:
 
 ```bash
 oc patch flowcollector cluster --type=json \
-  -p '[{"op": "replace", "path": "/spec/agent/ebpf/sampling", "value": 50}]'
+  -p '[{"op": "replace", "path": "/spec/agent/ebpf/sampling", "value": 25}]'
 ```
 
 ## Use Observe → Network Traffic
@@ -378,7 +378,7 @@ break-glass capture, not as the platform’s observability story.
 ## Features you turn on on purpose
 
 Each extra eBPF feature costs CPU and memory. Privileged agents are required
-for some of them. Least privilege means leave `privileged: false` until a
+for some of them. Least privilege means leaving `privileged: false` until a
 feature needs it.
 
 ```yaml
@@ -394,18 +394,18 @@ spec:
         - TLSTracking
 ```
 
-| Feature          | What you gain                                      | Privileged |
-| ---------------- | -------------------------------------------------- | ---------- |
-| `PacketDrop`     | Host `SKB_DROP_*` and OVS `OVS_DROP_*` reasons     | Yes        |
-| `DNSTracking`    | Query name, RCODE, DNS latency (port 53)           | No         |
-| `FlowRTT`        | TCP smoothed RTT                                   | No         |
-| `TLSTracking`    | TLS version and cipher metadata (1.12)             | No         |
-| `UDNMapping`     | Map flows to user-defined networks                 | Yes        |
-| `IPSec`          | Node IPsec status on flows                         | No         |
-| `NetworkEvents`  | Correlate flows with OVN network policy events     | Yes; Tech Preview |
+| Feature                        | What you gain                                  | Privileged |
+| ------------------------------- | ----------------------------------------------- | ---------- |
+| `PacketDrop`                    | Host `SKB_DROP_*` and OVS `OVS_DROP_*` reasons  | Yes        |
+| `DNSTracking`                   | Query name, RCODE, DNS latency (port 53)        | No         |
+| `FlowRTT`                       | TCP smoothed RTT                                | No         |
+| `TLSTracking`                   | TLS version and cipher metadata (1.12)          | No         |
+| `UDNMapping`                    | Map flows to user-defined networks              | Yes        |
+| `IPSec`                         | Node IPsec status on flows                      | No         |
+| `NetworkEvents` (Tech Preview)  | Correlate flows with OVN network policy events  | Yes        |
 
 `OVS_DROP_LAST_ACTION` is the interesting drop when you are validating
-NetworkPolicy: OVN dropped the packet because of an implicit drop, often
+NetworkPolicy: it is an implicit OVS drop, most often triggered by a network
 policy. `PacketDrop` is how that shows up in Overview panels and the side
 panel of a flow. That proves tenant `NetworkPolicy` on the **pod network**.
 It does not prove
@@ -464,7 +464,7 @@ console by that IP:
 
 ```bash
 oc get pod -n '<namespace>' -l 'kubevirt.io/domain=<vm-name>' \
-  -o jsonpath="{.items[0].metadata.annotations['k8s.v1.cni.cncf.io/network-status']}{'\n'}"
+  -o jsonpath='{.items[0].metadata.annotations.k8s\.v1\.cni\.cncf\.io/network-status}{"\n"}'
 ```
 
 The default `ovn-kubernetes` entry is masquerade (`eth0`). Additional objects
