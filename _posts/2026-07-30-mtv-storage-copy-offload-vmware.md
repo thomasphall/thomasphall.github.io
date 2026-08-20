@@ -27,7 +27,8 @@ storage teams evaluating that path on MTV 2.11. It is not a click-by-click
 runbook. For operator install, a vSphere provider, and VDDK setup in a PoC,
 use the
 [Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/mtv/)
-guide.
+guide. If obtaining VDDK from Broadcom is the blocker, see
+[VDDK Off Broadcom's Public Portal: MTV Migrations](/posts/vddk-portal-mtv-openshift/).
 
 ## The traditional MTV path hits the network
 
@@ -229,10 +230,10 @@ before you assume ODF is the only landing pool.
 
 ## Related posts
 
+- [VDDK Off Broadcom's Public Portal: MTV Migrations](/posts/vddk-portal-mtv-openshift/)
 - [AI Agents for MTV: vSphere to OpenShift Virtualization](/posts/ai-agents-mtv-vsphere/)
 - [vSAN-like Storage for OpenShift Virtualization Engine](/posts/ove-vsan-storage-alternatives/)
 - [OpenShift Virtualization with Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
-- [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)
 
 > Want help deciding whether storage copy offload fits your array topology?
 > Reach out to your Red Hat account team—or prove one cold offload wave on a

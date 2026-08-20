@@ -32,7 +32,8 @@ This post is a solution-architect pattern for that split on MTV 2.12 and
 OpenShift 4.22. It is not a click-by-click agent lab. For operator install, a
 vSphere provider, and VDDK in a PoC, use the
 [Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/mtv/)
-guide.
+guide. Treat the VDDK tarball as a procurement item—see
+[VDDK Off Broadcom's Public Portal: MTV Migrations](/posts/vddk-portal-mtv-openshift/).
 
 ## MTV still owns the move
 
@@ -311,10 +312,10 @@ For the copy path when the SAN can take the load, see
 
 ## Related posts
 
+- [VDDK Off Broadcom's Public Portal: MTV Migrations](/posts/vddk-portal-mtv-openshift/)
 - [VMware to OpenShift Virtualization: Copy Offload](/posts/mtv-storage-copy-offload-vmware/)
 - [ACM as the Fleet Control Plane for OpenShift VMs](/posts/acm-openshift-virtualization/)
 - [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
-- [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
 
 > Want help applying this in your environment? Reach out to your Red Hat
 > account team—or evaluate Lightspeed plus one GitOps-managed plan on a

@@ -217,8 +217,8 @@ just an older release.
 
 ## Related posts
 
+- [VDDK Off Broadcom's Public Portal: MTV Migrations](/posts/vddk-portal-mtv-openshift/)
 - [OpenShift Virtualization with Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
-- [Pure FlashArray on Single Node OpenShift with NVMe/TCP](/posts/pure-flasharray-sno-nvme-tcp/)
 - [VMware to OpenShift Virtualization: Copy Offload](/posts/mtv-storage-copy-offload-vmware/)
 - [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
 
