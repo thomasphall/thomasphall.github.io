@@ -34,20 +34,20 @@ guide—then treat VDDK as a procurement item, not a browser errand.
 
 ## What VDDK actually does in MTV
 
-VDDK is VMware’s C library set for reading virtual disks through vSphere
-Storage APIs for Data Protection (VADP). Backup products use it. So do
-migrators. MTV does not embed those libraries. You download the Linux
-tarball, wrap it in a container, push that image to a registry the cluster
-can pull, and point the vSphere `Provider` at it (`vddkInitImage`). MTV
-runs the image as an init container so `virt-v2v` / nbdkit can talk to ESXi
-the way VMware designed.
+VDDK is VMware’s C library set for reading virtual disks through vStorage
+APIs for Data Protection (VADP). Backup products use it. So do migrators.
+MTV does not embed those libraries. You download the Linux tarball, wrap
+it in a container, push that image to a registry the cluster can pull, and
+point the vSphere `Provider` at it (`vddkInitImage`). MTV runs the image
+as an init container so `virt-v2v` / `nbdkit` can talk to ESXi the way
+VMware designed.
 
 Red Hat’s wording on MTV 2.12 is consistent:
 
 - Creating a VDDK image is **optional** and **strongly recommended**.
 - Skipping it is an explicit provider choice labeled **not recommended**.
 - Without VDDK, network copy is **significantly slower**.
-- For VMs whose disks live on **VMware vSAN, VDDK is mandatory**. MTV
+- For VMs whose disks live on **VMware vSAN**, VDDK is mandatory. MTV
   fails those plans with `Migration failed: VDDK image required for vSAN
   storage`.
 
@@ -68,7 +68,7 @@ self-service download** that MTV documentation still tells you to use.
 
 In practice, customers and partners report some mix of:
 
-- Download buttons that return JSON errors or a permanent “log in” loop.
+- Download buttons that return JSON errors or a permanent login loop.
 - Entitlement walls that a vSphere support contract does not clear.
 - Broadcom support directing people to the
   [VMware Technology Alliance Program](https://tap.broadcom.com/)
@@ -97,12 +97,12 @@ matters.
 vSphere disks
      │
      ├── VDDK network copy ──► CDI volumes ──► OpenShift Virtualization
-     │     (fast, needed for vSAN; needs the tarball)
+     │     (fast, required for vSAN; needs the tarball)
      │
      ├── No VDDK ────────────► slower virt-v2v path ──► OpenShift Virtualization
      │     (allowed except vSAN; weekends get longer)
      │
-     └── Storage copy offload ─► Volume Populators / XCOPY ──► OpenShift Virtualization
+     └── Storage copy offload ──► Volume Populators / XCOPY ──► OpenShift Virtualization
            (array path; does not consume VDDK for the copy)
 ```
 
@@ -119,8 +119,8 @@ Three consequences show up in design reviews.
 That is not folklore. MTV 2.12 troubleshooting documents the error and
 the fix: configure a VDDK init image. If the source is vSAN and you
 cannot obtain VDDK, the factory does not “degrade.” It does not start.
-Storage vMotion onto NFS or a SAN *before* MTV, then migrate, is an
-architecture conversation—not a hidden checkbox.
+Storage vMotion onto NFS or a SAN *before* MTV runs, followed by a normal
+migration, is an architecture conversation—not a hidden checkbox.
 
 **2. Warm migration and Deep Inspection get worse.**  
 Warm copy leans on Changed Block Tracking (CBT) and efficient disk
@@ -180,7 +180,7 @@ somewhere boring, and do not rediscover it during cutover.
    `Secret` belong in the same factory repo as the `Plan`. Chat history
    that says “we skipped VDDK” is not an audit trail.
 
-For a first cluster, sequence from
+For a first cluster, start from
 [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
 and land Virtualization before you argue about copy engines.
 
