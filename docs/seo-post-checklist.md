@@ -126,6 +126,6 @@ just to preserve `/categories/<old>/` — redirect those archives instead.
 | Virtualization | 4.22 features, hardening, networking, hosted vs VCP, MTV offload, VDDK portal / MTV, AI agents for MTV, OVE vSAN-like storage, network policies, ACM fleet virt, Network Observability |
 | GitOps / ACM fleet | ACM fleet virt, GitOps should manage ACM, edge architectures, network policies GitOps split, External Secrets, getting started |
 | ROSA / autoscaling | Karpenter vs machine pools, hosted vs VCP |
-| Storage / edge | OVE vSAN-like storage, Pure NVMe/TCP, Dell Unity iSCSI, edge architectures, PoC boot tip |
+| Storage / edge | OVE vSAN-like storage, storage performance (disks/IOPS), Pure NVMe/TCP, Dell Unity iSCSI, edge architectures, PoC boot tip |
 | PoC / on-prem install | Getting started with an OpenShift PoC, PoC boot tip, edge architectures, hosted vs VCP, GitOps should manage ACM, Network Observability |
 | Homelab / automation | Blink Synology archive, Tesla Sentry Synology archive |

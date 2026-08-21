@@ -96,8 +96,11 @@ Then close the five gates the guide treats as blocking:
 5. **Storage is day-2, etcd is local** — CSI is not required to install
    OpenShift. It is required before persistent workloads. Bring the storage
    vendor for the driver. Keep etcd on local NVMe or SSD that can fdatasync
-   an 8 KB write under 10 ms. Jumbo frames for the storage path must be
-   end-to-end or they will bite after the cluster looks healthy. See
+   an 8 KB write under 10 ms. Disk types, IOPS, and per-architecture traps
+   are in
+   [OpenShift storage performance](/posts/openshift-storage-performance/).
+   Jumbo frames for the storage path must be end-to-end or they will bite
+   after the cluster looks healthy. See
    [storage](https://openshift-ssa.github.io/openshift-poc/prerequisites/storage/).
 
 UEFI boot, UTC clock, and a boot order that prefers local disk once virtual
@@ -194,9 +197,9 @@ of operations.
 ## Related posts
 
 - [Faster Bare-Metal Boots in OpenShift PoCs](/posts/poc-faster-bare-metal-boot-disable-memory-check/)
+- [OpenShift Storage Performance: Disks, IOPS, Architectures](/posts/openshift-storage-performance/)
 - [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
 - [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
-- [GitOps Should Manage ACM, Not the Cluster](/posts/gitops-should-manage-acm/)
 
 > Want help applying this in your environment? Reach out to your Red Hat
 > account team—or run the prerequisites checklist on paper with networking and

@@ -391,6 +391,8 @@ That answer selects the form factor faster than a feature matrix.
    with the WAN.
 5. **Storage follows the failure domain** — LVMS for local disks, external CSI
    when an array is real, ODF when the site earns replicated block/file/object.
+   Disk types, IOPS, and what fails per architecture are in
+   [OpenShift storage performance](/posts/openshift-storage-performance/).
 
 Start the next conversation with constraints, not product logos: how much
 hardware, how much downtime, how bad the network, how many identical sites,
@@ -407,8 +409,8 @@ can reclaim hours of POST wait (restore before handback).
 ## Related posts
 
 - [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
+- [OpenShift Storage Performance: Disks, IOPS, Architectures](/posts/openshift-storage-performance/)
 - [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
-- [GitOps Should Manage ACM, Not the Cluster](/posts/gitops-should-manage-acm/)
 - [Pure FlashArray on Single Node OpenShift with NVMe/TCP](/posts/pure-flasharray-sno-nvme-tcp/)
 
 > Want help applying this in your environment? Reach out to your Red Hat

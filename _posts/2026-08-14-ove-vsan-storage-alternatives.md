@@ -217,10 +217,10 @@ just an older release.
 
 ## Related posts
 
+- [OpenShift Storage Performance: Disks, IOPS, Architectures](/posts/openshift-storage-performance/)
 - [VDDK Off Broadcom's Public Portal: MTV Migrations](/posts/vddk-portal-mtv-openshift/)
 - [OpenShift Virtualization with Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
 - [VMware to OpenShift Virtualization: Copy Offload](/posts/mtv-storage-copy-offload-vmware/)
-- [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
 
 ## Further reading
 
