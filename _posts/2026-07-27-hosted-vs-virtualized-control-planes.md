@@ -7,6 +7,7 @@ description: >-
 date: 2026-07-27 16:00:00 -0500
 categories: [OpenShift, Virtualization]
 tags: [openshift, openshift-virtualization, hosted-control-planes]
+og_image: /assets/img/og/hosted-vs-virtualized-control-planes.png
 permalink: /posts/hosted-vs-virtualized-control-planes/
 ---
 

@@ -7,6 +7,7 @@ description: >-
 date: 2026-08-04 10:00:00 -0500
 categories: [OpenShift, Security]
 tags: [openshift, openshift-virtualization, security, acs]
+og_image: /assets/img/og/acs-openshift-virtualization.png
 permalink: /posts/acs-openshift-virtualization/
 ---
 

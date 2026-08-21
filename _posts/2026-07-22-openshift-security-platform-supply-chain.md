@@ -7,6 +7,7 @@ description: >-
 date: 2026-07-22 12:00:00 -0500
 categories: [OpenShift, Security]
 tags: [openshift, security, supply-chain, acs]
+og_image: /assets/img/og/openshift-security-platform-supply-chain.png
 permalink: /posts/openshift-security-platform-supply-chain/
 ---
 

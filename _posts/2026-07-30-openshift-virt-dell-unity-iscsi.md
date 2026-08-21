@@ -7,6 +7,7 @@ description: >-
 date: 2026-07-30 07:00:00 -0500
 categories: [OpenShift, Virtualization]
 tags: [openshift, openshift-virtualization, storage, dell-unity, csi]
+og_image: /assets/img/og/openshift-virt-dell-unity-iscsi.png
 permalink: /posts/openshift-virt-dell-unity-iscsi/
 ---
 

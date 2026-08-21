@@ -7,6 +7,7 @@ description: >-
 date: 2026-08-18 06:00:00 -0500
 categories: [OpenShift, Virtualization]
 tags: [acm, openshift, openshift-virtualization, gitops]
+og_image: /assets/img/og/acm-openshift-virtualization.png
 permalink: /posts/acm-openshift-virtualization/
 ---
 

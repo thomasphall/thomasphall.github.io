@@ -6,6 +6,7 @@ description: >-
 date: 2026-08-13 14:30:00 -0500
 categories: [Homelab, Automation]
 tags: [homelab, automation, synology, tesla]
+og_image: /assets/img/og/tesla-sentry-synology-archive.png
 permalink: /posts/tesla-sentry-synology-archive/
 ---
 

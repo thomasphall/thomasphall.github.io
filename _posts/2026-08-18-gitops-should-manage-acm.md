@@ -7,6 +7,7 @@ description: >-
 date: 2026-08-18 10:00:00 -0500
 categories: [OpenShift]
 tags: [openshift, gitops, acm]
+og_image: /assets/img/og/gitops-should-manage-acm.png
 permalink: /posts/gitops-should-manage-acm/
 ---
 

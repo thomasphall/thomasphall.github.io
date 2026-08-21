@@ -7,6 +7,7 @@ description: >-
 date: 2026-08-17 08:00:00 -0500
 categories: [OpenShift, Security]
 tags: [openshift, security, networking, gitops]
+og_image: /assets/img/og/openshift-network-policies.png
 permalink: /posts/openshift-network-policies/
 ---
 

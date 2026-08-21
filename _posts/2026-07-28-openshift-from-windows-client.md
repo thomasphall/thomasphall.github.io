@@ -7,6 +7,7 @@ description: >-
 date: 2026-07-28 07:30:00 -0500
 categories: [OpenShift]
 tags: [openshift, windows]
+og_image: /assets/img/og/openshift-from-windows-client.png
 permalink: /posts/openshift-from-windows-client/
 ---
 

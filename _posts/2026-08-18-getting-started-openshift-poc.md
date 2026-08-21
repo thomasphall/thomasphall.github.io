@@ -7,6 +7,7 @@ description: >-
 date: 2026-08-18 13:00:00 -0500
 categories: [OpenShift]
 tags: [openshift, bare-metal, sno, acm, gitops]
+og_image: /assets/img/og/getting-started-openshift-poc.png
 permalink: /posts/getting-started-openshift-poc/
 ---
 

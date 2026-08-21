@@ -7,6 +7,7 @@ description: >-
 date: 2026-08-21 13:30:00 -0500
 categories: [OpenShift]
 tags: [openshift, storage, csi, bare-metal, rosa]
+og_image: /assets/img/og/openshift-storage-performance.png
 permalink: /posts/openshift-storage-performance/
 ---
 

@@ -7,6 +7,7 @@ description: >-
 date: 2026-08-20 12:00:00 -0500
 categories: [OpenShift, Virtualization]
 tags: [openshift, openshift-virtualization, migration, vmware, storage]
+og_image: /assets/img/og/vddk-portal-mtv-openshift.png
 permalink: /posts/vddk-portal-mtv-openshift/
 ---
 

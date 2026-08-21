@@ -6,6 +6,7 @@ description: >-
 date: 2026-08-13 14:00:00 -0500
 categories: [Homelab, Automation]
 tags: [homelab, automation, synology, blink]
+og_image: /assets/img/og/blink-camera-synology-archive.png
 permalink: /posts/blink-camera-synology-archive/
 ---
 

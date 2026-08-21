@@ -7,6 +7,7 @@ description: >-
 date: 2026-07-31 12:50:00 -0500
 categories: [OpenShift]
 tags: [openshift, bare-metal, ansible]
+og_image: /assets/img/og/poc-faster-bare-metal-boot-disable-memory-check.png
 permalink: /posts/poc-faster-bare-metal-boot-disable-memory-check/
 ---
 

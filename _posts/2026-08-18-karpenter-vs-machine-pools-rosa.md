@@ -7,6 +7,7 @@ description: >-
 date: 2026-08-18 08:00:00 -0500
 categories: [OpenShift]
 tags: [openshift, karpenter, rosa, hosted-control-planes]
+og_image: /assets/img/og/karpenter-vs-machine-pools-rosa.png
 permalink: /posts/karpenter-vs-machine-pools-rosa/
 ---
 

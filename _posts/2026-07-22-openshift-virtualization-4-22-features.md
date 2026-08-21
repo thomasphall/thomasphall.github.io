@@ -6,6 +6,7 @@ description: >-
 date: 2026-07-22 13:00:00 -0500
 categories: [OpenShift, Virtualization]
 tags: [openshift, openshift-virtualization]
+og_image: /assets/img/og/openshift-virtualization-4-22-features.png
 permalink: /posts/openshift-virtualization-4-22-features/
 ---
 

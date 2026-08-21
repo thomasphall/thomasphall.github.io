@@ -7,6 +7,7 @@ description: >-
 date: 2026-07-29 08:30:00 -0500
 categories: [OpenShift]
 tags: [openshift, storage, sno, pure-storage]
+og_image: /assets/img/og/pure-flasharray-sno-nvme-tcp.png
 permalink: /posts/pure-flasharray-sno-nvme-tcp/
 ---
 

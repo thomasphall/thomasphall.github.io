@@ -7,6 +7,7 @@ description: >-
 date: 2026-07-23 10:00:00 -0500
 categories: [OpenShift, Virtualization]
 tags: [openshift, openshift-virtualization, security, networking]
+og_image: /assets/img/og/openshift-virtualization-hardening-priorities.png
 permalink: /posts/openshift-virtualization-hardening-priorities/
 ---
 

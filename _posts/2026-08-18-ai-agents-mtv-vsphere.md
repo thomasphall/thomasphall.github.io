@@ -7,6 +7,7 @@ description: >-
 date: 2026-08-18 09:20:00 -0500
 categories: [OpenShift, Virtualization]
 tags: [openshift, openshift-virtualization, migration, vmware, ansible, gitops]
+og_image: /assets/img/og/ai-agents-mtv-vsphere.png
 permalink: /posts/ai-agents-mtv-vsphere/
 ---
 

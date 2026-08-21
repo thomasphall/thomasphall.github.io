@@ -7,6 +7,7 @@ description: >-
 date: 2026-08-04 16:00:00 -0500
 categories: [OpenShift]
 tags: [openshift, edge, sno, gitops, storage]
+og_image: /assets/img/og/openshift-edge-architectures.png
 permalink: /posts/openshift-edge-architectures/
 ---
 

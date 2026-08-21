@@ -7,6 +7,7 @@ description: >-
 date: 2026-08-19 07:00:00 -0500
 categories: [OpenShift, Security]
 tags: [openshift, networking, gitops, security, openshift-virtualization]
+og_image: /assets/img/og/network-observability-openshift.png
 permalink: /posts/network-observability-openshift/
 ---
 
