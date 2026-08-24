@@ -584,10 +584,10 @@ the same way tenant `NetworkPolicy` does.
 
 ## Related posts
 
+- [Why OVN-Kubernetes Is OpenShift's Default CNI](/posts/ovn-kubernetes-openshift-cni/)
 - [OpenShift Network Policies: Tenant, Admin, Secondary](/posts/openshift-network-policies/)
 - [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)
 - [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
-- [GitOps Should Manage ACM, Not the Cluster](/posts/gitops-should-manage-acm/)
 
 > Want help sizing LokiStack and FlowCollector for a landing zone? Reach out
 > to your Red Hat account team—or stand up Loki plus a default `FlowCollector`

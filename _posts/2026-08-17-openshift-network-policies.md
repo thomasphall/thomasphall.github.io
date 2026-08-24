@@ -18,7 +18,8 @@ permalink: /posts/openshift-network-policies/
 Ask a platform team how they isolate traffic on
 [Red Hat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift)
 and the answer is often “we have NetworkPolicy.” That is necessary. It is not
-the isolation story. On OpenShift Container Platform 4.22 with OVN-Kubernetes,
+the isolation story. On OpenShift Container Platform 4.22 with
+[OVN-Kubernetes](/posts/ovn-kubernetes-openshift-cni/),
 namespace-scoped `NetworkPolicy` sits in the middle of a three-tier ACL for the
 pod network, and it does not see secondary NICs at all. Cluster admins have
 `AdminNetworkPolicy` and `BaselineAdminNetworkPolicy`. Virtual machines and pods
@@ -239,8 +240,8 @@ The broader observe / prove / gate pattern still sits above this:
 
 ## Related posts
 
+- [Why OVN-Kubernetes Is OpenShift's Default CNI](/posts/ovn-kubernetes-openshift-cni/)
 - [How to Install Network Observability on OpenShift 4.22](/posts/network-observability-openshift/)
-- [GitOps Should Manage ACM, Not the Cluster](/posts/gitops-should-manage-acm/)
 - [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)
 - [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 

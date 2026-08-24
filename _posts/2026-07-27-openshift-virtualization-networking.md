@@ -43,7 +43,10 @@ copy is the bottleneck and VLAN/port-group mapping is still on the critical path
 
 The [Container Network Interface (CNI)](https://www.cni.dev/) is how runtimes
 ask plugins to configure interfaces. OpenShift's default story is
-OVN-Kubernetes. Secondary networks—extra NICs on pods or VMs—come through
+OVN-Kubernetes—keep it unless a certified vendor plugin is a named
+requirement; see
+[Why OVN-Kubernetes Is OpenShift's Default CNI](/posts/ovn-kubernetes-openshift-cni/).
+Secondary networks—extra NICs on pods or VMs—come through
 [Multus](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/multiple_networks/understanding-multiple-networks)
 and `NetworkAttachmentDefinition` objects that tell Multus which plugin and
 config to apply.
@@ -354,7 +357,7 @@ in the [OpenShift PoC docs](https://openshift-ssa.github.io/openshift-poc/home/)
 
 ## Related posts
 
-- [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
+- [Why OVN-Kubernetes Is OpenShift's Default CNI](/posts/ovn-kubernetes-openshift-cni/)
 - [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
 - [OpenShift Network Policies: Tenant, Admin, Secondary](/posts/openshift-network-policies/)
 - [How to Install Network Observability on OpenShift 4.22](/posts/network-observability-openshift/)

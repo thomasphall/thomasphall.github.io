@@ -186,7 +186,9 @@ A green `clusterversion` with no PVC and no idp is not a finished PoC.
 3. **Assisted Installer is the default** — agent-based, disconnected, vSphere,
    and hosted control planes are constraint-driven forks.
 4. **Keep the first network simple** — one NIC or bond; add trunks after
-   NMState.
+   day-2 with NMState. Leave the CNI at OVN-Kubernetes unless a certified
+   vendor plugin is a named requirement; see
+   [Why OVN-Kubernetes Is OpenShift's Default CNI](/posts/ovn-kubernetes-openshift-cni/).
 5. **Required day-2 is NMState, CSI, registry** — then one workload that
    matches the story you sold.
 
