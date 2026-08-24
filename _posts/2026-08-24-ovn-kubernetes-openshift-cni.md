@@ -5,7 +5,7 @@ description: >-
   Cilium or Calico, and when a certified vendor plugin is still the right
   call on 4.22.
 date: 2026-08-24 09:00:00 -0500
-categories: [OpenShift]
+categories: [OpenShift, Virtualization]
 tags: [openshift, networking, openshift-virtualization]
 og_image: /assets/img/og/ovn-kubernetes-openshift-cni.png
 permalink: /posts/ovn-kubernetes-openshift-cni/
@@ -115,13 +115,10 @@ See
 and
 [the three policy planes](/posts/openshift-network-policies/).
 
-**3. Virtualization is designed onto this CNI.** Masquerade on the default pod
-network, primary Layer 2 UDN for persistent guest IPs and overlapping tenant
-subnets, and CUDN localnet for “give me VLAN 1924” are the 4.22 field path in
-[OpenShift Virtualization networking](/posts/openshift-virtualization-networking/).
-Certified vendors may pass Virt tests. They do not give you UDN. If VMware
-exit is in the next twelve months, do not throw away the API that maps to a
-port group.
+**3. Virtualization is designed onto this CNI.** Guest attach, live-migration
+identity, and VLAN/port-group mapping assume OVN-Kubernetes. Certified vendors
+may pass Virt tests. They do not give you UDN. The next section is that
+argument in full.
 
 **4. It ships. You do not bring manifests.** Assisted Installer, IPI, and UPI
 all know `OVNKubernetes`. Cilium, Calico, and Cisco ACI are `networkType`
@@ -143,6 +140,62 @@ buy a CNI to get NetworkPolicy. You already have it.
 macvlan, ipvlan, and localnet sit beside OVN-Kubernetes via Multus. Replacing
 the primary CNI because a NIC vendor’s slide mentioned their plugin is solving
 the wrong layer.
+
+## OpenShift Virtualization
+
+[OpenShift Virtualization](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/index)
+does not get a second CNI. Each guest runs in a `virt-launcher` pod. The
+cluster plugin still owns east-west, live migration, and how a VNIC lands on
+the host. If VMware exit is on the calendar, this is the CNI conversation—not
+a later day-2 Operator.
+
+The 4.22 field path has three attachments. Host underlay, NNCP, and CUDN YAML
+live in
+[OpenShift Virtualization networking](/posts/openshift-virtualization-networking/).
+Here is the CNI decision those patterns depend on.
+
+| Guest need | Attachment | Why it wants OVN-Kubernetes |
+| ---------- | ---------- | --------------------------- |
+| Services, Routes, LoadBalancer; IP may change on migrate | Default pod network (masquerade) | Same overlay as every other pod; Network Observability sees it with no extra flags |
+| Tenant isolation, overlapping subnets, persistent guest IP across live migration | Primary Layer 2 UDN | UDN is OVN-Kubernetes only; the guest default NIC is on an isolated L2 that spans nodes |
+| Datacenter VLAN / “give me that port group,” no SNAT to the node IP | Secondary localnet via `ClusterUserDefinedNetwork` | CUDN localnet maps a physnet to an OVS bridge; that is the OVN localnet topology |
+| Highest NIC performance / VF in the guest | SR-IOV (Multus) | Secondary CNI. Keep OVN-Kubernetes as primary; do not replace the cluster plugin to get a VF |
+
+Masquerade is enough when the VM looks like a Kubernetes workload. It is the
+wrong answer when the guest IP **must not** be the pod IP. On migrate, the
+pod IP follows the node `/23`. A primary Layer 2 UDN is the migration-friendly
+identity virtualization teams are asking for. Localnet is the VLAN: CUDN
+selects namespaces, the controller generates the NAD, the VM attaches with
+Multus. You do not buy Cilium to get a port group.
+
+The Virt badge on a certified third-party CNI means conformance tests passed.
+It does not mean UDN, CUDN localnet, or OVN egress IP exist on that cluster.
+If you install Isovalent or Calico because “it is certified for Virtualization,”
+you still hand-build secondary NADs for VLANs, you still do not get isolated
+primary Layer 2 tenant nets, and live-migration addressing is whatever that
+vendor overlay does—not the UDN model the rest of the OpenShift Virtualization
+docs assume. Prove the requirement that forces that, then accept the gap.
+
+Policy still splits by NIC, on any CNI:
+
+- `NetworkPolicy` and `AdminNetworkPolicy` cover the pod network and a
+  **primary** UDN.
+- `MultiNetworkPolicy` covers a **secondary** NIC (localnet, SR-IOV kernel,
+  macvlan). Enable it; bind it to the NAD. The default-deny you wrote for the
+  pod network does not see VLAN 1924.
+
+That split is
+[Network Policies: Tenant, Admin, Secondary](/posts/openshift-network-policies/).
+Network Observability follows the same cut: masquerade flows are in the
+default `FlowCollector`; primary UDN needs `UDNMapping`; localnet and SR-IOV
+need privileged eBPF agents. See
+[Network Observability on OpenShift 4.22](/posts/network-observability-openshift/).
+
+Do not replace OVN-Kubernetes because the VM team said “we need VLANs.” Design
+the host (native, tagged, or dual-bond), map localnet once per OVS bridge,
+define VLANs as CUDN, attach the VM. Linux bridge is the exception for VLAN
+guest tagging into the guest, not the default. SR-IOV is hardware, not a CNI
+swap.
 
 ## Certified vendors when you actually need them
 
@@ -235,15 +288,18 @@ OVN-Kubernetes. Design the application network for that.
 
 1. **OVN-Kubernetes is the CNI.** OpenShift SDN is gone. UDN, localnet, ANP,
    and egress IP are why the default is the product, not a placeholder.
-2. **Do not replace it to get extra NICs.** Multus secondary networks sit on
+2. **Virtualization does not get a second CNI.** Masquerade, primary Layer 2
+   UDN, and CUDN localnet are the 4.22 VM path. A Virt certification badge is
+   not a substitute for UDN.
+3. **Do not replace it to get extra NICs.** Multus secondary networks sit on
    top of the default CNI. VLAN attach for VMs is CUDN localnet.
-3. **Vendor CNIs are certified exceptions.** Isovalent and Tigera are real
+4. **Vendor CNIs are certified exceptions.** Isovalent and Tigera are real
    4.22 options with Virt, Mesh, and HCP badges. Use them for L7/eBPF or BGP
    fabric requirements you can name, not for a preference.
-4. **Confirm the matrix.** ACI, Antrea, and NSX rows lag. Read
+5. **Confirm the matrix.** ACI, Antrea, and NSX rows lag. Read
    [Certified OpenShift CNI Plug-ins](https://access.redhat.com/articles/5436171)
    for the OpenShift version on the purchase order.
-5. **Decide at install.** Third-party `networkType` needs vendor manifests and
+6. **Decide at install.** Third-party `networkType` needs vendor manifests and
    does not get a later in-place swap onto OVN-Kubernetes.
 
 Keep host underlay and CUDN definitions in the **cluster** GitOps repository
@@ -270,6 +326,7 @@ anyone schedules a Cilium bake-off. Sequencing for that path is in
 - [About the OVN-Kubernetes network plugin (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/ovn-kubernetes_network_plugin/about-ovn-kubernetes)
 - [Primary networks / UDN (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/multiple_networks/primary-networks)
 - [Understanding multiple networks (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/multiple_networks/understanding-multiple-networks)
+- [OpenShift Virtualization networking (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/networking)
 - [Certified OpenShift CNI Plug-ins](https://access.redhat.com/articles/5436171)
 - [Installation configuration parameters — `networkType` (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/installation_configuration/installation-config-parameters-generic)
 - [Networking (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/networking/)
