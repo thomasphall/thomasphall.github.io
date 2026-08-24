@@ -212,7 +212,7 @@ namespace that the provider can actually use. MTV 2.12 also documents
 cross-namespace pull failures when the image lives in `openshift-mtv`
 and the provider does not.
 
-## The SA takeaway
+## The solutions architect takeaway
 
 Broadcom did not have to delete VDDK to slow VMware exits. Gating the
 public download is enough. MTV 2.12 still wants that SDK for fast

@@ -384,7 +384,7 @@ ordinary app Secrets on OpenShift remains a separate choice—see
   [NVIDIA confidential containers](https://docs.nvidia.com/datacenter/cloud-native/confidential-containers/latest/overview.html)
   documentation for the install you actually run.
 
-## The SA takeaway
+## The solutions architect takeaway
 
 Confidential AI on OpenShift is a **composition** problem:
 

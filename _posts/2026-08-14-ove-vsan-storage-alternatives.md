@@ -206,7 +206,7 @@ just an older release.
 > [Ecosystem Catalog](https://catalog.redhat.com/) before procurement.
 {: .prompt-warning }
 
-## The SA takeaway
+## The solutions architect takeaway
 
 1. **Local disks like vSAN** — shortlist Portworx, PowerFlex, LINSTOR, or
    IBM Fusion HCI. Portworx is the usual OpenShift Virtualization HCI path.

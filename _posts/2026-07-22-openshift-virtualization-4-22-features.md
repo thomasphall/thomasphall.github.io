@@ -195,7 +195,7 @@ Upgrade planners should not skip this section.
 - The console no longer labels localnet NAD types as deprecated—an important UI
   clarification that localnet remains fully supported.
 
-## The SA takeaway
+## The solutions architect takeaway
 
 When you frame OpenShift Virtualization 4.22 for a customer or internal platform
 review, lead with outcomes rather than a feature laundry list:

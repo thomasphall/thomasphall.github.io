@@ -279,7 +279,7 @@ story. Do not let the factory optimize only for “powered on.”
 4. Encode hooks in AAP (quiesce / guest agent / validate). Run them on the
    same VM.
 5. Let Author agents draft wave-2 YAML from inventory; review as if it were
-   a junior SA’s PR.
+   a junior solutions architect’s PR.
 6. Only then parallelize. Offload, warm, and production cutover gates stay
    human.
 
@@ -287,7 +287,7 @@ If the first agent-generated plan is the first plan you have ever run, you
 will debug the model, the map, and MTV at the same time. That is not a
 factory. That is a weekend.
 
-## The SA takeaway
+## The solutions architect takeaway
 
 Lead with outcomes:
 

@@ -373,7 +373,7 @@ A useful facilitation line: *“If this site dies, what is the recovery
 unit—reimage a device, rebuild one OpenShift node, or fail over across three?”*
 That answer selects the form factor faster than a feature matrix.
 
-## The SA takeaway
+## The solutions architect takeaway
 
 1. **Edge is a spectrum** — device, site, and hub are different architectures
    that share a brand name only at the marketing layer.

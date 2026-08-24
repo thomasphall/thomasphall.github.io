@@ -133,7 +133,7 @@ rollback criteria still decide whether a wave succeeds. OpenShift Virtualization
 is the destination platform; MTV is the migration tool; the array is the copy
 accelerator when the topology allows it.
 
-## What operators configure—at SA altitude
+## What operators configure—at solutions architect altitude
 
 Enabling offload is a migration-plan storage concern, not a separate product.
 
@@ -155,7 +155,7 @@ At a conceptual level you:
 Certified and partner patterns exist—Hitachi VSP, Dell PowerMax, and
 Portworx/FlashArray styles among them. They differ in secrets, optional hooks,
 and any post-copy conversion steps. Keep vendor specifics in the storage design
-doc for that account; the SA point is that offload is an MTV storage-map choice
+doc for that account; the solutions architect point is that offload is an MTV storage-map choice
 backed by array integration, not a single identical recipe everywhere.
 
 ## Teams that must align before wave one
@@ -207,7 +207,7 @@ rollback. Offload removes a bottleneck; it does not invent operational maturity.
 Quote your pilot numbers. Borrow partner marketing multipliers only as
 context, not as a contractual schedule.
 
-## The SA takeaway
+## The solutions architect takeaway
 
 Use storage copy offload when the SAN path exists and large VMware disks are
 dominating the migration calendar. On MTV 2.11, build production waves around

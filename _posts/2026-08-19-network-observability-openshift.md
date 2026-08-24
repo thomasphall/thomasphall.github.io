@@ -566,7 +566,7 @@ If you later enable slices, the global `slicesConfig` stays in the cluster
 repo. Tenant `FlowCollectorSlice` objects can ride with the application repo
 the same way tenant `NetworkPolicy` does.
 
-## The SA takeaway
+## The solutions architect takeaway
 
 1. **Install Loki first, as a dedicated `openshift-network` LokiStack.** Share
    the Operator, never the logging stack.

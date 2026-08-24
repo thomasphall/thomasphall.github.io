@@ -169,7 +169,7 @@ inside those images and services.
    pattern (observe, prove, gate)—and keep vault delivery choices clear via
    [External Secrets Operator vs Secrets Store CSI](/posts/external-secrets-vs-secrets-store-csi/).
 
-## The SA takeaway
+## The solutions architect takeaway
 
 The software supply chain problem for enterprises is no longer “we cannot see
 vulnerabilities.” It is “we can see them faster than we can safely upgrade.”

@@ -310,7 +310,7 @@ ship a 256 GiB Premium disk and call it production.
 **Edge / SNO:** one good local SSD for the node; LVMS or an array for PVCs.
 Do not import datacenter HA storage expectations into a single disk.
 
-## The SA takeaway
+## The solutions architect takeaway
 
 1. **etcd is a latency SLA** — 50 sequential 8 KB IOPS under 10 ms, 500 under
    2 ms when the cluster is busy, NVMe preferred, local block only.

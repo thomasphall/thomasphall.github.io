@@ -177,7 +177,7 @@ section. Failover and backup demos live under
 [operations](https://openshift-ssa.github.io/openshift-poc/operations/).
 A green `clusterversion` with no PVC and no idp is not a finished PoC.
 
-## The SA takeaway
+## The solutions architect takeaway
 
 1. **Pick installation or fleet, not both** — six-node platform cluster, or
    SNO hub plus RHACM spokes.

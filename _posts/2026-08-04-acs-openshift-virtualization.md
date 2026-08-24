@@ -33,7 +33,7 @@ earns its keep.
 
 OpenShift Virtualization does not hide VMs from the cluster. For each virtual
 machine, a virt-launcher pod runs the VM process under Kubernetes scheduling,
-networking, and security context rules. From an SA conversation standpoint, that
+networking, and security context rules. From a solutions architect conversation standpoint, that
 means VMs are not opaque hypervisor snowflakes sitting beside the platform. They
 are first-class workloads with pods, images, volumes, and configuration that
 security tooling can observe.
@@ -159,7 +159,7 @@ finish security:
 None of these replaces the others. Auditors and risk committees buy consistency
 and evidence, not a single product logo.
 
-## The SA takeaway
+## The solutions architect takeaway
 
 Lead with outcomes:
 

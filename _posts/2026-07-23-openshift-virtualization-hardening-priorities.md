@@ -144,7 +144,7 @@ requirement such as WSL2 inside Windows guests. And confirm CPU vulnerability
 mitigations on worker nodes—Spectre/Meltdown-class issues are not “solved by
 the hypervisor” if the host kernel reports `Vulnerable` with no mitigation.
 
-## The SA takeaway
+## The solutions architect takeaway
 
 1. **Least privilege** — migrations, exec, VNC, CDI, and cluster instance types.
 2. **Least device surface** — empty pass-through allowlists; closed feature gates.

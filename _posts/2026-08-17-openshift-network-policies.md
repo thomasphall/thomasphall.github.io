@@ -222,7 +222,7 @@ and look for `OVS_DROP_LAST_ACTION` after you enable `PacketDrop`.
 namespace-scoped north-south policy on OVN-Kubernetes. Do not treat it as another
 `NetworkPolicy` kind, and do not expect it to microsegment a VM’s localnet NIC.
 
-## The SA takeaway
+## The solutions architect takeaway
 
 1. **Three planes.** Tenant `NetworkPolicy`, admin ANP/BANP, and
    `MultiNetworkPolicy` for secondary NICs. Complementary, not interchangeable.

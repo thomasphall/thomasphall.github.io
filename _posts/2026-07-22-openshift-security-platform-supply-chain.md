@@ -89,7 +89,7 @@ undermined by an unsigned image promoted on Friday afternoon. When signature and
 attestation checks sit in the pipeline *and* at admission, security stops being
 a slide and becomes a gate.
 
-## The SA takeaway
+## The solutions architect takeaway
 
 Lead with outcomes, not product lists:
 

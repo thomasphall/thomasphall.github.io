@@ -216,7 +216,7 @@ operating model fits, and treat virtualized control planes as the path when
 isolation or installer-compatibility requirements outweigh the hosted form
 factor—and when TP constraints are acceptable for the engagement.
 
-## The SA takeaway
+## The solutions architect takeaway
 
 Hosted and virtualized control planes solve the same densification pressure with
 different boundaries. HCP optimizes for control planes as managed workloads and

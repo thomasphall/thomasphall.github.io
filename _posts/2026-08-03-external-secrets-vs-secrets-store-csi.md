@@ -224,7 +224,7 @@ with OpenShift GitOps—then introduce Secrets Store CSI for the workloads and
 tenancy cases that genuinely require mount-only, non-etcd delivery. Reversing that
 order forces every Secret-native integration through an awkward sync or rewrite.
 
-## The SA takeaway
+## The solutions architect takeaway
 
 External Secrets Operator and the Secrets Store CSI Driver solve the same pressure—
 get enterprise vault material onto OpenShift without putting it in Git—with different

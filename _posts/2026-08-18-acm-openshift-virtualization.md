@@ -159,7 +159,7 @@ room:
 
 Details and assignment flows live in
 [ACM secure clusters](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.16/html-single/secure_clusters/index)
-documentation. The SA point is simpler than the CRD: write VM administration as
+documentation. The solutions architect point is simpler than the CRD: write VM administration as
 a fleet role, not as `cluster-admin` copied to every virt namespace. That is the
 same least-privilege instinct as
 [RHACS for virt-launcher workloads](/posts/acs-openshift-virtualization/)—
@@ -175,7 +175,7 @@ fleets stay on RHACM for Kubernetes. Do not let the SKU conversation replace the
 architecture conversation: either way, the hub is how you stop managing each
 virt cluster as a pet.
 
-## The SA takeaway
+## The solutions architect takeaway
 
 Lead with outcomes:
 

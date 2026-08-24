@@ -185,7 +185,7 @@ The contrast on self-managed OpenShift is a `MachineAutoscaler` pointing at a
 new shape per pending pod. Do not set `spec.replicas` on a Karpenter
 `NodePool`. That field is not the supported static-capacity path.
 
-## The SA takeaway
+## The solutions architect takeaway
 
 1. **Machine pools own known shape; Karpenter owns pending-pod shape.** If
    you cannot name which workloads are which, do not enable AutoNode yet.

@@ -248,7 +248,7 @@ operators, not forty, or when their Helm layout fights a cluster factory you
 already trust. Product procedure for the generator itself stays in RHACM
 governance docs either way.
 
-## The SA takeaway
+## The solutions architect takeaway
 
 1. **GitOps on the hub, RHACM on the spokes** — day-2 platform intent is
    `Policy` plus placement, not an Application per cluster.

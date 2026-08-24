@@ -72,7 +72,7 @@ permalink: /posts/external-secrets-vs-secrets-store-csi/
       `/posts/<slug>/` permalinks (skip only for weakly related posts, e.g.
       the Windows client how-to; two-post clusters such as homelab may use 1)
 - [ ] Reciprocal link from at least one hub/peer post in the same cluster
-- [ ] Closing H2: `## The SA takeaway` on decision posts, `## Wrap-up` on lab
+- [ ] Closing H2: `## The solutions architect takeaway` on decision posts, `## Wrap-up` on lab
       runbooks, `## Takeaways` on homelab
 - [ ] Official docs under `## Further reading` (not `## References` or
       `### References`)

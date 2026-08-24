@@ -324,7 +324,7 @@ case.”
 | 802.1Q tags inside the guest (VGT) | Linux bridge (exception) |
 | Highest NIC performance / hardware offload | SR-IOV (when hardware and ops model fit) |
 
-## The SA takeaway
+## The solutions architect takeaway
 
 1. **Start with the pod network** when Kubernetes exposure is enough—and be
    honest about migration changing the pod IP.
