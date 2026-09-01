@@ -168,6 +168,9 @@ guide.
 For the full control list, audit commands, and remediations, use the official
 Red Hat OpenShift Virtualization hardening guide as the source of truth—and
 keep OpenShift platform hardening and guest OS hardening on their own tracks.
+When a VMware-style catatonic host is in the threat model—BMC still answers,
+workloads hung, shared array flooded—pair this baseline with
+[Fence Gray Host Failures on OpenShift Virtualization](/posts/openshift-virt-gray-failure-ha/).
 When you are standing up the landing zone itself, the
 [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
 install, plus
@@ -178,9 +181,9 @@ is the usual PoC sequence before you freeze HyperConverged defaults.
 
 ## Related posts
 
-- [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
+- [Security Tools Across the OpenShift Stack](/posts/openshift-security-tools-stack/)
+- [Fence Gray Host Failures on OpenShift Virtualization](/posts/openshift-virt-gray-failure-ha/)
 - [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)
-- [OpenShift Network Policies: Tenant, Admin, Secondary](/posts/openshift-network-policies/)
 - [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 
 > Want help mapping these controls to your landing zone? Reach out to your

@@ -122,7 +122,7 @@ just to preserve `/categories/<old>/` — redirect those archives instead.
 
 | Cluster | Hub / peers |
 | ------- | ----------- |
-| Security / supply chain | Platform supply-chain, RHACS + Virt, External Secrets, Confidential AI, Lightwell, network policies, Network Observability, OVN-Kubernetes CNI |
+| Security / supply chain | Security tools stack (hub), platform supply-chain, RHACS + Virt, External Secrets, Confidential AI, Lightwell, network policies, Network Observability, OVN-Kubernetes CNI |
 | Virtualization | 4.22 features, hardening, networking, hosted vs VCP, MTV offload, VDDK portal / MTV, AI agents for MTV, OVE vSAN-like storage, network policies, ACM fleet virt, Network Observability, OVN-Kubernetes CNI |
 | GitOps / ACM fleet | ACM fleet virt, GitOps should manage ACM, edge architectures, network policies GitOps split, External Secrets, getting started |
 | ROSA / autoscaling | Karpenter vs machine pools, hosted vs VCP |

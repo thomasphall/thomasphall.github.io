@@ -182,6 +182,7 @@ it is worth a serious look.
 
 ## Related posts
 
+- [Security Tools Across the OpenShift Stack](/posts/openshift-security-tools-stack/)
 - [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
 - [External Secrets vs Secrets Store CSI on OpenShift](/posts/external-secrets-vs-secrets-store-csi/)
 - [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)

@@ -104,7 +104,10 @@ mean *location* flexibility, not *control* flexibility.
 If you are shaping a regulated landing zone, start in non-production: enable
 Compliance Operator profiles, connect a cluster to RHACS, and require signed
 images on one critical pipeline. The conversation with risk and audit gets much
-easier when you can show the same controls working—quietly—every day.
+easier when you can show the same controls working—quietly—every day. For how
+those controls sit next to the hypervisor, VMs, and pods—not only the
+pipeline—see
+[Security Tools Across the OpenShift Stack](/posts/openshift-security-tools-stack/).
 
 When OpenShift Virtualization is in scope, keep the same observe/prove/gate
 habit for virt-launcher workloads—see
@@ -126,9 +129,9 @@ and the
 
 ## Related posts
 
+- [Security Tools Across the OpenShift Stack](/posts/openshift-security-tools-stack/)
 - [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 - [External Secrets vs Secrets Store CSI on OpenShift](/posts/external-secrets-vs-secrets-store-csi/)
-- [Confidential AI on OpenShift: TEEs, GPUs, and Trustee](/posts/confidential-ai-openshift-trustee-nras/)
 - [Red Hat Lightwell: Patch CVEs Without Full Upgrades](/posts/red-hat-lightwell-open-source-remediation/)
 
 > Want help applying this in your environment? Reach out to your Red Hat

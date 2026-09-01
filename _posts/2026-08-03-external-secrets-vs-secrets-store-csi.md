@@ -240,10 +240,10 @@ credentials inside a confidential VM, that is a different control story: see
 
 ## Related posts
 
+- [Security Tools Across the OpenShift Stack](/posts/openshift-security-tools-stack/)
 - [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
 - [Confidential AI on OpenShift: TEEs, GPUs, and Trustee](/posts/confidential-ai-openshift-trustee-nras/)
 - [GitOps Should Manage ACM, Not the Cluster](/posts/gitops-should-manage-acm/)
-- [Red Hat Lightwell: Patch CVEs Without Full Upgrades](/posts/red-hat-lightwell-open-source-remediation/)
 
 > Want help choosing External Secrets versus Secrets Store CSI? Reach out to
 > your Red Hat account team—or prove one delivery model on a non-prod

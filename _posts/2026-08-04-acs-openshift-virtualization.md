@@ -137,7 +137,9 @@ program.
 
 The broader hybrid pattern still holds—**observe, prove, and gate**—as described
 in
-[platform and supply-chain security](/posts/openshift-security-platform-supply-chain/).
+[platform and supply-chain security](/posts/openshift-security-platform-supply-chain/)
+and the layer map in
+[Security Tools Across the OpenShift Stack](/posts/openshift-security-tools-stack/).
 Virtualization does not rewrite that pattern; it extends the “observe” and
 “gate” legs to a new workload type.
 
@@ -189,10 +191,10 @@ and
 
 ## Related posts
 
+- [Security Tools Across the OpenShift Stack](/posts/openshift-security-tools-stack/)
 - [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
 - [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
 - [OpenShift Network Policies: Tenant, Admin, Secondary](/posts/openshift-network-policies/)
-- [ACM as the Fleet Control Plane for OpenShift VMs](/posts/acm-openshift-virtualization/)
 
 > Want help applying this in your environment? Reach out to your Red Hat
 > account team—or evaluate the pattern on a non-prod OpenShift cluster first.
