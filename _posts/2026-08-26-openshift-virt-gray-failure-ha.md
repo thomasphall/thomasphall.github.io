@@ -23,6 +23,11 @@ fabric busy, so healthy hosts on the same Dell PowerStore slow down. vCenter
 stays green. A human issues a hard reset. That reset is a crash for every
 virtual machine (VM) on the box.
 
+![VMware HA stays idle on a catatonic host while OpenShift Virtualization detects, fences, unmaps, and restarts the VM.](/assets/img/posts/openshift-virt-gray-failure-ha/compare-flows.svg)
+{: .shadow .rounded-10 .w-100 }
+
+_Same event, two control planes. The guest still crashes. The difference is who fences the initiator, and when._
+
 You cannot configure
 [Red Hat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift)
 to stop silicon from going catatonic. You *can* configure
@@ -62,6 +67,11 @@ The sequence you want is:
 2. **Fence the host** with Fence Agents Remediation (FAR) over Redfish / iDRAC.
 3. **Fence the disk** with `OutOfServiceTaint` so CSI unpublishes the volume.
 4. **Recover VMs** with `runStrategy: Always` or `RerunOnFailure`.
+
+![Five-step fence: detect with Node Health Check, fence the host with FAR Redfish, fence the disk with OutOfServiceTaint, unmap on PowerStore, recover the VM.](/assets/img/posts/openshift-virt-gray-failure-ha/fence-sequence.svg)
+{: .shadow .rounded-10 .w-100 }
+
+_Detect, fence host, unpublish, then start the VM. Never restart a disk-backed VMI while the old QEMU might still write._
 
 BMC answering is *required to fence*. It is not proof the node is healthy.
 That is the opposite of how vSphere HA treated management watchdogs in this
@@ -274,6 +284,11 @@ noisy initiator while FAR runs. They do not replace fencing. Disk and IOPS
 planning for the platform itself is a different post:
 [OpenShift Storage Performance: Disks, IOPS, Architectures](/posts/openshift-storage-performance/).
 
+![A sick initiator floods shared fabric links and PowerStore frontend ports, slowing healthy hosts.](/assets/img/posts/openshift-virt-gray-failure-ha/shared-fabric.svg)
+{: .shadow .rounded-10 .w-100 }
+
+_Host I/O limits buy time. They do not replace fencing. This is the same physics on ESXi and on RHCOS._
+
 Install the certified Dell Container Storage Modules (CSM) Operator. Keep the
 resiliency module **off** while FAR uses `OutOfServiceTaint`. Pin
 `spec.version` to the sample that matches your operator. Store the array
@@ -371,6 +386,11 @@ NHC still keys off `Ready`. Alert so you page or run a playbook before the
 fabric melts. Wire Alertmanager to Event-Driven Ansible if you want a human
 in the loop—not a second uncoordinated remediator.
 
+![Path A: I/O hang stalls PLEG and Ready flips so NHC fences. Path B: kubelet still heartbeats so default NHC misses it.](/assets/img/posts/openshift-virt-gray-failure-ha/path-a-path-b.svg)
+{: .shadow .rounded-10 .w-100 }
+
+_Path A is the automatic fence. Path B is the same class of miss as vSphere HA unless a watchdog or I/O alert fires._
+
 ```yaml
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
@@ -403,6 +423,11 @@ minutes** with PLEG as the long pole (~3 minutes) plus a 60 second NHC wait
 and Redfish. vSphere HA in the gray-failure event is war-room time. Path B
 without a watchdog is the same human clock. Guest OS boot is extra on both
 platforms. Measure it in the lab.
+
+![Order-of-magnitude time-to-fence: VMware war-room delay versus OpenShift Path A of about 4 to 8 minutes versus Path B unbounded.](/assets/img/posts/openshift-virt-gray-failure-ha/time-to-fence.svg)
+{: .shadow .rounded-10 .w-100 }
+
+_Not an SLA. PLEG is often the long pole on Path A. Guest OS boot is extra on both platforms._
 
 ## Prove it
 

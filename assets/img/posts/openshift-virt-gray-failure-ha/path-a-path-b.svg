@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 430" width="960" height="430" role="img" aria-labelledby="title desc">
+  <title id="title">Path A Ready flip versus Path B kubelet still heartbeating</title>
+  <desc id="desc">Path A: I/O hang stalls PLEG, kubelet goes NotReady, NHC and FAR fence the node. Path B: kubelet still heartbeats so default NHC misses it unless a watchdog or I/O alert fires.</desc>
+  <rect width="960" height="430" fill="#ffffff"/>
+  <defs>
+    <marker id="pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#0a3d62"/></marker>
+  </defs>
+
+  <text x="24" y="28" fill="#0a3d62" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="16" font-weight="700">Path A - storage hang often flips Ready</text>
+
+  <rect x="16" y="44" width="168" height="88" rx="8" fill="#c41e3a"/>
+  <text x="100" y="78" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="15" font-weight="700">I/O hang</text>
+  <text x="100" y="102" text-anchor="middle" fill="#fecaca" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">virt-launcher stuck</text>
+  <line x1="184" y1="88" x2="206" y2="88" stroke="#0a3d62" stroke-width="3" marker-end="url(#pa)"/>
+
+  <rect x="212" y="44" width="168" height="88" rx="8" fill="#b45309"/>
+  <text x="296" y="74" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="15" font-weight="700">You can see it</text>
+  <text x="296" y="96" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="12">node iowait + PLEG</text>
+  <text x="296" y="114" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="12">PowerStore host I/O</text>
+  <line x1="380" y1="88" x2="402" y2="88" stroke="#0a3d62" stroke-width="3" marker-end="url(#pa)"/>
+
+  <rect x="408" y="44" width="168" height="88" rx="8" fill="#0a3d62"/>
+  <text x="492" y="74" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="15" font-weight="700">NotReady</text>
+  <text x="492" y="96" text-anchor="middle" fill="#bfdbfe" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="12">PLEG often ~3 min</text>
+  <text x="492" y="114" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="12">Ready = False</text>
+  <line x1="576" y1="88" x2="598" y2="88" stroke="#0a3d62" stroke-width="3" marker-end="url(#pa)"/>
+
+  <rect x="604" y="44" width="148" height="88" rx="8" fill="#0a3d62"/>
+  <text x="678" y="78" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="15" font-weight="700">NHC + FAR</text>
+  <text x="678" y="102" text-anchor="middle" fill="#bfdbfe" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="12">iDRAC reboot</text>
+  <line x1="752" y1="88" x2="774" y2="88" stroke="#0a3d62" stroke-width="3" marker-end="url(#pa)"/>
+
+  <rect x="780" y="44" width="164" height="88" rx="8" fill="#157f3d"/>
+  <text x="862" y="74" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="15" font-weight="700">Unmap + VMI</text>
+  <text x="862" y="96" text-anchor="middle" fill="#d1fae5" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="12">other hosts recover</text>
+  <text x="862" y="114" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="12">when initiator dies</text>
+
+  <rect x="16" y="148" width="928" height="40" rx="8" fill="#f4f7fa" stroke="#d1d5db"/>
+  <text x="480" y="174" text-anchor="middle" fill="#0a3d62" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="14">This is the signal vSphere did not get from BMC still answering.</text>
+
+  <text x="24" y="220" fill="#c41e3a" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="16" font-weight="700">Path B - kubelet still heartbeats (true gray failure)</text>
+
+  <rect x="16" y="236" width="300" height="120" rx="8" fill="#fff" stroke="#c41e3a"/>
+  <text x="166" y="270" text-anchor="middle" fill="#c41e3a" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="15" font-weight="700">Default NHC misses it</text>
+  <text x="32" y="300" fill="#374151" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">Same class of miss as vSphere HA.</text>
+  <text x="32" y="322" fill="#374151" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">Ready never flips, no FAR CR.</text>
+  <text x="32" y="344" fill="#374151" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">PLEG keeps ticking.</text>
+
+  <rect x="330" y="236" width="300" height="120" rx="8" fill="#fff" stroke="#d1d5db"/>
+  <text x="480" y="270" text-anchor="middle" fill="#0a3d62" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="15" font-weight="700">Close the gap</text>
+  <text x="346" y="300" fill="#374151" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">SNR hardware watchdog / softdog</text>
+  <text x="346" y="322" fill="#374151" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">Guest i6300esb watchdog</text>
+  <text x="346" y="344" fill="#374151" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">iowait / PowerStore I/O alerts</text>
+
+  <rect x="644" y="236" width="300" height="120" rx="8" fill="#fff" stroke="#d1d5db"/>
+  <text x="794" y="270" text-anchor="middle" fill="#0a3d62" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="15" font-weight="700">Array still tells the truth</text>
+  <text x="660" y="300" fill="#374151" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">Host still doing I/O = catatonic</text>
+  <text x="660" y="322" fill="#374151" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">initiator, not a healthy node.</text>
+  <text x="660" y="344" fill="#374151" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">Someone still has to fence it.</text>
+
+  <text x="480" y="392" text-anchor="middle" fill="#6b7280" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">Do not claim Ready-only NHC is complete HA. Path B is the same pager as the iDRAC button until a watchdog or alert fires.</text>
+</svg>

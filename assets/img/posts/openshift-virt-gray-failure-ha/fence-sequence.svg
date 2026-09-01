@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 280" width="960" height="280" role="img" aria-labelledby="title desc">
+  <title id="title">OpenShift Virtualization gray-failure fence sequence</title>
+  <desc id="desc">Detect from NodeHealthCheck Ready, fence the host with FAR Redfish, fence the disk with OutOfServiceTaint, unmap on PowerStore, then recover VMs with runStrategy Always.</desc>
+  <rect width="960" height="280" fill="#ffffff"/>
+  <defs>
+    <marker id="seq" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#0a3d62"/></marker>
+  </defs>
+
+  <rect x="12" y="16" width="168" height="118" rx="8" fill="#c41e3a"/>
+  <text x="96" y="52" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="16" font-weight="700">1. Detect</text>
+  <text x="96" y="78" text-anchor="middle" fill="#fecaca" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">NodeHealthCheck</text>
+  <text x="96" y="98" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">Ready False / Unknown</text>
+  <text x="96" y="116" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">not BMC liveness</text>
+  <line x1="180" y1="75" x2="202" y2="75" stroke="#0a3d62" stroke-width="3" marker-end="url(#seq)"/>
+
+  <rect x="208" y="16" width="168" height="118" rx="8" fill="#0a3d62"/>
+  <text x="292" y="52" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="16" font-weight="700">2. Fence host</text>
+  <text x="292" y="78" text-anchor="middle" fill="#bfdbfe" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">FAR fence_redfish</text>
+  <text x="292" y="98" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">iDRAC power-cycle</text>
+  <text x="292" y="116" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">initiator I/O stops</text>
+  <line x1="376" y1="75" x2="398" y2="75" stroke="#0a3d62" stroke-width="3" marker-end="url(#seq)"/>
+
+  <rect x="404" y="16" width="168" height="118" rx="8" fill="#0a3d62"/>
+  <text x="488" y="52" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="16" font-weight="700">3. Fence disk</text>
+  <text x="488" y="78" text-anchor="middle" fill="#bfdbfe" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">OutOfServiceTaint</text>
+  <text x="488" y="98" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">VolumeAttachment gone</text>
+  <text x="488" y="116" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">CSI unpublish</text>
+  <line x1="572" y1="75" x2="594" y2="75" stroke="#0a3d62" stroke-width="3" marker-end="url(#seq)"/>
+
+  <rect x="600" y="16" width="168" height="118" rx="8" fill="#072a43"/>
+  <text x="684" y="52" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="16" font-weight="700">4. PowerStore</text>
+  <text x="684" y="78" text-anchor="middle" fill="#e5e7eb" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">unmap dead worker</text>
+  <text x="684" y="98" text-anchor="middle" fill="#e5e7eb" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">remap new worker</text>
+  <text x="684" y="116" text-anchor="middle" fill="#e5e7eb" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">at-most-one writer</text>
+  <line x1="768" y1="75" x2="790" y2="75" stroke="#0a3d62" stroke-width="3" marker-end="url(#seq)"/>
+
+  <rect x="796" y="16" width="152" height="118" rx="8" fill="#157f3d"/>
+  <text x="872" y="52" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="16" font-weight="700">5. Recover</text>
+  <text x="872" y="78" text-anchor="middle" fill="#d1fae5" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">runStrategy Always</text>
+  <text x="872" y="98" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">new VMI, other node</text>
+  <text x="872" y="116" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">guest crash, then boot</text>
+
+  <rect x="12" y="154" width="936" height="52" rx="8" fill="#f4f7fa" stroke="#d1d5db"/>
+  <text x="480" y="186" text-anchor="middle" fill="#0a3d62" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="15">BMC answering is required to fence. It is not proof the node is healthy. Live migration does not apply.</text>
+
+  <rect x="12" y="220" width="300" height="44" rx="6" fill="#fff" stroke="#d1d5db"/>
+  <text x="162" y="247" text-anchor="middle" fill="#374151" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">NHC + FAR + SNR fallback</text>
+  <rect x="330" y="220" width="300" height="44" rx="6" fill="#fff" stroke="#d1d5db"/>
+  <text x="480" y="247" text-anchor="middle" fill="#374151" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">PowerStore CSI RWX Block</text>
+  <rect x="648" y="220" width="300" height="44" rx="6" fill="#fff" stroke="#d1d5db"/>
+  <text x="798" y="247" text-anchor="middle" fill="#374151" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">CSM Resiliency off with this taint</text>
+</svg>
