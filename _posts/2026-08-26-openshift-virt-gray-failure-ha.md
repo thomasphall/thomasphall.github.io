@@ -19,24 +19,25 @@ Heartbeats stop, the primary declares the host failed or isolated, and
 protected VMs restart elsewhere from shared disk. A **gray failure** is the
 other case. The host still answers management watchdogs and often still ticks
 datastore heartbeats. Every guest is hung. The initiator keeps the storage
-fabric busy, so healthy hosts on the same Dell PowerStore slow down. vCenter
+fabric busy, so healthy hosts on the same shared array slow down. vCenter
 stays green. A human issues a hard reset. That reset is a crash for every
 virtual machine (VM) on the box.
 
 ![VMware HA stays idle on a catatonic host while OpenShift Virtualization detects, fences, unmaps, and restarts the VM.](/assets/img/posts/openshift-virt-gray-failure-ha/compare-flows.svg)
 {: .shadow .rounded-10 .w-100 }
 
-_Same event, two control planes. The guest still crashes. The difference is who fences the initiator, and when._
+_Same failure mode, two control planes. The guest still crashes. The difference is who fences the initiator, and when._
 
 You cannot configure
 [Red Hat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift)
 to stop silicon from going catatonic. You *can* configure
 [OpenShift Virtualization](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/index)
-so that event is detected, the node is power-cycled, the PowerStore volume is
-unmapped, and VMs crash-restart on a healthy worker—without waiting for a war
-room. This post is that configuration, aimed at OpenShift Container Platform
-4.22 with PowerStore Container Storage Interface (CSI). It is GitOps-shaped,
-not a click-path through the console.
+so that failure is detected, the node is power-cycled, the volume is
+unmapped, and VMs crash-restart on a healthy worker—without waiting for a
+human to notice. This post is that configuration, aimed at OpenShift
+Container Platform 4.22 with Dell PowerStore Container Storage Interface
+(CSI) as the shared-array example. It is GitOps-shaped, not a click-path
+through the console.
 
 If you are still building the landing zone itself, start with
 [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
@@ -53,12 +54,12 @@ not in git.
 
 ## What “prevent” actually means
 
-Three things stacked in the VMware event: **detection** (the host looked
-alive), **blast radius** (shared PowerStore frontend ports), and
+Three things stack in a gray failure: **detection** (the host looks
+alive), **blast radius** (shared array frontend ports), and
 **observability** (green host object). OpenShift Virtualization HA is not
 installed by default in a useful form. Without Node Health Check (NHC) and a
 remediator, the documented fallback is a qualified human deleting the `Node`
-object—the same pager as the iDRAC button.
+object—the same pager as the BMC button.
 
 The sequence you want is:
 
@@ -74,8 +75,8 @@ The sequence you want is:
 _Detect, fence host, unpublish, then start the VM. Never restart a disk-backed VMI while the old QEMU might still write._
 
 BMC answering is *required to fence*. It is not proof the node is healthy.
-That is the opposite of how vSphere HA treated management watchdogs in this
-scenario. Live migration does not apply; you cannot migrate off a hung host.
+That is the opposite of how vSphere HA treats management watchdogs in a gray
+failure. Live migration does not apply; you cannot migrate off a hung host.
 The guest still crashes. Application clustering still matters. For first-pass
 Virtualization hardening around those VMs, see
 [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/).
@@ -353,7 +354,7 @@ apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
   name: app-01
-  namespace: vm-prod
+  namespace: vm-example
 spec:
   runStrategy: Always
   template:
@@ -420,11 +421,11 @@ spec:
 
 Order-of-magnitude time-to-fence, not an SLA: Path A is often **about 4–8
 minutes** with PLEG as the long pole (~3 minutes) plus a 60 second NHC wait
-and Redfish. vSphere HA in the gray-failure event is war-room time. Path B
-without a watchdog is the same human clock. Guest OS boot is extra on both
-platforms. Measure it in the lab.
+and Redfish. vSphere HA in a gray failure is however long it takes a human
+to notice and reset. Path B without a watchdog is the same human clock.
+Guest OS boot is extra on both platforms. Measure it in the lab.
 
-![Order-of-magnitude time-to-fence: VMware war-room delay versus OpenShift Path A of about 4 to 8 minutes versus Path B unbounded.](/assets/img/posts/openshift-virt-gray-failure-ha/time-to-fence.svg)
+![Order-of-magnitude time-to-fence: VMware waits on a human versus OpenShift Path A of about 4 to 8 minutes versus Path B unbounded.](/assets/img/posts/openshift-virt-gray-failure-ha/time-to-fence.svg)
 {: .shadow .rounded-10 .w-100 }
 
 _Not an SLA. PLEG is often the long pole on Path A. Guest OS boot is extra on both platforms._
@@ -451,8 +452,8 @@ when the sick node’s operating system is healthy again.
 ## The solutions architect takeaway
 
 1. **BMC is a reset button** — health is kubelet, PLEG, metrics, and array
-   I/O. vSphere HA in this event treated management liveness as “do not
-   fence.”
+   I/O. vSphere HA keys off management liveness, so this class of failure
+   stays unfenced.
 2. **Detect, fence host, unpublish, then start the VM** — never restart a
    disk-backed VMI while the old QEMU might still write.
 3. **OutOfServiceTaint xor CSM Resiliency** — pick one volume-revoke path.

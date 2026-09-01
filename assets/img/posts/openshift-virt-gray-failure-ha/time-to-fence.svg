@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" width="960" height="360" role="img" aria-labelledby="title desc">
   <title id="title">Order-of-magnitude time-to-fence for gray failure</title>
-  <desc id="desc">VMware in this event is unbounded until a human notices. OpenShift Path A is often about 4 to 8 minutes with PLEG as the long pole. Path B without a watchdog is the same human clock.</desc>
+  <desc id="desc">VMware in a gray failure is unbounded until a human notices. OpenShift Path A is often about 4 to 8 minutes with PLEG as the long pole. Path B without a watchdog is the same human clock.</desc>
   <rect width="960" height="360" fill="#ffffff"/>
 
   <text x="148" y="24" fill="#6b7280" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="12">T0 hang</text>
@@ -15,11 +15,11 @@
   <circle cx="940" cy="36" r="4" fill="#9ca3af"/>
 
   <text x="8" y="78" fill="#b45309" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13" font-weight="700">VMware</text>
-  <text x="8" y="94" fill="#b45309" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="11">this event</text>
+  <text x="8" y="94" fill="#b45309" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="11">gray failure</text>
   <rect x="140" y="64" width="800" height="36" rx="4" fill="#e5e7eb"/>
   <text x="156" y="87" fill="#6b7280" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13" font-weight="700">HA idle - unbounded until a human notices</text>
   <rect x="540" y="64" width="240" height="36" rx="4" fill="#c41e3a"/>
-  <text x="660" y="87" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="12" font-weight="700">typical war-room 5-15+ min</text>
+  <text x="660" y="87" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="12" font-weight="700">human notice + reset</text>
   <rect x="790" y="64" width="150" height="36" rx="4" fill="#7f1d1d"/>
   <text x="865" y="87" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="12">reset + crash</text>
 

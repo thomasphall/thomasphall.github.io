@@ -18,7 +18,7 @@
   <polygon points="240,324 232,312 248,312" fill="#c41e3a"/>
   <rect x="40" y="352" width="400" height="52" rx="6" fill="#c41e3a"/>
   <text x="240" y="384" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="16">Human hard reset / VM crash</text>
-  <text x="240" y="444" text-anchor="middle" fill="#7f1d1d" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="15">Time-to-fence = war room</text>
+  <text x="240" y="444" text-anchor="middle" fill="#7f1d1d" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="15">Time-to-fence = human notice</text>
 
   <rect x="520" y="76" width="400" height="52" rx="6" fill="#c41e3a"/>
   <text x="720" y="108" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="16">Catatonic worker, BMC still up</text>
