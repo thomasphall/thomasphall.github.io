@@ -174,7 +174,8 @@ support scope on the Red Hat Customer Portal before you design around them.
   resources that track periodically updated golden images.
 - **Dual stream RHCOS** — Provision clusters with RHCOS 9.8 (default) and RHCOS
   10.2 on OpenShift 4.22, including live migration between 9.x and 10.x worker
-  nodes.
+  nodes. That is Technology Preview, not mixed-OS production support; see
+  [RHCOS 10 on OpenShift 4.22: What Changes](/posts/rhcos-10-openshift/).
 
 ## Deprecated and removed
 
@@ -232,7 +233,7 @@ when the VMware estate is leaving a local-disk HCI pool.
 - [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)
 - [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
 - [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
-- [ACM as the Fleet Control Plane for OpenShift VMs](/posts/acm-openshift-virtualization/)
+- [RHCOS 10 on OpenShift 4.22: What Changes](/posts/rhcos-10-openshift/)
 
 > Want help planning a Virtualization 4.22 upgrade? Reach out to your Red Hat
 > account team—or read the

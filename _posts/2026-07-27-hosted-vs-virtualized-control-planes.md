@@ -99,6 +99,11 @@ cluster" as a single act. Machine Config Operator does not exist in hosted
 control planes the way it does in standalone; node configuration is projected
 through node-pool config maps and related hosted-cluster mechanisms.
 
+RHCOS 10 on 4.22 is the same Technology Preview story, but the unit is the
+`NodePool` and the `HostedCluster` feature gate—not `oc patch mcp` copied
+from a standalone cluster. See
+[RHCOS 10 on OpenShift 4.22: What Changes](/posts/rhcos-10-openshift/).
+
 ### etcd and storage posture
 
 Standalone and VCP-style control planes keep etcd with the control-plane nodes

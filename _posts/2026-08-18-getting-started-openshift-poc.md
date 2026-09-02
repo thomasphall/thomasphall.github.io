@@ -24,7 +24,10 @@ a path, finish prerequisites with the right teams, then install.
 It is not a substitute for product procedure. Confirm the
 [OpenShift Container Platform](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/)
 version, CSI driver, and operators you will actually run. The PoC site currently
-documents a 4.21 line; this blog’s latest stable line is 4.22.
+documents a 4.21 line; this blog’s latest stable line is 4.22. Nodes default to
+RHCOS 9 (RHEL 9.8); RHCOS 10 is Technology Preview on a test cluster, not a
+day-one PoC requirement—see
+[RHCOS 10 on OpenShift 4.22: What Changes](/posts/rhcos-10-openshift/).
 
 ## Pick the path before you rack
 
@@ -202,7 +205,7 @@ of operations.
 - [Faster Bare-Metal Boots in OpenShift PoCs](/posts/poc-faster-bare-metal-boot-disable-memory-check/)
 - [OpenShift Storage Performance: Disks, IOPS, Architectures](/posts/openshift-storage-performance/)
 - [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
-- [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
+- [RHCOS 10 on OpenShift 4.22: What Changes](/posts/rhcos-10-openshift/)
 
 > Want help applying this in your environment? Reach out to your Red Hat
 > account team—or run the prerequisites checklist on paper with networking and

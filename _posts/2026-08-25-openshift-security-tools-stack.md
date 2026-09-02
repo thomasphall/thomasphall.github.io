@@ -60,7 +60,10 @@ still holds. This map is where those three verbs attach.
 OpenShift Virtualization does not sit next to a separate hypervisor manager
 the way a classic VMware estate sat next to ESXi and vCenter. The hypervisor
 is **Kernel-based Virtual Machine (KVM)** in the
-Red Hat Enterprise Linux CoreOS (RHCOS) kernel. Each VM is a QEMU process
+Red Hat Enterprise Linux CoreOS (RHCOS) kernel. OpenShift 4.22 still defaults
+to RHCOS 9 (RHEL 9.8); RHCOS 10.2 is Technology Preview—see
+[RHCOS 10 on OpenShift 4.22: What Changes](/posts/rhcos-10-openshift/).
+Each VM is a QEMU process
 inside a `virt-launcher` pod. `libvirt` runs in session mode as a non-root
 user. SELinux **sVirt** labels isolate those QEMU processes from each other
 and from the host. That is the security model in the
@@ -280,7 +283,7 @@ and the
 - [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
 - [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 - [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
-- [External Secrets vs Secrets Store CSI on OpenShift](/posts/external-secrets-vs-secrets-store-csi/)
+- [RHCOS 10 on OpenShift 4.22: What Changes](/posts/rhcos-10-openshift/)
 
 > Want help mapping these tools onto a landing zone? Reach out to your Red
 > Hat account team—or place one control on each layer of a non-prod
