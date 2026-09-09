@@ -118,7 +118,10 @@ requirement is “vSAN, but OpenShift.” The
 [compatibility article](https://access.redhat.com/articles/7128992)
 lists local disk, FlashArray, and third-party arrays under Portworx
 Enterprise, with OpenShift Virtualization and VDI. You are not locked into
-HCI forever.
+HCI forever. On a
+[two-node + arbiter edge cluster](/posts/two-node-arbiter-edge-virtualization/),
+keep volume replicas off the arbiter; it is a quorum device, not a third
+disk fault domain.
 
 **PowerFlex** is the Dell HCI/SDS answer. PowerMax and PowerStore are the
 Dell *array* answers. Unity XT is a different conversation: the lab path in
@@ -218,9 +221,9 @@ just an older release.
 ## Related posts
 
 - [OpenShift Storage Performance: Disks, IOPS, Architectures](/posts/openshift-storage-performance/)
-- [VDDK Off Broadcom's Public Portal: MTV Migrations](/posts/vddk-portal-mtv-openshift/)
+- [Two-Node + Arbiter for Edge OpenShift Virtualization](/posts/two-node-arbiter-edge-virtualization/)
 - [OpenShift Virtualization with Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
-- [VMware to OpenShift Virtualization: Copy Offload](/posts/mtv-storage-copy-offload-vmware/)
+- [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
 
 ## Further reading
 

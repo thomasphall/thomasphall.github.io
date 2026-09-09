@@ -239,7 +239,11 @@ operator, cluster-wide ANP, External Secrets Operator as the
 [platform secrets default](/posts/external-secrets-vs-secrets-store-csi/).
 Shared intent goes through RHACM. Unique intent stays in the cluster or app
 repo. The failure mode is forcing unique site YAML through a label that
-means “everywhere.”
+means “everywhere.” Cluster-local Virtualization has a related split:
+[virtualization autopilot versus GitOps](/posts/virt-platform-autopilot-vs-gitops/)
+is who owns documented virt-adjacent defaults versus who owns the
+`HyperConverged` annotation. Do not ApplicationSet every swap
+`MachineConfig` the controller is about to render.
 
 Fork AutoShift when the Platform Plus catalog matches what you would have
 written anyway and you will accept their values file as the UX. Extract the
@@ -276,8 +280,8 @@ then feed the hub on purpose.
 
 ## Related posts
 
+- [Virtualization Autopilot vs GitOps on OpenShift](/posts/virt-platform-autopilot-vs-gitops/)
 - [ACM as the Fleet Control Plane for OpenShift VMs](/posts/acm-openshift-virtualization/)
-- [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
 - [OpenShift Network Policies: Tenant, Admin, Secondary](/posts/openshift-network-policies/)
 - [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
 

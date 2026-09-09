@@ -48,7 +48,9 @@ is the RHACM path.
 
 The hub is a management plane. Do not park the customer’s first production-like
 workload on it. Form factor still comes first if the story is edge—see
-[OpenShift edge architectures](/posts/openshift-edge-architectures/).
+[OpenShift edge architectures](/posts/openshift-edge-architectures/)
+and, when the site is two hypervisors plus a small quorum host,
+[Two-Node + Arbiter for Edge OpenShift Virtualization](/posts/two-node-arbiter-edge-virtualization/).
 If the story is nested control planes, that is a later fork, not the first
 cluster: [hosted vs virtualized control planes](/posts/hosted-vs-virtualized-control-planes/).
 
@@ -170,7 +172,10 @@ GitOps, virtualization (after
 [MTV](https://openshift-ssa.github.io/openshift-poc/post-installation/mtv/),
 logging, Service Mesh, and
 [Network Observability](/posts/network-observability-openshift/)
-after CSI and the underlay. Mark the console with the
+after CSI and the underlay. Virtualization platform autopilot is a 4.22
+Developer Preview: leave it off for a first PoC, and do not GitOps every
+adjacent `MachineConfig` if you later evaluate it—see
+[Virtualization Autopilot vs GitOps on OpenShift](/posts/virt-platform-autopilot-vs-gitops/). Mark the console with the
 [PoC banner](https://openshift-ssa.github.io/openshift-poc/post-installation/poc-banner/)
 so nobody treats kubeadmin as production.
 

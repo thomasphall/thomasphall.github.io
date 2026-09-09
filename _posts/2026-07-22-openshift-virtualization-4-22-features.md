@@ -211,6 +211,10 @@ review, lead with outcomes rather than a feature laundry list:
    conversation many regulated and mainframe-adjacent estates need.
 5. **Plan the edges** — Treat Technology Preview as evaluation fodder; treat
    deprecated recording rules and `HotplugVolume` as upgrade homework.
+   Virtualization platform autopilot is a separate **Developer Preview** in
+   4.22—evaluate ownership against GitOps, do not treat it as a GA default;
+   see
+   [Virtualization Autopilot vs GitOps on OpenShift](/posts/virt-platform-autopilot-vs-gitops/).
 
 Validate in non-production first: exercise storage migration cleanup, confirm
 custom Prometheus rules still resolve after the recording-rule rename, and decide
@@ -230,10 +234,10 @@ when the VMware estate is leaving a local-disk HCI pool.
 
 ## Related posts
 
+- [Virtualization Autopilot vs GitOps on OpenShift](/posts/virt-platform-autopilot-vs-gitops/)
 - [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)
 - [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
 - [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
-- [RHCOS 10 on OpenShift 4.22: What Changes](/posts/rhcos-10-openshift/)
 
 > Want help planning a Virtualization 4.22 upgrade? Reach out to your Red Hat
 > account team—or read the
