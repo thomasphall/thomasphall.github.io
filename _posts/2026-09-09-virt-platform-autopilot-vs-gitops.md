@@ -56,9 +56,14 @@ its job you hear from Events and Prometheus only when a human has to
 intervene.
 
 It is also not the
+[Kube Descheduler Operator](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/nodes/controlling-pod-placement-onto-nodes-scheduling)
+with PSI, and it is not the
 [HyperConverged Operator](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/about)
-itself. HCO already gives opinionated defaults *inside* OpenShift
-Virtualization. Autopilot reaches *outside* that operator: descheduler,
+itself. The descheduler live-migrates VMs off contended nodes; autopilot
+may *configure* the descheduler—see
+[Autopilot is not descheduler PSI](#autopilot-is-not-descheduler-psi).
+HCO already gives opinionated defaults *inside* OpenShift Virtualization.
+Autopilot reaches *outside* that operator: descheduler,
 swap MachineConfigs, CPU Manager, MetalLB, Migration Toolkit for
 Virtualization (MTV), Cluster Observability, PCI passthrough. Soft
 dependencies are the design: if the CRD is missing, the controller waits
@@ -108,6 +113,61 @@ change landing-zone reviews: **new clusters on by default; existing
 clusters stay manual until someone opts in; administrators who want to keep
 full manual control opt out with an annotation.** Design the GitOps
 ownership now, even if you leave the annotation off in production until GA.
+
+## Autopilot is not descheduler PSI
+
+Load-aware VM balancing on OpenShift Virtualization is already a product
+feature. The
+[Kube Descheduler Operator](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/nodes/controlling-pod-placement-onto-nodes-scheduling)
+plus the `KubeVirtRelieveAndMigrate` profile evicts virt-launcher pods so
+migratable VMs live-migrate off hot nodes. The default utilization signal
+combines CPU and memory usage with
+[Pressure Stall Information (PSI)](https://docs.kernel.org/accounting/psi.html)—how
+long tasks waited on CPU or memory, not only whether the gauges look full.
+That is the vSphere-DRS-shaped conversation: spread load, relieve
+contention, keep spare capacity similar across workers.
+
+That path is **not** the autopilot.
+
+| Question                          | Descheduler with PSI                                    | Virtualization platform autopilot                        |
+| --------------------------------- | ------------------------------------------------------- | -------------------------------------------------------- |
+| What it is                        | A runtime balancer                                      | A configuration controller                               |
+| When it acts                      | Periodically, against live node metrics                 | Continuously, against documented platform YAML           |
+| What it moves                     | VMs (via virt-launcher eviction / live migration)       | `KubeDescheduler`, MachineConfigs, and other adjacent CRs |
+| PSI’s job                         | Input to `PrometheusCPUMemoryCombinedProfile`           | A worker `psi=1` kernel argument the balancer *requires* |
+| GA in 4.22                        | Yes, if you install and configure the operator          | No. Developer Preview                                    |
+| You already GitOps this           | Keep doing that                                         | Leave the controller off, or disable `KubeDescheduler`   |
+
+PSI is a kernel metric. A MachineConfig named so it sorts *after* the
+default `98-` config that turns PSI off (`99-openshift-machineconfig-worker-psi-karg`
+in the Virtualization docs) is what makes those metrics exist on workers.
+The descheduler profile is what *consumes* them. Eviction strategy on the
+VM (`LiveMigrate` / `LiveMigrateIfPossible`) is what turns a pod eviction
+into a live migration instead of a shutdown. Three objects, one outcome.
+None of them is `virt-platform-autopilot`.
+
+Autopilot’s `descheduler-loadaware` flag is one way to *apply the
+documented wiring*: install or wait for the Kube Descheduler Operator,
+render `KubeDescheduler` with the virt load-aware profile (the Developer
+Preview article’s debug output used `DevKubeVirtRelieveAndMigrate`), set
+`mode: Automatic`, and keep eviction limits aligned with
+`HyperConverged` live-migration parallelism. The controller does not pick
+which VM leaves a node. After the YAML exists, the descheduler still does
+that job.
+
+You can—and many landing zones should—ship PSI descheduling with GitOps
+and never annotate HCO. That is the GA column. Enable autopilot for
+descheduler only when you want the *documented default* kept current
+across z-streams and you do not already own `KubeDescheduler` in git. If
+you already designed deviation thresholds, a longer `deschedulingIntervalSeconds`,
+or `prefer-no-eviction` on a class of VMs, those exceptions stay in the
+cluster or application repo. Disable the `KubeDescheduler` resource on
+the autopilot rather than letting a Developer Preview overwrite a balancer
+you can explain in a design review.
+
+Product procedure for the balancer itself is
+[enabling descheduler evictions on virtual machines](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html-single/virtualization/index#virt-enabling-descheduler-evictions)
+in the OpenShift Virtualization 4.22 book. This post stays on who owns the YAML.
 
 ## Two owners, one cluster
 
@@ -309,13 +369,17 @@ constrained site. Form factor still comes before fleet defaults—see
    swap, CPU Manager, and the other named features. GitOps owns the HCO
    annotation that allows that, plus identity, storage, network, and
    security.
-2. **Do not GitOps the rendered MachineConfig** — you will fight the next
+2. **Descheduler PSI is the balancer** — `KubeVirtRelieveAndMigrate`
+   live-migrates VMs from utilization and pressure. Autopilot may wire
+   that config; it does not replace it. GitOps the GA balancer without
+   the Developer Preview if you already own `KubeDescheduler`.
+3. **Do not GitOps the rendered MachineConfig** — you will fight the next
    z-stream. GitOps the patch, the ignore list, or `unmanaged`.
-3. **Render and `oc diff` before `true`** — subset enablement on a non-prod
+4. **Render and `oc diff` before `true`** — subset enablement on a non-prod
    cluster; full `true` is a later conversation.
-4. **Fleet stamps the contract** — RHACM policy on virt-labeled clusters
+5. **Fleet stamps the contract** — RHACM policy on virt-labeled clusters
    enables the controller. It does not re-implement the controller.
-5. **Call Developer Preview by name** — off by default in 4.22; plan for
+6. **Call Developer Preview by name** — off by default in 4.22; plan for
    GA default-on for *new* clusters so the ownership split is already in
    git.
 
@@ -344,6 +408,8 @@ and the
 
 - [Introducing virtualization platform autopilot](https://developers.redhat.com/articles/2026/05/07/introducing-virtualization-platform-autopilot)
 - [virt-platform-autopilot (upstream)](https://github.com/openshift-virtualization/virt-platform-autopilot)
+- [Enabling descheduler evictions on virtual machines (OpenShift Virtualization 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html-single/virtualization/index#virt-enabling-descheduler-evictions)
+- [Controlling pod placement: Kube Descheduler (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/nodes/controlling-pod-placement-onto-nodes-scheduling)
 - [OpenShift Virtualization 4.22](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/index)
 - [Red Hat OpenShift GitOps 1.20](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.20/)
 - [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
