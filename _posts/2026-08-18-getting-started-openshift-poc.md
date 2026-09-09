@@ -48,9 +48,7 @@ is the RHACM path.
 
 The hub is a management plane. Do not park the customer’s first production-like
 workload on it. Form factor still comes first if the story is edge—see
-[OpenShift edge architectures](/posts/openshift-edge-architectures/)
-and, when the site is two hypervisors plus a small quorum host,
-[Two-Node + Arbiter for Edge OpenShift Virtualization](/posts/two-node-arbiter-edge-virtualization/).
+[OpenShift edge architectures](/posts/openshift-edge-architectures/).
 If the story is nested control planes, that is a later fork, not the first
 cluster: [hosted vs virtualized control planes](/posts/hosted-vs-virtualized-control-planes/).
 

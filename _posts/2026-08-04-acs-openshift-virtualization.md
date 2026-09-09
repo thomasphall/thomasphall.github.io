@@ -194,7 +194,7 @@ and
 - [Security Tools Across the OpenShift Stack](/posts/openshift-security-tools-stack/)
 - [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
 - [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
-- [virt-handler CVEs: Namespace Edit Blast Radius](/posts/virt-handler-cve-namespace-edit/)
+- [OpenShift Network Policies: Tenant, Admin, Secondary](/posts/openshift-network-policies/)
 
 > Want help applying this in your environment? Reach out to your Red Hat
 > account team—or evaluate the pattern on a non-prod OpenShift cluster first.

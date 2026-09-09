@@ -59,11 +59,7 @@ do not belong to the platform operations role.
 
 **Exec and VNC.** `oc exec` into virt-related pods is an interactive path into
 the virtualization control plane; it is not required for day-to-day VM
-lifecycle. For virt-handler symlink CVEs that start from namespace `edit`,
-that exec path is the compensating control until the z-stream is on the
-node—see
-[virt-handler CVEs: Namespace Edit Blast Radius](/posts/virt-handler-cve-namespace-edit/).
-VNC console access is granted through roles that can generate
+lifecycle. VNC console access is granted through roles that can generate
 KubeVirt tokens—often for every workload in a namespace. Prefer stronger
 guest access paths (SSH with MFA, enterprise remote access, break-glass
 runbooks) and keep VNC/token generation tightly bound.
@@ -185,10 +181,10 @@ is the usual PoC sequence before you freeze HyperConverged defaults.
 
 ## Related posts
 
-- [virt-handler CVEs: Namespace Edit Blast Radius](/posts/virt-handler-cve-namespace-edit/)
 - [Security Tools Across the OpenShift Stack](/posts/openshift-security-tools-stack/)
-- [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
+- [Fence Gray Host Failures on OpenShift Virtualization](/posts/openshift-virt-gray-failure-ha/)
 - [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)
+- [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 
 > Want help mapping these controls to your landing zone? Reach out to your
 > Red Hat account team—or apply the sequence above on a non-prod OpenShift

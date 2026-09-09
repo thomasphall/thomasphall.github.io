@@ -299,9 +299,9 @@ Leave the autopilot off—or disable the colliding resources—when:
 
 A compact or two-node edge cluster is not automatically a no. It is a
 reason to render first. Swap, descheduler eviction limits, and remediation
-operators are easy to over-fit on a three-node lab and then copy to
-[two-node + arbiter](/posts/two-node-arbiter-edge-virtualization/).
-Form factor still comes before fleet defaults.
+operators are easy to over-fit on a three-node lab and then copy to a
+constrained site. Form factor still comes before fleet defaults—see
+[OpenShift edge architectures](/posts/openshift-edge-architectures/).
 
 ## The solutions architect takeaway
 

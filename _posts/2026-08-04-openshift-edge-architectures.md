@@ -53,8 +53,8 @@ In practice the topologies stack like this:
 ```text
  Far / device edge          Site edge                 Near-edge hub
 ┌──────────────────┐     ┌──────────────────┐     ┌──────────────────────┐
-│ MicroShift       │     │ SNO, 2+arbiter,  │     │ RHACM + GitOps ZTP   │
-│ Device Edge      │────▶│ or three-node    │◀───▶│ content mirrors      │
+│ MicroShift       │     │ SNO or           │     │ RHACM + GitOps ZTP   │
+│ Device Edge      │────▶│ three-node       │◀───▶│ content mirrors      │
 │ (appliance host) │     │ (plant / store)  │     │ fleet lifecycle      │
 └──────────────────┘     └──────────────────┘     └──────────────────────┘
    footprint first          full OCP API              scale the sameness
@@ -175,10 +175,7 @@ site:
 SNO is a **single failure domain**. Control plane and workloads share fate.
 Design for backup, image-based rebuild, spare hardware, and tested recovery—not
 for multi-AZ HA. If the plant cannot tolerate that node going dark, SNO is the
-wrong form factor no matter how attractive the BOM looks. The usual step-up
-when you have two hypervisor-class servers and a tiny third host—not a third
-full control plane—is
-[Two-Node + Arbiter for Edge OpenShift Virtualization](/posts/two-node-arbiter-edge-virtualization/).
+wrong form factor no matter how attractive the BOM looks.
 
 **Connectivity reality:** plan content delivery and upgrade windows before day
 1. Disconnected or bandwidth-limited sites need mirrors, release images, and a
@@ -195,12 +192,9 @@ pattern famous; manufacturing and retail fleets hit the same operational wall.
 [GitOps Zero Touch Provisioning (ZTP)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/edge_computing/index)
 support single-node, **three-node**, and standard bare-metal clusters. A
 three-node compact-style site (combined control/worker roles) is the usual step
-up from SNO when you want three equal machines. When the site has two
-hypervisor-class servers plus a small quorum host, that is
-[Two-Node with Arbiter](/posts/two-node-arbiter-edge-virtualization/)
-rather than stretching SNO or buying a third full node. Dedicated
-control-plane nodes plus workers appear when the site justifies separating
-those roles.
+up from SNO when you want OpenShift quorum and more local capacity without a
+full datacenter footprint. Dedicated control-plane nodes plus workers appear
+when the site justifies separating those roles.
 
 **Hub shape:** A hub cluster runs
 [Red Hat Advanced Cluster Management (RHACM)](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/)
@@ -229,8 +223,8 @@ guide.
         v             v             v
 ┌──────────────┐ ┌──────────────┐ ┌──────────────┐
 │ Spoke site   │ │ Spoke site   │ │ Spoke site   │
-│ SNO          │ │ 2+arbiter or │ │ standard /   │
-│              │ │ three-node   │ │ larger       │
+│ SNO          │ │ three-node   │ │ standard /   │
+│              │ │ compact      │ │ larger       │
 │ local apps   │ │ local apps   │ │ local apps   │
 │ local cache  │ │ local cache  │ │ local cache  │
 └──────────────┘ └──────────────┘ └──────────────┘
@@ -367,27 +361,25 @@ is how edge projects get stuck in review.
 | ---------- | ----------- |
 | Extreme footprint, intermittent WAN, appliance lifecycle | MicroShift / Device Edge |
 | Full OpenShift API on one host; rebuild-from-spare OK | Single Node OpenShift |
-| Two hypervisors plus a tiny etcd voter; VMs must move | Two-Node with Arbiter |
 | Site needs quorum / more local capacity | Three-node or small multi-node |
 | Many similar sites, bare-metal factory installs | RHACM + GitOps ZTP early |
 | Disconnected or thin WAN | Content mirrors and pinned upgrades before day 1 |
-| Leftover VMs at a site that already needs full OCP | SNO, Two-Node with Arbiter, or compact + OpenShift Virtualization—not MicroShift |
+| Leftover VMs at a site that already needs full OCP | SNO/compact + OpenShift Virtualization—not MicroShift |
 | Stateful PVCs on local disks at SNO/MicroShift | LVM Storage (LVMS) |
 | Shared array already in the rack | External CSI / NVMe/TCP / iSCSI |
 | Replicated block/file/object at a larger site | OpenShift Data Foundation |
 
 A useful facilitation line: *“If this site dies, what is the recovery
-unit—reimage a device, rebuild one OpenShift node, fail over to the other
-hypervisor, or fail over across three?”*
+unit—reimage a device, rebuild one OpenShift node, or fail over across three?”*
 That answer selects the form factor faster than a feature matrix.
 
 ## The solutions architect takeaway
 
 1. **Edge is a spectrum** — device, site, and hub are different architectures
    that share a brand name only at the marketing layer.
-2. **Form factor follows failure domain and footprint** — MicroShift, SNO,
-   Two-Node with Arbiter, and compact/multi-node solve different constraints;
-   do not stretch one to cover the others.
+2. **Form factor follows failure domain and footprint** — MicroShift, SNO, and
+   compact/multi-node solve different constraints; do not stretch one to cover
+   the others.
 3. **Fleet ops is the multiplier** — once you leave a handful of sites, RHACM
    and GitOps ZTP are how install and drift stay intentional. The same hub is
    how you operate VMs across those clusters—see
@@ -417,10 +409,10 @@ can reclaim hours of POST wait (restore before handback).
 
 ## Related posts
 
-- [Two-Node + Arbiter for Edge OpenShift Virtualization](/posts/two-node-arbiter-edge-virtualization/)
 - [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
 - [OpenShift Storage Performance: Disks, IOPS, Architectures](/posts/openshift-storage-performance/)
 - [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
+- [Pure FlashArray on Single Node OpenShift with NVMe/TCP](/posts/pure-flasharray-sno-nvme-tcp/)
 
 > Want help applying this in your environment? Reach out to your Red Hat
 > account team—or evaluate one representative site pattern in a lab before you
@@ -431,7 +423,6 @@ can reclaim hours of POST wait (restore before handback).
 
 - [Edge computing (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/edge_computing/index)
 - [Installing on a single node (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/installing_on_a_single_node/index)
-- [Two-Node with Arbiter (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/installing_a_two_node_openshift_cluster/about-two-node-arbiter-installation)
 - [Understanding MicroShift (4.22)](https://docs.redhat.com/en/documentation/red_hat_build_of_microshift/4.22/html/understanding_microshift/microshift-understanding)
 - [MicroShift storage (4.22)](https://docs.redhat.com/en/documentation/red_hat_build_of_microshift/4.22/html/storage/index)
 - [Persistent storage using local storage (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/storage/persistent-storage-using-local-storage)

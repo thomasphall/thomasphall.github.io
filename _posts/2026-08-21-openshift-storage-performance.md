@@ -230,15 +230,13 @@ around **3,000 IOPS** and can go to **64,000**, with throughput up to about
 | Form factor                      | etcd disk                                                | Persistent data                                      |
 | -------------------------------- | -------------------------------------------------------- | ---------------------------------------------------- |
 | Single Node OpenShift            | Local NVMe/SSD, 120 GB minimum                           | LVMS on extra disks or an array; see [edge architectures](/posts/openshift-edge-architectures/) |
-| Two-node with arbiter            | Local NVMe on both control planes **and** the arbiter    | RWX CSI for VM HA; LVMS is still one-node. See [TNA for edge virt](/posts/two-node-arbiter-edge-virtualization/) |
 | Compact three-node               | Local NVMe; do not share with OSDs                       | ODF additional device set on SSD                     |
 | Hosted control planes            | etcd lives on the **management** cluster                 | Workers still need CSI that matches the workload     |
 | Nested virt “lab on a laptop”    | Often fails 10 ms fsync                                  | Fine for demos that do not care about API latency    |
 
 SNO plus LVMS is a coherent local-disk story. It is not HA. The
 [Pure FlashArray + NVMe/TCP + LVMS](/posts/pure-flasharray-sno-nvme-tcp/)
-pattern is an array-backed SNO, not a vSAN replacement. Two-node with
-arbiter does not change that unless the PVC is RWX.
+pattern is an array-backed SNO, not a vSAN replacement.
 
 ## Persistent CSI: match the access mode, then the IOPS
 
@@ -310,9 +308,7 @@ throughput for busy clusters or use `io2`. Never `st1` for etcd.
 ship a 256 GiB Premium disk and call it production.
 
 **Edge / SNO:** one good local SSD for the node; LVMS or an array for PVCs.
-Do not import datacenter HA storage expectations into a single disk. Two-node
-with arbiter still needs RWX for VM live migration—see
-[Two-Node + Arbiter for Edge OpenShift Virtualization](/posts/two-node-arbiter-edge-virtualization/).
+Do not import datacenter HA storage expectations into a single disk.
 
 ## The solutions architect takeaway
 

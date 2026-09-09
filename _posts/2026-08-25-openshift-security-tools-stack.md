@@ -283,7 +283,7 @@ and the
 - [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
 - [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 - [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
-- [virt-handler CVEs: Namespace Edit Blast Radius](/posts/virt-handler-cve-namespace-edit/)
+- [RHCOS 10 on OpenShift 4.22: What Changes](/posts/rhcos-10-openshift/)
 
 > Want help mapping these tools onto a landing zone? Reach out to your Red
 > Hat account team—or place one control on each layer of a non-prod
