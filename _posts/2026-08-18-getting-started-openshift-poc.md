@@ -181,6 +181,8 @@ Then run one container and, if virt is in scope, one VM from the
 [workloads](https://openshift-ssa.github.io/openshift-poc/workloads/)
 section. Failover and backup demos live under
 [operations](https://openshift-ssa.github.io/openshift-poc/operations/).
+A timed OADP restore is a backup proof, not a DR proof—see
+[OADP for OpenShift VMs: Backup Is Not DR](/posts/oadp-vms-backup-is-not-dr/).
 A green `clusterversion` with no PVC and no idp is not a finished PoC.
 
 ## The solutions architect takeaway

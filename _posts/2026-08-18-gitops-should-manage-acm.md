@@ -92,7 +92,9 @@ puts configuration on the hub. Placement selects clusters. Compliance is
 visible in the same console that already inventories the fleet.
 
 That is why the RHACM virtualization backup path is policy plus labels rather
-than a Velero click on each cluster. The same instinct applies to operators
+than a Velero click on each cluster. Those policies still schedule
+[OADP](/posts/oadp-vms-backup-is-not-dr/);
+they do not turn backup into DR. The same instinct applies to operators
 and platform CRs. If the hub is how you stop a VM, it should also be how you
 prove RHACS, logging, or GitOps itself is present on the clusters that need
 them.
@@ -282,7 +284,7 @@ then feed the hub on purpose.
 
 - [Virtualization Autopilot vs GitOps on OpenShift](/posts/virt-platform-autopilot-vs-gitops/)
 - [ACM as the Fleet Control Plane for OpenShift VMs](/posts/acm-openshift-virtualization/)
-- [OpenShift Network Policies: Tenant, Admin, Secondary](/posts/openshift-network-policies/)
+- [OADP for OpenShift VMs: Backup Is Not DR](/posts/oadp-vms-backup-is-not-dr/)
 - [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
 
 > Want help choosing hub-fed RHACM policies versus per-cluster ApplicationSets

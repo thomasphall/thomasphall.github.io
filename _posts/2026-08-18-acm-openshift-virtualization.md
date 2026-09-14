@@ -112,7 +112,8 @@ gets the policies when you set `acm-virt-config` on the `ManagedCluster`
 resource. Restore is a separate policy driven by a restore ConfigMap, including
 optional namespace mapping. That is backup and restore. It is not Metro or
 Regional DR, and it is not a replacement for application-level recovery
-objectives you already negotiated.
+objectives you already negotiated. The dedicated split is
+[OADP for OpenShift VMs: Backup Is Not DR](/posts/oadp-vms-backup-is-not-dr/).
 
 ## Cross-cluster live migration
 
@@ -208,7 +209,7 @@ and
 ## Related posts
 
 - [GitOps Should Manage ACM, Not the Cluster](/posts/gitops-should-manage-acm/)
-- [AI Agents for MTV: vSphere to OpenShift Virtualization](/posts/ai-agents-mtv-vsphere/)
+- [OADP for OpenShift VMs: Backup Is Not DR](/posts/oadp-vms-backup-is-not-dr/)
 - [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
 - [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 

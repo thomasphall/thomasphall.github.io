@@ -60,7 +60,9 @@ so the source and destination nodes can attach the same VM disk. Prefer
 filesystem on top of a volume, and it is slower for VM disks. Snapshots and
 clones are what make golden images, MTV imports, and crash-consistent
 backups cheap. Volume expansion is table stakes. Replication and DR are
-vendor features, not a CSI standard.
+vendor features, not a CSI standard. CSI snapshots plus
+[OADP](/posts/oadp-vms-backup-is-not-dr/)
+are backup; they do not replace that replication row.
 
 | Capability              | Why it matters for OVE                         | vSAN analog                         |
 | ----------------------- | ---------------------------------------------- | ----------------------------------- |
@@ -218,7 +220,7 @@ just an older release.
 ## Related posts
 
 - [OpenShift Storage Performance: Disks, IOPS, Architectures](/posts/openshift-storage-performance/)
-- [VDDK Off Broadcom's Public Portal: MTV Migrations](/posts/vddk-portal-mtv-openshift/)
+- [OADP for OpenShift VMs: Backup Is Not DR](/posts/oadp-vms-backup-is-not-dr/)
 - [OpenShift Virtualization with Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
 - [VMware to OpenShift Virtualization: Copy Offload](/posts/mtv-storage-copy-offload-vmware/)
 
