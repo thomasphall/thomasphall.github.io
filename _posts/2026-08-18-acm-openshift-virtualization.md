@@ -172,9 +172,7 @@ a complementary control plane, not a substitute.
 is the same RHACM operational surface, entitled only for
 OpenShift Virtualization Engine clusters and the VMs on them. If the estate is
 VMs on OVE and nothing else, that SKU matches the buy. Mixed container and VM
-fleets stay on RHACM for Kubernetes. The edition split is
-[OVE vs OpenShift Platform Plus](/posts/ove-vs-openshift-platform-plus/).
-Do not let the SKU conversation replace the
+fleets stay on RHACM for Kubernetes. Do not let the SKU conversation replace the
 architecture conversation: either way, the hub is how you stop managing each
 virt cluster as a pet.
 
@@ -211,8 +209,8 @@ and
 ## Related posts
 
 - [GitOps Should Manage ACM, Not the Cluster](/posts/gitops-should-manage-acm/)
-- [OVE vs OpenShift Platform Plus: The SKU Choice](/posts/ove-vs-openshift-platform-plus/)
 - [OADP for OpenShift VMs: Backup Is Not DR](/posts/oadp-vms-backup-is-not-dr/)
+- [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
 - [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 
 > Want help applying this in your environment? Reach out to your Red Hat

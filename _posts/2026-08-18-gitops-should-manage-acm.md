@@ -183,10 +183,7 @@ operators and platform components on and off. The catalog is the
 [OpenShift Platform Plus](https://www.redhat.com/en/resources/openshift-platform-plus-datasheet)
 shape this site already writes about: RHACS, Ansible Automation Platform,
 GitOps, Quay, OpenShift Data Foundation, Virtualization, MTV, External
-Secrets, Pipelines, Developer Hub, Service Mesh, logging. Whether that
-catalog is the right *buy* versus
-[OpenShift Virtualization Engine](/posts/ove-vs-openshift-platform-plus/)
-is a SKU question, not an AutoShift question.
+Secrets, Pipelines, Developer Hub, Service Mesh, logging.
 
 Treat it as a field framework, not a SKU. It is not a Red Hat product. There
 is no GSS contract and no `docs.redhat.com` page. Releases are still
@@ -287,7 +284,7 @@ then feed the hub on purpose.
 
 - [Virtualization Autopilot vs GitOps on OpenShift](/posts/virt-platform-autopilot-vs-gitops/)
 - [ACM as the Fleet Control Plane for OpenShift VMs](/posts/acm-openshift-virtualization/)
-- [OVE vs OpenShift Platform Plus: The SKU Choice](/posts/ove-vs-openshift-platform-plus/)
+- [OADP for OpenShift VMs: Backup Is Not DR](/posts/oadp-vms-backup-is-not-dr/)
 - [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
 
 > Want help choosing hub-fed RHACM policies versus per-cluster ApplicationSets
