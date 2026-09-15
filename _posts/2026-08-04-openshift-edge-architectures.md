@@ -1,12 +1,12 @@
 ---
 title: "OpenShift Edge Architectures: Form Factor, Then Fleet"
 description: >-
-  Compare MicroShift, Single Node OpenShift, and hub-and-spoke edge
-  patterns—plus LVMS, external CSI, and ODF storage that matches each
-  site’s failure domain.
+  Compare MicroShift, Single Node OpenShift, two-node HA, compact, and
+  hub-and-spoke edge patterns—plus LVMS, external CSI, and ODF storage
+  that matches each site’s failure domain.
 date: 2026-08-04 16:00:00 -0500
 categories: [OpenShift]
-tags: [openshift, edge, sno, gitops, storage]
+tags: [openshift, edge, sno, gitops, storage, two-node]
 og_image: /assets/img/og/openshift-edge-architectures.png
 permalink: /posts/openshift-edge-architectures/
 ---
@@ -15,11 +15,17 @@ permalink: /posts/openshift-edge-architectures/
 > represent Red Hat or any other organization.
 {: .prompt-info }
 
+> Updated 15 Sep 2026: OpenShift 4.22 two-node form factors (arbiter and
+> fencing), current Device Edge components and URL, and relocated OpenShift
+> PoC links.
+{: .prompt-info }
+
 Architecture reviews rarely fail because someone forgot to say “OpenShift at
 the edge.” They fail because that phrase hides five different designs. A
-resource-constrained gateway, a single-rack plant cell, and a regional hub that
-installs a thousand spokes are all “edge”—and they want different form factors,
-different failure domains, and different day-2 muscle memory.
+resource-constrained gateway, a two-server store that still needs HA, a
+single-rack plant cell, and a regional hub that installs a thousand spokes are
+all “edge”—and they want different form factors, different failure domains, and
+different day-2 muscle memory.
 
 This post is a solution-architect map of common
 [Red Hat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift)
@@ -51,14 +57,19 @@ Answer those before debating product names. The form factor follows.
 In practice the topologies stack like this:
 
 ```text
- Far / device edge          Site edge                 Near-edge hub
-┌──────────────────┐     ┌──────────────────┐     ┌──────────────────────┐
-│ MicroShift       │     │ SNO or           │     │ RHACM + GitOps ZTP   │
-│ Device Edge      │────▶│ three-node       │◀───▶│ content mirrors      │
-│ (appliance host) │     │ (plant / store)  │     │ fleet lifecycle      │
-└──────────────────┘     └──────────────────┘     └──────────────────────┘
-   footprint first          full OCP API              scale the sameness
+ Far / device edge          Site edge                      Near-edge hub
+┌──────────────────┐     ┌─────────────────────────┐     ┌──────────────────────┐
+│ MicroShift       │     │ SNO                     │     │ RHACM + GitOps ZTP   │
+│ Device Edge      │────▶│ Two-node (TNA / TNF)    │◀───▶│ content mirrors      │
+│ (appliance host) │     │ Three-node compact      │     │ fleet lifecycle      │
+└──────────────────┘     └─────────────────────────┘     └──────────────────────┘
+   footprint first          full OCP API                    scale the sameness
 ```
+
+Installer floors on OpenShift 4.22 (not a virtualization bill of materials):
+MicroShift is 2 cores / 2 GB RAM / 10 GB disk; SNO is 4 vCPU / 16 GB / 120 GB
+(4 vCPU leaves almost no app headroom); each two-node control plane is 4 vCPU /
+16 GB / 120 GB, plus a 2 vCPU / 8 GB / 50 GB arbiter for TNA.
 
 ## Example A — Device edge with MicroShift
 
@@ -68,11 +79,14 @@ space are scarce; WAN is unreliable; nobody wants a full OpenShift control plane
 on the box.
 
 **Architecture:** [Red Hat build of MicroShift](https://docs.redhat.com/en/documentation/red_hat_build_of_microshift/4.22/html/understanding_microshift/microshift-understanding)
-on an edge-optimized OS such as RHEL for Edge. Together, that pairing is the
-[Red Hat Device Edge](https://www.redhat.com/en/technologies/linux-platforms/device-edge)
-story: a single-node Kubernetes runtime aimed at resource-constrained field
+on edge-optimized Red Hat Enterprise Linux—image mode (`bootc`) or RHEL for
+Edge (`rpm-ostree`). That pairing is
+[Red Hat Device Edge](https://www.redhat.com/en/technologies/device-edge):
+a single-node Kubernetes runtime aimed at resource-constrained field
 environments, with a focused API surface for orchestration, networking, ingress,
-storage, and security.
+storage, and security. Device fleets are an OS/device control plane
+([Red Hat Edge Manager](https://www.redhat.com/en/resources/edge-manager-datasheet)
+on the standard SKU, or Ansible)—not GitOps ZTP on a hub cluster.
 
 ```text
  Field site (gateway / kiosk)
@@ -85,20 +99,20 @@ storage, and security.
 │  └──────────────────▲─────────────────────┘  │
 │                     │ runs on                │
 │  ┌──────────────────┴─────────────────────┐  │
-│  │ RHEL for Edge (rpm-ostree image)       │  │
+│  │ RHEL (image mode / RHEL for Edge)      │  │
 │  │  OS lifecycle, updates, local storage  │  │
 │  └────────────────────────────────────────┘  │
 └───────────────────────┬──────────────────────┘
                         │ intermittent / thin WAN
                         v
-              optional fleet / image source
+              Edge Manager / Ansible / image source
               (not a full OCP control plane)
 ```
 
 **Why it fits**
 
 - Footprint and networking constraints are first-class design goals, not
-  afterthoughts.
+  afterthoughts. The supported floor is 2 cores, 2 GB RAM, and 10 GB disk.
 - Devices are largely self-managing; OS-level image and update patterns carry
   much of the lifecycle that a full OpenShift cluster would handle with
   operators and OLM.
@@ -107,15 +121,17 @@ storage, and security.
 **What you give up (say it out loud)**
 
 - MicroShift is **not** full OpenShift Container Platform. It does not bring the
-  whole operator, console, and multi-node HA story with it.
+  console or multi-node HA story with it. OLM has been present since 4.15, but
+  it does not ship the OpenShift OperatorHub catalog—you bring the operators
+  you actually need.
 - It does not support workload HA or horizontal scale by adding workers.
 - Virtual machines, when needed, are an OS/host concern—not OpenShift
   Virtualization on that device.
 
 **Wrong answer when:** stakeholders assume every OpenShift API, OperatorHub
 catalog, or multi-node pattern will “just work” on the gateway. If the site
-needs the full platform surface, step up to SNO or compact—not a stretched
-definition of MicroShift.
+needs the full platform surface, step up to SNO, two-node, or compact—not a
+stretched definition of MicroShift.
 
 ## Example B — Single Node OpenShift at the site
 
@@ -127,8 +143,10 @@ racks are not in the budget.
 
 **Architecture:**
 [Single Node OpenShift (SNO)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/installing_on_a_single_node/index)—
-control plane and workers co-located on one node. Common companions at the
-site:
+control plane and workers co-located on one node. The 4.22 floor is 4 vCPU /
+16 GB RAM / 120 GB disk; that threshold leaves almost no headroom for
+workloads, so size for the apps, not the installer table. Common companions at
+the site:
 
 - Local storage such as LVM Storage (LVMS) for PVCs without a full external
   array
@@ -174,27 +192,90 @@ site:
 
 SNO is a **single failure domain**. Control plane and workloads share fate.
 Design for backup, image-based rebuild, spare hardware, and tested recovery—not
-for multi-AZ HA. If the plant cannot tolerate that node going dark, SNO is the
-wrong form factor no matter how attractive the BOM looks.
+for multi-AZ HA. OpenShift Virtualization on SNO is supported, without live
+migration. If the plant cannot tolerate that node going dark, step up to
+two-node or compact—SNO is the wrong form factor no matter how attractive the
+BOM looks.
 
 **Connectivity reality:** plan content delivery and upgrade windows before day
 1. Disconnected or bandwidth-limited sites need mirrors, release images, and a
 break-glass story that works when the hub is unreachable.
 
-## Example C — Compact site and a hub that runs the fleet
+## Example C — Two-node HA at the site
+
+**Scenario:** A plant or store that cannot tolerate the single node going dark,
+but cannot (or will not) buy a third hypervisor-class server. Leftover VMs need
+somewhere to live-migrate. Rebuild-from-spare is no longer the recovery model.
+
+**Architecture:** OpenShift 4.22 adds two supported
+[two-node](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/installing_a_two_node_openshift_cluster/index)
+topologies. Pick by whether a tiny third host exists and whether BMC fencing is
+real.
+
+[Two-Node with Arbiter (TNA)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/installing_a_two_node_openshift_cluster/about-two-node-arbiter-installation)
+is two schedulable control-plane hosts plus one **local** arbiter that stores a
+full etcd copy so Raft still has three voters. The arbiter does not run
+`kube-apiserver`, `kube-controller-manager`, or workloads. Remote or “cloud”
+arbiters are not supported. After install you can add at most two extra workers;
+you cannot convert the cluster to a standard multi-node shape.
+
+[Two-Node with Fencing (TNF)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/installing_a_two_node_openshift_cluster/two-node-with-fencing)
+is two control-plane hosts and no arbiter. Pacemaker fences an unresponsive node
+via the BMC (Redfish) so etcd does not split-brain. TNF does not support extra
+compute nodes. GitOps ZTP is **not** a validated topology for TNF—use assisted
+or installer-provisioned methods.
+
+```text
+ Manufacturing cell / retail store
+┌──────────────────────────────────────────────────────────────┐
+│  Two-Node OpenShift with Arbiter (TNA)                       │
+│                                                              │
+│  ┌──────────────┐  ┌──────────────┐  ┌────────────────────┐  │
+│  │ Control plane│  │ Control plane│  │ Arbiter            │  │
+│  │ + workers    │  │ + workers    │  │ etcd voter only    │  │
+│  │ (node 0)     │  │ (node 1)     │  │ no API, no VMs     │  │
+│  │ pods + VMs   │  │ pods + VMs   │  │                    │  │
+│  └──────┬───────┘  └──────┬───────┘  └──────────┬─────────┘  │
+│         └──────── etcd quorum (3 of 3) ─────────┘            │
+│                           │                                  │
+│                           v                                  │
+│              shared CSI (RWX if you need live migration)     │
+└───────────────────────────┬──────────────────────────────────┘
+                            │ WAN (may be thin)
+                            v
+                     hub / content source
+```
+
+**Why it fits**
+
+- Site-local HA without a third full hypervisor. TNA is the default I put on
+  the whiteboard when a NUC-class third box exists; TNF is the conversation
+  when it does not and BMC fencing is tested.
+- OpenShift Virtualization can live-migrate if storage is RWX. Local LVMS on
+  each node is still one failure domain per disk—do not sell migration on
+  host-local PVs.
+
+**Wrong answer when:** there is no third host *and* BMC fencing is not real, or
+the only copy of VM disks is a local LV. That is still SNO economics with extra
+etcd theory. If you can buy three equal servers, compact is simpler than
+explaining an arbiter to the plant.
+
+## Example D — Compact site and a hub that runs the fleet
 
 **Scenario:** A larger plant, campus, or regional facility that either (a) needs
-more than one node of capacity/HA at the site, or (b) acts as the management
+more than two nodes of capacity/HA at the site, or (b) acts as the management
 hub for dozens to thousands of spoke sites. Telco and far-edge fleets made this
 pattern famous; manufacturing and retail fleets hit the same operational wall.
 
 **Site shape:** Assisted service and
 [GitOps Zero Touch Provisioning (ZTP)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/edge_computing/index)
 support single-node, **three-node**, and standard bare-metal clusters. A
-three-node compact-style site (combined control/worker roles) is the usual step
-up from SNO when you want OpenShift quorum and more local capacity without a
-full datacenter footprint. Dedicated control-plane nodes plus workers appear
-when the site justifies separating those roles.
+three-node compact-style site (combined control/worker roles) is the step up
+from two-node when you want a full OpenShift quorum on three equal boxes
+without a datacenter footprint. Dedicated control-plane nodes plus workers
+appear when the site justifies separating those roles. Confirm current
+edge-computing docs before you assume `ClusterInstance` covers TNA; TNF is
+explicitly not a validated ZTP topology.
 
 **Hub shape:** A hub cluster runs
 [Red Hat Advanced Cluster Management (RHACM)](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/)
@@ -205,7 +286,7 @@ you avoid “SSH to each site and hope.” For a PoC-sized hub (SNO + RHACM + sp
 provisioning), follow
 [how to get started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
 and the
-[OpenShift PoC fleet management](https://openshift-ssa.github.io/openshift-poc/fleet-management/)
+[hub-and-spoke (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/other-installation-methods/hub-and-spoke/)
 guide.
 
 ```text
@@ -223,8 +304,8 @@ guide.
         v             v             v
 ┌──────────────┐ ┌──────────────┐ ┌──────────────┐
 │ Spoke site   │ │ Spoke site   │ │ Spoke site   │
-│ SNO          │ │ three-node   │ │ standard /   │
-│              │ │ compact      │ │ larger       │
+│ SNO /        │ │ two-node     │ │ three-node / │
+│              │ │ TNA or TNF   │ │ standard     │
 │ local apps   │ │ local apps   │ │ local apps   │
 │ local cache  │ │ local cache  │ │ local cache  │
 └──────────────┘ └──────────────┘ └──────────────┘
@@ -236,17 +317,18 @@ guide.
 
 **What belongs where**
 
-| Concern | Spoke / site | Hub / near edge |
-| ------- | ------------ | --------------- |
-| Production workloads | Yes — keep them local | Aggregate only when latency/policy requires it |
-| Install & desired config | Declared per site (`ClusterInstance` and related CRs) | Git + RHACM/assisted service drive provisioning |
-| Content (releases, operators, app images) | Local cache/mirror as needed | Central mirrors and channel policy |
-| Fleet policy & compliance | Enforced locally once applied | Author and distribute from the hub |
-| Observability | Local signals for break-glass | Aggregation and alerting for the NOC |
+| Concern                                  | Spoke / site                                              | Hub / near edge                                      |
+| ---------------------------------------- | --------------------------------------------------------- | ---------------------------------------------------- |
+| Production workloads                     | Yes — keep them local                                     | Aggregate only when latency/policy requires it       |
+| Install & desired config                 | Declared per site (`ClusterInstance` and related CRs)     | Git + RHACM/assisted service drive provisioning      |
+| Content (releases, operators, app images) | Local cache/mirror as needed                              | Central mirrors and channel policy                   |
+| Fleet policy & compliance                | Enforced locally once applied                             | Author and distribute from the hub                   |
+| Observability                            | Local signals for break-glass                             | Aggregation and alerting for the NOC                 |
 
 Keep ZTP discussions architectural in early reviews: declarative site
 definitions, policy groups for single-node vs three-node vs standard shapes,
-and Topology Aware Lifecycle Manager patterns for controlled rollouts. Full
+and Topology Aware Lifecycle Manager patterns for controlled rollouts. Two-node
+sites use the documented installer path until ZTP coverage is explicit. Full
 policy YAML belongs in the Git repo, not on the first architecture slide.
 
 ## Storage options at the edge
@@ -279,8 +361,8 @@ provisioned PVs. It shows up in two places you already met above:
 
 - **MicroShift** ships LVMS as the built-in CSI provider for dynamic
   provisioning on the device ([MicroShift storage](https://docs.redhat.com/en/documentation/red_hat_build_of_microshift/4.22/html/storage/index)).
-- **SNO / compact** commonly install LVM Storage when there is a raw disk and
-  you want PVCs without standing up an array stack.
+- **SNO / two-node / compact** commonly install LVM Storage when there is a raw
+  disk and you want PVCs without standing up an array stack.
 
 **Fits when:** local disks are enough, dynamic PVC provisioning matters, and
 you accept that data lives with the node (or thin-pool snapshot discipline you
@@ -332,7 +414,9 @@ multi-node expectations.
 
 **Fits when:** three-node (or larger) sites need resilient storage services,
 object storage, or a storage platform that matches regional/datacenter ODF
-muscle memory. **Usually wrong for:** MicroShift appliances and lean SNO cells
+muscle memory. Two-node ODF, where it exists, landed on **fencing** in ODF
+4.22—not on the arbiter—so confirm the current ODF guide before anyone draws
+OSDs on TNA. **Usually wrong for:** MicroShift appliances and lean SNO cells
 whose recovery model is rebuild-from-spare—LVMS (or external CSI) is the
 smaller honest design.
 
@@ -342,14 +426,15 @@ explicitly—do not assume a local `StorageClass` covers it.
 
 ### Storage chooser (edge)
 
-| Site reality | Lean toward |
-| ------------ | ----------- |
-| Device Edge / MicroShift, local disks | Built-in LVMS |
-| SNO, spare disk, dynamic PVCs, rebuild-from-spare OK | LVM Storage |
-| Named local devices / ODF internal dependency | Local Storage Operator |
-| Existing array in the rack; CSI or NVMe/TCP/iSCSI path | External array + CSI (or array LUN → LVMS when that is the documented pattern) |
-| Multi-node site needs replicated block/file/object | OpenShift Data Foundation |
-| App needs S3 at the edge | ODF or external object—call it out early |
+| Site reality                                                                          | Lean toward                                                                                                          |
+| ------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| Device Edge / MicroShift, local disks                                                 | Built-in LVMS                                                                                                        |
+| SNO, spare disk, dynamic PVCs, rebuild-from-spare OK                                  | LVM Storage                                                                                                          |
+| Two-node HA, live migration required                                                  | Shared RWX CSI (array or ODF)—not host-local LVMS                                                                    |
+| Named local devices / ODF internal dependency                                         | Local Storage Operator                                                                                               |
+| Existing array in the rack; CSI or NVMe/TCP/iSCSI path                                | External array + CSI (or array LUN → LVMS when that is the documented pattern)                                       |
+| Multi-node site needs replicated block/file/object                                    | OpenShift Data Foundation                                                                                            |
+| App needs S3 at the edge                                                              | ODF or external object—call it out early                                                                             |
 
 Storage should match the failure domain you already accepted for the form
 factor. SNO plus LVMS is coherent. SNO plus “datacenter HA storage expectations”
@@ -357,29 +442,32 @@ is how edge projects get stuck in review.
 
 ## Decision guide
 
-| Constraint | Lean toward |
-| ---------- | ----------- |
-| Extreme footprint, intermittent WAN, appliance lifecycle | MicroShift / Device Edge |
-| Full OpenShift API on one host; rebuild-from-spare OK | Single Node OpenShift |
-| Site needs quorum / more local capacity | Three-node or small multi-node |
-| Many similar sites, bare-metal factory installs | RHACM + GitOps ZTP early |
-| Disconnected or thin WAN | Content mirrors and pinned upgrades before day 1 |
-| Leftover VMs at a site that already needs full OCP | SNO/compact + OpenShift Virtualization—not MicroShift |
-| Stateful PVCs on local disks at SNO/MicroShift | LVM Storage (LVMS) |
-| Shared array already in the rack | External CSI / NVMe/TCP / iSCSI |
-| Replicated block/file/object at a larger site | OpenShift Data Foundation |
+| Constraint                                                       | Lean toward                                                              |
+| ---------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| Extreme footprint, intermittent WAN, appliance lifecycle         | MicroShift / Device Edge                                                 |
+| Full OpenShift API on one host; rebuild-from-spare OK            | Single Node OpenShift                                                    |
+| Two hypervisor-class servers; a small third host exists          | Two-node with arbiter (TNA)                                              |
+| Strictly two boxes; BMC/Redfish fencing is real and tested       | Two-node with fencing (TNF)                                              |
+| Site needs three-node quorum / more local capacity               | Three-node compact or small multi-node                                   |
+| Many similar sites, bare-metal factory installs                  | RHACM + GitOps ZTP early (not TNF)                                       |
+| Disconnected or thin WAN                                         | Content mirrors and pinned upgrades before day 1                         |
+| Leftover VMs at a site that already needs full OCP               | SNO (no live migration), two-node, or compact—not MicroShift             |
+| Stateful PVCs on local disks at SNO/MicroShift                   | LVM Storage (LVMS)                                                       |
+| Shared array already in the rack                                 | External CSI / NVMe/TCP / iSCSI                                          |
+| Replicated block/file/object at a larger site                    | OpenShift Data Foundation                                                |
 
 A useful facilitation line: *“If this site dies, what is the recovery
-unit—reimage a device, rebuild one OpenShift node, or fail over across three?”*
+unit—reimage a device, rebuild one OpenShift node, fail over across two, or
+quorum across three?”*
 That answer selects the form factor faster than a feature matrix.
 
 ## The solutions architect takeaway
 
 1. **Edge is a spectrum** — device, site, and hub are different architectures
    that share a brand name only at the marketing layer.
-2. **Form factor follows failure domain and footprint** — MicroShift, SNO, and
-   compact/multi-node solve different constraints; do not stretch one to cover
-   the others.
+2. **Form factor follows failure domain and footprint** — MicroShift, SNO,
+   two-node, and compact/multi-node solve different constraints; do not stretch
+   one to cover the others.
 3. **Fleet ops is the multiplier** — once you leave a handful of sites, RHACM
    and GitOps ZTP are how install and drift stay intentional. The same hub is
    how you operate VMs across those clusters—see
@@ -413,6 +501,7 @@ can reclaim hours of POST wait (restore before handback).
 - [OpenShift Storage Performance: Disks, IOPS, Architectures](/posts/openshift-storage-performance/)
 - [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
 - [Pure FlashArray on Single Node OpenShift with NVMe/TCP](/posts/pure-flasharray-sno-nvme-tcp/)
+- [ACM as the fleet control plane for OpenShift VMs](/posts/acm-openshift-virtualization/)
 
 > Want help applying this in your environment? Reach out to your Red Hat
 > account team—or evaluate one representative site pattern in a lab before you
@@ -423,15 +512,18 @@ can reclaim hours of POST wait (restore before handback).
 
 - [Edge computing (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/edge_computing/index)
 - [Installing on a single node (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/installing_on_a_single_node/index)
+- [Installing a two-node OpenShift cluster (4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/installing_a_two_node_openshift_cluster/index)
+- [Two-node with arbiter (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/installing_a_two_node_openshift_cluster/about-two-node-arbiter-installation)
+- [Two-node with fencing (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/installing_a_two_node_openshift_cluster/two-node-with-fencing)
 - [Understanding MicroShift (4.22)](https://docs.redhat.com/en/documentation/red_hat_build_of_microshift/4.22/html/understanding_microshift/microshift-understanding)
+- [Red Hat Device Edge](https://www.redhat.com/en/technologies/device-edge)
 - [MicroShift storage (4.22)](https://docs.redhat.com/en/documentation/red_hat_build_of_microshift/4.22/html/storage/index)
 - [Persistent storage using local storage (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/storage/persistent-storage-using-local-storage)
 - [Red Hat OpenShift Data Foundation documentation](https://docs.redhat.com/en/documentation/red_hat_openshift_data_foundation/)
+- [ODF 4.22 new features — two-node fencing](https://docs.redhat.com/en/documentation/red_hat_openshift_data_foundation/4.22/html/4.22_release_notes/new_features)
 - [Red Hat Advanced Cluster Management documentation](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/)
 - [OpenShift PoC overview](https://openshift-ssa.github.io/openshift-poc/home/)
 - [Architecture — hub and spoke (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/home/architecture/)
-- [Fleet management (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/fleet-management/)
-- [Hub install on SNO (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/fleet-management/sno-hub/)
-- [Advanced Cluster Management (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/fleet-management/acm-install/)
-- [OpenShift GitOps (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/openshift-gitops/)
-- [OpenShift Data Foundation (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/odf/)
+- [Hub and spoke install (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/other-installation-methods/hub-and-spoke/)
+- [OpenShift GitOps (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/openshift-gitops/)
+- [OpenShift Data Foundation (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/storage/odf/)
