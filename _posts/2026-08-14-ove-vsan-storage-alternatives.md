@@ -41,7 +41,10 @@ explicit in the
 [self-managed OpenShift subscription guide](https://www.redhat.com/en/resources/self-managed-openshift-subscription-guide):
 storage drivers and SDS that exist to serve VMs are infrastructure, not
 guest applications. Confirm any borderline workload with Red Hat if it is
-not clearly a CSI driver or a storage control plane.
+not clearly a CSI driver or a storage control plane. The SKU choice itself
+is
+[OVE vs OpenShift Platform Plus](/posts/ove-vs-openshift-platform-plus/):
+ODF-in-Plus is not a reason to skip a SAN you already own.
 
 If the conversation is “we picked OVE so we would not buy ODF,” the next
 question is which certified CSI still gives you live migration. That is the
@@ -220,9 +223,9 @@ just an older release.
 ## Related posts
 
 - [OpenShift Storage Performance: Disks, IOPS, Architectures](/posts/openshift-storage-performance/)
+- [OVE vs OpenShift Platform Plus: The SKU Choice](/posts/ove-vs-openshift-platform-plus/)
 - [OADP for OpenShift VMs: Backup Is Not DR](/posts/oadp-vms-backup-is-not-dr/)
 - [OpenShift Virtualization with Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
-- [VMware to OpenShift Virtualization: Copy Offload](/posts/mtv-storage-copy-offload-vmware/)
 
 ## Further reading
 
