@@ -499,6 +499,7 @@ can reclaim hours of POST wait (restore before handback).
 
 - [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
 - [OpenShift Storage Performance: Disks, IOPS, Architectures](/posts/openshift-storage-performance/)
+- [OpenShift Hardware Vendor Reference Architectures](/posts/openshift-hardware-vendor-reference-architectures/)
 - [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
 - [Pure FlashArray on Single Node OpenShift with NVMe/TCP](/posts/pure-flasharray-sno-nvme-tcp/)
 - [ACM as the fleet control plane for OpenShift VMs](/posts/acm-openshift-virtualization/)

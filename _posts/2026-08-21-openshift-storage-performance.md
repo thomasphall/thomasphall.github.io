@@ -329,6 +329,7 @@ Do not import datacenter HA storage expectations into a single disk.
 - [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
 - [vSAN-like Storage for OpenShift Virtualization Engine](/posts/ove-vsan-storage-alternatives/)
 - [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
+- [OpenShift Hardware Vendor Reference Architectures](/posts/openshift-hardware-vendor-reference-architectures/)
 - [Pure FlashArray on Single Node OpenShift with NVMe/TCP](/posts/pure-flasharray-sno-nvme-tcp/)
 
 > Want help mapping disks and IOPS onto a landing zone? Reach out to your Red

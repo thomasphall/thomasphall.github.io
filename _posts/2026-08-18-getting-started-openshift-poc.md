@@ -49,6 +49,9 @@ is the RHACM path.
 The hub is a management plane. Do not park the customer’s first production-like
 workload on it. Form factor still comes first if the story is edge—see
 [OpenShift edge architectures](/posts/openshift-edge-architectures/).
+Once the shape is named, a hardware vendor reference architecture can freeze
+the bill of materials—see
+[OpenShift hardware vendor reference architectures](/posts/openshift-hardware-vendor-reference-architectures/).
 If the story is nested control planes, that is a later fork, not the first
 cluster: [hosted vs virtualized control planes](/posts/hosted-vs-virtualized-control-planes/).
 
@@ -210,6 +213,7 @@ of operations.
 - [Faster Bare-Metal Boots in OpenShift PoCs](/posts/poc-faster-bare-metal-boot-disable-memory-check/)
 - [OpenShift Storage Performance: Disks, IOPS, Architectures](/posts/openshift-storage-performance/)
 - [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
+- [OpenShift Hardware Vendor Reference Architectures](/posts/openshift-hardware-vendor-reference-architectures/)
 - [RHCOS 10 on OpenShift 4.22: What Changes](/posts/rhcos-10-openshift/)
 
 > Want help applying this in your environment? Reach out to your Red Hat

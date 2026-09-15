@@ -224,6 +224,7 @@ just an older release.
 
 - [OpenShift Storage Performance: Disks, IOPS, Architectures](/posts/openshift-storage-performance/)
 - [OVE vs OpenShift Platform Plus: The SKU Choice](/posts/ove-vs-openshift-platform-plus/)
+- [OpenShift Hardware Vendor Reference Architectures](/posts/openshift-hardware-vendor-reference-architectures/)
 - [OADP for OpenShift VMs: Backup Is Not DR](/posts/oadp-vms-backup-is-not-dr/)
 - [OpenShift Virtualization with Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
 
