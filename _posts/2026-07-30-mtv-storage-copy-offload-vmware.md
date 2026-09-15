@@ -129,9 +129,12 @@ offload is as hardened as cold.
 
 Storage offload also does not replace the rest of MTV. Inventory hygiene,
 network mapping, guest tools and drivers, application cutover runbooks, and
-rollback criteria still decide whether a wave succeeds. OpenShift Virtualization
-is the destination platform; MTV is the migration tool; the array is the copy
-accelerator when the topology allows it.
+rollback criteria still decide whether a wave succeeds. Guest operating
+system architecture is a filter before any of that: a 32-bit OS does not
+belong in wave 1—see
+[32-bit VMs Stay Out of OpenShift Wave 1](/posts/32-bit-vms-not-wave-1/).
+OpenShift Virtualization is the destination platform; MTV is the migration
+tool; the array is the copy accelerator when the topology allows it.
 
 ## What operators configure—at solutions architect altitude
 
@@ -231,10 +234,10 @@ before you assume ODF is the only landing pool.
 
 ## Related posts
 
+- [32-bit VMs Stay Out of OpenShift Wave 1](/posts/32-bit-vms-not-wave-1/)
 - [VDDK Off Broadcom's Public Portal: MTV Migrations](/posts/vddk-portal-mtv-openshift/)
 - [AI Agents for MTV: vSphere to OpenShift Virtualization](/posts/ai-agents-mtv-vsphere/)
 - [vSAN-like Storage for OpenShift Virtualization Engine](/posts/ove-vsan-storage-alternatives/)
-- [OpenShift Virtualization with Dell Unity over iSCSI](/posts/openshift-virt-dell-unity-iscsi/)
 
 > Want help deciding whether storage copy offload fits your array topology?
 > Reach out to your Red Hat account team—or prove one cold offload wave on a

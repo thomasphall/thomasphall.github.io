@@ -68,7 +68,9 @@ The expensive work in a migration factory is not clicking **Start** on one VM.
 It is repeating a judgment loop across hundreds of guests:
 
 1. **Assess** — Which VMs are ready, which need guest prep, which share disks
-   or use features that change the plan shape.
+   or use features that change the plan shape, and which are 32-bit operating
+   systems that do not belong in wave 1—see
+   [32-bit VMs Stay Out of OpenShift Wave 1](/posts/32-bit-vms-not-wave-1/).
 2. **Map** — Networks and storage, consistently, without a spreadsheet drift
    between wave 1 and wave 12.
 3. **Group** — Application affinity, maintenance windows, and cold vs warm.
@@ -313,10 +315,10 @@ For the copy path when the SAN can take the load, see
 
 ## Related posts
 
+- [32-bit VMs Stay Out of OpenShift Wave 1](/posts/32-bit-vms-not-wave-1/)
 - [VDDK Off Broadcom's Public Portal: MTV Migrations](/posts/vddk-portal-mtv-openshift/)
 - [VMware to OpenShift Virtualization: Copy Offload](/posts/mtv-storage-copy-offload-vmware/)
 - [ACM as the Fleet Control Plane for OpenShift VMs](/posts/acm-openshift-virtualization/)
-- [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
 
 > Want help applying this in your environment? Reach out to your Red Hat
 > account team—or evaluate Lightspeed plus one GitOps-managed plan on a

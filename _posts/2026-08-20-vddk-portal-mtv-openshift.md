@@ -239,10 +239,10 @@ before the first wave.
 
 ## Related posts
 
+- [32-bit VMs Stay Out of OpenShift Wave 1](/posts/32-bit-vms-not-wave-1/)
 - [VMware to OpenShift Virtualization: Copy Offload](/posts/mtv-storage-copy-offload-vmware/)
 - [AI Agents for MTV: vSphere to OpenShift Virtualization](/posts/ai-agents-mtv-vsphere/)
 - [vSAN-like Storage for OpenShift Virtualization Engine](/posts/ove-vsan-storage-alternatives/)
-- [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
 
 > Want help mapping VDDK versus offload versus a vSAN holdout onto an
 > MTV factory? Reach out to your Red Hat account team—or prove one VM
