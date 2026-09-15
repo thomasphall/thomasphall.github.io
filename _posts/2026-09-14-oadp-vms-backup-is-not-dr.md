@@ -2,7 +2,7 @@
 title: "OADP for OpenShift VMs: Backup Is Not DR"
 description: >-
   OADP CSI snapshots and DataMover protect OpenShift Virtualization VMs.
-  That is backup and restore, not Metro or Regional DR, live migration,
+  That is backup and restore, not Metro-DR, Regional-DR, live migration,
   or fencing.
 date: 2026-09-14 16:00:00 -0500
 categories: [OpenShift, Virtualization]
@@ -14,8 +14,8 @@ permalink: /posts/oadp-vms-backup-is-not-dr/
 > represent Red Hat or any other organization.
 {: .prompt-info }
 
-A VMware design review has a backup product and a DR product, and they are
-not the same slide. On
+A VMware design review has a backup product and a disaster recovery (DR)
+product, and they are not the same slide. On
 [Red Hat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift)
 the first answer for virtual machines (VMs) is often
 [OpenShift API for Data Protection (OADP)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/backup_and_restore/oadp-application-backup-and-restore).
@@ -44,7 +44,7 @@ Fleet backup policy belongs on
 [Red Hat Advanced Cluster Management for Kubernetes (RHACM)](/posts/acm-openshift-virtualization/),
 not on a Velero click in each cluster console.
 
-## Four words that get mixed in the room
+## Four phrases that get mixed in the room
 
 | Phrase              | What it actually is                                      | What it is not                                      |
 | ------------------- | -------------------------------------------------------- | --------------------------------------------------- |
@@ -85,7 +85,7 @@ snapshots. The excluded line is the older Velero snapshot API, not
 `defaultVolumesToFsBackup: true` on a VM disk.
 
 The support matrix matches that story. For virt workloads, both Filesystem
-and Block volume modes backup with CSI and with CSI DataMover. DataMover
+and Block volume modes back up with CSI and with CSI DataMover. DataMover
 is incremental on those paths and uses Kopia regardless of `uploaderType`.
 File system backup is not supported for virt, even though the same matrix
 allows it for ordinary container persistent volumes.
@@ -133,7 +133,8 @@ Server flushed in the way the DBA expects. `NoGuestAgent` is
 crash-consistent: abrupt power-off. `QuiesceFailed` is a snapshot you
 should not bless. Windows guests have an extra boot-time window: Volume
 Shadow Copy Service (VSS) and the guest agent are not ready immediately
-after reboot, and OADP can `PartiallyFailed` until you retry.
+after reboot, and OADP can mark the backup `PartiallyFailed` until you
+retry.
 
 Multi-disk VMs are the other consistency conversation. Independent CSI
 snapshots of boot and data volumes are not one point in time. Kubernetes
@@ -145,7 +146,7 @@ the same design review as it did on vSphere.
 
 OADP 1.6 also adds virtual machine file restore (VMFR): pull one file out
 of a kubevirt-plugin backup without restoring the whole VM. Useful. Still
-backup. qcow2 and raw disks, plus `ext4`, `xfs`, `ntfs`, and `fat`. It
+backup. `qcow2` and `raw` disks, plus `ext4`, `xfs`, `ntfs`, and `fat`. It
 does not change RTO for site loss.
 
 ## Restore to another cluster is still restore
@@ -156,15 +157,16 @@ program. The documented constraints are the ones that bite in a tabletop:
 - Backup storage location names and paths must match.
 - The clusters share object-storage credentials.
 - You do not restore onto an older Kubernetes version than the source.
-- CSI classes, snapshot classes, and RWX Block capability have to exist
-  on the destination the way they existed on the source.
+- Storage classes, snapshot classes, and RWX Block capability have to
+  exist on the destination the way they existed on the source.
 - The VM still needs networks, IPAM, DNS, and RBAC after the PVC comes
   back.
 
 Namespace mapping is a restore feature. It is not a runbook for "the east
 site is dark." If the RTO assumes a human will `oc apply` a `Restore` CR
 and wait for DataMover download, write that number down and time it. Most
-estates that said "DR" meant something closer to Metro or Regional.
+estates that said "DR" meant something closer to Metro-DR or
+Regional-DR.
 
 ## When the answer is not OADP
 
@@ -181,16 +183,16 @@ current
 guide for the mode you will actually buy.
 
 If the array already replicates—Dell PowerStore, Pure FlashArray, IBM
-Storage Fusion, and the rest of the certified CSI list—use that
-replication and the vendor's failover story. Do not add ODF because a
+Fusion, and the rest of the certified CSI list—use that replication and
+the vendor's failover story. Do not add ODF because a
 backup slide felt empty. The
 [OVE storage shortlist](/posts/ove-vsan-storage-alternatives/)
 is the place to pick the backend; this post is only the protection layer
 on top of it.
 
 Partner backup products still have a job when the requirement is a
-catalog, tenant self-service, or application-aware workflows OADP does
-not pretend to own. IBM Fusion is the one that already sits in the
+catalog, tenant self-service, or application-aware workflows that OADP
+does not pretend to own. IBM Fusion is the one that already sits in the
 storage conversation. Name the product in the design; do not let "we
 installed OADP" stand in for a bake-off you skipped.
 
@@ -215,7 +217,8 @@ conversation as fleet live migration.
 2. **CSI snapshot without DataMover is rollback** — it dies with the
    array. DataMover is the off-cluster copy; time the restore.
 3. **Guest agent is consistency** — crash-consistent is not a database
-   RPO. VolumeGroupSnapshot is Technology Preview.
+   recovery point objective (RPO). VolumeGroupSnapshot is Technology
+   Preview.
 4. **Restore to another cluster is not Metro-DR** — matching buckets and
    a `Restore` CR are not failover.
 5. **HA, live migration, and DR stay on their own slides** — fence a
@@ -224,7 +227,7 @@ conversation as fleet live migration.
 6. **RHACM policy is OADP at fleet scale** — labels and schedules, still
    not a recovery objective.
 
-If a non-prod cluster already has Virtualization and a certified CSI
+If a non-prod cluster already has Virtualization and a certified storage
 class with snapshots, the next proof is small: one labeled VM, one
 `Backup` with `snapshotMoveData: true`, one restore into a scratch
 namespace, and a stopwatch. Pair that with the
@@ -241,7 +244,7 @@ the backup product logo implied.
 - [Fence Gray Host Failures on OpenShift Virtualization](/posts/openshift-virt-gray-failure-ha/)
 - [GitOps Should Manage ACM, Not the Cluster](/posts/gitops-should-manage-acm/)
 
-> Want help splitting OADP restore from a Metro or Regional DR design?
+> Want help splitting OADP restore from a Metro-DR or Regional-DR design?
 > Reach out to your Red Hat account team—or time a DataMover restore of
 > a production-sized disk on a non-prod cluster before you call it DR.
 {: .prompt-tip }
