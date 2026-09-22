@@ -123,7 +123,7 @@ just to preserve `/categories/<old>/` — redirect those archives instead.
 | Cluster | Hub / peers |
 | ------- | ----------- |
 | Security / supply chain | Security tools stack (hub), platform supply-chain, RHACS + Virt, External Secrets, Confidential AI, Lightwell, network policies, Network Observability, OVN-Kubernetes CNI, RHCOS 10 |
-| Virtualization | 4.22 features, hardening, networking, hosted vs VCP, MTV offload, VDDK portal / MTV, AI agents for MTV, 32-bit VMs not wave 1, OVE vSAN-like storage, network policies, ACM fleet virt, Network Observability, OVN-Kubernetes CNI, virt-platform-autopilot vs GitOps, OADP backup is not DR, OVE vs Platform Plus |
+| Virtualization | 4.22 features, hardening, networking, hosted vs VCP, MTV offload, VDDK portal / MTV, AI agents for MTV, 32-bit VMs not wave 1, OVE vSAN-like storage, network policies, ACM fleet virt, Network Observability, OVN-Kubernetes CNI, virt-platform-autopilot vs GitOps, OADP backup is not DR, OVE vs Platform Plus, VM metrics replace vROps |
 | GitOps / ACM fleet | ACM fleet virt, GitOps should manage ACM, virt-platform-autopilot vs GitOps, edge architectures, network policies GitOps split, External Secrets, getting started, OADP backup is not DR, OVE vs Platform Plus |
 | ROSA / autoscaling | Karpenter vs machine pools, hosted vs VCP |
 | Storage / edge | OVE vSAN-like storage, storage performance (disks/IOPS), Pure NVMe/TCP, Dell Unity iSCSI, edge architectures, hardware vendor RAs, PoC boot tip, OADP backup is not DR |

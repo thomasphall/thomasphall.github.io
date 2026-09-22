@@ -211,9 +211,9 @@ and
 ## Related posts
 
 - [GitOps Should Manage ACM, Not the Cluster](/posts/gitops-should-manage-acm/)
+- [What Replaces vRealize Operations for VMs](/posts/what-replaces-vrealize-operations/)
 - [OVE vs OpenShift Platform Plus: The SKU Choice](/posts/ove-vs-openshift-platform-plus/)
 - [OADP for OpenShift VMs: Backup Is Not DR](/posts/oadp-vms-backup-is-not-dr/)
-- [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 
 > Want help applying this in your environment? Reach out to your Red Hat
 > account team—or evaluate the pattern on a non-prod hub and two spoke
