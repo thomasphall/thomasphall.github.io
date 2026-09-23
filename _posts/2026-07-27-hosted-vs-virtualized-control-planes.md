@@ -220,6 +220,10 @@ as the default densification architecture on OpenShift Virtualization when the
 operating model fits, and treat virtualized control planes as the path when
 isolation or installer-compatibility requirements outweigh the hosted form
 factor—and when TP constraints are acceptable for the engagement.
+[OpenShift AI 3.5](/posts/openshift-ai-3-5-features/) lists Hosted Control
+Planes on OpenShift Virtualization as a supported configuration, so an AI
+landing zone on tenant HCPs is the same densification choice—not a separate
+topology.
 
 ## The solutions architect takeaway
 
@@ -238,6 +242,7 @@ POST time is often worth a temporary BIOS tweak—see
 ## Related posts
 
 - [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/)
+- [What's New in Red Hat OpenShift AI 3.5](/posts/openshift-ai-3-5-features/)
 - [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
 - [Karpenter vs Machine Pools on ROSA HCP](/posts/karpenter-vs-machine-pools-rosa/)
 - [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)

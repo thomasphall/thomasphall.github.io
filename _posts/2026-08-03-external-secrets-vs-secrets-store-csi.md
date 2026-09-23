@@ -243,6 +243,7 @@ credentials inside a confidential VM, that is a different control story: see
 - [Security Tools Across the OpenShift Stack](/posts/openshift-security-tools-stack/)
 - [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
 - [Confidential AI on OpenShift: TEEs, GPUs, and Trustee](/posts/confidential-ai-openshift-trustee-nras/)
+- [What's New in Red Hat OpenShift AI 3.5](/posts/openshift-ai-3-5-features/)
 - [GitOps Should Manage ACM, Not the Cluster](/posts/gitops-should-manage-acm/)
 
 > Want help choosing External Secrets versus Secrets Store CSI? Reach out to

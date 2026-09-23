@@ -351,6 +351,7 @@ document that already labbed that shape. Do not start with the thickest PDF.
 ## Related posts
 
 - [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
+- [What's New in Red Hat OpenShift AI 3.5](/posts/openshift-ai-3-5-features/)
 - [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
 - [OpenShift Storage Performance: Disks, IOPS, Architectures](/posts/openshift-storage-performance/)
 - [OVE vs OpenShift Platform Plus: The SKU Choice](/posts/ove-vs-openshift-platform-plus/)

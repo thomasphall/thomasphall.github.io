@@ -128,4 +128,5 @@ just to preserve `/categories/<old>/` — redirect those archives instead.
 | ROSA / autoscaling | Karpenter vs machine pools, hosted vs VCP |
 | Storage / edge | OVE vSAN-like storage, storage performance (disks/IOPS), Pure NVMe/TCP, Dell Unity iSCSI, edge architectures, hardware vendor RAs, PoC boot tip, OADP backup is not DR |
 | PoC / on-prem install | Getting started with an OpenShift PoC, PoC boot tip, edge architectures, hardware vendor RAs, hosted vs VCP, GitOps should manage ACM, virt-platform-autopilot vs GitOps, Network Observability, OVN-Kubernetes CNI, RHCOS 10 |
+| OpenShift AI | 3.5 features, Confidential AI / Trustee, External Secrets (workbench existing Secrets), hosted vs VCP (HCP on virt), hardware vendor RAs (AI factory BOMs) |
 | Homelab / automation | Blink Synology archive, Tesla Sentry Synology archive |
