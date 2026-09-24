@@ -32,7 +32,7 @@ apps consume it, and what your control-plane trust story can accept. This post i
 a solution-architect comparison for platform and security teams making that
 call—not an install runbook. For a PoC install of the Red Hat External Secrets
 Operator, see
-[External Secrets Operator (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/external-secrets-operator/).
+[External Secrets Operator (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/external-secrets-operator/).
 
 ## Two delivery models
 
@@ -150,7 +150,7 @@ engineering time for that surface, not only for the happy-path mount YAML.
 ### GitOps and desired state
 
 Both patterns work with
-[Red Hat OpenShift GitOps](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.20/html/security/managing-secrets-securely-using-sscsid-with-gitops);
+[Red Hat OpenShift GitOps](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.21/html/security/managing-secrets-securely-using-sscsid-with-gitops);
 they put different objects in Git.
 
 ESO GitOps usually commits ExternalSecret (and store) manifests. Argo CD
@@ -257,6 +257,6 @@ credentials inside a confidential VM, that is a different control story: see
 - [External Secrets Operator for Red Hat OpenShift (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/security_and_compliance/external-secrets-operator-for-red-hat-openshift)
 - [Secrets Store CSI Driver Operator (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/storage/using-container-storage-interface-csi)
 - [How to manage Kubernetes Secrets with Red Hat OpenShift](https://docs.redhat.com/en/learn/learning-paths/how-manage-kubernetes-secrets-red-hat-openshift/how-are-kubernetes-secrets-managed-red-hat-openshift)
-- [Managing secrets with Secrets Store CSI and OpenShift GitOps](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.20/html/security/managing-secrets-securely-using-sscsid-with-gitops)
-- [External Secrets Operator (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/external-secrets-operator/)
-- [OpenShift GitOps (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/openshift-gitops/)
+- [Managing secrets with Secrets Store CSI and OpenShift GitOps](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.21/html/security/managing-secrets-securely-using-sscsid-with-gitops)
+- [External Secrets Operator (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/external-secrets-operator/)
+- [OpenShift GitOps (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/openshift-gitops/)

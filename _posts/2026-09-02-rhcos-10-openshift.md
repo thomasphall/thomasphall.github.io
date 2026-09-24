@@ -286,5 +286,5 @@ on RHCOS 9 and keep the OS migration off the critical path.
 - [Technology Preview Features Support Scope](https://access.redhat.com/support/offerings/techpreview)
 - [Post-quantum cryptography in Red Hat Enterprise Linux 10](https://www.redhat.com/en/blog/post-quantum-cryptography-red-hat-enterprise-linux-10)
 - [The road to quantum-safe cryptography in Red Hat OpenShift](https://www.redhat.com/en/blog/road-to-quantum-safe-cryptography-red-hat-openshift)
-- [Machine Config (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/operations/machine-config/)
+- [Machine Config (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/workloads-and-operations/day-2-operations/machine-config/)
 - [OpenShift PoC overview](https://openshift-ssa.github.io/openshift-poc/home/)

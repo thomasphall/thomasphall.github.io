@@ -204,9 +204,9 @@ Edge form factor still comes first—see
 then make the fleet boring on purpose, including the VMs.
 
 For a PoC hub, start with
-[Advanced Cluster Management (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/fleet-management/acm-install/)
+[Advanced Cluster Management (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/other-installation-methods/hub-and-spoke/#install-advanced-cluster-management)
 and
-[OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/).
+[OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/virtualization/).
 
 ## Related posts
 

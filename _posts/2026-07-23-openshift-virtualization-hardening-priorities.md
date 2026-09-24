@@ -35,12 +35,13 @@ and supported profiles—before treating OpenShift Virtualization as a separate
 extension. Guest operating systems still need their own hardening programs;
 CNV posture does not replace RHEL, Windows, or other OS baselines inside the VM.
 
-One documentation nuance for customer conversations: the guide follows Center
-for Internet Security (CIS) formatting conventions, but it is not affiliated
-with CIS. Red Hat is working to formalize these recommendations as an
-OpenShift Virtualization CIS benchmark. Until then, treat the guide as Red Hat
-prescriptive hardening—and pair it with the same evidence habits you use for
-platform compliance. That complements the broader
+One documentation nuance for customer conversations: the Red Hat guide follows
+Center for Internet Security (CIS) formatting conventions. CIS published the
+[OpenShift Virtualization benchmark](https://www.redhat.com/en/blog/cis-publishes-hardening-guidance-red-hat-openshift-virtualization)
+on 4 December 2025, using that guide as the source. Use the benchmark for the
+control list and the Red Hat guide for the product procedure, and pair both
+with the same evidence habits you use for platform compliance. That complements
+the broader
 [platform and supply-chain security pattern](/posts/openshift-security-platform-supply-chain/)
 of observe, prove, and gate.
 
@@ -172,11 +173,11 @@ When a VMware-style catatonic host is in the threat model—BMC still answers,
 workloads hung, shared array flooded—pair this baseline with
 [Fence Gray Host Failures on OpenShift Virtualization](/posts/openshift-virt-gray-failure-ha/).
 When you are standing up the landing zone itself, the
-[OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
+[OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/virtualization/)
 install, plus
-[identity providers](https://openshift-ssa.github.io/openshift-poc/post-installation/configuring-identity-providers/)
+[identity providers](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/configuring-identity-providers/)
 and
-[OpenShift GitOps](https://openshift-ssa.github.io/openshift-poc/post-installation/openshift-gitops/),
+[OpenShift GitOps](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/openshift-gitops/),
 is the usual PoC sequence before you freeze HyperConverged defaults.
 
 ## Related posts

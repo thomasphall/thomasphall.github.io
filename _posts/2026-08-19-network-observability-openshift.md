@@ -32,7 +32,7 @@ product procedure. Confirm channels and CR fields against the
 before you paste YAML into production.
 
 For a compact PoC checklist, use
-[Network Observability (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/network-observability/)
+[Network Observability (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/network-observability/)
 after CSI and the underlay in
 [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/).
 If virtualization is in the story, masquerade flows are already in the
@@ -202,7 +202,7 @@ stringData:
 On-prem S3-compatible endpoints often need `forcepathstyle: "true"`. In-cluster
 ODF NooBaa uses the service CA and
 `https://s3.openshift-storage.svc:443`—see the
-[PoC object-storage section](https://openshift-ssa.github.io/openshift-poc/post-installation/network-observability/).
+[PoC object-storage section](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/network-observability/).
 
 Example `netobserv-lokistack.yaml`. Replace `gp3-csi` with a block class that
 exists on the cluster:
@@ -601,7 +601,7 @@ the same way tenant `NetworkPolicy` does.
 - [Network Observability Operator (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/network_observability_operator/index)
 - [Secondary networks (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/network_observability/network-observability-secondary-networks)
 - [OpenShift Virtualization networking (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/networking)
-- [Network Observability (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/network-observability/)
-- [Networking (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/networking/)
+- [Network Observability (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/network-observability/)
+- [Networking (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/networking/)
 - [Installing the Loki Operator (Logging 6.5)](https://docs.redhat.com/en/documentation/red_hat_openshift_logging/6.5/html/installing_logging/installing-the-loki-operator)
 - [Streams for Apache Kafka](https://docs.redhat.com/en/documentation/red_hat_streams_for_apache_kafka/)

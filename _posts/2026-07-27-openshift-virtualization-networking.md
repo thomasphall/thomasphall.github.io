@@ -131,9 +131,9 @@ traffic between nodes. Day-2 host configuration belongs in
 `NodeNetworkState` for inspection, `NodeNetworkConfigurationPolicy` (NNCP) for
 desired state, and enactments for status. PoC-ready NNCP examples (bonds, OVS
 bridges, CUDN localnets) live in
-[Networking](https://openshift-ssa.github.io/openshift-poc/post-installation/networking/)
+[Networking](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/networking/)
 and the
-[Kubernetes NMState Operator](https://openshift-ssa.github.io/openshift-poc/post-installation/nmstate/)
+[Kubernetes NMState Operator](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/nmstate/)
 pages of the OpenShift PoC docs.
 
 Three host architectures show up constantly in POCs and landing zones:
@@ -350,9 +350,9 @@ and
 [OpenShift Virtualization networking](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/networking).
 For a PoC underlay, also see
 [Prerequisites — Networking](https://openshift-ssa.github.io/openshift-poc/prerequisites/networking/),
-[Kubernetes NMState Operator](https://openshift-ssa.github.io/openshift-poc/post-installation/nmstate/),
+[Kubernetes NMState Operator](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/nmstate/),
 and
-[Networking](https://openshift-ssa.github.io/openshift-poc/post-installation/networking/)
+[Networking](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/networking/)
 in the [OpenShift PoC docs](https://openshift-ssa.github.io/openshift-poc/home/).
 
 ## Related posts

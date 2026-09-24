@@ -206,7 +206,7 @@ for the floor. Enablement steps live in the
 The
 [July 2026 product blog](https://www.redhat.com/en/blog/introducing-red-hat-build-karpenter)
 is the short capability list. For a hosted-cluster PoC shape, see
-[OpenShift on OpenShift (Hosted Control Planes)](https://openshift-ssa.github.io/openshift-poc/installation/openshift-on-openshift/)
+[OpenShift on OpenShift (Hosted Control Planes)](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/other-installation-methods/openshift-on-openshift/)
 in the
 [OpenShift PoC docs](https://openshift-ssa.github.io/openshift-poc/home/).
 

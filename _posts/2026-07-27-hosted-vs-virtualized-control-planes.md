@@ -23,7 +23,7 @@ both [hosted control planes](https://docs.redhat.com/en/documentation/openshift_
 and [virtualized control planes](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualized_control_planes/vcp-overview)
 in OpenShift Container Platform 4.22. A PoC walkthrough of hosted clusters on
 an existing management cluster is
-[OpenShift on OpenShift (Hosted Control Planes)](https://openshift-ssa.github.io/openshift-poc/installation/openshift-on-openshift/).
+[OpenShift on OpenShift (Hosted Control Planes)](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/other-installation-methods/openshift-on-openshift/).
 
 [OpenShift Virtualization](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/index)
 often sits underneath that conversation as the hosting substrate. That does
@@ -256,7 +256,7 @@ POST time is often worth a temporary BIOS tweak—see
 
 - [Hosted control planes (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/hosted_control_planes/index)
 - [Virtualized control planes overview (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualized_control_planes/vcp-overview)
-- [OpenShift on OpenShift — Hosted Control Planes (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/installation/openshift-on-openshift/)
+- [OpenShift on OpenShift — Hosted Control Planes (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/other-installation-methods/openshift-on-openshift/)
 - [Architecture — hub and spoke (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/home/architecture/)
-- [Fleet management (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/fleet-management/)
-- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
+- [Fleet management (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/other-installation-methods/hub-and-spoke/)
+- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/virtualization/)

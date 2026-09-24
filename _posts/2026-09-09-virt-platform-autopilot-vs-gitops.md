@@ -35,7 +35,7 @@ baseline for *this* cluster, and reconciles it for the life of the
 install—not once at day one.
 
 That sounds like it collides with
-[OpenShift GitOps](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.20/).
+[OpenShift GitOps](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.21/).
 It does, if GitOps keeps owning every `MachineConfig` the autopilot is about
 to rewrite. It does not, if GitOps owns the *contract*—the annotation that
 turns the autopilot on, the exceptions, and everything that is not a
@@ -352,9 +352,9 @@ Leave the autopilot off—or disable the colliding resources—when:
   will move it. That is the feature.
 - You are on production. Developer Preview is an evaluation on a non-prod
   cluster that already has
-  [OpenShift Virtualization](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
+  [OpenShift Virtualization](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/virtualization/)
   and
-  [OpenShift GitOps](https://openshift-ssa.github.io/openshift-poc/post-installation/openshift-gitops/)
+  [OpenShift GitOps](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/openshift-gitops/)
   from the PoC sequence.
 
 A compact or two-node edge cluster is not automatically a no. It is a
@@ -411,7 +411,7 @@ and the
 - [Enabling descheduler evictions on virtual machines (OpenShift Virtualization 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html-single/virtualization/index#virt-enabling-descheduler-evictions)
 - [Controlling pod placement: Kube Descheduler (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/nodes/controlling-pod-placement-onto-nodes-scheduling)
 - [OpenShift Virtualization 4.22](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/index)
-- [Red Hat OpenShift GitOps 1.20](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.20/)
-- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
-- [OpenShift GitOps (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/openshift-gitops/)
-- [Workload Availability (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/workload-availability/)
+- [Red Hat OpenShift GitOps 1.21](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.21/)
+- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/virtualization/)
+- [OpenShift GitOps (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/openshift-gitops/)
+- [Workload Availability (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/workload-availability/)

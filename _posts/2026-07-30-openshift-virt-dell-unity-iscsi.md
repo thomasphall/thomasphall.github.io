@@ -27,7 +27,7 @@ plus LVMS. Use LVMS when you already own a raw disk on the node and want a
 local thin pool; use Unity CSI when you want Unisphere to own LUN lifecycle,
 snapshots, and pool placement. A matching PoC runbook—MachineConfigs, CSM
 Operator, StorageClass, and smoke test—is in
-[Dell Unity XT (iSCSI) (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/dell/dell-unity/).
+[Dell Unity XT (iSCSI) (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/storage/dell/).
 
 ## Architecture overview
 
@@ -80,15 +80,17 @@ Virtualization only consumes a StorageClass—keep those jobs separate.
 | `<NAMESPACE>` / `<VM_NAME>` / `<PVC_NAME>` | Workload identifiers |
 | `<worker-node>` | A worker node name for debug checks |
 
-> **Version alignment matters more than it looks.** As of this writing,
-> Dell’s published CSM 1.17 support matrix lists Red Hat OpenShift
-> **4.18–4.21** as supported orchestrator versions for Unity XT, paired with
-> CSM Operator **1.12.x**, CSM **1.17.x**, and CSI Driver for Unity
-> **2.17.0**, against Unity OE **5.3.x, 5.4.x, or 5.5**. This lab ran on
-> OpenShift 4.22—if you’re also ahead of the published matrix, treat that as
-> “worked in practice,” not “certified support.” Check the current Dell CSM
-> support matrix, `oc get clusterversion`, and Unisphere’s reported Unity OE
-> release before calling any combination production-supported.
+> **Version alignment matters more than it looks.** Dell’s current CSM
+> support matrix lists Red Hat OpenShift **4.17–4.20**. The Operator
+> compatibility table tops out at CSM Operator **1.11.3** / CSM **1.16.3**.
+> The Unity install sample sets `driver.configVersion: v2.16.0`. The upgrade
+> guide’s `spec.version: v1.16.3` is the CSM module version; it does not
+> replace `configVersion`. CSM 1.17 and Unity CSI 2.17.0 are not on the
+> published matrix. This lab ran on OpenShift 4.22—if you’re also ahead of
+> the published matrix, treat that as “worked in practice,” not “certified
+> support.” Check the current Dell CSM support matrix, `oc get clusterversion`,
+> and Unisphere’s reported Unity OE release before calling any combination
+> production-supported.
 {: .prompt-warning }
 
 ## Dell Unity setup
@@ -333,8 +335,8 @@ them up leads to bad assumptions:
 - **Dell CSM Operator** — the Red Hat–certified install and lifecycle
   mechanism *for* the CSI driver. This is what you install from OperatorHub.
 - **Optional CSM modules** (Authorization, Replication, Observability,
-  Resiliency) — separate Dell features layered on top of CSM. As of the CSM
-  1.17 support matrix, Unity XT is **not** on the supported list for
+  Resiliency) — separate Dell features layered on top of CSM. On the current
+  CSM support matrix, Unity XT is **not** on the supported list for
   Authorization, Replication, or Observability through the Operator.
   Resiliency shows up as supported for Unity XT in some Dell Helm-based
   compatibility matrices but not consistently through the Operator path—if
@@ -395,11 +397,13 @@ install the Unisphere CA into the cert Secrets Dell documents
 
 ### 3. ContainerStorageModule CR
 
-Starting with CSM 1.16, the Operator schema moved the driver version out of
-`driver.configVersion` and into a top-level `spec.version` field to enable
-one-click upgrades. Start from the exact versioned sample shipped with your
-installed Operator release—the sidecar list, env vars, and schema shift
-between releases—and trim it down rather than building this from memory:
+The published Unity operator install sample sets the CSI driver with
+`driver.configVersion` (currently `v2.16.0`). Starting with CSM 1.16, the
+upgrade guide adds a separate top-level `spec.version` (currently `v1.16.3`)
+so the Operator can manage image updates. That field does not replace
+`configVersion`. Start from the exact sample shipped with your installed
+Operator release—the sidecar list, env vars, and schema shift between
+releases—and trim it down rather than building this from memory:
 
 ```yaml
 apiVersion: storage.dell.com/v1
@@ -408,9 +412,10 @@ metadata:
   name: unity
   namespace: unity
 spec:
-  version: v1.17.2
+  version: v1.16.3
   driver:
     csiDriverType: unity
+    configVersion: v2.16.0
     csiDriverSpec:
       fSGroupPolicy: ReadWriteOnceWithFSType
       storageCapacity: true
@@ -687,7 +692,7 @@ matrix before you promise VMotion-like behavior to stakeholders.
 | VM created, disk missing | PVC/DV status first; then VMI volume status; StorageClass typo in the template |
 | Cert errors to Unisphere | `skipCertificateValidation` vs proper `unity-cert-*` Secrets |
 | Wrong Secret name | Align Secret with the sample for your CSM operator version |
-| CR stuck `Failed` after copying an old sample | Confirm `spec.version` vs the older `driver.configVersion`—don’t mix CR schemas across Operator eras |
+| CR stuck `Failed` after copying an old sample | Confirm `driver.configVersion` (CSI driver, currently `v2.16.0`) and `spec.version` (CSM module, currently `v1.16.3`) both match the Operator sample you installed |
 
 Driver logs (namespace `unity` unless you renamed it):
 
@@ -801,10 +806,10 @@ you debug guest images.
 
 ## Further reading
 
-- [Dell Unity XT (iSCSI) (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/dell/dell-unity/)
-- [Storage (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/)
-- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
-- [Machine Config (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/operations/machine-config/)
+- [Dell Unity XT (iSCSI) (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/storage/dell/)
+- [Storage (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/storage/)
+- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/virtualization/)
+- [Machine Config (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/workloads-and-operations/day-2-operations/machine-config/)
 - [Dell CSM — Support Matrix](https://dell.github.io/csm-docs/docs/supportmatrix/)
 - [Dell CSM — Install CSI Unity XT on OpenShift (CSM Operator)](https://dell.github.io/csm-docs/docs/getting-started/installation/openshift/unityxt/csmoperator/)
 - [Dell CSM — Unity XT driver (Operator parameters)](https://dell.github.io/csm-docs/v3/deployment/csmoperator/drivers/unity/)

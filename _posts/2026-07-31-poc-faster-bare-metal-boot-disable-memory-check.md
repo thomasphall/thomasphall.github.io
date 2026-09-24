@@ -36,9 +36,9 @@ checklist before you return the gear or promote anything toward production.
 In production you reboot rarely and you want every hardware safety net. In a
 PoC you reboot constantly:
 
-- [Assisted Installer](https://openshift-ssa.github.io/openshift-poc/installation/assisted-installer/) / [Agent-based Installer](https://openshift-ssa.github.io/openshift-poc/installation/agent-based/) discovery boots
+- [Assisted Installer](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/assisted-installer/) / [Agent-based Installer](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/agent-based/) discovery boots
 - Ironic / Metal3 inspection and provisioning cycles
-- “Break the [MachineConfig](https://openshift-ssa.github.io/openshift-poc/operations/machine-config/) → reboot → watch the node come back” debugging
+- “Break the [MachineConfig](https://openshift-ssa.github.io/openshift-poc/workloads-and-operations/day-2-operations/machine-config/) → reboot → watch the node come back” debugging
 - Day-2 operator installs that bounce workers
 - Full cluster wipe and rebuild between customer scenarios
 
@@ -430,6 +430,6 @@ lab image:
 - Lenovo OneCLI — `Memory.MemoryTest` / `IMM.UEFIMemoryTest`
 - OpenShift bare metal / Agent-based Installer docs for your cluster version
 - [OpenShift PoC overview](https://openshift-ssa.github.io/openshift-poc/home/)
-- [Assisted Installer (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/installation/assisted-installer/)
-- [Agent-Based Installer (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/installation/agent-based/)
-- [Machine Config (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/operations/machine-config/)
+- [Assisted Installer (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/assisted-installer/)
+- [Agent-Based Installer (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/agent-based/)
+- [Machine Config (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/workloads-and-operations/day-2-operations/machine-config/)

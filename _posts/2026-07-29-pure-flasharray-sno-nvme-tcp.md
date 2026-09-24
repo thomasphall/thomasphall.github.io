@@ -26,9 +26,9 @@ This is a sequential lab guide for OpenShift admins who already know basic
 `oc` and RHCOS. It is **not** a Portworx or Pure CSI walkthrough—just the host
 path, the reboot story, and LVMS on top. For standing up the SNO itself and
 the usual hub-storage choices, see the
-[OpenShift PoC SNO hub](https://openshift-ssa.github.io/openshift-poc/fleet-management/sno-hub/)
+[OpenShift PoC SNO hub](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/other-installation-methods/hub-and-spoke/#install-the-hub-cluster-sno)
 and
-[hub storage](https://openshift-ssa.github.io/openshift-poc/fleet-management/hub-storage/)
+[hub storage](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/other-installation-methods/hub-and-spoke/#configure-hub-storage)
 pages.
 
 ## Architecture overview
@@ -546,7 +546,7 @@ plus LVMS is the right *edge* form factor—not just a lab trick—see
 - [NVM Express — NVMe over Fabrics / TCP overview](https://nvmexpress.org/specification/nvme-of-specification/)
 - [OpenShift 4.22 — Machine configuration](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/machine_configuration/index)
 - [OpenShift PoC overview](https://openshift-ssa.github.io/openshift-poc/home/)
-- [Hub install on SNO (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/fleet-management/sno-hub/)
-- [Hub storage (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/fleet-management/hub-storage/)
-- [Storage (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/)
-- [Machine Config (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/operations/machine-config/)
+- [Hub install on SNO (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/other-installation-methods/hub-and-spoke/#install-the-hub-cluster-sno)
+- [Hub storage (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/other-installation-methods/hub-and-spoke/#configure-hub-storage)
+- [Storage (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/storage/)
+- [Machine Config (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/workloads-and-operations/day-2-operations/machine-config/)

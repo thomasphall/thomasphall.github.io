@@ -346,6 +346,6 @@ Do not import datacenter HA storage expectations into a single disk.
 - [Is NFS supported for OpenShift cluster internal components?](https://access.redhat.com/solutions/3428661)
 - [Storage considerations for OpenShift Virtualization](https://developers.redhat.com/articles/2025/07/10/storage-considerations-openshift-virtualization)
 - [OpenShift PoC overview](https://openshift-ssa.github.io/openshift-poc/home/)
-- [Storage (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/)
-- [OpenShift Data Foundation (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/odf/)
+- [Storage (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/storage/)
+- [OpenShift Data Foundation (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/storage/odf/)
 - [Prerequisites — storage (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/prerequisites/storage/)

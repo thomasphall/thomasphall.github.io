@@ -196,9 +196,9 @@ If a **SAN already exists**, use the vendor CSI. Do not add ODF “because
 that is what the slide said.” ODF is still the right buy when you want
 first-party Ceph, one stack for block/file/object, and Red Hat storage
 support on the same ticket as the cluster. A PoC ODF install is in
-[OpenShift Data Foundation (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/odf/);
+[OpenShift Data Foundation (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/storage/odf/);
 array CSI examples start from
-[Storage](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/).
+[Storage](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/storage/).
 
 Starting with OpenShift 4.17, CSI certification includes the
 kubevirt-storage-checkup suite. A driver can pass generic CSI tests and
@@ -235,11 +235,11 @@ just an older release.
 - [Self-managed OpenShift subscription guide](https://www.redhat.com/en/resources/self-managed-openshift-subscription-guide)
 - [Red Hat Ecosystem Catalog](https://catalog.redhat.com/)
 - [OpenShift PoC overview](https://openshift-ssa.github.io/openshift-poc/home/)
-- [Storage (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/)
-- [OpenShift Data Foundation (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/odf/)
-- [Dell Unity XT (iSCSI) (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/dell/dell-unity/)
-- [VMware vSphere CSI (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/vsphere-csi/)
-- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
+- [Storage (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/storage/)
+- [OpenShift Data Foundation (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/storage/odf/)
+- [Dell Unity XT (iSCSI) (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/storage/dell/)
+- [VMware vSphere CSI (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/storage/vsphere-csi/)
+- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/virtualization/)
 
 > Want help mapping vSAN-like storage onto an OVE landing zone? Reach out to
 > your Red Hat account team—or prove RWX Block live migration on a non-prod

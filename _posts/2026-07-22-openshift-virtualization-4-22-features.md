@@ -27,9 +27,9 @@ This post is a themed digest, not a complete changelog. For the authoritative
 list—including fixed and known issues—start with the
 [OpenShift Virtualization 4.22 release notes](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/release-notes).
 To install Virtualization in a PoC and land a first VM, use
-[OpenShift Virtualization](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
+[OpenShift Virtualization](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/virtualization/)
 and
-[deploying virtual machines](https://openshift-ssa.github.io/openshift-poc/workloads/workload-virtual-machines/)
+[deploying virtual machines](https://openshift-ssa.github.io/openshift-poc/workloads-and-operations/virtual-machine-workloads/)
 in the OpenShift PoC docs.
 
 ## VM management and operations
@@ -248,7 +248,7 @@ when the VMware estate is leaving a local-disk HCI pool.
 ## Further reading
 
 - [OpenShift Virtualization 4.22 release notes](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/release-notes)
-- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
-- [Workload Availability (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/workload-availability/)
-- [Deploying virtual machines (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/workloads/workload-virtual-machines/)
-- [VM failover (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/operations/vm-failover/)
+- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/virtualization/)
+- [Workload Availability (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/workload-availability/)
+- [Deploying virtual machines (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/workloads-and-operations/virtual-machine-workloads/)
+- [VM failover (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/workloads-and-operations/operational-validation/vm-failover/)

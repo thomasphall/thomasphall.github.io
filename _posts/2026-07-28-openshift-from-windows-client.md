@@ -224,10 +224,10 @@ For the full command reference and install variants, start with the OpenShift
 [CLI tools](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/cli_tools/openshift-cli-oc)
 guide and keep the client you downloaded from *your* cluster’s Command Line
 Tools page. If you would rather run `oc` inside the cluster, see
-[Web Terminal (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/web-terminal/).
+[Web Terminal (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/web-terminal/).
 To stand up the cluster itself, start from the
 [OpenShift PoC overview](https://openshift-ssa.github.io/openshift-poc/home/)
 and the
 [installation host](https://openshift-ssa.github.io/openshift-poc/prerequisites/installation-host/)
 prerequisites. Cluster-side SSO that makes the token login nicer is covered in
-[configuring identity providers](https://openshift-ssa.github.io/openshift-poc/post-installation/configuring-identity-providers/).
+[configuring identity providers](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/configuring-identity-providers/).

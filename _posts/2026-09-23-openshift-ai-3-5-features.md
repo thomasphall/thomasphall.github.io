@@ -134,10 +134,11 @@ API. A cluster **Infrastructure** page rolls up accelerator count, DCGM
 utilization, hardware inventory by model, and Kueue cohort borrow/lend—when Kueue
 is enabled.
 
-GitOps-minded platform teams get a `DataScienceCluster` flag to **stop the
-Operator from creating default `ClusterQueue` and `LocalQueue` objects**, then
-associate Hardware Profiles with queues you already manage in git. That matches
-the split in
+GitOps-minded platform teams can leave queues in git. The `DataScienceCluster`
+flag that controls automatic `ClusterQueue` and `LocalQueue` creation is
+**disabled by default**, so the Operator does not create those objects unless
+you enable the flag. Associate Hardware Profiles with the queues you already
+manage. That matches the split in
 [GitOps should manage ACM, not the cluster](/posts/gitops-should-manage-acm/):
 the Operator should not fight the repo.
 
@@ -198,8 +199,9 @@ When you frame OpenShift AI 3.5 for a platform review, lead with outcomes:
 4. **Serve without drama** — llm-d flow control, inference-aware rollouts, and
    controlled/canary promotions are the day-2 inference design, not a later
    add-on.
-5. **Operate in git** — self-managed Kueue queues, existing Secrets, dashboard
-   roles, and HCP-on-virt as a supported AI topology.
+5. **Operate in git** — Kueue queues left in git (automatic creation is off
+   by default), existing Secrets, dashboard roles, and HCP-on-virt as a
+   supported AI topology.
 
 Validate in non-production first: run the migration assessment, replay any 3.4
 llm-d Technology Preview objects onto the new APIs, prove an EvalHub job and a

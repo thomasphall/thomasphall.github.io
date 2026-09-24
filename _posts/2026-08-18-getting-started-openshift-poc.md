@@ -41,9 +41,9 @@ uses
 | Installation     | OpenShift as an application platform, Virtualization, or both       | Connected multi-node (3 + 3)    |
 | Fleet management | You also need RHACM to provision and govern more than one cluster   | SNO hub, then spokes from RHACM |
 
-[Installation](https://openshift-ssa.github.io/openshift-poc/installation/)
+[Installation](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/)
 is the platform path.
-[Fleet management](https://openshift-ssa.github.io/openshift-poc/fleet-management/)
+[Fleet management](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/other-installation-methods/hub-and-spoke/)
 is the RHACM path.
 
 The hub is a management plane. Do not park the customer’s first production-like
@@ -96,7 +96,7 @@ Then close the five gates the guide treats as blocking:
 4. **Firewall and egress** — cluster ports between nodes, plus outbound HTTPS
    to Red Hat registries, `console.redhat.com`, and update endpoints unless you
    are doing a
-   [disconnected install](https://openshift-ssa.github.io/openshift-poc/installation/disconnected/).
+   [disconnected install](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/other-installation-methods/disconnected/).
    If a TLS-inspecting proxy is in the path, the proxy CA belongs in the
    additional trust bundle **before** discovery. Missing that bundle looks like
    a random `x509` failure two hours in.
@@ -118,7 +118,7 @@ reclaims POST time; restore before handback.
 ## Install with Assisted, unless you cannot
 
 For a connected on-prem PoC, use the
-[Assisted Installer](https://openshift-ssa.github.io/openshift-poc/installation/assisted-installer/)
+[Assisted Installer](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/assisted-installer/)
 in the
 [Red Hat Hybrid Cloud Console](https://console.redhat.com/openshift/assisted-installer/clusters).
 Static IP, bridges, and bonds. No platform integration on bare metal. Do not
@@ -135,24 +135,24 @@ stable before you call it installed.
 
 Use a different installer only when the constraint is real:
 
-- **[Agent-based](https://openshift-ssa.github.io/openshift-poc/installation/agent-based/)**
+- **[Agent-based](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/agent-based/)**
   when you need a locally generated ISO, limited connectivity to
   `console.redhat.com`, or Git-tracked `install-config.yaml` /
   `agent-config.yaml`.
 - **Disconnected** when nodes cannot reach Red Hat registries. Mirror or
   pull-through first; then agent-based. Do not discover this after hosts are
   in the Ready state.
-- **[vSphere IPI](https://openshift-ssa.github.io/openshift-poc/installation/vmware-install/)**
+- **[vSphere IPI](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/other-installation-methods/vmware-install/)**
   when the hypervisor is vSphere and you want the in-tree integration.
-- **[OpenShift on OpenShift](https://openshift-ssa.github.io/openshift-poc/installation/openshift-on-openshift/)**
+- **[OpenShift on OpenShift](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/other-installation-methods/openshift-on-openshift/)**
   when the PoC is hosted control planes on an existing management cluster.
 
 The fleet path is the same installer with SNO settings: one control plane, no
 workers, no VIPs. Then
-[hub storage](https://openshift-ssa.github.io/openshift-poc/fleet-management/hub-storage/),
-[RHACM](https://openshift-ssa.github.io/openshift-poc/fleet-management/acm-install/),
+[hub storage](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/other-installation-methods/hub-and-spoke/#configure-hub-storage),
+[RHACM](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/other-installation-methods/hub-and-spoke/#install-advanced-cluster-management),
 and
-[spoke provisioning](https://openshift-ssa.github.io/openshift-poc/fleet-management/acm-provision-bare-metal-cluster/).
+[spoke provisioning](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/other-installation-methods/hub-and-spoke/#provision-a-bare-metal-spoke-cluster).
 How RHACM itself should be fed from Git is a separate split—
 [GitOps should manage ACM, not the cluster](/posts/gitops-should-manage-acm/).
 
@@ -160,30 +160,30 @@ How RHACM itself should be fed from Git is a separate split—
 
 After install, the guide’s **required** sequence is short on purpose:
 
-1. [NMState Operator](https://openshift-ssa.github.io/openshift-poc/post-installation/nmstate/)
+1. [NMState Operator](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/nmstate/)
    before bonds, VLANs, or OVS bridges.
-2. [CSI and StorageClasses](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/)
+2. [CSI and StorageClasses](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/storage/)
    before anything that needs a PVC.
-3. [Internal registry](https://openshift-ssa.github.io/openshift-poc/post-installation/registry/)
+3. [Internal registry](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/registry/)
    on persistent storage.
 
 Everything else is optional and should match the customer story: identity,
 GitOps, virtualization (after
-[workload availability](https://openshift-ssa.github.io/openshift-poc/post-installation/workload-availability/)),
-[MTV](https://openshift-ssa.github.io/openshift-poc/post-installation/mtv/),
+[workload availability](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/workload-availability/)),
+[MTV](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/mtv/),
 logging, Service Mesh, and
 [Network Observability](/posts/network-observability-openshift/)
 after CSI and the underlay. Virtualization platform autopilot is a 4.22
 Developer Preview: leave it off for a first PoC, and do not GitOps every
 adjacent `MachineConfig` if you later evaluate it—see
 [Virtualization Autopilot vs GitOps on OpenShift](/posts/virt-platform-autopilot-vs-gitops/). Mark the console with the
-[PoC banner](https://openshift-ssa.github.io/openshift-poc/post-installation/poc-banner/)
+[PoC banner](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/poc-banner/)
 so nobody treats kubeadmin as production.
 
 Then run one container and, if virt is in scope, one VM from the
-[workloads](https://openshift-ssa.github.io/openshift-poc/workloads/)
+[workloads](https://openshift-ssa.github.io/openshift-poc/workloads-and-operations/)
 section. Failover and backup demos live under
-[operations](https://openshift-ssa.github.io/openshift-poc/operations/).
+[operations](https://openshift-ssa.github.io/openshift-poc/workloads-and-operations/).
 A timed OADP restore is a backup proof, not a DR proof—see
 [OADP for OpenShift VMs: Backup Is Not DR](/posts/oadp-vms-backup-is-not-dr/).
 A green `clusterversion` with no PVC and no idp is not a finished PoC.
@@ -225,6 +225,6 @@ of operations.
 
 - [OpenShift PoC overview](https://openshift-ssa.github.io/openshift-poc/home/)
 - [Prerequisites (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/prerequisites/)
-- [Assisted Installer (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/installation/assisted-installer/)
-- [Fleet management (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/fleet-management/)
+- [Assisted Installer (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/assisted-installer/)
+- [Fleet management (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/other-installation-methods/hub-and-spoke/)
 - [Assisted Installer product docs](https://docs.redhat.com/en/documentation/assisted_installer_for_openshift_container_platform/latest/html/installing_openshift_container_platform_with_the_assisted_installer/index)

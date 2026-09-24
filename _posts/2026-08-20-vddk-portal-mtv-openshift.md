@@ -30,7 +30,7 @@ Friday, migrate on Saturday” is the thing that broke.
 This post is a solution-architect digest for MTV 2.12 and OpenShift 4.22. It
 is not a click-by-click image build, and it is not legal advice on Broadcom
 license terms. For operator install and a vSphere provider in a PoC, use the
-[Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/mtv/)
+[Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/mtv/)
 guide—then treat VDDK as a procurement item, not a browser errand.
 
 ## What VDDK actually does in MTV
@@ -256,5 +256,5 @@ before the first wave.
 - [Migrating from VMware vSphere (MTV 2.12)](https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.12/html/migrating_your_virtual_machines_to_red_hat_openshift_virtualization/assembly_migrating-from-vmware_mtv)
 - [VMware Virtual Disk Development Kit (Broadcom developer portal)](https://developer.broadcom.com/sdks/vmware-virtual-disk-development-kit-vddk/latest)
 - [VMware Technology Alliance Program](https://tap.broadcom.com/)
-- [Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/mtv/)
-- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
+- [Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/mtv/)
+- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/virtualization/)

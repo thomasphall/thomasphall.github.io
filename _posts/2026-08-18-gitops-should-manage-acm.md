@@ -23,7 +23,7 @@ things. On
 landing zone is *what GitOps is allowed to touch.*
 
 One model points
-[OpenShift GitOps](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.20/)
+[OpenShift GitOps](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.21/)
 at every managed cluster and syncs Kubernetes objects onto those APIs.
 The other points GitOps at the hub:
 [Red Hat Advanced Cluster Management (RHACM) 2.16](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.16/)
@@ -227,7 +227,7 @@ when the estate is small, the sites are unlike each other, or the objects
 are tenant applications.
 
 Keep a hand-rolled
-[OpenShift GitOps](https://openshift-ssa.github.io/openshift-poc/post-installation/openshift-gitops/)
+[OpenShift GitOps](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/openshift-gitops/)
 cluster repository when:
 
 - You have a handful of clusters and the overlay *is* the design.
@@ -276,9 +276,9 @@ If a non-prod hub and two spokes already exist, the next proof is small:
 one PolicyGenerator that installs a single operator onto labels you control,
 inform first, then enforce. Leave tenant apps on ApplicationSets. For a PoC
 hub, start with
-[Advanced Cluster Management (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/fleet-management/acm-install/)
+[Advanced Cluster Management (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/other-installation-methods/hub-and-spoke/#install-advanced-cluster-management)
 and
-[OpenShift GitOps (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/openshift-gitops/).
+[OpenShift GitOps (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/openshift-gitops/).
 Edge form factor still comes first—see
 [OpenShift edge architectures](/posts/openshift-edge-architectures/)—
 then feed the hub on purpose.
@@ -299,7 +299,7 @@ then feed the hub on purpose.
 
 - [ACM 2.16 policy deployment and Policy Generator](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.16/html/governance/policy-deployment)
 - [ACM 2.16 GitOps overview (`GitOpsCluster`)](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.16/html/gitops/gitops-overview)
-- [Red Hat OpenShift GitOps 1.20](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.20/)
+- [Red Hat OpenShift GitOps 1.21](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.21/)
 - [Edge computing and GitOps ZTP (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/edge_computing/index)
 - [ACM support matrix](https://access.redhat.com/articles/7136928)
 - [AutoShift v2](https://github.com/auto-shift/autoshiftv2)

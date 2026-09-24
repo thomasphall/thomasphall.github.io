@@ -121,9 +121,9 @@ For GPU-backed AI where attestation gates key release, see
 When scanners find pinned app libraries with no safe major upgrade path, see
 [Red Hat Lightwell: Patch CVEs Without Full Upgrades](/posts/red-hat-lightwell-open-source-remediation/).
 PoC-sized day-2 controls that match this pattern:
-[External Secrets Operator](https://openshift-ssa.github.io/openshift-poc/post-installation/external-secrets-operator/),
-[identity providers](https://openshift-ssa.github.io/openshift-poc/post-installation/configuring-identity-providers/),
-[OpenShift GitOps](https://openshift-ssa.github.io/openshift-poc/post-installation/openshift-gitops/),
+[External Secrets Operator](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/external-secrets-operator/),
+[identity providers](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/configuring-identity-providers/),
+[OpenShift GitOps](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/openshift-gitops/),
 and the
 [OpenShift PoC overview](https://openshift-ssa.github.io/openshift-poc/home/).
 

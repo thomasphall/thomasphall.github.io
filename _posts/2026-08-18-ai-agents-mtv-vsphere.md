@@ -32,7 +32,7 @@ replace the orchestrator.
 This post is a solution-architect pattern for that split on MTV 2.12 and
 OpenShift 4.22. It is not a click-by-click agent lab. For operator install, a
 vSphere provider, and VDDK in a PoC, use the
-[Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/mtv/)
+[Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/mtv/)
 guide. Treat the VDDK tarball as a procurement item—see
 [VDDK Off Broadcom's Public Portal: MTV Migrations](/posts/vddk-portal-mtv-openshift/).
 
@@ -332,5 +332,5 @@ For the copy path when the SAN can take the load, see
 - [Planning migration from VMware vSphere](https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.12/html/planning_your_migration_to_red_hat_openshift_virtualization/assembly_planning-migration-vmware_mtv)
 - [Automate migration and ops to OpenShift Virtualization](https://www.redhat.com/en/resources/automate-migration-and-operation-of-vm-brief)
 - [MTV migration hooks](https://www.redhat.com/en/blog/migration-hooks-with-migration-toolkit-for-virtualization)
-- [Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/mtv/)
-- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
+- [Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/mtv/)
+- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/virtualization/)

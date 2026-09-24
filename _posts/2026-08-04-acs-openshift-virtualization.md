@@ -185,9 +185,9 @@ deployment policy alone, see
 [Confidential AI on OpenShift](/posts/confidential-ai-openshift-trustee-nras/).
 If you are standing up Virtualization in a PoC so RHACS has a virt surface to
 observe, start with
-[OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
+[OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/virtualization/)
 and
-[deploying virtual machines](https://openshift-ssa.github.io/openshift-poc/workloads/workload-virtual-machines/).
+[deploying virtual machines](https://openshift-ssa.github.io/openshift-poc/workloads-and-operations/virtual-machine-workloads/).
 
 ## Related posts
 

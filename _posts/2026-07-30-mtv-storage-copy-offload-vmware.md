@@ -27,7 +27,7 @@ This post is a solution-architect digest for platform, virtualization, and
 storage teams evaluating that path on MTV 2.11. It is not a click-by-click
 runbook. For operator install, a vSphere provider, and VDDK setup in a PoC,
 use the
-[Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/mtv/)
+[Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/mtv/)
 guide. If obtaining VDDK from Broadcom is the blocker, see
 [VDDK Off Broadcom's Public Portal: MTV Migrations](/posts/vddk-portal-mtv-openshift/).
 
@@ -247,7 +247,7 @@ before you assume ODF is the only landing pool.
 ## Further reading
 
 - [MTV documentation for migrating from VMware vSphere](https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.11/html/planning_your_migration_to_red_hat_openshift_virtualization/assembly_planning-migration-vmware_mtv)
-- [Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/mtv/)
-- [VMware vSphere IPI (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/installation/vmware-install/)
-- [VMware vSphere CSI (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/vsphere-csi/)
-- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
+- [Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/mtv/)
+- [VMware vSphere IPI (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/other-installation-methods/vmware-install/)
+- [VMware vSphere CSI (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/storage/vsphere-csi/)
+- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/virtualization/)

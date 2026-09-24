@@ -42,12 +42,12 @@ through the console.
 If you are still building the landing zone itself, start with
 [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
 and the
-[OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
+[OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/virtualization/)
 install. Identity and GitOps belong in that sequence before you freeze HA
 operators:
-[identity providers](https://openshift-ssa.github.io/openshift-poc/post-installation/configuring-identity-providers/)
+[identity providers](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/configuring-identity-providers/)
 and
-[OpenShift GitOps](https://openshift-ssa.github.io/openshift-poc/post-installation/openshift-gitops/).
+[OpenShift GitOps](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/openshift-gitops/).
 BMC and array passwords belong in
 [External Secrets Operator](/posts/external-secrets-vs-secrets-store-csi/),
 not in git.
@@ -487,5 +487,5 @@ NDU. Leave the shipped MachineHealthCheck alone.
 - [Using Fence Agents Remediation](https://docs.redhat.com/en/documentation/workload_availability_for_red_hat_openshift/25.9/html/remediation_fencing_and_maintenance/fence-agents-remediation-operator-remediate-nodes)
 - [Using Self Node Remediation](https://docs.redhat.com/en/documentation/workload_availability_for_red_hat_openshift/25.9/html/remediation_fencing_and_maintenance/self-node-remediation-operator-remediate-nodes)
 - [Dell CSM CSI PowerStore](https://dell.github.io/csm-docs/docs/concepts/csidriver/features/powerstore/)
-- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
-- [OpenShift GitOps (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/openshift-gitops/)
+- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/virtualization/)
+- [OpenShift GitOps (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/openshift-gitops/)

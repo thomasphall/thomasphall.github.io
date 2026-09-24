@@ -32,7 +32,7 @@ support, and it is not a reason to put the VM in the same plan as the
 2.12. It is a solutions-architect map, not a QEMU cookbook. For operator
 install, a vSphere provider, and the VMware Virtual Disk Development Kit
 (VDDK) in a PoC, use the
-[Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/mtv/)
+[Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/mtv/)
 guide. Treat Broadcom entitlements as a procurement item—see
 [VDDK Off Broadcom's Public Portal: MTV Migrations](/posts/vddk-portal-mtv-openshift/).
 
@@ -60,9 +60,9 @@ loop starts.
 A Windows 7 32-bit box, a Server 2008 32-bit holdout, an old i686
 CentOS appliance, or a vendor image whose installer never grew a 64-bit
 build is a different object. Current certified guests for OpenShift
-Virtualization are 64-bit operating systems—RHEL 8/9/10, Windows Server
-2016 through 2025, Windows 10 and 11. Confirm the
-[Certified Guest Operating Systems](https://access.redhat.com/articles/973163)
+Virtualization are 64-bit operating systems—RHEL 7, 8, 9, and 10, Windows
+Server 2016 through 2025, Windows 10, and Windows 11. Confirm the
+[Certified Guest Operating Systems in OpenShift Virtualization](https://access.redhat.com/articles/4234591)
 article for the hypervisor and version on the design. Windows 11 has no
 32-bit SKU. Windows 10 is past end of support as of October 2025 unless
 the estate bought Extended Security Updates. None of that is an MTV
@@ -201,7 +201,7 @@ application-modernization problem that MTV will not dissolve. Keep the
 landing zone work on the same track as
 [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
 and the
-[OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
+[OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/virtualization/)
 install. Prove the platform with guests the platform claims.
 
 ## The solutions architect takeaway
@@ -239,10 +239,10 @@ without those rows.
 
 ## Further reading
 
-- [Certified Guest Operating Systems (Red Hat Customer Portal)](https://access.redhat.com/articles/973163)
+- [Certified Guest Operating Systems in OpenShift Virtualization (Red Hat Customer Portal)](https://access.redhat.com/articles/4234591)
 - [OpenShift Virtualization 4.22](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/index)
 - [Planning a migration from VMware vSphere (MTV 2.12)](https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.12/html/planning_your_migration_to_red_hat_openshift_virtualization/assembly_planning-migration-vmware_mtv)
 - [Migrating from VMware vSphere (MTV 2.12)](https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.12/html/migrating_your_virtual_machines_to_red_hat_openshift_virtualization/assembly_migrating-from-vmware_mtv)
-- [Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/mtv/)
-- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
-- [Deploying virtual machines (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/workloads/workload-virtual-machines/)
+- [Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/mtv/)
+- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/virtualization/)
+- [Deploying virtual machines (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/workloads-and-operations/virtual-machine-workloads/)

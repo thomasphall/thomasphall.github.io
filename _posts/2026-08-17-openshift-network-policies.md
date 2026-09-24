@@ -256,4 +256,4 @@ The broader observe / prove / gate pattern still sits above this:
 - [Admin network policy (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/network_security/admin-network-policy)
 - [Network policy (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/network_security/network-policy)
 - [Configuring multi-network policy (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/multiple_networks/secondary-networks)
-- [Networking (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/networking/)
+- [Networking (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/networking/)

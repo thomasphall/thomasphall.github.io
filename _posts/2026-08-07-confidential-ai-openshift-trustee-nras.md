@@ -360,9 +360,9 @@ That last row maps cleanly onto the usual OpenShift GitOps split: cluster
 configuration gets the platform to “TEE + CC GPU ready,” application
 configuration deploys only after attestation wiring exists. A PoC GitOps
 install is in
-[OpenShift GitOps (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/openshift-gitops/);
+[OpenShift GitOps (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/openshift-gitops/);
 the IOMMU MachineConfig pattern matches
-[Machine Config (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/operations/machine-config/).
+[Machine Config (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/workloads-and-operations/day-2-operations/machine-config/).
 Vault behind KBS
 is for attestation-gated release into the confidential guest; delivery of
 ordinary app Secrets on OpenShift remains a separate choice—see
@@ -417,6 +417,6 @@ enabling a CPU TEE, you protected the wrong half of the workload.
 - [NVIDIA attestation / NRAS documentation](https://docs.nvidia.com/attestation/)
 - [ARM Confidential Compute Architecture](https://www.arm.com/architecture/security-features/arm-confidential-compute-architecture)
 - [Upstream Trustee NVIDIA verifier notes](https://github.com/confidential-containers/trustee/blob/main/deps/verifier/src/nvidia/README.md)
-- [OpenShift GitOps (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/openshift-gitops/)
-- [Machine Config (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/operations/machine-config/)
-- [External Secrets Operator (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/external-secrets-operator/)
+- [OpenShift GitOps (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/openshift-gitops/)
+- [Machine Config (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/workloads-and-operations/day-2-operations/machine-config/)
+- [External Secrets Operator (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/external-secrets-operator/)

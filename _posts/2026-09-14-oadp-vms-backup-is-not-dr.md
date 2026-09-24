@@ -231,9 +231,9 @@ If a non-prod cluster already has Virtualization and a certified storage
 class with snapshots, the next proof is small: one labeled VM, one
 `Backup` with `snapshotMoveData: true`, one restore into a scratch
 namespace, and a stopwatch. Pair that with the
-[OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
+[OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/virtualization/)
 install and the
-[operations](https://openshift-ssa.github.io/openshift-poc/operations/)
+[operations](https://openshift-ssa.github.io/openshift-poc/workloads-and-operations/)
 failover demos. Then write the RTO you actually measured, not the RTO
 the backup product logo implied.
 
@@ -254,7 +254,7 @@ the backup product logo implied.
 - [OADP application backup and restore (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/backup_and_restore/oadp-application-backup-and-restore)
 - [Backup and restore (OpenShift Virtualization 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/backup-and-restore)
 - [ODF disaster recovery for OpenShift workloads](https://docs.redhat.com/en/documentation/red_hat_openshift_data_foundation/4.22/html/configuring_openshift_data_foundation_disaster_recovery_for_openshift_workloads/index)
-- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
-- [VM failover (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/operations/vm-failover/)
-- [Storage (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/)
-- [OpenShift Data Foundation (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/odf/)
+- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/virtualization/)
+- [VM failover (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/workloads-and-operations/operational-validation/vm-failover/)
+- [Storage (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/storage/)
+- [OpenShift Data Foundation (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/storage/odf/)

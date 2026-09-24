@@ -42,7 +42,7 @@ OVE is OpenShift for virtual machines (VMs). Unlimited VMs. No unlimited
 guest application containers. Nodes are Red Hat Enterprise Linux CoreOS
 (RHCOS). Red Hat Enterprise Linux (RHEL) guests need RHEL for Virtual
 Datacenters or per-VM subscriptions.
-[OpenShift GitOps](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.20/)
+[OpenShift GitOps](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.21/)
 is included for VM use cases: `VirtualMachine` CRs, NMState, the platform
 objects a virt cluster actually needs.
 [Migration Toolkit for Virtualization (MTV)](https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/)
@@ -191,9 +191,9 @@ If a non-prod cluster is already the proof, write the year-two workload
 list on one slide before you pick the SKU. VMs only: OVE. Pods, RHACS, or
 ODF on that same API server: Platform Plus, or OCP plus the named
 add-ons. Then time an MTV wave. Pair that with
-[OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
+[OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/virtualization/)
 and
-[OpenShift GitOps (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/openshift-gitops/).
+[OpenShift GitOps (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/openshift-gitops/).
 
 ## Related posts
 
@@ -213,7 +213,7 @@ and
 - [Red Hat OpenShift Platform Plus](https://www.redhat.com/en/technologies/cloud-computing/openshift/platform-plus)
 - [Self-managed OpenShift subscription guide](https://www.redhat.com/en/resources/self-managed-openshift-subscription-guide)
 - [Why the virtualization decision keeps getting deferred](https://www.redhat.com/en/blog/why-virtualization-decision-keeps-getting-deferred)
-- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/)
-- [OpenShift GitOps (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/openshift-gitops/)
-- [Advanced Cluster Management (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/fleet-management/acm-install/)
-- [OpenShift Data Foundation (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/odf/)
+- [OpenShift Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/virtualization/)
+- [OpenShift GitOps (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/openshift-gitops/)
+- [Advanced Cluster Management (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/install-the-cluster/other-installation-methods/hub-and-spoke/#install-advanced-cluster-management)
+- [OpenShift Data Foundation (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/storage/odf/)

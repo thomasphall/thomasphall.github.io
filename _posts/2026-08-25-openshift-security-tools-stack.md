@@ -271,10 +271,10 @@ application Deployment. The rest of the catalog gets easier to place once
 those four proofs exist.
 
 PoC-sized day-2 starting points:
-[External Secrets Operator](https://openshift-ssa.github.io/openshift-poc/post-installation/external-secrets-operator/),
-[identity providers](https://openshift-ssa.github.io/openshift-poc/post-installation/configuring-identity-providers/),
-[OpenShift GitOps](https://openshift-ssa.github.io/openshift-poc/post-installation/openshift-gitops/),
-[OpenShift Virtualization](https://openshift-ssa.github.io/openshift-poc/post-installation/virtualization/),
+[External Secrets Operator](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/external-secrets-operator/),
+[identity providers](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/configuring-identity-providers/),
+[OpenShift GitOps](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/openshift-gitops/),
+[OpenShift Virtualization](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/virtualization/),
 and the
 [OpenShift PoC overview](https://openshift-ssa.github.io/openshift-poc/home/).
 

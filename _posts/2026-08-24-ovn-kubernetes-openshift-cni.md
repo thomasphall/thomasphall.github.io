@@ -329,5 +329,5 @@ anyone schedules a Cilium bake-off. Sequencing for that path is in
 - [OpenShift Virtualization networking (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/networking)
 - [Certified OpenShift CNI Plug-ins](https://access.redhat.com/articles/5436171)
 - [Installation configuration parameters — `networkType` (OpenShift 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/installation_configuration/installation-config-parameters-generic)
-- [Networking (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/networking/)
+- [Networking (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/networking/)
 - [Prerequisites — Networking (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/prerequisites/networking/)

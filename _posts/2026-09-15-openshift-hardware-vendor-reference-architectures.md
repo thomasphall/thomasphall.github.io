@@ -385,4 +385,4 @@ document that already labbed that shape. Do not start with the thickest PDF.
 - [Hitachi iQ + Hammerspace + OpenShift AI 3](https://docs.hitachivantara.com/api/khub/documents/8cx3yyHp90LIPbpJz5ozTw/content)
 - [Hitachi OpenShift AI + NVIDIA RA](https://www.hitachivantara.com/content/dam/hvac/pdfs/architecture-guide/accelerate-your-ai-journey-with-red-hat-ai-and-nvidia.pdf)
 - [OpenShift PoC overview](https://openshift-ssa.github.io/openshift-poc/home/)
-- [Storage (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/post-installation/storage/)
+- [Storage (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/storage/)
