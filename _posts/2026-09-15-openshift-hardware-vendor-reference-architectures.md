@@ -343,7 +343,9 @@ to order.
    and the edge storage chooser, not to the logo on the RA cover.
 5. **Appliances trade flexibility for lifecycle** — that is a valid buy when
    firmware drift is the risk. It is a bad surprise when the next project
-   needs a different array.
+   needs a different array. On a Metal3 bare-metal cluster you can flash
+   BIOS, BMC, and supported NICs yourself; see
+   [How to Update Server Firmware from OpenShift](/posts/update-server-firmware-from-openshift/).
 
 Start the next hardware conversation with constraints, then pick the vendor
 document that already labbed that shape. Do not start with the thickest PDF.
@@ -351,6 +353,7 @@ document that already labbed that shape. Do not start with the thickest PDF.
 ## Related posts
 
 - [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
+- [How to Update Server Firmware from OpenShift](/posts/update-server-firmware-from-openshift/)
 - [What's New in Red Hat OpenShift AI 3.5](/posts/openshift-ai-3-5-features/)
 - [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
 - [OpenShift Storage Performance: Disks, IOPS, Architectures](/posts/openshift-storage-performance/)

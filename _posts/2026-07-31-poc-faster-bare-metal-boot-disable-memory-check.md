@@ -405,7 +405,10 @@ This pairs well with
 [hosted vs virtualized control plane](/posts/hosted-vs-virtualized-control-planes/)
 labs that lean on Agent-based Installer, Metal3, and Redfish-heavy reboot
 loops—use the PoC BIOS tweak for the engagement window, then restore before
-you call the gear production-ready. For the rest of a bare-metal OpenShift PoC
+you call the gear production-ready. Flashing a BIOS or BMC image is a
+different change; that procedure is
+[How to Update Server Firmware from OpenShift](/posts/update-server-firmware-from-openshift/).
+For the rest of a bare-metal OpenShift PoC
 (prerequisites through install), start at
 [how to get started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
 or the
@@ -414,6 +417,7 @@ or the
 ## Related posts
 
 - [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
+- [How to Update Server Firmware from OpenShift](/posts/update-server-firmware-from-openshift/)
 - [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
 - [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
 
