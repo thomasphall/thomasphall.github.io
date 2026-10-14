@@ -331,6 +331,7 @@ Do not import datacenter HA storage expectations into a single disk.
 - [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
 - [OpenShift Hardware Vendor Reference Architectures](/posts/openshift-hardware-vendor-reference-architectures/)
 - [Pure FlashArray on Single Node OpenShift with NVMe/TCP](/posts/pure-flasharray-sno-nvme-tcp/)
+- [Why OpenShift supplementalGroups Fail on ONTAP NFS](/posts/openshift-nfs-supplemental-groups-ontap/)
 
 > Want help mapping disks and IOPS onto a landing zone? Reach out to your Red
 > Hat account team—or run `etcd-perf` on the actual control-plane disk before
