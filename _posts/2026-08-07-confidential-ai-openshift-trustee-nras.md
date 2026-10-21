@@ -399,9 +399,9 @@ enabling a CPU TEE, you protected the wrong half of the workload.
 ## Related posts
 
 - [What's New in Red Hat OpenShift AI 3.5](/posts/openshift-ai-3-5-features/)
+- [OpenShift Virtualization 4.22 on NVIDIA HGX](/posts/openshift-virtualization-nvidia-hgx/)
 - [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
 - [External Secrets vs Secrets Store CSI on OpenShift](/posts/external-secrets-vs-secrets-store-csi/)
-- [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 
 > Want help composing TEEs, confidential GPUs, and Trustee on OpenShift?
 > Reach out to your Red Hat account team—or prove attestation on a non-prod

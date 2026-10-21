@@ -230,14 +230,17 @@ before you promote a landing zone, with
 [hosted vs virtualized control planes](/posts/hosted-vs-virtualized-control-planes/)
 when densification is on the table, and with
 [vSAN-like storage for OVE without ODF](/posts/ove-vsan-storage-alternatives/)
-when the VMware estate is leaving a local-disk HCI pool.
+when the VMware estate is leaving a local-disk HCI pool. When the landing
+zone puts GPU virtual machines on NVIDIA HGX, use
+[OpenShift Virtualization 4.22 on NVIDIA HGX](/posts/openshift-virtualization-nvidia-hgx/)
+for the certified 8-GPU passthrough shape and the node-pool split.
 
 ## Related posts
 
+- [OpenShift Virtualization 4.22 on NVIDIA HGX](/posts/openshift-virtualization-nvidia-hgx/)
 - [Virtualization Autopilot vs GitOps on OpenShift](/posts/virt-platform-autopilot-vs-gitops/)
 - [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)
 - [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
-- [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
 
 > Want help planning a Virtualization 4.22 upgrade? Reach out to your Red Hat
 > account team—or read the

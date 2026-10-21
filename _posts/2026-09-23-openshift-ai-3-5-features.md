@@ -208,13 +208,15 @@ llm-d Technology Preview objects onto the new APIs, prove an EvalHub job and a
 Garak scan, and confirm workbenches still start after you hide incompatible
 default images. Pair the release with
 [confidential AI](/posts/confidential-ai-openshift-trustee-nras/)
-if weights-in-use is in scope, and with a vendor AI RA only after you re-validate
-the OpenShift and GPU Operator versions.
+if weights-in-use is in scope, with
+[OpenShift Virtualization 4.22 on NVIDIA HGX](/posts/openshift-virtualization-nvidia-hgx/)
+when GPU virtual machines share the cluster, and with a vendor AI RA only after
+you re-validate the OpenShift and GPU Operator versions.
 
 ## Related posts
 
 - [Confidential AI on OpenShift: TEEs, GPUs, and Trustee](/posts/confidential-ai-openshift-trustee-nras/)
-- [External Secrets vs Secrets Store CSI on OpenShift](/posts/external-secrets-vs-secrets-store-csi/)
+- [OpenShift Virtualization 4.22 on NVIDIA HGX](/posts/openshift-virtualization-nvidia-hgx/)
 - [Hosted vs Virtualized Control Planes on OpenShift 4.22](/posts/hosted-vs-virtualized-control-planes/)
 - [OpenShift Hardware Vendor Reference Architectures](/posts/openshift-hardware-vendor-reference-architectures/)
 
