@@ -31,21 +31,23 @@ image, and reboots back into the cluster.
 [OpenShift Virtualization](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/index)
 guests stay running through that reboot only when they have already left
 the node. The Machine Config Operator (MCO) drains the node first. A guest
-that cannot leave holds that drain, and the pool stays `Updating` until
-the guest migrates, or until someone shuts it down. This post is how to
-sort those guests before the window, on OpenShift Container Platform 4.22.
+that cannot leave holds that drain. After one hour the node is degraded
+(`failed to drain node after 1 hour`), and the pool stays there until the
+guest migrates or someone shuts it down. This post is how to sort those
+guests before the window, on OpenShift Container Platform 4.22.
 
 ## Two phases, two moves
 
 An update is not one reboot.
 
 The Cluster Version Operator updates the operators first. That phase does
-not reboot nodes. OpenShift Virtualization is one of those operators, and
-each minor of the operator is supported only on the matching OpenShift
-minor. With the `stable` channel and an Automatic approval strategy, the
-operator update starts on its own once the cluster has moved. The operator
-reconcile itself is often on the order of fifteen minutes. Moving the
-guests is the part that runs long.
+not reboot nodes. On a cluster update it often runs 60 to 120 minutes.
+OpenShift Virtualization is one of those operators, and each minor of the
+operator is supported only on the matching OpenShift minor. With the
+`stable` channel and an Automatic approval strategy, the operator update
+starts on its own once the cluster has moved. Most Virtualization operator
+updates finish within about fifteen minutes. Moving guests onto new
+`virt-launcher` pods can run longer than that reconcile.
 
 Each virtual machine (VM) runs inside a `virt-launcher` pod. That pod is
 where `libvirt` and QEMU live. `spec.workloadUpdateStrategy` on the
@@ -74,15 +76,18 @@ proceed at the same time. Inside a pool, `spec.maxUnavailable` defaults to
 configuration, reboots, and uncordons. On bare metal, with no topology
 zone, the oldest nodes go first. In a zoned cluster the zones go in
 alphabetical order, oldest node in the zone first. One stuck drain holds
-the next node in that pool.
+the next node in that pool. After one hour that node is degraded, and a
+degraded node still counts against `maxUnavailable`.
 
 The drain is a voluntary eviction. It is the moment
 `evictionStrategy` matters. A guest that moved during the operator update
-moves again when the node it landed on drains. Every worker still reboots.
+moves again when the node it landed on drains. A version update changes
+the rendered machine config, so the workers reboot.
 
 > A guest left on `evictionStrategy: LiveMigrate` that cannot actually
-> migrate sits in `Pending` or `Scheduling` and blocks the node drain.
-> That blocks the pool. Shut the guest down, or change the strategy and
+> migrate sits in `Pending` or `Scheduling`. The eviction webhook keeps
+> `virt-launcher` on the node, the drain fails after one hour, and the
+> node is degraded. Shut the guest down, or change the strategy and
 > restart it, before you call the upgrade stuck.
 {: .prompt-warning }
 
@@ -146,8 +151,9 @@ on the maintenance notice. The same rule covers SR-IOV and USB.
 
 Live migration needs four things at once.
 
-1. **RWX storage.** Block volume mode for VM disks. Local disks, LVM
-   Storage bound to one node, and the hostpath provisioner do not qualify.
+1. **RWX storage.** Live migration requires `ReadWriteMany` (RWX). Use
+   Block volume mode for VM disks. Local disks, LVM Storage bound to one
+   node, and the hostpath provisioner are not RWX.
    [OpenShift Storage Performance: Disks, IOPS, Architectures](/posts/openshift-storage-performance/)
    is the storage side of that requirement. A two-node cluster can drain
    one node only when the survivor can take the guests; see
@@ -156,9 +162,9 @@ Live migration needs four things at once.
    can drain at once and the highest total VM memory requests on any one
    of those nodes. With `maxUnavailable: 1` and guests only on workers,
    that is one worker's worth of VM memory, free on the other workers,
-   for the whole window. Compact clusters schedule guests on control-plane
-   nodes too, and that pool drains in parallel with the workers, so count
-   both pools.
+   for the whole window. A three-node compact cluster has no second pool
+   to add: those nodes belong to the `master` pool, and the `worker` pool
+   is empty, so the drain is still one node.
 3. **A compatible CPU.** A host-model CPU migrates only to a node that
    supports that host model. Mixed CPU generations in one virt pool fail
    this in the lab and then fail it again during the upgrade.
@@ -170,12 +176,15 @@ Live migration needs four things at once.
 
 `bandwidthPerMigration` defaults to `0`, which means unlimited. Two
 unlimited copies on the same node NIC will contend with the guest traffic
-on that NIC. The product guidance is a dedicated migration network. The
-pod-to-localnet layout in
-[OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)
-is the place those attachments already live; point
-`HyperConverged` at that network rather than inventing a second design
-during the change window. Migration traffic is TLS by default.
+on that NIC. The product guidance is a dedicated migration network: a
+`NetworkAttachmentDefinition` in `openshift-cnv`, named from
+`spec.virtualization.liveMigrationConfig.network` on the
+`hco.kubevirt.io/v1` HyperConverged object. That attachment carries
+migration traffic. It is not a guest NIC. Guest attachment types are
+covered in
+[OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/).
+Set the migration network before the window. Saving it restarts
+`virt-handler`. Migration traffic is TLS by default.
 
 `completionTimeoutPerGiB` defaults to 800 seconds per GiB of guest memory.
 A large, dirty guest (a busy database) can hold `maxUnavailable` for a
@@ -198,8 +207,10 @@ start.
 ## Own the strategy in Git
 
 These fields belong in the cluster repo, on the `HyperConverged` object
-in `openshift-cnv`. Patch `spec`. Replacing the whole object fights the
-operator.
+in `openshift-cnv`. The operator reconciles its child objects from this
+spec. The `v1beta1` fields below are the ones the 4.22 tuning chapter
+still shows. Apply the keys you mean to own. A replace that omits a key
+clears it.
 
 ```yaml
 apiVersion: hco.kubevirt.io/v1beta1
@@ -224,14 +235,17 @@ Per-VM exceptions (`None`, `LiveMigrateIfPossible`) belong next to the
 `VirtualMachine`, in the same repo. The cluster default is what a VM
 inherits when its template says nothing.
 
-OpenShift Virtualization creates a `PodDisruptionBudget` for a guest that
-has an eviction strategy, so the drain cannot delete `virt-launcher` until
-that strategy has finished. That budget is why `LiveMigrate` can hold a
-node. A second budget you write yourself can hold every node. A
-`virt-launcher` pod is owned by a `VirtualMachineInstance`, and that
-object has no scale subresource. A budget with `maxUnavailable`, or with
-a percentage `minAvailable`, reports `disruptionsAllowed: 0` and blocks
-every voluntary eviction. If you must group a pool, use an integer
+The pod eviction webhook holds `virt-launcher` during a drain. KubeVirt
+stopped creating a `PodDisruptionBudget` for this in 1.6, and OpenShift
+Virtualization 4.22 is the 1.8 line. With `LiveMigrate`, the webhook
+refuses the eviction until the migration finishes. That refusal is why a
+guest that cannot migrate can hold the node.
+
+A budget you add yourself can still hold every node. A `virt-launcher`
+pod is owned by a `VirtualMachineInstance`, and that object has no scale
+subresource. A budget with `maxUnavailable`, or with a percentage
+`minAvailable`, reports `disruptionsAllowed: 0` and blocks every
+voluntary eviction. If you must group a pool, use an integer
 `minAvailable`.
 
 Drain-driven migrations run as the virtualization controller. A person
@@ -247,10 +261,13 @@ Update Support (EUS) hop is the case where you do not want guests
 migrating during the intermediate minor. The 4.22 lifecycle framing is in
 [What's New in OpenShift Virtualization 4.22](/posts/openshift-virtualization-4-22-features/).
 
-Pause the worker `MachineConfigPool` (`spec.paused: true`) for that hop,
-and set `workloadUpdateMethods` to an empty list so the operator update
-does not migrate or evict. Unpause only after you put `LiveMigrate` back
-and the outdated-launcher count is `0`:
+Pause the worker `MachineConfigPool` (`spec.paused: true`) before that
+hop, and set `workloadUpdateMethods` to an empty list so the operator
+update does not migrate or evict. Leave the workers paused through the
+intermediate minor and the target EUS update. After OpenShift
+Virtualization is on the target version, restore `LiveMigrate`, watch
+`oc get vmim -A`, and then unpause the worker pools. The procedure does
+not wait for the outdated-launcher count to hit `0` before that unpause.
 
 ```shell
 oc get kubevirt kubevirt-kubevirt-hyperconverged -n openshift-cnv \
@@ -258,9 +275,9 @@ oc get kubevirt kubevirt-kubevirt-hyperconverged -n openshift-cnv \
 oc get vmi -l kubevirt.io/outdatedLauncherImage --all-namespaces
 ```
 
-A count above zero means a guest is still on the previous QEMU. Start
-those migrations, or accept the restart, before the next minor. The
-product procedure for the control-plane-only sequence is in the
+A count above zero means a guest is still on the previous QEMU. Use it
+before the next cluster update, once workload updates are enabled again.
+The product procedure for the control-plane-only sequence is in the
 Virtualization update chapter. Follow that procedure rather than pausing
 workers on an ordinary upgrade.
 
@@ -279,9 +296,12 @@ RUN:.spec.runStrategy,\
 STATUS:.status.printableStatus
 ```
 
-`<none>` in `STRATEGY` means the VM inherits the cluster default. On a
-multi-node cluster that default is `LiveMigrate`. The drain reads the
-running instance, not the template you edited and forgot to restart:
+`<none>` in `STRATEGY` means the template did not set one. On a multi-node
+cluster the default is `LiveMigrate`, and the running instance usually
+shows that value even when the template says `<none>`. That is the
+default applied at start, not a missed restart. The drain reads the
+running instance. A template you edited and did not restart still shows
+the old strategy there:
 
 ```shell
 oc get vmi -A -o custom-columns=\
@@ -291,9 +311,9 @@ STRATEGY:.spec.evictionStrategy,\
 NODE:.status.nodeName
 ```
 
-Confirm the guests you expect to power off are the ones that say `None`
-or `LiveMigrateIfPossible`, and that the instance strategy matches the
-template.
+Confirm the guests you expect to power off show `None` or
+`LiveMigrateIfPossible` on that instance. A template value the instance
+does not show has not been restarted.
 
 While a pool shows `Updating`, a node in `SchedulingDisabled` is the one
 in drain or reboot:
@@ -322,12 +342,15 @@ event: you cannot migrate off a node that is already wedged. That path is
    VM node, times how many VM nodes can drain at once. Leave worker
    `maxUnavailable` at `1` unless that math still holds. Leave the
    control-plane pool at `1`.
-4. **One budget, owned by the platform.** The eviction strategy's
-   `PodDisruptionBudget` is what makes the drain wait. A hand-written
-   budget with `maxUnavailable` makes the drain wait forever.
+4. **The webhook holds the drain.** `LiveMigrate` makes the eviction
+   webhook keep `virt-launcher` until the guest has moved. OpenShift
+   Virtualization 4.22 does not create a `PodDisruptionBudget` for that.
+   A hand-written budget with `maxUnavailable` blocks the drain on its
+   own.
 5. **EUS is the pause.** Empty `workloadUpdateMethods` and a paused worker
-   pool are for the control-plane-only hop. An ordinary upgrade wants the
-   workers to drain.
+   pool cover both hops of a control-plane-only update. Restore
+   `LiveMigrate`, watch the migrations, then unpause. An ordinary upgrade
+   wants the workers to drain.
 
 ## Related posts
 
