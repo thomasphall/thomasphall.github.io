@@ -50,11 +50,16 @@ of observe, prove, and gate.
 Most virtualization incidents in regulated estates start as privilege problems,
 not exotic hypervisor bugs.
 
-**Live migration and migration policy.** Namespace administrators can often
-trigger live migrations by default. Migration moves running VM state across
-hosts and can contend for CPU, memory, and network with unrelated workloads.
-Treat create rights on virtual machine instance migrations and
-`MigrationPolicy` objects as cluster-admin–adjacent capabilities. Audit with
+**Live migration and migration policy.** Since OpenShift Virtualization 4.19,
+creating a live migration takes the `kubevirt.io:migrate` cluster role.
+Namespace admin does not include it. Drain-driven migrations during a
+cluster upgrade run as the virtualization controller; that path is covered
+in
+[Upgrading OpenShift While VMs Stay Running](/posts/upgrading-openshift-while-vms-stay-running/).
+A human-triggered migration still moves running VM state across hosts and
+can contend for CPU, memory, and network with unrelated workloads. Treat
+create rights on virtual machine instance migrations and `MigrationPolicy`
+objects as cluster-admin–adjacent capabilities. Audit with
 `oc adm policy who-can create` on those resources, then remove bindings that
 do not belong to the platform operations role.
 

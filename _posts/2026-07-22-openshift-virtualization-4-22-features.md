@@ -179,7 +179,9 @@ support scope on the Red Hat Customer Portal before you design around them.
 
 ## Deprecated and removed
 
-Upgrade planners should not skip this section.
+Upgrade planners should not skip this section. How running guests behave
+while the Machine Config Operator drains nodes is covered in
+[Upgrading OpenShift While VMs Stay Running](/posts/upgrading-openshift-while-vms-stay-running/).
 
 **Deprecated**
 - Recording rules `kubevirt_vm_created_total` and

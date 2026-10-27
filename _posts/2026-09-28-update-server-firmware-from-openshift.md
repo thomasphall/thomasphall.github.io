@@ -243,6 +243,11 @@ nodes stay on the platform that owns the hardware. Vendor appliance stacks
 still own firmware when that was the reason you bought them; see
 [OpenShift Hardware Vendor Reference Architectures](/posts/openshift-hardware-vendor-reference-architectures/).
 
+A firmware servicing reboot and a cluster upgrade drain the host for
+different reasons. For guests that must stay running while the Machine
+Config Operator reboots workers, see
+[Upgrading OpenShift While VMs Stay Running](/posts/upgrading-openshift-while-vms-stay-running/).
+
 For the rest of a bare-metal OpenShift PoC, start at
 [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
 or the
