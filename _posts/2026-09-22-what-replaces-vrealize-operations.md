@@ -293,7 +293,7 @@ smarter.
 
 ## Related posts
 
-- [How to Install Network Observability on OpenShift 4.22](/posts/network-observability-openshift/)
+- [vSphere to OpenShift Virtualization: Translation Guide](/posts/vsphere-to-openshift-translation-guide/)
 - [ACM as the Fleet Control Plane for OpenShift VMs](/posts/acm-openshift-virtualization/)
 - [Fence Gray Host Failures on OpenShift Virtualization](/posts/openshift-virt-gray-failure-ha/)
 - [OADP for OpenShift VMs: Backup Is Not DR](/posts/oadp-vms-backup-is-not-dr/)
