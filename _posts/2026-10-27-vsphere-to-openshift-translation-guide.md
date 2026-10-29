@@ -27,7 +27,10 @@ Platform 4.22 and
 [OpenShift Virtualization](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/index).
 It is a solutions-architect map, not a manifest catalog. The
 [Migration Toolkit for Virtualization](https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.12)
-(MTV) copies disks. It does not rebuild a folder tree. Design the landing
+(MTV) copies disks. It does not rebuild a folder tree. A production Oracle
+database wants a second map, built around redo and a worker pool:
+[Migrate Oracle Databases to OpenShift Virtualization](/posts/oracle-database-vsphere-to-openshift-virt/).
+Design the landing
 zone before wave 1. If the cluster is still a diagram, start with
 [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
 and the

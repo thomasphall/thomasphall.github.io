@@ -18,6 +18,9 @@ Most VMware exit programs do not stall on whether a guest can boot on
 [OpenShift Virtualization](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/index).
 They stall on disk copy time. Multi-terabyte volumes, parallel migration waves,
 and shared datacenter networks turn “convert the VM” into a schedule problem.
+Oracle data files are often those volumes. The copy path and the database
+cutover are separate decisions:
+[Migrate Oracle Databases to OpenShift Virtualization](/posts/oracle-database-vsphere-to-openshift-virt/).
 [Migration Toolkit for Virtualization](https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.11)
 (MTV) already handles inventory, mapping, and cutover. Storage copy offload—often
 shortened to storage offload—changes *where* the heavy disk work happens when
