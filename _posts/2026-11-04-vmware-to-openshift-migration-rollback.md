@@ -1,5 +1,5 @@
 ---
-title: "Your VM Migrated. Can You Still Roll Back?"
+title: "Roll Back After Migrating to OpenShift Virtualization"
 description: >-
   Plan rollback from OpenShift Virtualization to VMware before cutover.
   Control production writes, preserve the source, and rehearse how changed
@@ -12,12 +12,13 @@ permalink: /posts/vmware-to-openshift-migration-rollback/
 
 > Personal site note: views expressed here are my own and do not necessarily
 > represent Red Hat or any other organization. The migration controls below
-> refer to Migration Toolkit for Virtualization 2.12. Rehearse the return
+> refer to Migration Toolkit for Virtualization (MTV) 2.12. Rehearse the return
 > procedure with the application and database versions you actually run.
 {: .prompt-info }
 
-The virtual machine boots on Red Hat OpenShift Virtualization. The
-application owner signs in. Someone on the change bridge says the VMware
+The virtual machine boots on
+[OpenShift Virtualization](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/index).
+The application owner signs in. Someone on the change bridge says the VMware
 copy is still there, so rollback is covered.
 
 Then the application accepts an order.
@@ -41,20 +42,20 @@ with its database on the boot disk.
 
 ## What MTV completes
 
-The Red Hat Migration Toolkit for Virtualization (MTV) moves VMs to
-OpenShift Virtualization. With
+[Migration Toolkit for Virtualization](https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.12)
+(MTV) moves VMs to OpenShift Virtualization. With
 [warm migration](https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.12/html/planning_your_migration_to_red_hat_openshift_virtualization/assembly_cold-warm-migration_mtv),
 disk copying starts while the source runs. Cutover shuts the source down
 and transfers the remaining data. Cold migration copies with the source
 shut down. Neither approach carries the running guest's memory into the
 new VM.
 
-For a regular migration, MTV uses
+On the default path, MTV uses
 [`virt-v2v` to prepare the copied guest](https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.12/html/migrating_your_virtual_machines_to_red_hat_openshift_virtualization/assembly_understanding-mtv-migration_mtv)
 for the destination, including changes to drivers and boot configuration.
-Treat a later return of those converted disks to VMware as another
-compatibility and migration exercise. Do not put an untested disk export
-in the emergency procedure.
+Raw copy mode skips that conversion. Treat a later return of the converted
+disks to VMware as another compatibility and migration exercise. Do not
+put an untested disk export in the emergency procedure.
 
 MTV also lets you
 [cancel an in-progress migration](https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.12/html/migrating_your_virtual_machines_to_red_hat_openshift_virtualization/assembly_migrating-from-vmware_mtv).
