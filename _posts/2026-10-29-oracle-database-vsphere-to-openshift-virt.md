@@ -153,6 +153,10 @@ guide.
 After cutover, one copy stays powered off until you accept the target.
 Two open databases with the same name are a split brain.
 
+Before opening the target to production writes, rehearse how new
+transactions would survive a return. That cutover boundary is covered in
+[Your VM Migrated. Can You Still Roll Back?](/posts/vmware-to-openshift-migration-rollback/).
+
 RDMs and multi-writer VMDKs, the usual RAC layout on vSphere, become new
 persistent volume claims. Create the database, or the standby, against
 those claims.
