@@ -71,6 +71,8 @@ It is repeating a judgment loop across hundreds of guests:
    or use features that change the plan shape, and which are 32-bit operating
    systems that do not belong in wave 1—see
    [32-bit VMs Stay Out of OpenShift Wave 1](/posts/32-bit-vms-not-wave-1/).
+   The list you compare week to week is
+   [OpenShift Migration Advisor: Rerun the Assessment](/posts/openshift-migration-advisor-rerun-assessment/).
 2. **Map** — Networks and storage, consistently, without a spreadsheet drift
    between wave 1 and wave 12.
 3. **Group** — Application affinity, maintenance windows, and cold vs warm.

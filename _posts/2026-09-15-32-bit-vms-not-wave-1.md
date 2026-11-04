@@ -197,7 +197,10 @@ bad decade in the CMDB.
 
 If the program cannot name a short list of 64-bit VMs that are allowed
 to move, you do not have a wave 1 problem. You have an
-application-modernization problem that MTV will not dissolve. Keep the
+application-modernization problem that MTV will not dissolve. Name that
+short list from a report you can compare with the next one:
+[OpenShift Migration Advisor: Rerun the Assessment](/posts/openshift-migration-advisor-rerun-assessment/).
+Keep the
 landing zone work on the same track as
 [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
 and the

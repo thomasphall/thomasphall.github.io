@@ -30,6 +30,8 @@ It is a solutions-architect map, not a manifest catalog. The
 (MTV) copies disks. It does not rebuild a folder tree. A production Oracle
 database wants a second map, built around redo and a worker pool:
 [Migrate Oracle Databases to OpenShift Virtualization](/posts/oracle-database-vsphere-to-openshift-virt/).
+The assessment you compare before that review is
+[OpenShift Migration Advisor: Rerun the Assessment](/posts/openshift-migration-advisor-rerun-assessment/).
 Design the landing
 zone before wave 1. If the cluster is still a diagram, start with
 [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
