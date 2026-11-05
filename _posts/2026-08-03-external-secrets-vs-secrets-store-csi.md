@@ -7,7 +7,6 @@ description: >-
 date: 2026-08-03 10:00:00 -0500
 categories: [OpenShift, Security]
 tags: [openshift, security, secrets, gitops]
-og_image: /assets/img/og/external-secrets.png
 permalink: /posts/external-secrets-vs-secrets-store-csi/
 ---
 

@@ -7,7 +7,6 @@ description: >-
 date: 2026-08-12 08:00:00 -0500
 categories: [Security]
 tags: [security, supply-chain, lightwell]
-og_image: /assets/img/og/lightwell.png
 permalink: /posts/red-hat-lightwell-open-source-remediation/
 ---
 

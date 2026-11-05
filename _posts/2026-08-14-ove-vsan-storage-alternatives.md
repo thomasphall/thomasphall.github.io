@@ -6,7 +6,6 @@ description: >-
 date: 2026-08-14 12:00:00 -0500
 categories: [OpenShift, Virtualization]
 tags: [openshift, openshift-virtualization, storage, csi, vsan]
-og_image: /assets/img/og/ove-vsan.png
 permalink: /posts/ove-vsan-storage-alternatives/
 ---
 

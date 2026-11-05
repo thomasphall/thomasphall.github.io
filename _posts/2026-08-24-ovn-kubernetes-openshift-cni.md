@@ -7,7 +7,6 @@ description: >-
 date: 2026-08-24 09:00:00 -0500
 categories: [OpenShift, Virtualization]
 tags: [openshift, networking, openshift-virtualization]
-og_image: /assets/img/og/ovn-kubernetes-openshift-cni.png
 permalink: /posts/ovn-kubernetes-openshift-cni/
 ---
 

@@ -6,7 +6,6 @@ description: >-
 date: 2026-07-30 15:00:00 -0500
 categories: [OpenShift, Virtualization]
 tags: [openshift, openshift-virtualization, migration, vmware, storage]
-og_image: /assets/img/og/mtv-storage-copy-offload-vmware.png
 permalink: /posts/mtv-storage-copy-offload-vmware/
 ---
 

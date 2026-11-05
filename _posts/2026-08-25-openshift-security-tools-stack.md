@@ -7,7 +7,6 @@ description: >-
 date: 2026-08-25 15:00:00 -0500
 categories: [OpenShift, Security]
 tags: [openshift, security, openshift-virtualization, supply-chain, acs, gitops]
-og_image: /assets/img/og/openshift-security-tools-stack.png
 permalink: /posts/openshift-security-tools-stack/
 ---
 
