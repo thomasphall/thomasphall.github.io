@@ -45,6 +45,16 @@ jobs:
           ruby-version: 3.3
           bundler-cache: true
 
+      - name: Setup social card renderer
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
+          cache: pip
+          cache-dependency-path: tools/social-cards/requirements.txt
+
+      - name: Install social card renderer
+        run: python -m pip install -r tools/social-cards/requirements.txt
+
       - name: Build site
         run: bundle exec jekyll b -d "_site${{ steps.pages.outputs.base_path }}"
         env:
@@ -52,6 +62,7 @@ jobs:
 
       - name: Test site
         run: |
+          python tools/test-social-cards.py _site
           bundle exec htmlproofer _site \
             \-\-disable-external \
             \-\-ignore-urls "/^http:\/\/127.0.0.1/,/^http:\/\/0.0.0.0/,/^http:\/\/localhost/"

@@ -15,6 +15,12 @@ by Thomas Hall in this repository are licensed under the
 [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/)
 (CC BY 4.0).
 
+## Social preview typography
+
+The bundled Inter font in `tools/social-cards/fonts/Inter.ttf` is distributed
+under the SIL Open Font License 1.1. See the accompanying `OFL.txt` for the
+copyright notice and full license. Source: Google Fonts, `ofl/inter`.
+
 ## Trademarks
 
 Red Hat, OpenShift, and related marks are trademarks of Red Hat, Inc. or its

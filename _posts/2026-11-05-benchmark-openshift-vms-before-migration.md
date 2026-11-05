@@ -7,6 +7,11 @@ date: 2026-11-05 00:00:00 -0600
 categories: [OpenShift, Virtualization]
 tags: [openshift, openshift-virtualization, storage, migration, vmware]
 permalink: /posts/benchmark-openshift-vms-before-migration/
+social_title: |-
+  Benchmark VMs
+  before you migrate
+social_label: OpenShift Virtualization
+social_subtitle: FIO · Latency · Concurrent VM load
 ---
 
 > Personal site note: views expressed here are my own and do not necessarily

@@ -32,9 +32,23 @@ Site title and tagline live in `_config.yml`. The homepage document title is
 `title | tagline`; paginated indexes (`/page2/`, …) are `Page N | title` so
 they do not collide with home. See [site-level titles](docs/seo-post-checklist.md#site-level-titles).
 
-Default social preview is `assets/img/og/site.png` (1200×630). Flagship posts
-override it with `og_image:` in front matter (not Chirpy `image:`, which
-renders a cover photo in the article).
+Posts without an explicit image automatically receive a branded 1200×630
+social preview during the Jekyll build. The headline comes from the post title;
+optional `social_title`, `social_label`, and `social_subtitle` fields customize
+the card. Existing `og_image:` and article-cover `image:` values take precedence.
+Non-post pages still use `assets/img/og/site.png`.
+
+For local builds, install the renderer once:
+
+```sh
+python3 -m venv .venv-social
+.venv-social/bin/python -m pip install -r tools/social-cards/requirements.txt
+```
+
+The Jekyll plugin detects this environment automatically. GitHub Actions
+installs the same dependency during deployment. See
+[social preview cards](docs/social-preview-cards.md) for design controls,
+previewing, and LinkedIn cache refresh instructions.
 
 ## Search Console
 

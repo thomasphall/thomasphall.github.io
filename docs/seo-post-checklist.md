@@ -87,10 +87,17 @@ permalink: /posts/external-secrets-vs-secrets-store-csi/
 
 ## Optional
 
+- [ ] Review the generated social card at full size and thumbnail size.
+      Every post without `og_image:` or `image:` gets a 1200×630 card during
+      the build. Use `social_title:` for a short sharing headline (newlines
+      control line breaks), `social_label:` for the topic, and
+      `social_subtitle:` for a short supporting line. These do not change
+      the article title or permalink. See [social preview cards](social-preview-cards.md).
 - [ ] `og_image: /assets/img/og/<slug>.png` — per-post 1200×630 social
       preview (LinkedIn/Twitter). Do **not** use Chirpy’s `image:` for these
       cards; `image:` is rendered as a cover photo at the top of the post.
-      Default fallback is `assets/img/og/site.png`.
+      This overrides automatic card generation. Non-post pages fall back
+      to `assets/img/og/site.png`.
 - [ ] External “Further reading” for official docs (does not replace Related posts).
       When a post overlaps an OpenShift PoC topic, link the matching page on
       [openshift-ssa.github.io/openshift-poc](https://openshift-ssa.github.io/openshift-poc/home/)
@@ -114,6 +121,11 @@ just to preserve `/categories/<old>/` — redirect those archives instead.
 ## After publish
 
 - [ ] Confirm the live URL matches `permalink`
+- [ ] Confirm `og:image` points to the post's intended image. If LinkedIn
+      cached an older preview, inspect the article URL in
+      [Post Inspector](https://www.linkedin.com/post-inspector/) before
+      composing a new LinkedIn post. Existing LinkedIn posts retain their
+      original preview.
 - [ ] Share with a descriptive LinkedIn blurb (title + one-sentence hook)
 - [ ] If Search Console is verified, check Coverage / Performance for the URL
   after a few days
