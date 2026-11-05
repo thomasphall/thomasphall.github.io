@@ -242,6 +242,11 @@ pattern is an array-backed SNO, not a vSAN replacement.
 
 Once etcd is local flash, workload storage is a CSI conversation.
 
+Before the first VM migration wave, turn the workload-storage design into a
+measured acceptance test. See
+[Benchmark OpenShift VMs Before the First Migration Wave](/posts/benchmark-openshift-vms-before-migration/)
+for a repeatable FIO profile, source comparisons, and concurrent-VM checks.
+
 | Workload                         | Recommended technology           | Avoid                                              |
 | -------------------------------- | -------------------------------- | -------------------------------------------------- |
 | Prometheus / metrics             | Block                            | File RWX; RHEL NFS                                 |
