@@ -14,6 +14,9 @@ permalink: /posts/rhcos-10-openshift/
 > represent Red Hat or any other organization.
 {: .prompt-info }
 
+For the GA host OS changes in the next major release, see
+[OpenShift 5.0: The Platform Features That Matter](/posts/openshift-5-features-that-matter/).
+
 Every OpenShift admin knows the calculus. A new
 Red Hat Enterprise Linux CoreOS (RHCOS) ships with hardware enablement and
 crypto you want. Adopting it has meant adopting it *everywhere*, on the same
