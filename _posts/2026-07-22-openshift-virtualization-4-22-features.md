@@ -13,10 +13,6 @@ permalink: /posts/openshift-virtualization-4-22-features/
 > represent Red Hat or any other organization.
 {: .prompt-info }
 
-For the next major release, see
-[OpenShift Virtualization 5.0: The Updates That Matter](/posts/openshift-virtualization-5-0-features/),
-including GA autopilot, new defaults, and the storage-migration caveat.
-
 Virtual machines on [Red Hat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift)
 are no longer a side quest for platform teams. They are a first-class workload
 class sitting next to containers—and day-2 operations are where virtualization
