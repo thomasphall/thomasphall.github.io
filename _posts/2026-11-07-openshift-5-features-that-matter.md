@@ -4,7 +4,6 @@ description: >-
   See the OpenShift 5.0 updates that matter for platform teams: RHCOS 10,
   ingress, GPU allocation, registry reliability, authentication, and cluster operations.
 date: 2026-11-07 00:00:00 -0700
-published: false
 categories: [OpenShift]
 tags: [openshift, networking, security, supply-chain, bare-metal]
 permalink: /posts/openshift-5-features-that-matter/
