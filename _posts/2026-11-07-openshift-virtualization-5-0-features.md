@@ -4,7 +4,6 @@ description: >-
   OpenShift Virtualization 5.0 brings automatic balancing, RHCOS 10 support,
   storage improvements, and new dashboards. Learn what changes and what to validate.
 date: 2026-11-07 00:00:00 -0700
-published: false
 categories: [OpenShift, Virtualization]
 tags: [openshift, openshift-virtualization, gitops, storage, networking]
 permalink: /posts/openshift-virtualization-5-0-features/
