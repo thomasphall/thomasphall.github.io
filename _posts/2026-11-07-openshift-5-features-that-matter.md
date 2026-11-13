@@ -258,6 +258,8 @@ maintenance, or troubleshooting task has improved.
 
 ## Related posts
 
+- [Red Hat at KubeCon 2026: What Platform Teams Should Know](/posts/red-hat-kubecon-2026-platform-teams/)
+
 - [RHCOS 10 on OpenShift 4.22: What Changes](/posts/rhcos-10-openshift/)
 - [Why OVN-Kubernetes Is OpenShift's Default CNI](/posts/ovn-kubernetes-openshift-cni/)
 - [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
