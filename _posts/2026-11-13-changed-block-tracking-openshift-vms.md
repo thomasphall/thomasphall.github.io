@@ -26,14 +26,14 @@ Block Tracking (CBT), as a Technology Preview, with Commvault,
 Cohesity, Dell, and Rubrik. The same release train documents a second
 CBT feature on the Container Storage Interface (CSI) side.
 
-A design review that says "CBT" without saying which bitmap will test
-the wrong thing. One bitmap lives in QEMU and libvirt. The other lives
+A design review that says "CBT" without identifying the bitmap risks
+testing the wrong thing. One bitmap lives in QEMU and libvirt. The other lives
 in a CSI driver, between two snapshots. Both are previews. Neither
-result is a disaster recovery (DR) design.
+feature is a disaster recovery (DR) design.
 
-[OADP for OpenShift VMs: Backup Is Not DR](/posts/oadp-vms-backup-is-not-dr/)
-is still the split between a copy you restore and a failover you have
-declared. This post is the incremental layer people will put on top of
+My [OADP for OpenShift VMs: Backup Is Not DR](/posts/oadp-vms-backup-is-not-dr/)
+post explains the distinction between restoring a backup and declaring
+a failover. This post is the incremental layer people will put on top of
 that split. It is a solutions-architect map as of November 13, 2026,
 not a backup-product install guide.
 
@@ -100,7 +100,7 @@ release notes. Keep the OADP design you already have — CSI snapshot, or
 CSI with DataMover — until a version note says OADP consumes this
 bitmap.
 
-The practical gain, when the chain is intact, is the read. Veeam's
+The practical gain, when the chain is intact, is less data read. Veeam's
 illustration is a 2 TB disk with 50 GB of daily change: the backup
 product reads the changed blocks instead of scanning the disk. That is
 backup-window math. It is not a recovery time objective (RTO), and it
@@ -120,9 +120,7 @@ describes what a backup application can ask for:
 
 The call returns metadata. The backup application reads and stores the
 snapshot data on its own. The driver has to implement the API, and the
-backup product has to call it. A storage class that snapshots, and a
-storage class that can answer a changed-block query, are not the same
-claim. Confirm the driver on the cluster you will use. The
+backup product has to call it. Snapshot support does not imply support for changed-block queries. Confirm the driver on the cluster you will use. The
 [storage shortlist](/posts/ove-vsan-storage-alternatives/)
 is where that driver was chosen; this preview does not reopen it.
 
@@ -140,15 +138,15 @@ still draws the lines around that job.
 | CBT can shrink | CBT leaves this alone |
 | -------------- | --------------------- |
 | Bytes read from the disk | Whether the guest was quiesced |
-| Data moved to the backup target | A restore onto a cluster that is gone |
+| Data moved to the backup target | Restoring after the original cluster is lost |
 | The backup window, when the checkpoint chain is valid | The time you measure for that restore |
 | | Replication, failover, and failback |
 | | Fencing a dead node and restarting the VM |
 
 Guest consistency is still a guest-agent problem. A crash-consistent
 incremental is a crash-consistent copy that happened to be smaller.
-Freeze the guest, or write the recovery point objective (RPO) as
-crash-consistent. VolumeGroupSnapshot does not become generally
+Document whether the backup is application-consistent or crash-consistent,
+alongside the recovery point objective (RPO). VolumeGroupSnapshot does not become generally
 available because a bitmap exists.
 
 Cluster loss is still a restore from wherever the backup product put
@@ -186,7 +184,7 @@ For the CSI path, confirm the driver implements changed block tracking
 on that OpenShift version, then ask for the same restore time. The
 metadata call is not the backup. The snapshot data still has to move.
 
-> **Keep the source until the restore has been read.** An incremental
+> **Keep the source until the restored application has been verified.** An incremental
 > that reports success is not a recovered application. The same rule as
 > [storage migration in OpenShift Virtualization 5.0](/posts/openshift-virtualization-5-0-features/)
 > applies here: verify the copy, then delete the thing you can still
@@ -200,13 +198,13 @@ metadata call is not the backup. The snapshot data still has to move.
 2. **QEMU CBT is upstream alpha.** `backup.kubevirt.io/v1alpha1`, gate
    `IncrementalBackup`, one tracker per backup product. The November 11
    blog calls the OpenShift feature Technology Preview. The
-   virtualization 5.0 release notes do not list it.
+   OpenShift Virtualization 5.0 release notes do not list it.
 3. **CSI CBT is Technology Preview on OpenShift 5.0.** It returns
    metadata for drivers that implement it. It does not return the
    backup.
 4. **Restart the VM during the test.** The checkpoint chain is the
-   feature. A reboot that forces a full copy is a failed incremental,
-   even when the job succeeds.
+   feature. A reboot that forces a full copy means the test did not demonstrate
+   incremental continuity, even if the backup job succeeded.
 5. **Time the restore.** Write the number you measured. A smaller read
    on the way out does not set the RTO.
 6. **Leave DR, fencing, and live migration on their own slides.**
