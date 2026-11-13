@@ -24,14 +24,14 @@ The Cloud Native Computing Foundation (CNCF) announced
 on November 10, 2026, at KubeCon + CloudNativeCon North America in Salt
 Lake City. The
 [CNCF project page](https://www.cncf.io/projects/kubevirt/)
-records the maturity change four days earlier, on November 4.
+records the maturity change six days earlier, on November 4.
 
 A buyer will hear "graduated" and ask whether
 [Red Hat OpenShift Virtualization](https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/virtualization/index)
 just became a different product. It did not. Graduation is the
-foundation's highest level for an upstream project. The virtual
-machines (VMs) you run are still OpenShift Virtualization, on the
-OpenShift version you installed and the subscription that supports it.
+foundation's highest level for an upstream project. Your virtual
+machines (VMs) still run on OpenShift Virtualization, on the
+OpenShift version you installed and with the subscription that supports it.
 
 This is a design-review map for that conversation, based on the
 November 10 announcement and Red Hat's
@@ -41,7 +41,7 @@ the same day. It is not a feature list for
 
 ## What the foundation actually did
 
-KubeVirt's first commit is April 27, 2016. Red Hat started the project
+KubeVirt's first commit was on April 27, 2016. Red Hat started the project
 that year so a Kubernetes cluster could run VMs through custom resources
 and controllers, without a second control plane. The CNCF path after
 that is short:
@@ -58,7 +58,7 @@ that is short:
 
 The dates through Incubating come from the project page. The v1.0 date
 and the OpenShift Virtualization general-availability year are Red Hat's
-account. The March 2026 summit line and the graduation requirements are
+account. The March 2026 summit line and the graduation requirements come from
 the CNCF announcement.
 
 To graduate, the project completed a third-party security audit,
@@ -88,7 +88,7 @@ Oversight Committee review. The product lifecycle is unchanged.
 
 | Question                                    | Graduation answers it                         | The product answers it                                      |
 | ------------------------------------------- | --------------------------------------------- | ----------------------------------------------------------- |
-| Is the upstream project mature?             | The CNCF graduated it                         | A feature is still only as supported as its release note   |
+| Is the upstream project mature?             | The CNCF graduated it                         | A feature's support status still depends on the applicable release notes   |
 | Who supports this VM at 2 a.m.?             | The community, for upstream KubeVirt          | The OpenShift subscription and the published lifecycle     |
 | Can I turn on the latest upstream capability? | The roadmap is public                       | The release notes for that OpenShift Virtualization version |
 | Did the audit replace my review?            | A third-party audit was required to graduate | Hardening, roles, and CVE handling still apply             |
@@ -101,10 +101,10 @@ including in
 Which edition you buy is still a workload and subscription decision.
 Graduation does not pick the SKU.
 
-## Upstream next is not a release note
+## The upstream roadmap is not a product release note
 
-The announcement lists work that is planned or in progress. Treat every
-line as upstream maturity, then check whether the OpenShift version you
+The announcement lists work that is planned or in progress. Treat each
+item as a statement about upstream development, then check whether the OpenShift version you
 will install has it, and at what support level.
 
 - **Devices.** GPU claims through Kubernetes Dynamic Resource Allocation
@@ -124,19 +124,19 @@ will install has it, and at what support level.
   community is working toward out-of-tree alternatives to KVM, including
   Cloud Hypervisor, OpenVMM, and Firecracker.
 
-Red Hat's post makes the same cut: those efforts are at different
+Red Hat's post makes the same distinction: those efforts are at different
 stages, and availability in OpenShift is decided in product releases.
 A design that needs DRA GPUs, TDX, or a non-KVM hypervisor has to cite
 the release notes for the version under contract. "KubeVirt graduated"
 is not that citation.
 
-The security side of the same cut: the graduation audit is one input.
+The same distinction applies to security: the graduation audit is one input.
 It does not retire
 [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
 or a feature-gate review such as
 [CVE-2026-13434: Audit HCO Feature Gates as Code](/posts/cve-2026-13434-hco-feature-gates/).
 
-## The solutions architect takeaway
+## Takeaways for solutions architects
 
 Use the announcement for what it measures, and the release notes for
 what you will run.
