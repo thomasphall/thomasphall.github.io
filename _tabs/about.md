@@ -11,8 +11,6 @@ engineering. I work at Red Hat; this site is personal. Based in Houston, TX.
 
 - [GitHub](https://github.com/thomasphall)
 - [LinkedIn](https://www.linkedin.com/in/thomasphall)
-- [Spotify](https://open.spotify.com/user/1237602206)
-- [SoundCloud](https://soundcloud.com/thomas-hall-319034295)
 - More at [linktr.ee/thomasphall](https://linktr.ee/thomasphall)
 
 ## Disclaimer

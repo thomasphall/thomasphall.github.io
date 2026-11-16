@@ -44,6 +44,10 @@ Fleet backup policy belongs on
 [Red Hat Advanced Cluster Management for Kubernetes (RHACM)](/posts/acm-openshift-virtualization/),
 not on a Velero click in each cluster console.
 
+OpenShift 5 adds two Changed Block Tracking previews on top of this
+split. A bitmap still leaves failover on another slide. See
+[Changed Block Tracking for OpenShift VMs](/posts/changed-block-tracking-openshift-vms/).
+
 ## Four phrases that get mixed in the room
 
 | Phrase              | What it actually is                                      | What it is not                                      |
@@ -242,7 +246,7 @@ the backup product logo implied.
 - [ACM as the Fleet Control Plane for OpenShift VMs](/posts/acm-openshift-virtualization/)
 - [vSAN-like Storage for OpenShift Virtualization Engine](/posts/ove-vsan-storage-alternatives/)
 - [Fence Gray Host Failures on OpenShift Virtualization](/posts/openshift-virt-gray-failure-ha/)
-- [GitOps Should Manage ACM, Not the Cluster](/posts/gitops-should-manage-acm/)
+- [Changed Block Tracking for OpenShift VMs](/posts/changed-block-tracking-openshift-vms/)
 
 > Want help splitting OADP restore from a Metro-DR or Regional-DR design?
 > Reach out to your Red Hat account team—or time a DataMover restore of

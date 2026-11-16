@@ -34,7 +34,9 @@ and what a GitOps controller should own.
 
 These are the changes I would put first in a platform review, based on
 the [5.0 release notes](https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/virtualization/release-notes)
-as of November 7, 2026.
+as of November 7, 2026. KubeVirt's CNCF graduation is a separate
+question from this release. See
+[KubeVirt Graduated. What Buyers Should Check](/posts/kubevirt-cncf-graduation/).
 
 ## 1. Autopilot makes configuration and balancing part of normal operations
 
@@ -124,6 +126,11 @@ should review scratch-space capacity alongside destination capacity.
 These changes are described in the
 [storage-related release notes](https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/virtualization/release-notes#virt-5-0-new_virt-5-0-release-notes).
 
+The November 11 product blog also describes QEMU Changed Block
+Tracking for incremental backup. That feature is not in these release
+notes. The two bitmaps and the support boundary are in
+[Changed Block Tracking for OpenShift VMs](/posts/changed-block-tracking-openshift-vms/).
+
 The known issues change how I would operate storage migration today:
 
 > **Explicitly retain source volumes during storage migration.** The
@@ -191,7 +198,9 @@ For operations teams, the useful acceptance test is whether someone can
 identify the busy guest, connect it to the affected node or accelerator,
 and find the next troubleshooting action. Build that exercise into the
 upgrade validation. A dashboard becomes operationally valuable when the
-on-call team knows which decision it supports.
+on-call team knows which decision it supports. How these views relate
+to the metrics that replace vRealize Operations is covered in
+[What Replaces vRealize Operations for VMs](/posts/what-replaces-vrealize-operations/).
 
 ## 6. VM templates and hardware support expand, with distinct support levels
 
@@ -250,8 +259,8 @@ guests in the maintenance plan before relying on the new defaults.
 
 - [Virtualization Autopilot vs GitOps on OpenShift](/posts/virt-platform-autopilot-vs-gitops/)
 - [RHCOS 10 on OpenShift 4.22: What Changes](/posts/rhcos-10-openshift/)
-- [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)
-- [What Replaces vRealize Operations for VMs](/posts/what-replaces-vrealize-operations/)
+- [KubeVirt Graduated. What Buyers Should Check](/posts/kubevirt-cncf-graduation/)
+- [Changed Block Tracking for OpenShift VMs](/posts/changed-block-tracking-openshift-vms/)
 
 ## Further reading
 
