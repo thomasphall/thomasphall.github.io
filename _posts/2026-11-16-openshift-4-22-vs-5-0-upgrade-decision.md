@@ -1,5 +1,5 @@
 ---
-title: "Park on 4.22 or Hop to 5.0 Before Full Support Ends"
+title: "Park on 4.22 or Hop to 5.0 Before 4.22 Full Support Ends"
 description: >-
   Which OpenShift clusters should park on 4.22, which should hop to 5.0,
   what to clean up before the hop, and the life-cycle dates that force the decision.
@@ -27,9 +27,9 @@ A feature list and a support calendar answer different questions.
 [OpenShift 5.0: The Platform Features That Matter](/posts/openshift-5-features-that-matter/)
 is the feature list: the in-place hop from 4.x, the unsupported mix of
 Red Hat Enterprise Linux CoreOS (RHCOS) 9.x and 10.2, and the move from
-runC to crun before the host OS changes. This post is the calendar.
-Which clusters stay on 4.22, which clusters move to 5.0, what has to be
-true first, and which dates make the choice late.
+runC to crun before the host OS changes. This post is the calendar:
+which clusters stay on 4.22, which move to 5.0, what has to be true
+first, and which dates set the deadlines.
 
 ## Why this decision is due now
 
@@ -68,8 +68,8 @@ Clusters still behind 4.22 follow the update graph. The
 says a minor update has to be contiguous, that Red Hat does not test
 noncontiguous updates, and that a cluster is offered channels for its
 current minor, the next minor, or the next Extended Update Support (EUS)
-version. `oc adm upgrade recommend` on that cluster is the version that
-satisfies the rule.
+version. Run `oc adm upgrade recommend` on that cluster to see the
+recommended target versions.
 
 ## The hop is an in-place update
 
@@ -93,7 +93,7 @@ destroy and recreate. New clusters default to a stable channel.
 
 None of those pages names a 4.22 z-stream, and none lists what
 `stable-5.0` contains on a given day. The sample `oc adm upgrade recommend`
-output in the update chapter is a cluster on `stable-4.21`. Copy the
+output in the update chapter shows a cluster on `stable-4.21`. Copy the
 command. Leave that sample's versions in the documentation.
 
 The host OS is a separate campaign. The
@@ -108,8 +108,8 @@ The update still has two phases. The Cluster Version Operator (CVO)
 applies the payload first. That phase might take 60 to 120 minutes. The
 Machine Config Operator then updates nodes. `maxUnavailable` defaults
 to `1`. Leave it there, update one control-plane node at a time, and do
-not set the control-plane pool to `3`. Guests that have to stay up
-through a 4.22 drain are covered in
+not set `maxUnavailable` to `3` for the control-plane pool. Guests that
+have to stay up through a 4.22 drain are covered in
 [Upgrading OpenShift While VMs Stay Running](/posts/upgrading-openshift-while-vms-stay-running/).
 That post is written against the 4.22 virtualization chapters. Guest
 changes in 5.0, including the life-cycle model after this release, are
@@ -134,13 +134,14 @@ Nodes in a paused pool are skipped.
 
 **Path A fits a cluster that can finish 2026 on 4.22 and has a reason
 to.** Virt estates still sort guests before nodes reboot. The 4.22
-upgrading post is that drain: storage, spare memory, eviction strategy,
-and the webhook that holds a node. OpenShift Virtualization on 5.0 is
-another operator. Confirm a compatible version the same way you confirm
-every other OLM Operator. A window that cannot open before December 31,
-2026 is choosing the maintenance-support phase that starts January 1,
-2027. The life-cycle table names the phase. It does not, on the table
-itself, define which fixes that phase includes. Read the linked support
+upgrade post covers the drain process: storage, spare memory, eviction
+strategy, and the webhook that can block a drain. OpenShift Virtualization
+on 5.0 is another Operator. Confirm a compatible version the same way
+you confirm every other OLM Operator. If the upgrade window falls after
+December 31, 2026, the cluster will enter maintenance support on
+January 1, 2027.
+The life-cycle table names the phase. It does not, on the table itself,
+define which fixes that phase includes. Read the linked support
 policy before a change board writes that down. An Operator with no
 5.0-compatible version blocks the hop, because the default catalogs
 switch minors during the update.
@@ -148,17 +149,15 @@ switch minors during the update.
 The risk is the clock, and the z-streams you still take. A channel that
 matches the current minor applies z-streams and leaves the next minor
 alone. `oc adm upgrade` prints the channel names that cluster is
-offered. Parking delays the 5.0 deprecation clock. RHCOS 9.x is
-deprecated in 5.0 and planned for removal in 5.3. The Helm v3 CLI is
-still usable in 5.0 and is absent in 5.1 and later.
+offered. Parking delays the 5.0 deprecation clock. Plan ahead for the
+RHCOS and Helm transitions described in the cleanup list below.
 
 **Path B fits a cluster that can finish the in-place update in one
 window**, with a recommended version on the graph and the cleanup below
 already done. The life-cycle payoff is full support through November 30,
 2027, on a row with no Extended Update Support add-on. I would keep the
 move to RHCOS 10.2 as its own campaign unless drivers and guests are
-already rehearsed. The release notes allow the platform hop with no node
-moved to 10.2.
+already rehearsed.
 
 Path B has to finish. Rollback to the previous version is not supported.
 A stable-only policy also absorbs the promotion delay, and that delay
@@ -185,7 +184,8 @@ oc adm upgrade channel stable-5.0
 oc adm upgrade --to=<version>
 ```
 
-`<version>` is a line from `oc adm upgrade recommend` on that cluster.
+Replace `<version>` with a version recommended by
+`oc adm upgrade recommend` on that cluster.
 To move to the latest version, the guide uses
 `oc adm upgrade --to-latest=true`. `--force` bypasses release
 verification and precondition checks, and the guide says it does not
@@ -210,8 +210,8 @@ points at an update server. It does not select 5.0.
 
 ## Clean these up before the hop
 
-The update chapter's prerequisites block the hop. The release-note
-deprecations are what hurts if you discover them in the window.
+Unmet prerequisites in the update chapter block the hop. Discovering
+deprecations during the maintenance window can also disrupt the plan.
 
 1. **Backups.** Take a recent etcd backup and a recent Container Storage
    Interface (CSI) volume snapshot. Restoring a single-node cluster
@@ -255,7 +255,8 @@ deprecations are what hurts if you discover them in the window.
     this was deprecated in 4.22 and is removed in 5.0. The deprecation
     topic in the same notes still says removal is a future release.
     Plan from the removed-features section. The notes do not name a
-    replacement there. Prove the node on a disposable cluster.
+    replacement there. Validate the node configuration on a disposable
+    cluster.
 11. **Mirroring.** `oc adm release mirror` has been deprecated since
     4.22 and will be removed in a future release. The notes name
     oc-mirror plugin v2 as the alternative. oc-mirror plugin v1 is
@@ -270,8 +271,9 @@ deprecations are what hurts if you discover them in the window.
     still writing it after the hop.
 13. **Helm v3 CLI.** Deprecated in 5.0, still usable beside the Helm v4
     CLI, and not available in 5.1 or later. The 5.0 web console uses
-    the Helm v4 SDK, and existing charts continue to work. Pipelines
-    that call the v3 binary need a move before 5.1.
+    the Helm v4 SDK, and existing charts continue to work. Migrate
+    pipelines that call the v3 binary to the Helm v4 CLI before
+    upgrading to 5.1.
 14. **RHCOS 9.x.** Deprecated in 5.0, with removal planned for 5.3.
     You can hop and leave nodes on 9.x. You cannot run 9.x and 10.2
     together, and you cannot downgrade 10.2 to 9.x.
@@ -295,12 +297,10 @@ as the full pass.
 {: .prompt-warning }
 
 **A version the cluster did not recommend.** The errata says to upgrade
-when 5.0.0 is in the appropriate channel. The update chapter says to
-take the version from `oc adm upgrade recommend`. The performing chapter
-says 5.0 updates are on `stable-5.0` and `candidate-5.0`. The channel
-chapter says `stable-5.0` follows `fast-5.0` after a delay, generally
-45 to 90 days for a new minor, with no service-level objective. Those
-statements leave the contents of your channel to `oc adm upgrade`.
+when 5.0.0 is in the appropriate channel. Use `oc adm upgrade` to check
+what your channel offers, then select a version from the output of
+`oc adm upgrade recommend`. General availability does not guarantee
+that a release is already in your stable channel.
 
 **`stable-5.0` before that cluster has a path.** The console warns when
 the channel does not include the current release, and it recommends no
@@ -313,12 +313,10 @@ not attach that date to a z-stream inside `stable-5.0`.
 tests you can destroy. Some releases there are unsupported and may not
 offer a path forward.
 
-**The OS move folded into the hop.** runC blocks the RHCOS version
-change. A mix of 9.x and 10.2 is unsupported, and so is a downgrade.
-The platform hop can leave every node on 9.x. KVC is the same class of
-surprise: removed in the removed-features section, and still described
-as a future removal in the deprecation topic. Use the removed section,
-and boot the node on a disposable cluster first.
+**The OS move folded into the hop.** Apply the RHCOS compatibility rules
+above before adding the OS move to this window. For KVC, plan from the
+removed-features section despite the conflicting deprecation wording,
+and validate the node configuration on a disposable cluster first.
 
 **A budget, a guest, or a paused worker pool.** `minAvailable: 1` can
 block eviction. Sort guests with the 4.22 procedure before the window.
@@ -348,26 +346,25 @@ a guest.
    nodes left on their current RHCOS.
 3. **The graph picks the version.** Production channels are `stable-*`,
    `eus-*`, and `fast-*`. `oc adm upgrade channel stable-5.0` is the
-   documented example. `fast-5.0` receives a GA release immediately.
-   `stable-5.0` waits, generally 45 to 90 days for a new minor, with no
-   service-level objective. `candidate-5.0` is for clusters you can
-   throw away. Declare the channel with the CLI or the console. Leave
-   the ClusterVersion object alone.
+   documented example. Allow for the stable-channel promotion delay
+   described above. `candidate-5.0` is for clusters you can throw away.
+   Declare the channel with the CLI or the console. Leave the
+   ClusterVersion object alone.
 4. **Clean up what 5.0 removes or starts a clock on.** crun before any
    RHCOS change. KVC is removed in the removed-features section.
    Replace `oc adm release mirror` and oc-mirror v1 with oc-mirror v2.
-   Move `PolicyGenTemplate` to `PolicyGenerator`. Move Helm v3 CLI
-   callers off before 5.1. RHCOS 9.x is deprecated in 5.0 and planned
-   for removal in 5.3.
-5. **An update that sticks does not roll back.** Size the window so it
+   Move `PolicyGenTemplate` to `PolicyGenerator`. Migrate callers to
+   the Helm v4 CLI before upgrading to 5.1. RHCOS 9.x is deprecated in
+   5.0 and planned for removal in 5.3.
+5. **A stalled update has no supported rollback.** Size the window so it
    can finish: etcd backup, CSI snapshots, compatible Operators,
    unpaused pools, paused machine health checks, and disruption budgets
    that allow a drain. Virt estates rehearse the 4.22 guest procedure
    before they book the hop.
 
 > Want help deciding which clusters park on 4.22 and which hop to 5.0?
-> Work with your Red Hat account team, and read `oc adm upgrade recommend`
-> on each cluster before the window is booked.
+> Work with your Red Hat account team, and review the output of
+> `oc adm upgrade recommend` on each cluster before the window is booked.
 {: .prompt-tip }
 
 ## Related posts
