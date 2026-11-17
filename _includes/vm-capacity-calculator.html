@@ -1,0 +1,63 @@
+<link rel="stylesheet" href="{{ '/assets/css/vm-capacity.css' | relative_url }}">
+<div class="vm-capacity" id="vm-capacity-calculator">
+  <p class="vm-capacity-intro"><strong>CPU and memory scenario</strong><br>Use net VM budgets and a consistent CPU unit. The example values are editable.</p>
+  <noscript><p>Enable JavaScript to use the calculator. The formulas and worked example above remain available.</p></noscript>
+  <form id="vm-capacity-form" hidden>
+    <fieldset>
+      <legend>Workers and growth</legend>
+      <div class="vm-capacity-fields">
+        <label for="capacity-nodes">Eligible workers<input id="capacity-nodes" name="nodes" type="number" min="1" max="1000" step="1" value="6" required></label>
+        <label for="capacity-growth">Workload growth (%)<input id="capacity-growth" name="growth" type="number" min="0" max="1000" step="any" value="20" required></label>
+        <label for="capacity-maintenance">Workers in maintenance<input id="capacity-maintenance" name="maintenance" type="number" min="0" max="999" step="1" value="1" required></label>
+        <label for="capacity-failures">Additional failed workers<input id="capacity-failures" name="failures" type="number" min="0" max="999" step="1" value="1" required></label>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Budget per surviving worker</legend>
+      <p class="vm-capacity-hint">After platform commitments and your operating margin.</p>
+      <div class="vm-capacity-fields">
+        <label for="capacity-cpu-budget">CPU budget (CPU units)<input id="capacity-cpu-budget" name="cpuBudget" type="number" min="0.001" max="1000000000" step="any" value="56" required></label>
+        <label for="capacity-memory-budget">Memory budget (GiB)<input id="capacity-memory-budget" name="memoryBudget" type="number" min="0.001" max="1000000000" step="any" value="448" required></label>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Current aggregate VM planning load</legend>
+      <p class="vm-capacity-hint">For each resource, use the larger of total effective requests and representative concurrent demand. Include VM overhead.</p>
+      <div class="vm-capacity-fields">
+        <label for="capacity-cpu-load">Current CPU (CPU units)<input id="capacity-cpu-load" name="cpuLoad" type="number" min="0" max="1000000000" step="any" value="190" required></label>
+        <label for="capacity-memory-load">Current memory (GiB)<input id="capacity-memory-load" name="memoryLoad" type="number" min="0" max="1000000000" step="any" value="1400" required></label>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Additional temporary load</legend>
+      <p class="vm-capacity-hint">Extra migration, import, or recovery work on survivors. Avoid counting the same demand twice.</p>
+      <div class="vm-capacity-fields">
+        <label for="capacity-cpu-extra">Extra CPU (CPU units)<input id="capacity-cpu-extra" name="cpuExtra" type="number" min="0" max="1000000000" step="any" value="8" required></label>
+        <label for="capacity-memory-extra">Extra memory (GiB)<input id="capacity-memory-extra" name="memoryExtra" type="number" min="0" max="1000000000" step="any" value="64" required></label>
+      </div>
+    </fieldset>
+    <div class="vm-capacity-actions">
+      <button type="submit">Calculate</button>
+      <button type="reset">Reset example</button>
+    </div>
+  </form>
+  <p id="vm-capacity-error" role="alert" hidden></p>
+  <div id="vm-capacity-results" aria-live="polite" aria-atomic="true" hidden>
+    <p class="vm-capacity-status" data-result="status"></p>
+    <p><strong data-result="survivors"></strong> of <span data-result="nodes"></span> workers remain available.</p>
+    <div class="vm-capacity-table">
+      <table>
+        <caption>Aggregate resource comparison for this scenario</caption>
+        <thead><tr><th scope="col">Resource</th><th scope="col">CPU units</th><th scope="col">Memory (GiB)</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Planned load</th><td data-result="cpuPlanned"></td><td data-result="memoryPlanned"></td></tr>
+          <tr><th scope="row">Surviving budget</th><td data-result="cpuAvailable"></td><td data-result="memoryAvailable"></td></tr>
+          <tr><th scope="row">Remaining</th><td data-result="cpuRemaining"></td><td data-result="memoryRemaining"></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="vm-capacity-floor">Arithmetic floor: <strong><span data-result="minimumNodes"></span> workers</strong>, including <span data-result="unavailable"></span> unavailable. <span data-result="additional"></span></p>
+    <p class="vm-capacity-hint">This is an aggregate estimate for identical workers. Validate VM placement, application performance, storage, networking, and recovery separately. Values stay in this page and are not saved.</p>
+  </div>
+</div>
+<script src="{{ '/assets/js/vm-capacity.js' | relative_url }}" defer></script>

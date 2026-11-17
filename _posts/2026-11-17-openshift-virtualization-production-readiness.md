@@ -156,6 +156,10 @@ timings, application results, and the accepted maintenance procedure. The
 [upgrade and VM evacuation guide](/posts/upgrading-openshift-while-vms-stay-running/)
 provides the background for that rehearsal.
 
+Use the [spare-capacity worked example and calculator](/posts/openshift-virtualization-spare-capacity/)
+to review how maintenance, host failure, and growth change the CPU and
+memory budget before that rehearsal.
+
 ### Recovery and rollback
 
 Restore a representative VM into an isolated recovery environment. Start the

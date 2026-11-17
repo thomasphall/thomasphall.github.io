@@ -49,6 +49,9 @@ disk copies. Bring the teams that own those services into the review.
 
 - [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/)
   puts prerequisites, installation, and the first workload in order.
+- [How Much Spare Capacity Does Your VM Cluster Need?](/posts/openshift-virtualization-spare-capacity/)
+  works through CPU and memory budgets for maintenance, failures, and growth,
+  with a calculator to adapt to your worker pool.
 - [vSAN-like Storage for OpenShift Virtualization Engine](/posts/ove-vsan-storage-alternatives/)
   frames the choice between local-disk storage and an existing storage array.
 - [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)

@@ -62,6 +62,7 @@ jobs:
 
       - name: Test site
         run: |
+          node tools/test-vm-capacity.cjs
           python tools/test-social-cards.py _site
           bundle exec htmlproofer _site \
             \-\-disable-external \
