@@ -63,6 +63,10 @@ for storage, networks, access, and capacity.
 Use representative applications in non-production. Agree on the acceptance
 criteria before running the tests, including what happens during maintenance.
 
+Use [Is OpenShift Virtualization Ready for Your Production VMs?](/posts/openshift-virtualization-production-readiness/)
+and its downloadable checklist to collect evidence, owners, and open issues
+for the go-live review.
+
 - [Benchmark OpenShift VMs Before the First Migration Wave](/posts/benchmark-openshift-vms-before-migration/)
   builds a performance comparison around application demand and concurrent
   workloads.
