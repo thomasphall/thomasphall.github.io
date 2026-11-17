@@ -1,5 +1,5 @@
 ---
-title: "VMware to OpenShift: Start Here"
+title: "VMware to OpenShift Migration Guide"
 description: >-
   Plan your VMware to OpenShift Virtualization move with a guided reading
   path through assessment, design, testing, migration, recovery, and daily operations.
@@ -8,10 +8,10 @@ icon: fas fa-compass
 order: 0
 ---
 
-Moving virtual machines (VMs) from VMware vSphere to Red Hat OpenShift
-Virtualization means planning the platform around them: storage, networks,
-permissions, recovery, and daily operations. This reading path brings
-together the guides on this site in the order I would use for that work.
+This guide is for VMware administrators and platform teams planning a move
+from vSphere to Red Hat OpenShift Virtualization. Follow the reading path
+below to assess your estate, design the destination, test virtual machines
+(VMs), and prepare for migration, recovery, and daily operations.
 
 Start with the translation guide in the first stage, or jump to the decision
 in front of your team. Complete the testing and recovery rehearsals before
