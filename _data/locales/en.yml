@@ -11,6 +11,8 @@ layout:
 tabs:
   # format: <filename_without_extension>: <value>
   home: Home
+  start-here: Start Here
+  "vmware to openshift: start here": "VMware to OpenShift: Start Here"
   categories: Categories
   tags: Tags
   archives: Archives

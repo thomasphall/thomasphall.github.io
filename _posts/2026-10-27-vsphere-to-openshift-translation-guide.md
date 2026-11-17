@@ -14,6 +14,9 @@ permalink: /posts/vsphere-to-openshift-translation-guide/
 > represent Red Hat or any other organization.
 {: .prompt-info }
 
+For the full reading path from assessment through daily operations, see
+[VMware to OpenShift: Start Here](/start-here/).
+
 A VMware exit stalls in the first design review when someone asks where the
 resource pools went. vCenter inventory is a tree: datacenters, clusters,
 hosts, folders, pools, tags, and roles that inherit down that tree.
