@@ -73,6 +73,9 @@ for the go-live review.
 - [Benchmark OpenShift VMs Before the First Migration Wave](/posts/benchmark-openshift-vms-before-migration/)
   builds a performance comparison around application demand and concurrent
   workloads.
+- [Windows VMs on OpenShift: Build a Repeatable Standard](/posts/windows-vms-openshift-repeatable-standard/)
+  connects image preparation, guest identity, drivers, patching, and restore
+  tests into a repeatable Windows Server build and operating standard.
 - [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
   gives you an initial security baseline to validate with the platform team.
 - [Upgrading OpenShift While VMs Stay Running](/posts/upgrading-openshift-while-vms-stay-running/)
