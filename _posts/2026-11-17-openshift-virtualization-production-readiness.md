@@ -142,9 +142,12 @@ review.
 
 Red Hat's
 [live migration requirements](https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/virtualization/live-migration)
-include shared storage, sufficient resources, and compatible CPUs. Having
-enough aggregate free memory does not prove that an eligible destination
-exists for every VM. Test the intended placement and concurrent drain plan.
+include shared RWX storage, sufficient resources, and compatible CPUs.
+Red Hat also strongly recommends a dedicated Multus network for live
+migration to reduce the impact on tenant workloads. Having enough aggregate
+free memory does not prove that an eligible destination exists for every
+VM. Test the intended placement, migration-network capacity, and concurrent
+drain plan.
 
 For guests that cannot live migrate, document and rehearse the shutdown and
 restart procedure against the permitted interruption. Also validate the

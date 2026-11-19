@@ -225,6 +225,12 @@ number of concurrently draining nodes by the highest total VM memory
 requests on a node. Use that check alongside the survivor calculation and
 the per-VM placement review.
 
+The same guidance strongly recommends a dedicated Multus network for live
+migration to reduce the impact of network saturation on tenant workloads.
+Include that network in the design and test its bandwidth under the planned
+drain concurrency. A dedicated network still needs sufficient capacity for
+the migrations using it.
+
 A live migration needs resources at the destination while the source VM
 is still present. A cluster-wide memory sum can conceal that overlap.
 The example removes draining workers' budgets entirely, so do not add

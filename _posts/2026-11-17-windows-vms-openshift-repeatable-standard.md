@@ -74,6 +74,29 @@ features together against the guest support matrix. If the design uses
 BitLocker or other encryption, include recovery-key handling and recovery
 of the required VM state in the acceptance plan.
 
+When using a vTPM, set
+`spec.template.spec.domain.devices.tpm.persistent` to `true`. Red Hat warns
+that BitLocker setup can succeed with a nonpersistent vTPM even though that
+vTPM is discarded when the VM shuts down. Include a full VM stop and start
+in acceptance, and verify access to encrypted volumes afterward. See the
+[vTPM configuration and persistence guidance](https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/virtualization/managing-vms).
+
+## Set storage acceptance criteria
+
+Red Hat's
+[Windows storage I/O latency guidance](https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/virtualization/installing)
+classifies latency below **15 ms** as healthy and **15 ms to less than
+100 ms** as unhealthy, with a risk of eventual instability. At **100 ms to
+less than 1,000 ms**, Windows crashes are highly likely. Red Hat advises
+prioritizing the storage root cause when latency exceeds 100 ms multiple
+times a day.
+
+Include storage latency in acceptance under representative concurrent load,
+backups, and platform maintenance. Retain the measurement interval and
+latency spikes alongside application results. Apply the application's own
+performance requirements too; a value in the healthy range does not prove
+that its response-time target was met.
+
 ## Build the image from known inputs
 
 Use a dedicated reference VM and an approved Windows installation source.
@@ -134,6 +157,14 @@ Follow the
 for your release, including the handling of installation answer files.
 Seal and retain the resulting powered-off image. Test first boot on clones
 so the published source remains in its intended deployment state.
+
+OpenShift 5.0 does not support cloning a VM with an attached vTPM or creating
+a new VM from that VM's snapshot. For this Windows Server image workflow,
+keep vTPM and BitLocker out of the reusable reference VM. After cloning,
+configure a separate persistent vTPM for each new VM where supported and
+required. Enable BitLocker if required by the standard, and retain each
+VM's recovery key. See
+[Red Hat's vTPM limitations](https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/virtualization/managing-vms).
 
 Keep a clear boundary around this step. Microsoft documents Sysprep as an
 image-creation tool and lists reconfiguring an already-deployed installation
@@ -212,7 +243,8 @@ application, including its relevant writers and data volumes. Record the
 snapshot or backup warnings rather than treating a connected guest agent
 as complete proof of application consistency.
 
-Restore a representative guest into an isolated recovery network. Account
+Restore a representative guest into an isolated recovery network using a
+workflow supported for its vTPM configuration, if applicable. Account
 for its retained computer name, addresses, and domain identity before
 allowing it to contact production services. Include a controlled procedure
 for testing identity-dependent application functions.
@@ -245,10 +277,12 @@ should cover these seven checks:
    records, applied policy, authorized sign-in results, and the tested
    emergency-access procedure for each clone.
 4. **Application acceptance.** Record correctness, response time or batch
-   results, dependency checks, and the application owner's acceptance.
+   results, storage latency under the tested conditions, dependency checks,
+   and the application owner's acceptance.
 5. **Maintenance acceptance.** Retain patch and restart results, agent
    reconnection, and application behavior during the agreed host-maintenance
-   procedure.
+   procedure. For vTPM guests, also verify state persistence and access to
+   encrypted volumes through a full VM stop and start.
 6. **Usable recovery.** Record backup indications, restore steps, data
    validation, measured recovery time, and recovery-point evidence.
 7. **Operational ownership.** Name the guest, platform, security, backup,
@@ -291,6 +325,7 @@ image during cutover.
 ## Further reading
 
 - [Certified Guest Operating Systems in OpenShift Virtualization](https://access.redhat.com/articles/4234591)
+- [Installation and Windows storage I/O latency requirements (OpenShift 5.0)](https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/virtualization/installing)
 - [Creating virtual machines and Windows images (OpenShift 5.0)](https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/virtualization/creating-virtual-machines)
 - [Managing VMs, VirtIO drivers, and guest agents (OpenShift 5.0)](https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/virtualization/managing-vms)
 - [Backup and restore (OpenShift 5.0)](https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/virtualization/backup-and-restore)
