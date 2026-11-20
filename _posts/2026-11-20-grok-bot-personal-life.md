@@ -61,7 +61,6 @@ fleet:
     - name: Music        # taste analysis, show and festival picks
     - name: Travel       # flights, hotels, credits
     - name: Buy/Sell     # marketplaces, price checks, listings
-    - name: Blog         # ideas, drafts, and PRs for this site
   connectors: [Gmail, Google Calendar, Google Drive, Google Docs, Plaid (read-only), X, GitHub]
   secrets: vault       # logins live there, not in chat
   approvals: required  # anything sent, posted, bought, or deleted
@@ -185,14 +184,6 @@ booking's status. One "cancellation" was actually a resale that I still had
 to deliver, and one refund had come back as airline credit, not cash. It
 also found the auto-created flight events still on my calendar and deleted
 them when I asked, then searched again to confirm they were gone.
-
-### Blog: this site
-
-The Blog bot runs a weekday morning blog-ideas routine (paused right now)
-that checks what's already published so it doesn't re-pitch a topic. It
-drafts posts through cloud agents that open pull requests against this
-site's repo. I review the PR, and the bot lets me preview locally before
-anything goes live. This post went through the same loop.
 
 ## Where it broke, or nearly did
 
