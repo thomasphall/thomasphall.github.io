@@ -1,9 +1,9 @@
 ---
 title: "One Bot per Domain: Running My Personal Life on Grok Bot"
 description: >-
-  How I split my personal admin across a fleet of Grok Bot agents, one per
-  life domain, with a router in front, what actually worked, where it broke,
-  and the guardrails I'd keep if I started over.
+  How I split my personal admin across a fleet of Grok Bot agents—one per
+  life domain, with a router in front—and what worked, where it broke,
+  and which guardrails I'd keep if I started over.
 date: 2026-11-20 09:00:00 -0600
 categories: [AI, Productivity]
 tags: [grok-bot, ai-agents, automation, personal-productivity]
@@ -38,9 +38,9 @@ the most useful moments came from the bots telling me what they couldn't do.
 
 ## The architecture: a router and a set of specialists
 
-The shape is a hub and spokes. The main bot, plain "Grok Bot", is where I
-type most things. It answers directly when it can, and when the work belongs
-to a domain it hands it to that domain's bot, either by messaging the bot or
+The setup follows a hub-and-spoke model. The main bot, simply called
+"Grok Bot," is where I type most things. It answers directly when it can,
+and when the work belongs to a domain, it hands it to that domain's bot, either by messaging the bot or
 by having me talk to it directly.
 
 Here's the inventory, written the way I'd write it if it lived in a Git repo:
@@ -86,7 +86,7 @@ I'm only including things that happened. Details are generalized.
 
 The Email bot runs a weekday morning inbox check. It reads the overnight
 mail and sends me a short note: what needs a reply, what looks like a scam,
-which security notices I should confirm were me, and anything with a
+which security notices describe activity I should verify, and anything with a
 deadline. Most mornings the answer is "nothing urgent," and that's the
 point. I stopped opening my inbox to find out whether something was on fire.
 
@@ -117,7 +117,7 @@ made the comparison with cheaper carriers honest. The carrier said no to a
 match and offered a plan review instead. More on what happened next in the
 failure section.
 
-### Finance: read-only and skeptical
+### Finance: mostly read-only and skeptical
 
 The Finance bot links accounts through Plaid with read-only access, and it
 reads alert emails for daily notes on what moved. The most valuable thing it
@@ -128,19 +128,21 @@ by a lot and invented "duplicate subscriptions" that didn't exist. It
 also flagged a cluster of large charges at one merchant and told me to verify
 them before paying the card.
 
-When I asked, it also handled beneficiary paperwork across my investment
-accounts, which is exactly the kind of task I'd been putting off for years.
+Beyond read-only account monitoring, it also helped me with beneficiary
+paperwork across my investment accounts when I asked—the kind of task I'd
+been putting off for years.
 
 ### Home: a binder that keeps itself up to date
 
-The Home bot built a Google Doc "Home Binder" and a Drive folder for the
+The Home bot created a Google Doc called "Home Binder" and a Drive folder for the
 house, and it keeps both current: mortgage details, insurance policies,
 HOA documents with a plain-English summary of the rules, and warranty
 records. It tracked down a builder warranty transfer I'd done years ago and
 worked out exactly when each coverage tier had expired. It found that one
-policy I thought I had cancelled was actually a separate flood policy that
-was still my only flood coverage. It emailed my insurance agent for a
-declarations page, then watched for the reply on a weekday schedule.
+policy I thought I had canceled was actually a separate flood policy that
+was still my only flood coverage. With my approval, it emailed my insurance
+agent for a declarations page, then watched for the reply on a weekday
+schedule.
 
 It also talked me out of things. It said no to a cleaning service whose
 headline price turned out to be an auto-renewing membership with an early
@@ -150,10 +152,11 @@ multi-year model and laid out which inputs actually moved the answer.
 
 ### Medical: portals and paperwork, not diagnosis
 
-The Medical bot reads appointment and portal notices from email, puts
-appointments on my calendar with the prep notes, and booked a specialist
-appointment through the office's online scheduler. Patient portals are where
-it hits sign-in walls. It opens the portal on its own desktop and hands the
+The Medical bot reads appointment and portal notices from email and puts
+appointments on my calendar with the prep notes. It also booked a specialist
+appointment through the office's online scheduler.
+
+Patient portals are where it hits sign-in walls. It opens the portal on its own desktop and hands the
 screen to me to sign in, then picks the work back up. It also drafted the
 cover letter for an application form and told me which fields I still had
 to fill in and sign myself.
@@ -163,26 +166,26 @@ to fill in and sign myself.
 - **Tickets** relists tickets I can't use. It found the original order,
   uploaded the PDFs, set a price, and later dropped the price when I asked.
   For a festival wristband, it steered me to the festival's official resale
-  partner and pointed out that the festival's terms might not honor tickets
-  resold anywhere else. When a resale deadline was coming up, it set a check
+  partner and pointed out that, under the festival's terms, tickets resold
+  anywhere else might not be honored. When a resale deadline was coming up, it set a check
   that runs a few times a day to look for the ticket email.
 - **Music** read my SoundCloud likes (Spotify needed a sign-in on its
   desktop), summarized my taste, and ranked festivals and shows for a
   weekend I wanted to celebrate. When I said I didn't want to see one of
   the headliners, it went back and found better options.
 - **Travel** booked a flight on my airline account. It covered the whole
-  fare with an existing flight credit, got the window exit-row seat I asked
+  fare with an existing flight credit, got the exit-row window seat I asked
   for, and showed me the $0 total before booking. It also pulled hotel
   options near a festival and noted the free cancellation deadline.
 
 ### The router: cross-domain glue
 
 The main bot handles the questions that span domains. I told it I had
-cancelled two trips and asked it to verify. It sent a read-only subagent
+canceled two trips and asked it to verify. It sent a read-only subagent
 through my email, calendar, and transactions, and came back with each
-booking's status. One "cancellation" was actually a resale that I still had
-to deliver, and one refund had come back as airline credit, not cash. It
-also found the auto-created flight events still on my calendar and deleted
+booking's status. One "cancellation" was actually a ticket resale, and I
+still needed to deliver the ticket. One refund had come back as airline
+credit, not cash. It also found the auto-created flight events still on my calendar and deleted
 them when I asked, then searched again to confirm they were gone.
 
 ## Where it broke, or nearly did
@@ -197,13 +200,13 @@ emails. Patient portals and streaming services needed me to sign in on the
 bot's desktop. Plan for a human in the loop at login, every time.
 
 **Platform rules beat good intentions.** The Bills bot tried to send my
-reply to the phone carrier's support account in X Chat. X blocked it,
+reply to the phone carrier's support account in X Chat. X blocked it
 because encrypted chat only goes to accounts that follow you, and the
 carrier's support account doesn't follow me. The bot told me it didn't go
 out, gave me the text to paste myself, and explained why. A Facebook group
 declined a resale post under its anti-scalping rule. The bot paused its
 hourly buyer-reply routine, made a redacted receipt screenshot, and
-resubmitted.
+resubmitted the post with my approval.
 
 **Inferred is not known.** The Email bot drafted a message to an equipment
 rental company and included a detail about my situation that it had inferred
@@ -214,7 +217,7 @@ it owned the mistake. The lesson is that I still have to read drafts,
 not just skim them.
 
 **Proactive can be stale.** The router sent me a helpful check-in tip for a
-flight that I had already cancelled a week earlier. When I asked it to verify
+flight that I had already canceled a week earlier. When I asked it to verify
 the cancellations, it found the cancellation and told me to ignore its own
 note. Proactive nudges are only as good as the last time the bot checked.
 
@@ -245,16 +248,16 @@ I went with Path B and would again. I'd just add specialists more slowly.
    purchases, and deletes all went through me. The one time I rubber-stamped
    a draft is the one time a wrong detail went out.
 3. **Credentials go in the vault and secure forms, never in chat.** The
-   best moments were when a bot set up a payment without ever seeing the
-   bank numbers.
+   bot used a secure form to set up a payment and reported that it never
+   saw the bank details.
 4. **Expect sign-in walls and design for the handoff.** Exports, email
    alerts, and "your turn to sign in" screens are the real integration
    layer for personal finance and healthcare.
 5. **Make bots show their sources and their doubts.** The most valuable
    output wasn't a task completed. It was "your budgeting app is
    double-counting" and "this cancellation is actually a resale."
-6. **Routines are cheap and chats are expensive.** Put recurring checks on
-   a schedule and keep big one-off requests scoped.
+6. **Schedule recurring checks to save attention.** Let routines handle
+   repeat checks, and keep big one-off requests scoped.
 7. **Prune the fleet.** Every half-finished bot is one more place for work
    to stall.
 
