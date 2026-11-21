@@ -227,6 +227,12 @@ compress_html:
   ignore:
     envs: [development]
 
+# Jekyll skips dot-directories. Keep the default .htaccess include and add
+# .well-known so the Tesla Fleet API public key is copied into the published site.
+include:
+  - .htaccess
+  - .well-known
+
 exclude:
   - "*.gem"
   - "*.gemspec"
