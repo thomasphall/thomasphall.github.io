@@ -5,6 +5,7 @@ description: >-
   life domain, with a router in front—and what worked, where it broke,
   and which guardrails I'd keep if I started over.
 date: 2026-11-20 09:00:00 -0600
+last_modified_at: 2026-11-22
 categories: [AI, Productivity]
 tags: [grok-bot, ai-agents, automation, personal-productivity]
 permalink: /posts/grok-bot-personal-life/
@@ -19,6 +20,13 @@ social_subtitle: Router · Routines · Approvals
 > represent Red Hat or any other organization. This is not a sponsored post.
 > Everything below is from my own use over the last few months; I've
 > stripped out names, accounts, amounts, and anything else personal.
+{: .prompt-info }
+
+> **Update (November 2026):** A few days after this first went up I added
+> a Home Lab specialist, stood up an always-on home
+> server with local models, and started watching what the fleet actually
+> costs in weekly usage. The sections below are the original post with
+> those changes folded in. Personal details are still stripped out.
 {: .prompt-info }
 
 I spend my workdays telling customers to stop running everything on one big
@@ -61,6 +69,7 @@ fleet:
     - name: Music        # taste analysis, show and festival picks
     - name: Travel       # flights, hotels, credits
     - name: Buy/Sell     # marketplaces, price checks, listings
+    - name: Home Lab     # local models, home server, lab docs
   connectors: [Gmail, Google Calendar, Google Drive, Google Docs, Plaid (read-only), X, GitHub]
   secrets: vault       # logins live there, not in chat
   approvals: required  # anything sent, posted, bought, or deleted
@@ -77,6 +86,10 @@ cluster:
   answered from records that bot already gathered, not from a cold start.
 - **Routines have an owner.** Every scheduled job lives on the bot that
   owns the domain, so I know where to go when one needs to change.
+
+The Calendar bot is still in the fleet, but most calendar writes still
+happen from the domain bots that created the events. That's fine, and it's
+also a reminder that a specialist with no recurring work can sit idle.
 
 ## What the specialists actually did
 
@@ -96,6 +109,11 @@ pulled the quote and the receipt, wrote a reply on the original thread that
 laid out the gap and asked for an itemized breakdown and a refund, and showed
 me the draft. I hit send. It then watched for the response in the morning
 brief.
+
+The brief is only as good as the search behind it. One weekday I asked if
+anything needed a reply, and the bot found a message the morning check had
+missed because it sat further down the inbox. I still treat the morning
+note as a hint, not a guarantee.
 
 ### Bills: the portal migration trap
 
@@ -131,6 +149,13 @@ them before paying the card.
 Beyond read-only account monitoring, it also helped me with beneficiary
 paperwork across my investment accounts when I asked—the kind of task I'd
 been putting off for years.
+
+I later asked it to keep a private Drive folder for planning docs and to
+reconcile balances across the bank feeds, the budgeting app, and a third
+net-worth dashboard. It wrote up the mismatches—stale balances, a missing
+account, a figure that was a payment behind—and built a retirement plan at
+a few target ages. Same habit as before: distrust the dashboards, and put
+the working copy where I can find it.
 
 ### Home: a binder that keeps itself up to date
 
@@ -172,11 +197,56 @@ to fill in and sign myself.
 - **Music** read my SoundCloud likes (Spotify needed a sign-in on its
   desktop), summarized my taste, and ranked festivals and shows for a
   weekend I wanted to celebrate. When I said I didn't want to see one of
-  the headliners, it went back and found better options.
+  the headliners, it went back and found better options. It later requested
+  an official export of my listening data after hitting the usual sign-in
+  wall, confirmed both packages were preparing, and set a watch for the
+  download emails.
 - **Travel** booked a flight on my airline account. It covered the whole
   fare with an existing flight credit, got the exit-row window seat I asked
   for, and showed me the $0 total before booking. It also pulled hotel
   options near a festival and noted the free cancellation deadline.
+
+### Buy/Sell: pause what isn't moving
+
+A scheduled check on a marketplace order kept reporting the same status:
+placed, no tracking number. I had the bot pause the routine rather than
+delete it, so I can turn it back on if I want, and I'll check the order
+myself until something actually changes. Recurring checks are cheap until
+they aren't telling you anything new.
+
+### Home Lab: an always-on box, and the bill for building it
+
+The new specialist is Home Lab. I set up a small always-on computer
+at home to run Grok Bot and local models. I tested pulling the
+power: it booted, logged back in, and the services came back on their own.
+
+On that box I installed a local model runtime and a workflow tool that
+routes easy prompts to a small local model and harder ones to a larger
+model on another machine on the home network, with a fallback if the big
+one doesn't answer. I also stood up a smart-home hub, a monitor that checks
+the important services on a short interval, and a nightly encrypted backup
+of the lab data. A weekly job looks for better local models, tests the
+clear wins, and updates the router and the setup doc if anything changes.
+The standing rule is that any config change—machines, network, models,
+services, remote access—gets written to a Google Doc in the same session,
+with no passwords or keys in the doc, only pointers to where those live.
+
+This is also where usage became real. Mid-build, a usage check showed that
+almost all of the week's spend was work I had asked for in chat, not
+routines (those were still about one percent). The new Home Lab bot was the
+largest share. The fix was the obvious one: hold off on new lab projects
+until the weekly limit reset, and start sending rewrites, summaries, and
+other text-only jobs to the local models, leaving Grok Bot for anything
+that needs tools, accounts, or longer reasoning.
+
+The lab broke in familiar infrastructure ways. If the Mac went to sleep,
+everything on it stopped; lock screen, not sleep, is the right move for an
+always-on hub. When its address changed after I plugged in Ethernet, things
+that still pointed at the old address failed until we reserved an address
+and switched dependents to a name. A containerized smart-home hub could
+only see the host, not the rest of the house, until its networking was
+fixed. Auto-login after a power loss trades off against full-disk
+encryption; for a box that has to come back without me, I had to pick one.
 
 ### The router: cross-domain glue
 
@@ -187,6 +257,11 @@ booking's status. One "cancellation" was actually a ticket resale, and I
 still needed to deliver the ticket. One refund had come back as airline
 credit, not cash. It also found the auto-created flight events still on my calendar and deleted
 them when I asked, then searched again to confirm they were gone.
+
+When I later asked what was using the most, it broke the week down by bot,
+pointed at the Home Lab build as the spike, and was clear that routines
+were not the problem. That's the other job of a router: not just handing
+work off, but telling you when one spoke is dominating the cluster.
 
 ## Where it broke, or nearly did
 
@@ -220,6 +295,16 @@ not just skim them.
 flight that I had already canceled a week earlier. When I asked it to verify
 the cancellations, it found the cancellation and told me to ignore its own
 note. Proactive nudges are only as good as the last time the bot checked.
+The same is true of inbox briefs and order trackers: a morning check missed
+a message that sat further down the inbox, and a marketplace tracker kept
+reporting "placed, no tracking" until I paused it.
+
+**Always-on hardware is an operations problem.** Sleep, a changed address,
+and a container that could only see its host all took the lab
+offline. The bots generally said what they couldn't reach instead of
+guessing, which is the behavior you want, but the fix was still on me:
+lock the screen instead of sleeping, give the box a stable name, and fix
+the network path.
 
 **Bots should push back on conflicting instructions, and mine did.** I told
 the Tickets bot to drop a price the next day if the tickets hadn't sold. Later
@@ -238,28 +323,40 @@ can fall between them. In exchange, each domain gets its own memory, its own
 routines, and a clear owner. It's the right call if you want recurring work,
 like bill checks, inbox briefs, and renewal reminders, to run without you.
 
-I went with Path B and would again. I'd just add specialists more slowly.
+I went with Path B and would again. I'd just add specialists more slowly—
+and I still did add one more once the home lab became a real
+domain, rather than stuffing that work into the router.
 
 ## Takeaways
 
 1. **Split by domain, not by task.** A bot that owns "home" builds up
-   context that a bot asked one-off house questions never will.
+   context that a bot asked one-off house questions never will. The same
+   is now true of the home lab.
 2. **Keep approvals on anything you can't take back.** Sends, posts,
    purchases, and deletes all went through me. The one time I rubber-stamped
    a draft is the one time a wrong detail went out.
 3. **Credentials go in the vault and secure forms, never in chat.** The
    bot used a secure form to set up a payment and reported that it never
-   saw the bank details.
+   saw the bank details. The lab setup doc follows the same rule: pointers
+   to where secrets live, not the secrets themselves.
 4. **Expect sign-in walls and design for the handoff.** Exports, email
    alerts, and "your turn to sign in" screens are the real integration
    layer for personal finance and healthcare.
 5. **Make bots show their sources and their doubts.** The most valuable
    output wasn't a task completed. It was "your budgeting app is
    double-counting" and "this cancellation is actually a resale."
-6. **Schedule recurring checks to save attention.** Let routines handle
-   repeat checks, and keep big one-off requests scoped.
+6. **Schedule recurring checks to save attention, and pause them when
+   they repeat themselves.** Let routines handle repeat checks, keep big
+   one-off requests scoped, and don't leave a tracker running once it's
+   only restating old news. A scheduled brief can also miss a message that
+   isn't at the top of the pile, so treat it as a hint.
 7. **Prune the fleet.** Every half-finished bot is one more place for work
-   to stall.
+   to stall. A specialist with no recurring work can sit idle; that's a
+   signal to use it or merge it.
+8. **Watch the weekly usage limit.** Chat work is what burns it, not the
+   routines. One enthusiastic new specialist can dominate a week. Push
+   cheap text work to local models and save the paid bot for tools,
+   accounts, and harder reasoning.
 
 If you work in platform engineering, none of this will surprise you. It's
 least privilege, separation of concerns, and change approval, applied to
