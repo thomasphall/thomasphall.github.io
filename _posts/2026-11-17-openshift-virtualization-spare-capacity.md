@@ -273,8 +273,9 @@ is the companion review for those limits.
 
 Before accepting the next wave, retain the inventory and workload evidence,
 the scenario being protected, the remaining per-node budgets, and the
-results of a maintenance rehearsal. Exercise host failure in an isolated,
-representative environment with an agreed recovery procedure.
+results of a [timed node-drain rehearsal](/posts/openshift-virtualization-vm-maintenance-capacity/).
+Exercise host failure in an isolated, representative environment with an
+agreed recovery procedure.
 
 Put the resulting evidence and unresolved constraints in the
 [production readiness scorecard](/posts/openshift-virtualization-production-readiness/).
