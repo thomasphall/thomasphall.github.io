@@ -1,8 +1,8 @@
 ---
 title: "Reach ROSA VMs at Their Real IPs with BGP Cloud Connector"
 description: >-
-  How BGP Cloud Connector advertises a primary CUDN to AWS VPC Route Server on
-  ROSA 4.22 so VMs keep their own IPs, plus the limits and failure modes to plan for.
+  How BGP Cloud Connector makes VM addresses on a primary CUDN reachable from
+  an AWS VPC on ROSA 4.22, and how to test routing during maintenance.
 date: 2026-11-24 07:00:00 -0600
 categories: [OpenShift, Virtualization]
 tags: [openshift, openshift-virtualization, rosa, networking, gitops]
@@ -22,10 +22,11 @@ social_subtitle: BGP Cloud Connector · VPC Route Server · No NAT
 {: .prompt-info }
 
 The first VMware wave lands on ROSA and the VMs boot fine. Then the firewall
-team asks which source IP the database VM will use. With the default pod network,
-the answer is "the worker node's IP, and it changes if the VM live migrates."
-That one answer breaks source-IP firewall rules, Active Directory dynamic DNS,
-and any clustered app that expects every member to see the same address.
+team asks which source IP the database VM will use. With the default pod network and ordinary outbound NAT,
+the firewall sees the hosting worker's IP. After a live migration, it can see
+a different worker's IP. That can break per-VM firewall rules, leave DNS pointing
+clients at an unreachable guest address, and disrupt clustered applications
+that advertise their own addresses.
 
 On premises, I'd fix that with a localnet on a real VLAN, the pattern in my
 [pod-to-localnet networking guide](/posts/openshift-virtualization-networking/).
@@ -52,11 +53,11 @@ that need the CUDN prefix. The operator expects all of that to exist already.
 resources (CRs):
 
 - `BGPCloudConfiguration` is a cluster-scoped singleton named `cluster`. It
-  holds the local ASN, the router node selector, and the Route Server IDs. From
-  those IDs the operator discovers the endpoints, their ENI addresses, the
+  holds the local autonomous system number (ASN), the router node selector, and the Route Server IDs. From
+  those IDs the operator discovers the endpoints, their elastic network interface (ENI) addresses, the
   Availability Zone (AZ) mapping, and the Route Server's ASN. It then generates
-  one `FRRConfiguration` per AZ, creates a Route Server peer for each router
-  node, and turns off source/destination checks on those nodes' primary ENIs.
+  one `FRRConfiguration` per AZ, creates a Route Server peer for each router-node and
+  endpoint pair in that zone, and turns off source/destination checks on those nodes' primary ENIs.
 - `BGPRouting` is created once per network. It generates a Layer 2 primary
   CUDN with persistent IPAM and a shared `RouteAdvertisements` object that
   advertises it.
@@ -70,20 +71,20 @@ Here's the part that drives most of the design. A VPC route table holds one
 route per prefix. Route Server publishes one next hop at a time, so **one worker
 node at a time is the ingress router for all inbound traffic to a given CUDN**.
 That node hands packets to whichever worker hosts the VM over the Layer 2 CUDN.
-Return and VM-originated traffic leaves through the ENI of the node actually
-running the VM. If the active gateway node goes away, Route Server moves the
-route to a healthy worker.
+Replies and VM-originated connections leave through the ENI of the worker
+hosting the VM. If the active gateway fails and another worker is advertising
+the prefix, Route Server can switch the route to that worker.
 [Red Hat announcement](https://www.redhat.com/en/blog/direct-vm-networking-aws-introducing-bgp-cloud-connector-red-hat-openshift-service-aws)
 
-So the traffic is asymmetric by design. Ingress uses the gateway node's ENI,
-while egress uses the VM host's ENI. Most of the failure modes below come from
-that split.
+Traffic can be asymmetric when the gateway and the VM host are different
+workers. The request enters through the gateway's ENI and the reply leaves
+through the VM host's ENI.
 
 ## The AWS limits that shape the design
 
 These come from the
 [Amazon VPC quotas page](https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html).
-Two of them can't be raised.
+Three of these quotas are fixed.
 
 | Quota | Default | Adjustable | What it means here |
 | ----- | ------- | ---------- | ------------------ |
@@ -97,10 +98,10 @@ Two of them can't be raised.
 The peering quota matters more than it first appears. The ROSA docs require
 every node that can run a directly routed VM to match `routerNodeSelector`,
 because egress leaves through the VM's own node. So in this design, every VM
-host is a BGP speaker. A large VM pool in one subnet can reach a default
-per-interface session quota sooner than you'd expect. I'm reading that quota
-as applying to each endpoint's ENI, so check how it counts against your node
-total before you size a big pool. Upstream also has a `forwardingNodeSelector`
+host is a BGP speaker. AWS lists 20 peering sessions per network interface by default.
+The quota entry doesn't specify which interface AWS counts in this topology.
+Confirm that with AWS before translating the quota into a maximum pool size.
+Upstream also has a `forwardingNodeSelector`
 for nodes that should forward without peering. It isn't in the ROSA product
 doc, so I wouldn't design around it until it is.
 [Upstream CR reference](https://github.com/openshift/bgp-cloud-connector/blob/main/docs/custom-resources.md)
@@ -117,9 +118,9 @@ BFD, open UDP 3784 as well as TCP 179.
 **Cost.** AWS's Route Server tutorial lists endpoints at $0.75 per hour, and
 the
 [Cloud Experts guide](https://cloud.redhat.com/experts/rosa/bgp-cloud-connector/)
-notes they bill whether or not traffic flows. Three AZs with two endpoints each
-comes to six endpoints, or about $4.50 an hour and roughly $3,285 for a
-730-hour month, before the metal workers. Rates vary by Region, so check
+notes they bill whether or not traffic flows. With one router subnet in each of three AZs and two
+endpoints per subnet, six endpoints cost $4.50 per hour, or $3,285 for a
+730-hour month. Worker costs are additional. Rates vary by Region, so check
 [VPC pricing](https://aws.amazon.com/vpc/pricing/) for yours.
 [Create route server endpoints](https://docs.aws.amazon.com/vpc/latest/userguide/route-server-tutorial-create-endpoints.html)
 
@@ -169,7 +170,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "0"
 spec:
   channel: stable
-  installPlanApproval: Manual   # the Cloud Experts lab used Automatic; I'd gate upgrades in prod
+  installPlanApproval: Manual   # approve the first install and each upgrade
   name: bgp-cloud-connector
   source: redhat-operators
   sourceNamespace: openshift-marketplace
@@ -179,13 +180,18 @@ spec:
         value: arn:aws:iam::<aws_account_id>:role/bgp-cloud-connector-operator
 ```
 
-The docs don't agree on whether you have to enable the FRR routing provider
-yourself. The Cloud Experts guide patches
-`network.operator.openshift.io/cluster` with
-`spec.additionalRoutingCapabilities.providers: ["FRR"]` before installing.
-The upstream architecture doc says the operator applies that patch itself,
-and the ROSA procedure doesn't mention it. Check that `openshift-frr-k8s`
-pods are running before wave 1 either way.
+With manual approval, approve the initial InstallPlan and wait for the
+operator's ClusterServiceVersion to reach `Succeeded`. On a fresh cluster,
+sync the wave 0 installation manifests first so the connector CRDs exist
+before Argo CD validates the remaining resources.
+[OLM subscriptions](https://olm.operatorframework.io/docs/concepts/crds/subscription/)
+
+The Cloud Experts guide explicitly enables FRR on the cluster Network
+operator before installation. If you follow that path, verify the pods in
+`openshift-frr-k8s` now. In the upstream implementation, reconciling the
+wave 1 configuration enables FRR. If you rely on that behavior, apply wave 1
+first, then verify the FRR pods and the configuration's `Ready` status.
+[Upstream reconciliation sequence](https://github.com/openshift/bgp-cloud-connector/blob/main/docs/reconciliation.md)
 
 **Wave 1: cluster BGP configuration.** The local ASN must differ from the
 Route Server's Amazon-side ASN. The operator discovers the Route Server's ASN,
@@ -315,14 +321,16 @@ spec:
       # disks, volumes, and resources omitted
 ```
 
-Here the sources disagree. The ROSA procedure shows the native `bridge: {}`
-binding. The OpenShift 4.22 virtualization docs list `l2bridge` and `passt` as
-the primary UDN bindings, with `l2bridge` as the default. The upstream
-`kubevirt-testing.md` and the Cloud Experts preserve-IP guide also use
-`l2bridge`, and that guide used it in its live-migration tests. I'd standardize
-on `l2bridge`. All of them agree that **masquerade breaks this**: it installs
-nftables rules that drop inbound traffic on the UDN interface.
+The ROSA procedure shows native `bridge: {}`, the binding used in the Cloud
+Experts EC2-to-VM connectivity test. For this example I'd use `l2bridge`, the
+default in the OpenShift Virtualization 4.22 console for a primary UDN. The
+alternative `passt` binding on a primary UDN is Technology Preview in 4.22.
 [OpenShift 4.22 virtualization networking](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/networking)
+
+The upstream connector test reports that `masquerade` installs nftables rules
+that drop inbound traffic on the UDN interface. The Cloud Experts team used
+`l2bridge` in a separate RHEL 9 migration test, described below.
+[Upstream VM binding tests](https://github.com/openshift/bgp-cloud-connector/blob/main/docs/kubevirt-testing.md)
 
 Verify the end-to-end path before you call it done. Both CRs should report
 `Ready`, `oc get bgpsessionstate -n openshift-frr-k8s` should show `Established`
@@ -337,30 +345,37 @@ aws ec2 describe-route-tables \
 
 ## Failure modes I'd rehearse
 
-### Draining the active gateway node
+### Draining a VM host and losing the active gateway
 
-Live migration moves the VMs off the node as usual. The question is what
-happens to the **route**. If the node you drain is the current next hop for
-the CUDN prefix, every inbound flow to every VM on that network depends on
-Route Server noticing the session is gone and moving the route. With
-keepalives, upstream puts detection around the default hold time. With BFD,
-it's closer to a second. I haven't confirmed whether a clean FRR shutdown
-during a drain withdraws the route right away or leaves it waiting on the
-timer, so treat it as unknown and measure it.
+I'd run two rehearsals on a non-production cluster with two healthy router
+workers advertising the prefix. Before each test, record the VM's host and
+the next-hop ENI in the client's route table. From an EC2 client, keep a ping
+running and make repeated HTTP requests to the VM's CUDN address.
 
-Run the same rehearsal from my
-[maintenance-capacity post](/posts/openshift-virtualization-vm-maintenance-capacity/),
-with one addition: before you cordon, record which ENI the route points to.
-Then drain *that* node first while an EC2 host outside the cluster pings and
-curls a VM. Record the gap. Repeat for an upgrade, because the operator has to
-remove the old node's Route Server peer and create one for the replacement.
+1. **Drain the active gateway.** Place a migratable VM on that worker, configure
+   it for live migration on eviction, and confirm another eligible worker has
+   capacity. Drain the worker and record where the VM lands, whether the BGP
+   sessions stay up, and whether the next-hop ENI changes. A normal drain
+   leaves DaemonSet pods running, so FRR can keep advertising from the drained
+   worker. The VM can move while the ingress gateway stays put.
+2. **Test loss of the active peer.** With the test VM on the other worker,
+   take the active gateway offline in the test environment. Record when its
+   sessions drop, when the route changes to the healthy worker's ENI, and
+   when ping and HTTP recover. Upstream's roughly one-second BFD estimate is
+   for peer-failure detection. The route update and client recovery have
+   their own timing. During an upgrade, also check that the replacement
+   worker establishes its expected sessions.
 
-Also decide on Route Server's **persist routes** setting. When it's disabled
-(the ROSA doc's example output shows `disable`), routes are removed once
-*all* BGP sessions end. When it's enabled, Route Server keeps the routes
-while sessions are down and for a persist duration of 1–5 minutes after BGP
-comes back. That's a real protection if every router node bounces
-at once, but I haven't seen it tested with this operator.
+[Kubernetes node drains](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/) ·
+[AWS Route Server failover](https://docs.aws.amazon.com/vpc/latest/userguide/route-server-how-it-works.html) ·
+[Maintenance capacity for live migration](/posts/openshift-virtualization-vm-maintenance-capacity/)
+
+Route Server's **persist routes** setting matters when *all* BGP sessions end.
+With persistence disabled, Route Server removes the routes. With it enabled,
+Route Server retains them during the outage and for a configured 1–5 minutes
+after BGP returns. That can preserve forwarding during a control-plane
+interruption if the selected worker still forwards packets. A route pointing
+to an offline worker cannot deliver traffic.
 [Create a route server](https://docs.aws.amazon.com/vpc/latest/userguide/route-server-tutorial-create.html)
 
 ### Live migration to the wrong node
@@ -369,9 +384,11 @@ Ingress doesn't care where the VM lives, because the gateway node forwards
 across the Layer 2 CUDN. Egress does. A VM that migrates to a node outside
 `routerNodeSelector` sends traffic from an ENI that still has source and
 destination checking turned on. That's why I put `bgp_router: "true"` on the
-VM and make the BGP machine pool the VM pool. In the Cloud Experts RHEL test,
+VM and make the BGP machine pool the VM pool. In the Cloud Experts RHEL 9 test with `l2bridge`,
 a live migration kept the IP and MAC and lost 1 of 980 pings, with a longest
-gap of about 422 ms. That's encouraging, and it's one test.
+gap of about 422 ms. The authors tested this separately from the VMware disk migration.
+The full sequence on a VMware-derived VM still needs validation.
+[Cloud Experts migration results](https://cloud.redhat.com/experts/rosa/vsphere-vm-migration-preserve-ip/)
 
 ### Asymmetric paths, security groups and NACLs
 
@@ -386,18 +403,20 @@ things I'd tighten or test:
   further. I'd scope BGP to the endpoint subnets and ephemeral ports to the
   CIDRs your VMs actually talk to.
 - **Windows guests.** 32768–60999 is the Linux default ephemeral range. Windows
-  uses a different default dynamic port range. If you're following my
+  defaults to 49152–65535, so ports 61000–65535 fall outside the example rule. If you're following my
   [Windows VM standard](/posts/windows-vms-openshift-repeatable-standard/),
   test outbound connections from a Windows guest that are routed back
-  through a different node before you assume the documented rule covers them.
+  through a different node and check the guest's configured range.
+  [Microsoft dynamic port ranges](https://learn.microsoft.com/en-us/troubleshoot/windows-client/networking/tcp-ip-port-exhaustion-troubleshooting)
 
 NACLs are stateless and evaluated in rule order, so allow TCP 179 both ways
 between worker and endpoint subnets, plus application and return traffic on
-every subnet the request or reply can cross. Also remember the node security
-group sees the VM's IP, not the VM. You can't tell two VMs apart at the ENI
-level, so per-VM segmentation belongs in-cluster. My
-[network policy post](/posts/openshift-network-policies/) covers who owns which
-layer.
+every subnet the request or reply can cross. The worker's security groups apply to traffic for every VM behind that ENI.
+Rules can match a remote source IP on ingress or a remote destination IP on
+egress. The guests share the worker's security-group attachment. Use in-cluster
+policy when a rule needs to select a particular VM.
+[AWS security group rules](https://docs.aws.amazon.com/vpc/latest/userguide/security-group-rules.html) ·
+[OpenShift network policies](/posts/openshift-network-policies/)
 
 ### Overlapping and more-specific routes
 
@@ -423,10 +442,20 @@ the pod network and rebuilt the VM in the CUDN namespace.
 
 Route Server only programs route tables in the cluster's VPC. It doesn't
 advertise the CUDN over Transit Gateway, Direct Connect, VPN, or VPC peering.
-External networks need a route for the CUDN CIDR that lands inside the VPC,
-such as a static route to the Transit Gateway. You also have to turn on
-propagation on the route tables for the Transit Gateway ENI subnets, and keep
-NAT out of the path. Red Hat specifically recommends against pointing the
+For a client in another VPC connected through Transit Gateway, follow the CUDN
+destination prefix through three route tables:
+
+1. The client subnet's VPC route table sends the prefix to the Transit Gateway.
+2. The Transit Gateway route table associated with the incoming client VPC
+   attachment sends the prefix to the cluster VPC attachment.
+3. The cluster-side attachment subnet's VPC route table receives the CUDN
+   route through Route Server propagation and sends traffic to the worker ENI.
+
+Check the return route from the VM host's subnet through the Transit Gateway
+to the client network, and keep NAT out of both directions.
+[AWS Transit Gateway routing](https://docs.aws.amazon.com/vpc/latest/tgw/how-it-works.html)
+
+Red Hat specifically recommends against pointing the
 connector at other routers with `platform: Manual`, because that peer list
 doesn't update as nodes come and go. Also turn on propagation for every
 in-VPC client subnet that needs the VMs. The Cloud Experts guide does this for
@@ -434,12 +463,13 @@ its tester subnet, and it's easy to miss.
 
 ## Path A vs Path B
 
-**Path A: BGP Cloud Connector.** The VM keeps one IP inside and outside the
-cluster, across restarts and, with `l2bridge` and suitable shared storage,
-across live migration. Source-IP firewalls, AD dynamic DNS, licensing tied to
-an IP, and clustered software that compares member addresses all work as they
-did on VMware. Any protocol works, not just HTTP. You pay for it with a Route
-Server you have to run, endpoint-hours, one ingress node per CUDN prefix,
+**Path A: BGP Cloud Connector.** Clients can reach the VM at its CUDN
+address using routed unicast traffic permitted by network policy and firewalls.
+An external firewall can match that VM's source IP, and clients can reach the
+address the guest publishes in DNS. Persistent IPAM and a compatible binding
+let the VM retain its address across restarts and eligible live migrations.
+Test application behavior and any licensing requirements during the cutover.
+Budget for endpoint-hours, one ingress worker per CUDN prefix,
 security group and NACL design that has to account for asymmetric paths, a
 100-route FIB you can't raise, and a requirement that every VM host be a
 labeled bare-metal router node. It's also new: the documented lab ran
@@ -449,10 +479,10 @@ OpenShift 4.22.9, OpenShift Virtualization 4.22.12, and operator 1.0.0.
 the same model as your containers, and it's easy to automate. NodePort works
 when clients can reach the nodes. A LoadBalancer Service puts a cloud load
 balancer in front of the VM. Routes cover HTTP, HTTPS, and TLS through the
-ingress controller. But the VM's egress is NATed to a node IP, the pod IP
-changes on live migration, and each exposed port is another object to own. You
-end up treating VMs like containers, which is exactly what the
-applications above can't tolerate.
+ingress controller. With the default egress configuration, external peers see
+a node IP, and the pod IP can change on live migration. Each exposed Service
+port needs a port entry. One Service can expose several named ports.
+[Kubernetes multi-port Services](https://kubernetes.io/docs/concepts/services-networking/service/#multi-port-services)
 
 | Need | Prefer |
 | ---- | ------ |
@@ -475,21 +505,23 @@ it.
    clients just need a name and a port, NodePort, LoadBalancer, or Routes are
    simpler, and I'd stay there.
 2. **Make the router pool the VM pool.** Every node that can run a routed VM
-   must match `routerNodeSelector`, and the VMs should select it too. Size it
-   against the endpoint session quota as well as CPU and memory.
+   must match `routerNodeSelector`, and the VMs should select it too. Size the pool
+   for CPU and memory, and confirm how AWS counts sessions per interface
+   for your topology.
 3. **Design for one gateway per prefix.** Test the throughput of a single
-   gateway node, and rehearse draining the active gateway with BFD before you
-   promise a maintenance-window SLA.
+   gateway node. Measure VM migration during a drain and client recovery
+   after peer loss before you promise a maintenance-window SLA.
 4. **Treat CIDR ownership as a migration deliverable.** Choose non-overlapping
    ranges, or write down exactly how an overlapping subnet moves from on
    premises to AWS and back.
-5. **Put the four CRs in Git and leave the generated objects alone.** Create
-   the namespace with its labels in the first sync, and keep the generated
-   CUDN and `RouteAdvertisements` out of your repo.
+5. **Keep the operator installation manifests, labeled workload namespace,
+   `BGPCloudConfiguration`, and `BGPRouting` in Git.** Apply the labels when
+   creating the namespace. Let the operator manage the generated CUDN and
+   shared `RouteAdvertisements`.
 
 > Planning a VMware exit onto ROSA where IP addresses can't change? Bring your
 > CIDR inventory, firewall dependencies, and change window to your Red Hat
-> account team, and prove the drain rehearsal on a non-production cluster first.
+> account team, and rehearse both a drain and gateway loss on a non-production cluster.
 {: .prompt-tip }
 
 ## Related posts
