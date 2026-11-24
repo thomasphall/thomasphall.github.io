@@ -233,8 +233,8 @@ already had.
 
 ### Tigera (Calico)
 
-Calico is the honest alternative when pods must be **routable on the physical
-network** (BGP) instead of living behind a Geneve overlay, or when Calico
+Calico is an option when the datacenter fabric needs BGP routes to pod
+networks, or when Calico
 Enterprise / Tigera policy is already the standard across Kubernetes estates
 that are not all OpenShift. Calico Core 3.32 is certified on 4.19–4.22 with
 the same Net, Virt, Mesh, and HCP badges as current Isovalent.
@@ -276,12 +276,16 @@ versions with Cisco and Red Hat before Assisted Installer sees the cluster.
 | Encrypted node-to-node overlay | OVN-Kubernetes IPsec |
 | Packet processing off the host CPU | OVN-Kubernetes with hardware offload |
 | L7 HTTP/gRPC policy or existing Hubble/Cilium operations | Certified Isovalent Networking for Kubernetes |
+| AWS VPC clients need to reach ROSA VMs at their own IPs | OVN-Kubernetes with BGP Cloud Connector and Amazon VPC Route Server |
 | BGP to the physical fabric or existing Tigera policy estate | Certified Tigera Calico |
 | Fabric is Cisco ACI and EPGs are mandatory | Cisco ACI CNI, after you confirm the 4.22 certification row |
 | “Cilium is what we use on EKS/AKS” with no OpenShift-specific requirement | Still OVN-Kubernetes—do not copy the other platform’s CNI by habit |
 
-ROSA and other managed OpenShift shapes do not offer this fork. You get
-OVN-Kubernetes. Design the application network for that.
+ROSA uses OVN-Kubernetes. When an EC2 client needs to reach a VM at its
+own address, BGP Cloud Connector lets ROSA workers advertise the primary
+VM network's prefix to Amazon VPC Route Server. Route Server installs the
+route in the VPC route tables where propagation is enabled.
+[Reach ROSA VMs at their own IPs with BGP Cloud Connector](/posts/rosa-bgp-cloud-connector/).
 
 ## The solutions architect takeaway
 

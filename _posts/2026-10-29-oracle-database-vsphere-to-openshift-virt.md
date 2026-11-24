@@ -127,11 +127,16 @@ The copy of the data files happens while production is open. The weekend
 is a role change you have already timed. A second site is a second
 OpenShift cluster with its own worker pool, and Data Guard between them.
 
-If the IP address has to stay, attach the VM to the existing VLAN with a
-bridged network. That map is
+If clients must keep using the listener IP and the destination workers can
+reach its existing VLAN, attach the VM to that VLAN over a bridged localnet.
 [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/).
-A pod-network address is a new firewall ticket and a new connection
-string.
+
+On ROSA, you can assign the original address to the VM on a primary Layer 2
+network and use BGP Cloud Connector to advertise its prefix into AWS VPC route
+tables. Before cutover, identify every host that shares the advertised prefix.
+Coordinate the old and new routes so clients reach the intended listener, and
+record how to restore the route on rollback.
+[ROSA VM routing and IP-preserving cutovers](/posts/rosa-bgp-cloud-connector/).
 
 ### Cold or warm MTV when the VM is the artifact
 
@@ -274,7 +279,7 @@ Split the traffic the way the database already splits it.
 
 | Traffic            | Where it goes                                                                 |
 | ------------------ | ----------------------------------------------------------------------------- |
-| Clients, listeners | Bridged VLAN when the IP and the firewall ticket stay. SR-IOV when you have measured a latency need |
+| Clients, listeners | Bridge to the existing VLAN where available. On ROSA, use a routed VM network and plan the listener IP cutover. Consider SR-IOV for a measured latency need. |
 | Storage            | The array network on the node, CSI in front, virtio in the guest             |
 | RAC interconnect   | Its own NIC and subnet. SR-IOV in the published RAC test                     |
 | Live migration     | The cluster migration network                                                |
