@@ -3,7 +3,7 @@ title: "Reach ROSA VMs at Their Real IPs with BGP Cloud Connector"
 description: >-
   How BGP Cloud Connector advertises a primary CUDN to AWS VPC Route Server on
   ROSA 4.22 so VMs keep their own IPs, plus the limits and failure modes to plan for.
-date: 2026-11-24 08:00:00 -0600
+date: 2026-11-24 07:00:00 -0600
 categories: [OpenShift, Virtualization]
 tags: [openshift, openshift-virtualization, rosa, networking, gitops]
 permalink: /posts/rosa-bgp-cloud-connector/
