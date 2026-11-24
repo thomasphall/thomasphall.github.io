@@ -54,9 +54,10 @@ disk copies. Bring the teams that own those services into the review.
   with a calculator to adapt to your worker pool.
 - [vSAN-like Storage for OpenShift Virtualization Engine](/posts/ove-vsan-storage-alternatives/)
   frames the choice between local-disk storage and an existing storage array.
-- [OpenShift Virtualization Networking: Pod to Localnet](/posts/openshift-virtualization-networking/)
-  connects guest addressing and VLAN requirements to the host and VM
-  network design.
+- [Keep a VM on an existing datacenter VLAN](/posts/openshift-virtualization-networking/)
+  walks through localnet when the destination workers can reach the VLAN.
+- [Reach a ROSA VM at its own IP from an AWS VPC](/posts/rosa-bgp-cloud-connector/)
+  shows how to advertise the VM network through Amazon VPC Route Server.
 
 **Leave this stage with:** an agreed destination design and named owners
 for storage, networks, access, and capacity.

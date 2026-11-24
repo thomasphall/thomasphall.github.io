@@ -39,6 +39,12 @@ ClusterUserDefinedNetwork (CUDN) to
 over BGP. Route Server programs the VPC route tables, so an EC2 instance
 reaches the VM at its own IP without NAT, a NodePort, or a load balancer.
 
+**What should the applications see?** An EC2 client can connect to a service
+at the guest’s CUDN address. When the guest opens a connection back to EC2,
+the EC2 listener sees that same guest address as the source. An established
+BGP session confirms peering. Those two observations confirm the traffic path.
+[Run the connectivity checks](#verify-connectivity-in-both-directions).
+
 ## What changes on OpenShift 5.0
 
 Red Hat lists November 9, 2026 as the general availability date for ROSA 5.0.
@@ -359,7 +365,9 @@ that drop inbound traffic on the UDN interface. The Cloud Experts team used
 `l2bridge` in a separate RHEL 9 migration test, described below.
 [Upstream VM binding tests](https://github.com/openshift/bgp-cloud-connector/blob/main/docs/kubevirt-testing.md)
 
-Verify the end-to-end path before you call it done. Both CRs should report
+### Verify connectivity in both directions
+
+Both connector CRs should report
 `Ready`, `oc get bgpsessionstate -n openshift-frr-k8s` should show `Established`
 for each expected endpoint peer, and the VPC route for the CUDN prefix should
 be `active` with origin `Advertisement`:
@@ -369,6 +377,13 @@ aws ec2 describe-route-tables \
   --route-table-ids <client_route_table_id> \
   --query 'RouteTables[].Routes[?DestinationCidrBlock==`10.100.0.0/16`]'
 ```
+
+From an EC2 instance in the client subnet, connect to a known listening
+service on the VM using its CUDN IP. Confirm the expected application response.
+Then initiate a fresh connection from the guest to a listener on the EC2
+instance. Check the peer address in the EC2 listener’s log or packet capture.
+It should match the guest’s CUDN IP. Use ports allowed by the security groups,
+subnet ACLs, and guest firewalls for each direction.
 
 ## Failure modes I'd rehearse
 

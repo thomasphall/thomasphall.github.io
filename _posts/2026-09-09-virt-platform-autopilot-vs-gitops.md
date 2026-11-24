@@ -16,6 +16,12 @@ permalink: /posts/virt-platform-autopilot-vs-gitops/
 > not a production landing-zone default.
 {: .prompt-info }
 
+**November 24, 2026 update.** Virtualization platform autopilot is generally
+available in OpenShift Virtualization 5.0. Load-aware VM rebalancing still
+requires the optional Kube Descheduler Operator. The ownership examples below
+cover the 4.22 preview.
+[How Autopilot and the descheduler work together in 5.0](/posts/openshift-virtualization-5-0-features/#1-autopilot-makes-configuration-and-balancing-part-of-normal-operations).
+
 Install
 [OpenShift Virtualization](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/index)
 on

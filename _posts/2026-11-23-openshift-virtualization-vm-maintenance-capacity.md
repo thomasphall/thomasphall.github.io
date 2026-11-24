@@ -30,9 +30,10 @@ For Red Hat OpenShift Virtualization, I would set the VM count for a worker
 pool by rehearsing maintenance with the applications busy. The useful number
 is the highest VM count you've tested with your workload mix while finishing
 maintenance on time and keeping applications within their limits.
-Start with the placement and headroom calculation, then put a clock on it.
-My [spare-capacity guide and calculator](/posts/openshift-virtualization-spare-capacity/)
-cover the placement side.
+Will every displaced VM fit on an eligible worker? Start with the
+[spare-capacity guide and calculator](/posts/openshift-virtualization-spare-capacity/#try-the-capacity-calculator).
+Can you move those VMs and return the pool to service before the window
+closes? Use the [timed drain rehearsal](#rehearse-a-drain-with-the-applications-busy) below.
 
 ## What the 10,000-VM limit tells you
 
@@ -138,8 +139,9 @@ the [production readiness scorecard](/posts/openshift-virtualization-production-
 Recheck it when a migration wave changes the workload mix or when the
 maintenance sequence, storage, or network changes.
 
-> Want help reviewing a VMware migration wave? Bring the drain timeline,
-> application probe results, and change window to your Red Hat account team.
+> Before approving the window, record the slowest VM migration, the longest
+> interruption observed by an application probe, and who can stop the next
+> drain if either measure exceeds the agreed limit.
 {: .prompt-tip }
 
 ## Related posts

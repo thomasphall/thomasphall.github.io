@@ -31,7 +31,10 @@ number answers only part of it.
 For Red Hat OpenShift Virtualization, I would make the capacity review cover
 three things: **resource requests that fit, application performance under
 the reduced capacity, and a valid destination for every affected VM.** This
-post works through the arithmetic and includes a calculator you can adapt.
+post works through the arithmetic. Use the [capacity calculator](#try-the-capacity-calculator)
+to estimate headroom, then check that each displaced VM fits on an eligible
+worker. To find out whether the moves finish inside your change window, use
+the [timed drain rehearsal](/posts/openshift-virtualization-vm-maintenance-capacity/#rehearse-a-drain-with-the-applications-busy).
 
 ## Define what must stay running
 
