@@ -14,6 +14,8 @@ permalink: /posts/acm-openshift-virtualization/
 > represent Red Hat or any other organization.
 {: .prompt-info }
 
+**November 24, 2026 update.** For an OpenShift 5.0 hub, Red Hat lists ACM 2.17 and ACM 5.0 as compatible releases. The ACM 2.16 entry ends at OpenShift 4.22. Check the hub version first, then use the release-specific support matrix to verify each managed cluster and the virtualization features you plan to use. [Operator lifecycles](https://access.redhat.com/support/policy/updates/openshift_operators) · [ACM support matrices](https://access.redhat.com/support/policy/updates/advanced-cluster-management).
+
 Give a platform team a second
 [OpenShift Virtualization](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/index)
 cluster and the OpenShift console stops being a control plane. It is still the
@@ -56,8 +58,7 @@ the VM is a Kubernetes workload, and the hub that already knows the clusters
 should know the VMs.
 
 OpenShift Virtualization 4.20.1 or later is the floor for RHACM Virtualization
-features. This site’s latest stable OpenShift line is 4.22, which satisfies
-that requirement. Confirm pairing against the
+features covered in this ACM 2.16 walkthrough. Its OpenShift 4.22 baseline satisfies that requirement. Confirm pairing against the
 [ACM 2.16 support matrix](https://access.redhat.com/articles/7136928)
 for the hub and managed clusters you actually run.
 

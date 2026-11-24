@@ -14,6 +14,8 @@ permalink: /posts/hosted-vs-virtualized-control-planes/
 > represent Red Hat or any other organization.
 {: .prompt-info }
 
+**November 24, 2026 update.** KubeVirt Redfish for VM management is generally available in OpenShift Virtualization 5.0 and supports bcrypt-hashed passwords. For a new deployment, check the support requirements for the full control-plane topology as well as the Redfish component. [Virtualization 5.0 release notes](https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/virtualization/release-notes).
+
 Platform teams rarely struggle to stand up *one* OpenShift cluster. The hard
 problem shows up when the fleet grows: every standalone control plane wants
 dedicated machines, quorum, patching, and capacity headroom. Densification—more
@@ -56,7 +58,7 @@ Red Hat documentation draws the contrast cleanly: virtualized control planes
 run as VMs with hypervisor-level isolation; hosted control planes run as pods
 with container-level isolation.
 
-## Technology Preview
+## KubeVirt Redfish support in 4.22 and 5.0
 
 KubeVirt Redfish—the piece that exposes those control-plane VMs through
 Redfish API endpoints for VCP—is a Technology Preview in 4.22. Technology
@@ -211,14 +213,13 @@ alone prevents a surprising number of architecture-review loops. For broader
   BMCs
 - You are consolidating control-plane *nodes* onto a shared OpenShift
   Virtualization hosting cluster while keeping worker capacity elsewhere
-- You can accept Technology Preview program risk for KubeVirt Redfish in 4.22,
-  or you are evaluating the architecture ahead of broader support
+- Your provisioning workflow supports the Redfish version you will deploy. On 4.22, account for its preview status. On 5.0, validate the GA component and its credential configuration.
 
 **A practical sequencing note for many customers:** use hosted control planes
 as the default densification architecture on OpenShift Virtualization when the
 operating model fits, and treat virtualized control planes as the path when
 isolation or installer-compatibility requirements outweigh the hosted form
-factor—and when TP constraints are acceptable for the engagement.
+factor. Verify the topology against the release you will operate.
 [OpenShift AI 3.5](/posts/openshift-ai-3-5-features/) lists Hosted Control
 Planes on OpenShift Virtualization as a supported configuration, so an AI
 landing zone on tenant HCPs is the same densification choice—not a separate

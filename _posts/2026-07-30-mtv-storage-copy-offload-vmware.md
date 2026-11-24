@@ -13,6 +13,8 @@ permalink: /posts/mtv-storage-copy-offload-vmware/
 > represent Red Hat or any other organization.
 {: .prompt-info }
 
+**November 24, 2026 update.** MTV 2.12.0 added full support for warm storage copy offload. If the source and destination storage qualify, you can plan a supported warm migration and measure the downtime needed for final cutover. The original examples below use MTV 2.11. [MTV 2.12 release notes](https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.12/html/release_notes/ref_rn-2-12_release-notes).
+
 Most VMware exit programs do not stall on whether a guest can boot on
 [OpenShift Virtualization](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/index).
 They stall on disk copy time. Multi-terabyte volumes, parallel migration waves,
@@ -113,21 +115,16 @@ normal outcome, not a failure of the migration program. Design the factory so
 both paths are acceptable; promote workloads to offload only when the storage
 map proves out.
 
-## Cold is GA; warm offload is Technology Preview
+## Storage copy offload support in MTV 2.11 and 2.12
 
-On MTV 2.11, set expectations cleanly:
-
-| Mode | Storage copy offload status | Practical implication |
-| ---- | --------------------------- | --------------------- |
-| Cold migration | Generally Available | Primary production path for offload today |
-| Warm migration | Technology Preview | Useful to evaluate for lower downtime; do not treat as GA |
+| Mode | MTV 2.11 | MTV 2.12.0 |
+| --- | --- | --- |
+| Cold offload | Generally available | Supported |
+| Warm offload | Technology Preview | Fully supported |
 
 Cold migration still means downtime for the cutover window. Offload’s job is to
 shrink the data-copy portion of that window and reduce collateral network impact
-while the plan runs. Warm migration remains important when business owners need
-shorter outages and can accept Technology Preview for the offload path. Call that
-out once in design reviews, then decide consciously—do not quietly assume warm
-offload is as hardened as cold.
+while the plan runs. On MTV 2.12, rehearse the final synchronization and cutover under the application’s normal write load. On 2.11, warm offload remains a preview.
 
 Storage offload also does not replace the rest of MTV. Inventory hygiene,
 network mapping, guest tools and drivers, application cutover runbooks, and
@@ -188,6 +185,7 @@ copy baseline. Only then size the weekend waves.
 | Best fit | Mixed storage, no shared offload-capable SAN path, smaller disks | SAN-backed VMware disks, large volumes, shared/compatible array story |
 | MTV 2.11 cold | Supported | GA |
 | MTV 2.11 warm | Supported | Technology Preview for offload |
+| MTV 2.12 warm | Supported | Fully supported for qualifying storage |
 | Fallback | Default for many estates | Use when topology qualifies; otherwise stay on network copy |
 
 ## Pitfalls worth calling in design review
@@ -216,8 +214,7 @@ context, not as a contractual schedule.
 
 Use storage copy offload when the SAN path exists and large VMware disks are
 dominating the migration calendar. On MTV 2.11, build production waves around
-cold offload as GA; evaluate warm offload only with eyes open that it is
-Technology Preview. Keep MTV as the orchestrator, OpenShift Virtualization as
+cold offload. On 2.12, include warm offload when the storage qualifies and the measured cutover fits your window. Keep MTV as the orchestrator, OpenShift Virtualization as
 the destination, and the array as the copy engine—then design the migration
 factory around that storage reality, not around hope that the IP network will
 absorb another wave.

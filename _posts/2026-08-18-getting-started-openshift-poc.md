@@ -14,6 +14,8 @@ permalink: /posts/getting-started-openshift-poc/
 > represent Red Hat or any other organization.
 {: .prompt-info }
 
+**November 24, 2026 update.** For a new OpenShift 5.0 PoC, plan for RHCOS 10.2 as the default node OS. OpenShift Virtualization 5.0 includes generally available platform autopilot. If you want to demonstrate load-aware VM rebalancing, include the optional Kube Descheduler Operator. [Platform release notes](https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/release_notes/ocp-5-0-release-notes) · [Virtualization release notes](https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/virtualization/release-notes).
+
 OpenShift PoCs rarely stall on the installer. They stall on tickets: DNS,
 firewall, BMC access, and a pull secret that is not actually entitled. The
 [OpenShift PoC guide](https://openshift-ssa.github.io/openshift-poc/home/)
@@ -22,18 +24,13 @@ a path, finish prerequisites with the right teams, then install.
 
 It is not a substitute for product procedure. Confirm the
 [OpenShift Container Platform](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/)
-version, CSI driver, and operators you will actually run. The PoC site currently
-documents a 4.21 line; this blog’s latest stable line is 4.22. Nodes default to
-RHCOS 9 (RHEL 9.8); RHCOS 10 is Technology Preview on a test cluster, not a
-day-one PoC requirement—see
-[RHCOS 10 on OpenShift 4.22: What Changes](/posts/rhcos-10-openshift/).
+version, CSI driver, and operators you will actually run. The original walkthrough referenced the 4.21 PoC guide and OpenShift 4.22 product documentation. On 4.22, the default is RHCOS 9 and the RHCOS 10 preview belongs on a test cluster. [RHCOS version guidance](/posts/rhcos-10-openshift/).
 
 ## Pick the path before you rack
 
 The [OpenShift PoC guide](https://openshift-ssa.github.io/openshift-poc/home/)
-recommends two starting architectures. Do not mix them on day one. Fleet work
-uses
-[Red Hat Advanced Cluster Management for Kubernetes (RHACM) 2.16](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.16/).
+recommends two starting architectures. Choose one for the first exercise. The original 4.22 fleet example uses
+[Red Hat Advanced Cluster Management for Kubernetes (RHACM) 2.16](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.16/). For a 5.0 hub, verify the ACM release and managed-cluster pairing in the [updated fleet guide](/posts/acm-openshift-virtualization/).
 
 | Path             | Use it when                                                         | First cluster                   |
 | ---------------- | ------------------------------------------------------------------- | ------------------------------- |
@@ -173,8 +170,7 @@ GitOps, virtualization (after
 logging, Service Mesh, and
 [Network Observability](/posts/network-observability-openshift/)
 after CSI and the underlay. Virtualization platform autopilot is a 4.22
-Developer Preview: leave it off for a first PoC, and do not GitOps every
-adjacent `MachineConfig` if you later evaluate it—see
+Developer Preview. On 5.0, decide which settings autopilot will own before bringing the same resources under GitOps. See
 [Virtualization Autopilot vs GitOps on OpenShift](/posts/virt-platform-autopilot-vs-gitops/). Mark the console with the
 [PoC banner](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/poc-banner/)
 so nobody treats kubeadmin as production.

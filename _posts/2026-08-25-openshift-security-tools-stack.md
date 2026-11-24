@@ -14,6 +14,8 @@ permalink: /posts/openshift-security-tools-stack/
 > represent Red Hat or any other organization.
 {: .prompt-info }
 
+**November 24, 2026 update.** RHACS 5.0 supports vulnerability scanning for RHEL 8, 9, and 10 guests on eligible secured clusters running OpenShift Virtualization. Check the OpenShift pairing and enable VSOCK on the cluster and on each scanned VM. Red Hat tested this combination on x86_64. [RHACS support matrix](https://access.redhat.com/kb/7045053).
+
 Security reviews for
 [Red Hat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift)
 often start with a product list: a scanner, a compliance dashboard, a vault, a
@@ -120,9 +122,7 @@ show up in the same control plane as a Deployment. That is why
 still applies. Policies that warn or block privileged paths, host devices,
 and risky images are the same policies you already run for containers—scoped
 so OpenShift Virtualization namespaces get intentional allowlists instead of
-a cluster-wide mute. RHACS 4.10 adds Technology Preview guest package
-scanning for supported RHEL VMs; treat that as emerging visibility, not a
-production substitute for guest patching. Detail lives in
+a cluster-wide mute. Guest scanning was a preview in RHACS 4.10. On RHACS 5.0, use supported guest scans to identify vulnerable packages and send findings to the guest patch owner. Detail lives in
 [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/).
 
 **Inside the guest.** Patching, CIS/STIG baselines, identity, and endpoint

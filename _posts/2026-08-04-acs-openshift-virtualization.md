@@ -14,6 +14,8 @@ permalink: /posts/acs-openshift-virtualization/
 > represent Red Hat or any other organization.
 {: .prompt-info }
 
+**November 24, 2026 update.** RHACS 5.0 supports guest package vulnerability scanning for eligible RHEL 8, 9, and 10 VMs on secured clusters running OpenShift Virtualization. Verify the cluster pairing and enable VSOCK on both the cluster and each scanned VM. Red Hat lists x86_64 as the tested architecture. [RHACS support matrix and VM requirements](https://access.redhat.com/kb/7045053).
+
 When virtual machines land on
 [Red Hat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift),
 a familiar assumption shows up in architecture reviews: *we are back in the VM
@@ -91,30 +93,18 @@ allowlist known-good virtualization behavior narrowly, and keep application
 namespaces under the stricter baseline. In customer language: policy noise from
 CNV is a scoping problem, not proof that “security tools don’t work on VMs.”
 
-## VM vulnerability visibility in RHACS 4.10 (Technology Preview)
+## Guest vulnerability scanning in RHACS 4.10 and 5.0
 
-Workload and configuration visibility is the durable RHACS story for OpenShift
-Virtualization today. RHACS is also extending that story into guest package
-risk.
+RHACS 4.10 introduced guest scanning as a Technology Preview. For production
+use with RHACS 5.0, check the secured cluster’s OpenShift version against the
+support matrix and select a supported RHEL guest. Enable the cluster’s VSOCK
+feature gate and set `spec.domain.devices.autoattachVSOCK: true` on the VM.
+OpenShift Virtualization must be installed on the secured cluster. Central
+can run on a separate cluster.
 
-[RHACS 4.10](https://www.redhat.com/en/blog/announcing-red-hat-advanced-cluster-security-kubernetes-410)
-introduces **Technology Preview** vulnerability management for virtual machines
-running on OpenShift Virtualization. The intent is unified visibility: identify
-and manage vulnerabilities for VMs in the RHACS console alongside containerized
-workloads, instead of treating guest package risk as an entirely separate silo.
-
-Be precise in customer conversations. This capability is a
-[Technology Preview](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_security_for_kubernetes/4.10/html/operating/examine-images-for-vulnerabilities#scanning-virtual-machines_operate-examine-images-for-vulnerabilities)
-feature—not GA, not covered by production SLAs, and not a substitute for a
-mature guest patching program. Red Hat documents prerequisites and an in-guest
-agent path so RHACS can index installed packages on supported RHEL VMs and match
-them against known vulnerabilities. If you evaluate it, treat it as early unified
-visibility for architecture and feedback—not as a finished checkbox for regulated
-production estates.
-
-For requirements, limitations, and setup detail, use the official
-[Scanning virtual machines](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_security_for_kubernetes/4.10/html/operating/examine-images-for-vulnerabilities#scanning-virtual-machines_operate-examine-images-for-vulnerabilities)
-documentation rather than tribal runbooks.
+Verify that the VM’s installed packages appear in its scan report. Assign
+findings to the team that patches the guest.
+[Red Hat’s VM scanning requirements](https://access.redhat.com/kb/7045053).
 
 ## Platform posture vs guest OS: keep the boundary clear
 
@@ -154,8 +144,7 @@ finish security:
   admin vs secondary-network policy split, see
   [OpenShift Network Policies: Tenant, Admin, Secondary](/posts/openshift-network-policies/).
 - **RHACS** keeps multi-cluster risk and workload policy continuous—including
-  for virt-launcher-backed VMs—and, in Technology Preview, begins unifying guest
-  package vulnerability visibility for supported VMs.
+  for virt-launcher-backed VMs. RHACS 5.0 also reports package vulnerabilities for supported guests.
 
 None of these replaces the others. Auditors and risk committees buy consistency
 and evidence, not a single product logo.
@@ -168,16 +157,15 @@ Lead with outcomes:
    workloads; RHACS can still surface risk and enforce policy on that surface.
 2. **Scope exceptions** — virt components may need allowances that look noisy;
    allowlist intentionally instead of disabling policy.
-3. **Treat VM vuln management as Technology Preview** — useful emerging
-   visibility in RHACS 4.10; not a production substitute for guest hardening.
+3. **Check guest scanning eligibility.** Verify the RHACS and OpenShift versions, the RHEL guest release, and VSOCK configuration before relying on scan coverage.
+
 4. **Keep guest OS work separate** — platform posture and guest posture are both
    required.
 
 If you are already running RHACS for containers and enabling OpenShift
 Virtualization, start the next conversation with a simple proof point: show a
 virt-launcher workload in the same risk view as your applications, agree which
-policies stay enforced in virtualization namespaces, and decide whether
-Technology Preview VM scanning belongs in a non-production evaluation track.
+policies stay enforced in virtualization namespaces, and verify that a supported RHEL guest returns a package report in RHACS 5.0.
 
 For GPU-backed AI where the security story is TEE attestation rather than
 deployment policy alone, see

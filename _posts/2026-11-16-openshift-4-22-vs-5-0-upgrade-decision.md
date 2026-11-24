@@ -219,9 +219,8 @@ deprecations during the maintenance window can also disrupt the plan.
    anyway. The guide says a healthy control plane might be restorable
    from it. A single-node update requires downtime and does not roll
    back automatically if the node fails to restart.
-2. **RHEL 7 workers.** Replace them with RHEL 8 or RHCOS. An in-place
-   RHEL 7 to RHEL 8 update of a RHEL worker is not supported. Those
-   hosts need a clean install.
+2. **Verify the worker OS inventory.** Package-based RHEL compute nodes left support in OpenShift 4.19. A supported 4.22 cluster should already have completed that transition. If your inventory still lists package-based RHEL workers, reconcile it with the cluster before planning the 5.0 upgrade. For older estates, see [Red Hat’s worker removal procedure for the 4.18-to-4.19 update](https://docs.redhat.com/en/documentation/openshift_container_platform/4.19/html/updating_clusters/preparing-to-update-a-cluster).
+
 3. **OLM Operators.** Move every installed Operator to a version
    compatible with the target before the default catalogs switch minors.
 4. **`Upgradeable=False`.** Clear it before a minor update. Cluster

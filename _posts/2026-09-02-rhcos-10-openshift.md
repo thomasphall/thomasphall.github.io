@@ -14,8 +14,7 @@ permalink: /posts/rhcos-10-openshift/
 > represent Red Hat or any other organization.
 {: .prompt-info }
 
-For the GA host OS changes in the next major release, see
-[OpenShift 5.0: The Platform Features That Matter](/posts/openshift-5-features-that-matter/).
+**November 24, 2026 correction.** New OpenShift 5.0 installations default to RHCOS 10.2. A cluster upgraded from 4.22 can initially stay on RHCOS 9.x. When you migrate the node OS, plan to move every node to 10.2. Red Hat does not support running a cluster with mixed 9.x and 10.2 nodes or downgrading from 10.2 to 9.x. [OpenShift 5.0 release notes](https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/release_notes/ocp-5-0-release-notes).
 
 Every OpenShift admin knows the calculus. A new
 Red Hat Enterprise Linux CoreOS (RHCOS) ships with hardware enablement and
@@ -30,11 +29,7 @@ OpenShift Container Platform 4.22 is the start of the ramp. **RHCOS 10.2 is
 Technology Preview.** The default node OS is still RHCOS 9, built from
 Red Hat Enterprise Linux (RHEL) 9.8 packages. The Machine Config Operator
 (MCO) grows an `OSImageStream` API so the payload can carry both streams.
-A later OpenShift release is where mixed RHCOS 9 and RHCOS 10 nodes become
-the supported transitional model—one MachineConfigPool at a time. That
-split is the whole post: what 4.22 actually lets you do today, what changes
-when a node boots RHEL 10, and how to evaluate it without trapping a
-cluster you still intend to upgrade.
+On 4.22, use a disposable cluster to evaluate the preview. On 5.0, validate your drivers and layered images before scheduling the cluster-wide OS migration.
 
 This is a solutions-architect planning note, not a substitute for
 [Setting the RHCOS version in a cluster](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/machine_configuration/mco-image-streams).
@@ -46,25 +41,18 @@ zone, start with
 and keep node config in GitOps the same way you keep everything else:
 [GitOps Should Manage ACM, Not the Cluster](/posts/gitops-should-manage-acm/).
 
-## Two timelines, one payload
+## Choosing the node OS on 4.22 and 5.0
 
-| Question                         | OpenShift 4.22 today                                      | Destination Red Hat is shipping toward                         |
-| -------------------------------- | --------------------------------------------------------- | -------------------------------------------------------------- |
-| Default node OS                  | RHCOS 9 (RHEL 9.8 packages)                               | Fresh installs land on RHCOS 10                                |
-| RHCOS 10                         | 10.2, Technology Preview, test clusters only              | GA node OS                                                     |
-| Mixed RHCOS 9 and 10 in one cluster | **Not supported** in the 4.22 machine-config docs      | Supported transition, one MachineConfigPool at a time          |
-| Upgrade from 4.22                | Nodes stay on RHCOS 9 unless you opt in                   | No forced OS migration on day one of the platform upgrade      |
-| How you select the stream        | `OSImageStream` plus `TechPreviewNoUpgrade`               | Same API, without a one-way feature gate                       |
-
-The product blog is describing the *operating model* that makes the cliff
-go away. The 4.22 documentation is describing *what you can turn on now*.
-Both are true. Do not design a production landing zone as if mixed pools
-were already a supported day-2 knob.
+| Decision | OpenShift 4.22 | OpenShift 5.0 |
+| --- | --- | --- |
+| New installation | RHCOS 9 by default. RHCOS 10.2 is a Technology Preview. | RHCOS 10.2 by default. |
+| Existing cluster | Use a disposable cluster for the 10.2 preview. | An upgraded cluster can remain on 9.x while you validate 10.2. |
+| OS migration | The preview procedure covers all pools. | Once you migrate, move every node to 10.2. A mixed-version operating configuration is unsupported. |
 
 > RHCOS 10 on 4.22 requires the `TechPreviewNoUpgrade` feature set. Enabling
 > that feature set cannot be undone and **blocks minor version upgrades**.
 > Use a disposable test cluster. Do not flip it on a cluster you still
-> intend to take to 4.23.
+> intend to upgrade to 5.0.
 {: .prompt-warning }
 
 OpenShift Virtualization 4.22 lists dual-stream RHCOS—including live
@@ -188,7 +176,7 @@ which is why TP belongs in a lab SNO, not the plant-floor one. Edge form
 factor still comes before OS experiments:
 [OpenShift edge architectures](/posts/openshift-edge-architectures/).
 
-## What to validate before you care about GA
+## What to validate in the 4.22 lab
 
 Stand up a throwaway cluster. Enable the feature set. Put RHCOS 10 on it.
 Then run the things that actually break on a kernel major.
@@ -217,12 +205,7 @@ Then run the things that actually break on a kernel major.
    profiles. A CIS scan that was green on RHCOS 9 is not evidence on RHCOS
    10.
 
-When mixed pools are GA, the evaluation loop the blog describes is the
-right one: custom MachineConfigPool, one node, RHCOS 10 stream, validate,
-then expand—or point that pool back at `rhel-9`. Same drain/cordon/reboot
-risk model the MCO already uses. Until the product docs say mixed is
-supported, that loop stays on a test cluster, and it stays all pools
-together.
+For a production move on 5.0, use the rehearsal to decide whether every pool is ready. Resolve driver or image issues before starting the node OS migration.
 
 ## What not to do
 
@@ -230,8 +213,7 @@ together.
   payload is designed so you can take the platform and keep RHCOS 9.
 - **Do not enable `TechPreviewNoUpgrade` on anything you will still need
   to upgrade.** The name is the contract.
-- **Do not treat the product blog’s “one pool at a time” as 4.22 support
-  policy.** The machine-config docs still forbid mixed 9/10 nodes.
+- **Do not treat the product blog’s “one pool at a time” as a mixed-version operating policy.** Both 4.22 and 5.0 require a consistent node OS configuration.
 - **Do not GitOps `TechPreviewNoUpgrade` onto the production `FeatureGate`.**
   GitOps the *eventual* `OSImageStream` / MachineConfigPool choice. Keep
   the one-way feature gate off the cluster that has to live.
@@ -243,10 +225,8 @@ together.
 1. **4.22 is the rehearsal, not the cutover.** Default stays RHCOS 9
    (RHEL 9.8). RHCOS 10.2 is Technology Preview on a test cluster behind
    `TechPreviewNoUpgrade`.
-2. **The cliff is the thing being removed.** A later OpenShift release is
-   where mixed streams become a supported migration: stay on 9 through the
-   platform upgrade, then move MachineConfigPools when hardware, layered
-   images, and change control are ready.
+2. **Schedule the platform and node OS changes separately.** On an upgraded 5.0 cluster, finish validation on 9.x, then plan the move to 10.2 for every node.
+
 3. **The value of 10 is the RHEL 10 kernel and crypto, not a new node
    operating model.** Immutable RHCOS, MCO, Ignition, and no `dnf` on the
    node all remain. Validate drivers, MachineConfigs, `MachineOSConfig`,
@@ -255,7 +235,7 @@ together.
    File Integrity Operator stay the host layer in the
    [security tools stack](/posts/openshift-security-tools-stack/). A new
    major is when those scans earn their keep.
-5. **Pick the stream in GitOps when it is GA; pick the lab cluster now.**
+5. **Keep the 4.22 preview configuration in the lab.**
    Fresh TP installs set `osImageStream: rhel-10`. Existing test clusters
    patch `OSImageStream` or every MCP. Hosted control planes use
    `NodePool` / `HostedCluster`, not a copied standalone MCP command.
