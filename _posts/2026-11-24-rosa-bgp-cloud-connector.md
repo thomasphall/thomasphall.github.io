@@ -2,7 +2,7 @@
 title: "Reach ROSA VMs at Their Real IPs with BGP Cloud Connector"
 description: >-
   How BGP Cloud Connector makes VM addresses on a primary CUDN reachable from
-  an AWS VPC on ROSA 4.22, and how to test routing during maintenance.
+  an AWS VPC on ROSA 5.0, with guidance on VM rebalancing and gateway failover.
 date: 2026-11-24 07:00:00 -0600
 categories: [OpenShift, Virtualization]
 tags: [openshift, openshift-virtualization, rosa, networking, gitops]
@@ -16,9 +16,9 @@ social_subtitle: BGP Cloud Connector · VPC Route Server · No NAT
 
 
 > Personal site note: views expressed here are my own and do not necessarily
-> represent Red Hat or any other organization. This covers BGP Cloud Connector
-> on Red Hat OpenShift Service on AWS (ROSA) 4.22. Field names and defaults are
-> new, so confirm them against the docs for the operator version you install.
+> represent Red Hat or any other organization. Updated November 24, 2026 for Red Hat OpenShift
+> Service on AWS (ROSA) 5.0 with hosted control planes. The packet captures
+> and migration measurements cited below come from the original 4.22 labs.
 {: .prompt-info }
 
 The first VMware wave lands on ROSA and the VMs boot fine. Then the firewall
@@ -38,6 +38,32 @@ ClusterUserDefinedNetwork (CUDN) to
 [Amazon VPC Route Server](https://docs.aws.amazon.com/vpc/latest/userguide/route-server-how-it-works.html)
 over BGP. Route Server programs the VPC route tables, so an EC2 instance
 reaches the VM at its own IP without NAT, a NodePort, or a load balancer.
+
+## What changes on OpenShift 5.0
+
+Red Hat lists November 9, 2026 as the general availability date for ROSA 5.0.
+Hosted control planes are the standard architecture for this release. On
+November 24, the newest 5.0 patch listed on the public OpenShift client mirror
+was **5.0.2**. For a new ROSA cluster, run `rosa list versions --hosted-cp`
+while signed in. For an existing cluster, run
+`rosa list upgrades --cluster <cluster-name>` to see its available upgrade paths.
+[ROSA lifecycle and architecture](https://docs.redhat.com/en/documentation/red_hat_openshift_service_on_aws/4/html/introduction_to_rosa/policies-and-service-definition) ·
+[OpenShift release mirror](https://mirror.openshift.com/pub/openshift-v4/clients/ocp/) ·
+[5.0.2 release payload](https://multi.ocp.releases.ci.openshift.org/releasetag/5.0.2)
+
+The connector has its own version. Its 5.0 catalog lists **1.1.1** in the
+`stable` channel. The AWS examples still use the
+`networking.openshift.io/v1beta1` API for both connector resources. Before
+approving the InstallPlan in wave 0, check which bundle your cluster resolved.
+[5.0 connector catalog](https://github.com/openshift/bgp-cloud-connector/blob/43c9d1b0d1daf8764b1b9c2f265ba856fe817941/catalog/v5.0/catalog-template.yaml) ·
+[Connector resource examples](https://github.com/openshift/bgp-cloud-connector/blob/43c9d1b0d1daf8764b1b9c2f265ba856fe817941/docs/custom-resources.md)
+
+OpenShift Virtualization 5.0 adds another reason a VM may move. With the
+optional Kube Descheduler Operator installed and load-aware rebalancing
+enabled, CPU and memory load can trigger migration between eligible workers
+during normal operations. Keep the VM's node selector in its template so a
+rebalance respects the same placement constraint as a maintenance drain.
+[OpenShift Virtualization 5.0 release notes](https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/virtualization/release-notes)
 
 ## How the pieces fit
 
@@ -101,9 +127,11 @@ because egress leaves through the VM's own node. So in this design, every VM
 host is a BGP speaker. AWS lists 20 peering sessions per network interface by default.
 The quota entry doesn't specify which interface AWS counts in this topology.
 Confirm that with AWS before translating the quota into a maximum pool size.
-Upstream also has a `forwardingNodeSelector`
-for nodes that should forward without peering. It isn't in the ROSA product
-doc, so I wouldn't design around it until it is.
+Upstream describes `forwardingNodeSelector` for nodes that forward without
+peering. This walkthrough follows the ROSA procedure and keeps the VMs on
+router workers. Before designing separate pools, check the installed schema
+with `oc explain bgpcloudconfiguration.spec.forwardingNodeSelector` and
+confirm support for that topology on your ROSA release.
 [Upstream CR reference](https://github.com/openshift/bgp-cloud-connector/blob/main/docs/custom-resources.md)
 
 **Liveness detection.** Route Server peers support `bgp-keepalive` (the
@@ -126,8 +154,8 @@ endpoints per subnet, six endpoints cost $4.50 per hour, or $3,285 for a
 
 **Instance types.** The Cloud Experts migration guide notes that only bare-metal
 instance types expose `devices.kubevirt.io/kvm` on ROSA, and its lab used a
-`c5n.metal` router worker. The BGP pool is also your VM pool, so size it like
-one.
+`c5n.metal` router worker. In the design below, the same pool hosts VMs and peers
+with Route Server. Leave enough capacity for a VM to move to another eligible worker.
 [Cloud Experts MTV preserve-IP guide](https://cloud.redhat.com/experts/rosa/vsphere-vm-migration-preserve-ip/)
 
 ## The GitOps shape
@@ -283,9 +311,8 @@ spec:
 ```
 
 The shared `RouteAdvertisements` selects every CUDN labeled `advertise: "true"`
-and advertises `PodNetwork` from all nodes (`nodeSelector: {}`). That matches
-the OpenShift rule that pod-network advertisements must select every node.
-[OpenShift 4.22 BGP routing](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/advanced_networking/bgp-routing)
+and advertises `PodNetwork` from all nodes (`nodeSelector: {}`). The empty selector is the operator-generated configuration in this example.
+[OpenShift 5.0 BGP routing](https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/advanced_networking/bgp-routing)
 One upstream detail matters for GitOps drift: the operator doesn't watch the
 `FRRConfiguration` or `RouteAdvertisements` objects it writes. It corrects
 drift at the next resync, so a hand edit can stick around for a while.
@@ -323,9 +350,9 @@ spec:
 
 The ROSA procedure shows native `bridge: {}`, the binding used in the Cloud
 Experts EC2-to-VM connectivity test. For this example I'd use `l2bridge`, the
-default in the OpenShift Virtualization 4.22 console for a primary UDN. The
-alternative `passt` binding on a primary UDN is Technology Preview in 4.22.
-[OpenShift 4.22 virtualization networking](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/networking)
+default in the OpenShift Virtualization 5.0 console for a primary UDN. The
+alternative `passt` binding on a primary UDN is Technology Preview in 5.0.
+[OpenShift 5.0 virtualization networking](https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/virtualization/networking)
 
 The upstream connector test reports that `masquerade` installs nftables rules
 that drop inbound traffic on the UDN interface. The Cloud Experts team used
@@ -384,7 +411,12 @@ Ingress doesn't care where the VM lives, because the gateway node forwards
 across the Layer 2 CUDN. Egress does. A VM that migrates to a node outside
 `routerNodeSelector` sends traffic from an ENI that still has source and
 destination checking turned on. That's why I put `bgp_router: "true"` on the
-VM and make the BGP machine pool the VM pool. In the Cloud Experts RHEL 9 test with `l2bridge`,
+VM. If load-aware rebalancing is enabled, include a rebalance in your
+acceptance test. Record the new VM host, then check a connection in each
+direction between the VM and an EC2 client. The guest should keep its address,
+and the client should still see it as the source of a VM-initiated connection.
+
+In the Cloud Experts RHEL 9 test on 4.22 with `l2bridge`,
 a live migration kept the IP and MAC and lost 1 of 980 pings, with a longest
 gap of about 422 ms. The authors tested this separately from the VMware disk migration.
 The full sequence on a VMware-derived VM still needs validation.
@@ -471,8 +503,8 @@ let the VM retain its address across restarts and eligible live migrations.
 Test application behavior and any licensing requirements during the cutover.
 Budget for endpoint-hours, one ingress worker per CUDN prefix,
 security group and NACL design that has to account for asymmetric paths, a
-100-route FIB you can't raise, and a requirement that every VM host be a
-labeled bare-metal router node. It's also new: the documented lab ran
+100-route FIB you can't raise, and enough labeled bare-metal workers to run
+the routed VMs during maintenance. The original connectivity lab ran
 OpenShift 4.22.9, OpenShift Virtualization 4.22.12, and operator 1.0.0.
 
 **Path B: the default pod network plus Services and Routes.** It's mature, it's
@@ -538,8 +570,8 @@ it.
 - [BGP routing: Advanced networking (ROSA 4)](https://docs.redhat.com/en/documentation/red_hat_openshift_service_on_aws/4/html/advanced_networking/bgp-routing)
 - [Deploying BGP Cloud Connector on ROSA HCP](https://cloud.redhat.com/experts/rosa/bgp-cloud-connector/) (Red Hat Cloud Experts)
 - [Migrating vSphere VMs to ROSA HCP with MTV while preserving the VM IP address](https://cloud.redhat.com/experts/rosa/vsphere-vm-migration-preserve-ip/) (Red Hat Cloud Experts)
-- [BGP routing (OpenShift Container Platform 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/advanced_networking/bgp-routing)
-- [Networking (OpenShift Virtualization 4.22)](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/networking)
+- [BGP routing (OpenShift Container Platform 5.0)](https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/advanced_networking/bgp-routing)
+- [Networking (OpenShift Virtualization 5.0)](https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/virtualization/networking)
 - [openshift/bgp-cloud-connector](https://github.com/openshift/bgp-cloud-connector) (upstream source and CR reference)
 - [How Amazon VPC Route Server works](https://docs.aws.amazon.com/vpc/latest/userguide/route-server-how-it-works.html)
 - [Amazon VPC quotas: Route servers](https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html)
