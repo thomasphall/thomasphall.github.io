@@ -1,8 +1,8 @@
 ---
 title: "What I'd Let an AI Agent Touch on OpenShift 5"
 description: >-
-  Decide what an AI agent should touch on OpenShift 5, with practical limits
-  for MCP access, RBAC, human approval, and auditing Lightspeed 2 remediation.
+  How I'd scope MCP access with RBAC, decide which changes need human
+  approval, and audit remediation in OpenShift Lightspeed 2.
 date: 2026-11-25 00:00:00 -0600
 categories: [OpenShift, Automation]
 tags: [openshift, automation, security, gitops]
@@ -24,7 +24,7 @@ is unreachable, or the workload has lost access to it. That's where I'd put
 an agent to work. Let it gather the events, check what changed, and bring
 back a proposed fix with the evidence attached.
 
-Red Hat OpenShift Lightspeed 2 can do that investigation when a configured
+Red Hat OpenShift Lightspeed 2 can investigate when a configured
 alert fires. It can also apply a proposed fix after approval and check whether
 it worked. Red Hat ships autonomous agent runs as a **Technology Preview** and
 recommends evaluating them outside production. I'd use a test cluster to learn
@@ -39,7 +39,7 @@ Lightspeed records an investigation as an `AgenticRun`. The workflow moves
 through analysis, execution, verification, and escalation as needed. Without
 an `ApprovalPolicy`, every stage waits for manual approval. Red Hat's
 walkthrough lets analysis, verification, and escalation run automatically
-while keeping execution manual. Approval covers the **entire execution
+while requiring a reviewer to approve execution. Approval covers the **entire execution
 stage**, so the reviewer needs to see the proposed commands, the target
 resources, and the permissions the agent will receive before clicking Execute.
 [Autonomous agent walkthrough](https://developers.redhat.com/articles/2026/11/23/configure-red-hat-openshift-lightspeed-autonomous-agents)
@@ -47,10 +47,10 @@ resources, and the permissions the agent will receive before clicking Execute.
 In Red Hat's example, the agent finds a typo in a Deployment's image
 reference. That's a reasonable fix to rehearse. I'd want the reviewer to
 verify the replacement image, check that the plan targets one Deployment in
-one namespace, and know how to roll it back. If GitOps owns the Deployment,
-I'd have the agent draft the change for review in Git. A live patch can be
-reverted by reconciliation while the bad image reference stays in the source
-of truth. After the change, I'd check that the new replica is ready and that
+one namespace, and confirm how to roll back the change. If GitOps owns the Deployment,
+I'd have the agent draft the change for review in Git. If Git still contains
+the wrong image reference, the GitOps controller can undo a live patch the
+next time it reconciles the Deployment. After the change, I'd check that the new replica is ready and that
 the original alert clears.
 [Red Hat's image-pull example](https://developers.redhat.com/articles/2026/11/23/configure-red-hat-openshift-lightspeed-autonomous-agents)
 
@@ -72,7 +72,7 @@ explicit allowlist.
 - **Require approval for bounded writes.** When the integration is supported
   for production, start with a reversible change to one stateless workload
   through the team's existing change process. Give the execution identity
-  only the verbs and resources it needs, for the lifetime of the task.
+  only the permissions it needs, and only for the lifetime of the task.
   Kubernetes RBAC can scope a `patch` to a named Deployment. Use an
   admission policy or a narrow tool to restrict which fields can change.
 - **Keep privileged operations with existing platform workflows.** Leave
@@ -103,7 +103,7 @@ the sequence before enabling writes.
 [Lightspeed audit traces](https://www.redhat.com/en/blog/how-red-hat-openshift-5-simplifies-incident-diagnosis-supervised-ai) ·
 [OpenShift MCP audit tagging](https://www.redhat.com/en/blog/model-context-protocol-server-red-hat-openshift-now-available-technology-preview)
 
-## The solutions architect takeaway
+## What I'd measure first
 
 The first thing I'd measure is how much sooner the on-call engineer gets a
 diagnosis they can verify. Give the agent enough access to assemble that
