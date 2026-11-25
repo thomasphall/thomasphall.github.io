@@ -142,3 +142,11 @@ just to preserve `/categories/<old>/` — redirect those archives instead.
 | PoC / on-prem install | Getting started with an OpenShift PoC, PoC boot tip, server firmware from OpenShift, upgrading while VMs stay running, edge architectures, hardware vendor RAs, hosted vs VCP, GitOps should manage ACM, virt-platform-autopilot vs GitOps, Network Observability, OVN-Kubernetes CNI, RHCOS 10 |
 | OpenShift AI | 3.5 features, Confidential AI / Trustee, NVIDIA HGX certification (GPU VM pool vs pod pool), External Secrets (workbench existing Secrets), hosted vs VCP (HCP on virt), hardware vendor RAs (AI factory BOMs) |
 | Homelab / automation | Blink Synology archive, Tesla Sentry Synology archive |
+
+## Sharing a post on LinkedIn
+
+For every LinkedIn post promoting an article, append
+`?utm_source=linkedin&utm_medium=social&utm_campaign=<post-slug>` to the
+article permalink. Use the last path segment as the campaign name. The
+article's LinkedIn share button generates this URL automatically. Keep
+internal links and the canonical permalink free of campaign parameters.
