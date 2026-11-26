@@ -135,7 +135,8 @@ Record the admission decision in terms the on-call team can use. For
 example, approve this 120-VM workload mix if the full rehearsal shows the
 team can service all six workers one at a time within the four-hour window,
 meet the application and storage targets, and preserve the 30-minute allowance. Add that evidence to
-the [production readiness scorecard](/posts/openshift-virtualization-production-readiness/).
+the [production readiness scorecard](/posts/openshift-virtualization-production-readiness/)
+before the go-live review in the [migration guide](/start-here/#prove-the-platform).
 Recheck it when a migration wave changes the workload mix or when the
 maintenance sequence, storage, or network changes.
 

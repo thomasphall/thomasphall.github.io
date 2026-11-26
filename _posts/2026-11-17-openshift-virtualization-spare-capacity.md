@@ -299,9 +299,9 @@ long enough to cover the time needed to acquire and prepare more capacity.
 5. **Revisit the plan before admitting growth.** Use the next wave and the
    hardware lead time to set the review date.
 
-> Want help reviewing capacity for a VMware migration? Bring the workload
-> inventory, performance evidence, and maintenance and failure scenarios
-> to your Red Hat account team before committing to the next wave.
+> **Next step in the [migration guide](/start-here/#prove-the-platform).**
+> Once you’ve estimated headroom, [rehearse a node drain under load](/posts/openshift-virtualization-vm-maintenance-capacity/)
+> to see whether your VMs can move within the maintenance window while the application meets its latency target.
 {: .prompt-tip }
 
 ## Related posts

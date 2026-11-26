@@ -323,6 +323,10 @@ and a binding that can open a console and cannot delete the VM. Then run
 a live migration with a user who has `kubevirt.io:migrate`, and with a
 user who does not.
 
+**Next step in the [migration guide](/start-here/#assess-the-estate).**
+Once you’ve mapped your vSphere inventory to OpenShift, [rerun the migration assessment](/posts/openshift-migration-advisor-rerun-assessment/)
+to identify blockers and choose the VMs for your first wave.
+
 ## Related posts
 
 - [What Replaces vRealize Operations for VMs](/posts/what-replaces-vrealize-operations/)

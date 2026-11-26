@@ -14,7 +14,8 @@ permalink: /posts/acs-openshift-virtualization/
 > represent Red Hat or any other organization.
 {: .prompt-info }
 
-**November 24, 2026 update.** RHACS 5.0 supports guest package vulnerability scanning for eligible RHEL 8, 9, and 10 VMs on secured clusters running OpenShift Virtualization. Verify the cluster pairing and enable VSOCK on both the cluster and each scanned VM. Red Hat lists x86_64 as the tested architecture. [RHACS support matrix and VM requirements](https://access.redhat.com/kb/7045053).
+> **November 26, 2026 update.** Guest package scanning became generally available in RHACS 5.0 for eligible RHEL 8, 9, and 10 VMs. Follow the [guest scanning walkthrough](/posts/rhacs-5-rhel-vm-vulnerability-scanning/) to enable VSOCK and verify the first scan. Red Hat lists the supported cluster versions and tested x86_64 architecture in the [support matrix](https://access.redhat.com/kb/7045053).
+{: .prompt-info }
 
 When virtual machines land on
 [Red Hat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift),
