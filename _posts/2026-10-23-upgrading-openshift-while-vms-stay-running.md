@@ -113,7 +113,7 @@ nodes can run, and with memory request capacity free somewhere else.
 hostpath-provisioner disks: the guest powers off for the reboot and comes
 back when that node is `Ready` again, because the disk never left the box.
 `LiveMigrateIfPossible` is the setting for every other guest you know may
-fail to migrate (passthrough GPU, SR-IOV, a node selector with one legal
+fail to migrate (passthrough GPU, a node selector with one legal
 node) when the pool still has to finish.
 
 ```yaml
@@ -145,14 +145,14 @@ Passthrough devices are the common permanent case.
 [OpenShift Virtualization 4.22 on NVIDIA HGX](/posts/openshift-virtualization-nvidia-hgx/)
 is a whole-GPU guest. That guest does not live-migrate. Mark it
 `LiveMigrateIfPossible` or `None` before the window and put the power-off
-on the maintenance notice. The same rule covers SR-IOV and USB.
+on the maintenance notice. For an SR-IOV NIC, check the binding and its support on your OpenShift release. Upstream KubeVirt documents a migration path that detaches and reattaches the NIC. Check the VMI’s `LiveMigratable` condition and rehearse the move with guest network traffic before scheduling downtime. [KubeVirt interface guide](https://kubevirt.io/user-guide/network/interfaces_and_networks/)
 
 ## What the landing node needs
 
 Live migration needs four things at once.
 
-1. **RWX storage.** Live migration requires `ReadWriteMany` (RWX). Use
-   Block volume mode for VM disks. Local disks, LVM Storage bound to one
+1. **RWX storage.** Live migration requires `ReadWriteMany` (RWX). Red Hat recommends
+   Block volume mode for VM disk performance. Local disks, LVM Storage bound to one
    node, and the hostpath provisioner are not RWX.
    [OpenShift Storage Performance: Disks, IOPS, Architectures](/posts/openshift-storage-performance/)
    is the storage side of that requirement. A two-node cluster can drain
@@ -336,7 +336,7 @@ event: you cannot migrate off a node that is already wedged. That path is
    pool, oldest bare-metal nodes first. Then the node reboots.
 2. **Sort guests in Git before the window.** `LiveMigrate` for RWX guests
    with somewhere to go. `None` plus `runStrategy: Always` for hostpath.
-   `LiveMigrateIfPossible` for GPUs, SR-IOV, and anything else that must
+   `LiveMigrateIfPossible` for devices that cannot migrate when a guest must
    not stall the pool. Restart after you change the strategy.
 3. **Size the landing spot.** Spare memory requests equal to the fullest
    VM node, times how many VM nodes can drain at once. Leave worker

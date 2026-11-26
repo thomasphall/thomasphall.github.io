@@ -1,7 +1,7 @@
 ---
 title: "KubeVirt Graduated. What Buyers Should Check"
 description: >-
-  KubeVirt graduated from the CNCF on November 10, 2026. That covers the
+  KubeVirt reached CNCF Graduated status on November 4, 2026. CNCF announced it on November 10. That covers the
   upstream project. OpenShift Virtualization support still comes from the
   subscription.
 date: 2026-11-13 07:50:00 -0600

@@ -116,8 +116,10 @@ has no such tree. Split the pool into the job it was actually doing.
 | Cap a team or an app                 | Namespace and Application-Aware Quota    |
 | Cap several namespaces together      | `ApplicationAwareClusterResourceQuota`   |
 | Pin a workload to a hardware tier    | Node labels and node affinity            |
-| Guarantee CPU and memory for one VM  | `requests` on the `VirtualMachine`       |
+| Reserve CPU and memory for scheduling  | `requests` on the `VirtualMachine`       |
 | Hard ceiling for one VM              | `limits` on the `VirtualMachine`         |
+
+A CPU request also sets the VM’s relative CPU weight under contention. If the workload needs dedicated cores, evaluate dedicated CPU placement and measure latency under load. [Kubernetes resource management](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
 
 Use Application-Aware Quota (AAQ) for the cap. A native `ResourceQuota`
 measures the virt-launcher pod, including hypervisor overhead. That number

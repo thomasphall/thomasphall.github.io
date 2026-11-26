@@ -33,7 +33,7 @@ OpenShift 4.22. It is not a click-by-click agent lab. For operator install, a
 vSphere provider, and VDDK in a PoC, use the
 [Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/mtv/)
 guide. Treat the VDDK tarball as a procurement item—see
-[VDDK Off Broadcom's Public Portal: MTV Migrations](/posts/vddk-portal-mtv-openshift/).
+[VDDK Download Access for VMware Migrations with MTV](/posts/vddk-portal-mtv-openshift/).
 
 ## MTV still owns the move
 
@@ -317,7 +317,7 @@ For the copy path when the SAN can take the load, see
 ## Related posts
 
 - [32-bit VMs Stay Out of OpenShift Wave 1](/posts/32-bit-vms-not-wave-1/)
-- [VDDK Off Broadcom's Public Portal: MTV Migrations](/posts/vddk-portal-mtv-openshift/)
+- [VDDK Download Access for VMware Migrations with MTV](/posts/vddk-portal-mtv-openshift/)
 - [VMware to OpenShift Virtualization: Copy Offload](/posts/mtv-storage-copy-offload-vmware/)
 - [ACM as the Fleet Control Plane for OpenShift VMs](/posts/acm-openshift-virtualization/)
 

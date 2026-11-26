@@ -96,9 +96,8 @@ plane in three tiers:
 
 1. **Tier 1 — `AdminNetworkPolicy` (ANP).** An **Allow** or **Deny** match stops
    evaluation. **Pass** hands the connection to the next tier.
-2. **Tier 2 — `NetworkPolicy`.** Tenant rules. If nothing matches, evaluation
-   continues.
-3. **Tier 3 — `BaselineAdminNetworkPolicy` (BANP).** The cluster guardrail.
+2. **Tier 2 — `NetworkPolicy`.** When a tenant policy isolates the pod for this direction, only traffic allowed by an applicable tenant policy passes this tier. Unmatched traffic to or from that isolated pod is denied for that direction.
+3. **Tier 3 — `BaselineAdminNetworkPolicy` (BANP).** Evaluated when no tenant policy isolates the pod for that direction. [Policy evaluation semantics](https://network-policy-api.sigs.k8s.io/reference/spec/)
 
 ANP is cluster-scoped. `priority` is **0–99**; the **lower** number wins. A
 cluster supports at most **100** ANPs. Do not create two ANPs at the same
@@ -108,7 +107,7 @@ Tenant `NetworkPolicy` cannot override Allow or Deny. Only Pass delegates.
 
 BANP is a **cluster singleton named `default`**. Actions are **Allow** or
 **Deny** only—there is no Pass. Use it as the floor when tenants write nothing,
-or as the fallback after an ANP Pass.
+including after an ANP Pass when no applicable tenant policy isolates the pod.
 
 The pattern that shows up in landing-zone conversations is the monitoring split.
 Allow platform scrape of some tenants. Deny scrape of restricted tenants

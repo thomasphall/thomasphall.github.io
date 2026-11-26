@@ -78,7 +78,7 @@ review:
 | Capacity type | What it means for the split |
 | ------------- | --------------------------- |
 | On-demand | Set `karpenter.sh/capacity-type` to `on-demand` when interruption is unacceptable. Do not assume the default is safe. |
-| Spot | ROSA Karpenter docs warn that Spot is the default and that AWS can reclaim it. Fine for interruptible apps; wrong for the platform floor. |
+| Spot | The default constraints allow Spot instances, which AWS can reclaim. Fine for interruptible apps; wrong for the platform floor. |
 | On-Demand Capacity Reservations (ODCR) | Karpenter can consume reserved on-demand capacity you already bought. That is still Karpenter picking *which* instance to launch into the reservation, not a reason to skip the interruptibility question. |
 | Capacity Blocks for ML | Documented for reserved training windows. Treat it as a capacity type in the table, not as an ML architecture. |
 
@@ -188,7 +188,7 @@ new shape per pending pod. Do not set `spec.replicas` on a Karpenter
 
 1. **Machine pools own known shape; Karpenter owns pending-pod shape.** If
    you cannot name which workloads are which, do not enable AutoNode yet.
-2. **Defaults are interruptible.** Spot and 30-day expiry are docs warnings,
+2. **Defaults allow interruptible capacity.** Spot and 30-day expiry are docs warnings,
    not trivia. On-demand is an explicit `NodePool` requirement.
 3. **Coexist, then shrink pools.** Cluster Autoscaler and Karpenter can share
    a ROSA HCP cluster. Move stateless burst first; keep the platform floor.

@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 500" width="960" height="500" role="img" aria-labelledby="title desc">
   <title id="title">VMware gray failure vs OpenShift Virtualization fence</title>
-  <desc id="desc">VMware HA stays idle while PowerStore floods until a human resets the host. OpenShift detects from kubelet Ready, fences with FAR, unmaps the volume, and starts a new VMI.</desc>
+  <desc id="desc">In this example VMware HA stays idle while PowerStore floods until a human resets the host. OpenShift detects from kubelet Ready, fences with FAR, unmaps the volume, and starts a new VMI.</desc>
   <rect width="960" height="500" fill="#ffffff"/>
-  <text x="240" y="32" text-anchor="middle" fill="#b45309" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="18" font-weight="700">VMware</text>
+  <text x="240" y="32" text-anchor="middle" fill="#b45309" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="18" font-weight="700">VMware example</text>
   <text x="720" y="32" text-anchor="middle" fill="#0a3d62" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="18" font-weight="700">OpenShift Virtualization</text>
   <rect x="16" y="48" width="448" height="430" rx="10" fill="#fffbf5" stroke="#b45309"/>
   <rect x="496" y="48" width="448" height="430" rx="10" fill="#f4f7fa" stroke="#0a3d62"/>

@@ -130,8 +130,7 @@ oc rsh <pod-name>          # or: oc exec -it <pod-name> -- /bin/sh
 oc explain deployment.spec
 ```
 
-`oc explain` is underrated on a new cluster: it is offline API documentation for
-the resources you are about to apply. Keep manifests in UTF-8 and prefer LF line
+`oc explain` is underrated on a new cluster: it retrieves field documentation from the connected cluster’s OpenAPI schema. Keep manifests in UTF-8 and prefer LF line
 endings when you share YAML with Linux pipelines; Windows CRLF usually works
 with `oc apply`, but mixed tooling is where subtle diffs appear.
 

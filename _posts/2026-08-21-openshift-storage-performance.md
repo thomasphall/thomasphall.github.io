@@ -109,8 +109,8 @@ They will not turn a 7200 RPM HDD into an etcd disk.
 | Media                         | Random IOPS (4K, ballpark) | Sequential throughput      | Typical latency     | etcd                         | ODF internal OSDs              | VM / DB CSI                    |
 | ----------------------------- | -------------------------- | -------------------------- | ------------------- | ---------------------------- | ------------------------------ | ------------------------------ |
 | HDD 7200 RPM                  | 100–200                    | 150–200 MB/s               | 5–10 ms             | **Does not work**            | **Not** the internal-mode disk | Archive only, not virt HA      |
-| SATA SSD (enterprise)         | tens of thousands          | ~500 MB/s                  | ~100 µs             | Lab / small cluster          | Supported (SSD class)          | OK if the CSI is virt-capable  |
-| SAS SSD                       | tens of thousands          | ~500–1200 MB/s             | ~100 µs             | Production minimum           | Supported                      | Yes                            |
+| SATA SSD (enterprise)         | tens of thousands          | ~500 MB/s                  | ~100 µs             | Benchmark against the etcd targets          | Supported (SSD class)          | OK if the CSI is virt-capable  |
+| SAS SSD                       | tens of thousands          | ~500–1200 MB/s             | ~100 µs             | Benchmark against the etcd targets           | Supported                      | Yes                            |
 | NVMe (enterprise TLC)         | hundreds of thousands+     | 2–7 GB/s                   | tens of µs          | **Preferred**                | **Preferred**                  | **Preferred**                  |
 | Consumer QLC / DRAM-less NVMe | high peak, ugly p99        | high sequential            | unstable tail       | **Does not work**            | Avoid                          | Avoid                          |
 | RAID-5/6 over HDD or SSD      | write penalty              | OK sequential              | spikes on fsync     | **Does not work**            | Avoid for WAL-like writes      | Avoid for databases            |
@@ -266,8 +266,7 @@ knob): **Lean** 24 CPU / 72 GiB, **Balanced** 30 / 72, **Performance** 45 / 96
 GiB aggregate. Replica **3** means usable capacity is about one third of raw.
 Alerts at 75% and 85% full are operational, not optional.
 
-For Virtualization, live migration needs RWX. Block volume mode. Snapshots and
-clones. That shortlist is
+For shared-storage VM live migration, both hosts need RWX access. Block volume mode is recommended for performance. For VM provisioning and recovery, also check snapshot and clone support. See
 [vSAN-like storage for OpenShift Virtualization Engine](/posts/ove-vsan-storage-alternatives/),
 not “any StorageClass that bound a PVC.”
 
@@ -297,7 +296,7 @@ These fail in production often enough to treat as defaults-to-no:
 
 ## How I would choose
 
-**Bare metal production:** local NVMe (or enterprise SAS SSD) for control
+**Bare metal production:** a low-latency server-grade SSD, preferably NVMe for control
 plane; extra NVMe/SSD for ODF or a certified array CSI for workloads. `fio`
 before the first ISO.
 

@@ -34,7 +34,7 @@ install, a vSphere provider, and the VMware Virtual Disk Development Kit
 (VDDK) in a PoC, use the
 [Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/mtv/)
 guide. Treat Broadcom entitlements as a procurement item—see
-[VDDK Off Broadcom's Public Portal: MTV Migrations](/posts/vddk-portal-mtv-openshift/).
+[VDDK Download Access for VMware Migrations with MTV](/posts/vddk-portal-mtv-openshift/).
 
 ## Two meanings of “32-bit” that get mixed in the room
 
@@ -46,13 +46,13 @@ Red Hat Enterprise Linux (RHEL). A smaller set is a 32-bit guest OS.
 | What you actually have                          | Architecture                      | Wave 1?                              |
 | ----------------------------------------------- | --------------------------------- | ------------------------------------ |
 | 32-bit application on 64-bit Windows            | Windows-on-Windows 64-bit (WOW64) | Yes, if the guest is otherwise ready |
-| 32-bit userspace packages on 64-bit RHEL        | Multilib on x86_64                | Yes, if the guest is otherwise ready |
+| 32-bit userspace packages on 64-bit RHEL 9        | Multilib on x86_64                | Yes, if the guest is otherwise ready |
 | 32-bit Windows or Linux *operating system*      | i386 / i686 guest                 | No                                   |
 | Firmware appliance whose vendor ships i686 only | Vendor image, often unpatchable   | No                                   |
 
-Windows 10 and 11 guests that still run a 32-bit line-of-business binary
-are normal 64-bit VMs. RHEL guests that `dnf install` an `i686` library
-are the same story. Those VMs belong in the ordinary MTV assessment:
+A 32-bit line-of-business application can run on a 64-bit Windows 10 or 11 guest through WOW64. RHEL 9 supports distribution-provided `i686` multilib packages. RHEL 10 removed them. Record the guest release and the application’s runtime dependencies before clearing it for migration. [RHEL 10 release notes](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/pdf/10.0_release_notes/Red_Hat_Enterprise_Linux-10-10.0_Release_Notes-en-US.pdf)
+
+Those VMs belong in the ordinary MTV assessment:
 [AI Agents for MTV](/posts/ai-agents-mtv-vsphere/)
 is the factory loop; this post is only the architecture gate before that
 loop starts.
@@ -64,9 +64,7 @@ Virtualization are 64-bit operating systems—RHEL 7, 8, 9, and 10, Windows
 Server 2016 through 2025, Windows 10, and Windows 11. Confirm the
 [Certified Guest Operating Systems in OpenShift Virtualization](https://access.redhat.com/articles/4234591)
 article for the hypervisor and version on the design. Windows 11 has no
-32-bit SKU. Windows 10 is past end of support as of October 2025 unless
-the estate bought Extended Security Updates. None of that is an MTV
-setting.
+32-bit SKU. Regular servicing for Windows 10 22H2 ended in October 2025. Check ESU enrollment for those deployments. Enterprise LTSC and IoT Enterprise LTSC have their own end dates, so identify the edition and servicing channel first. [Microsoft lifecycle](https://learn.microsoft.com/en-us/windows/iot/iot-enterprise/whats-new/release-history) · [Windows 10 Enterprise LTSC 2021](https://learn.microsoft.com/en-us/lifecycle/products/windows-10-enterprise-ltsc-2021)
 
 ## Find them before you name wave 1
 
@@ -209,12 +207,11 @@ install. Prove the platform with guests the platform claims.
 
 ## The solutions architect takeaway
 
-1. **Split 32-bit app from 32-bit OS** — WOW64 and RHEL multilib are
-   64-bit guests. i386/i686 operating systems are the filter.
+1. **Split 32-bit app from 32-bit OS** — WOW64 and RHEL 9 multilib can run 32-bit applications inside a 64-bit guest. i386/i686 operating systems are the filter.
 2. **Use the vSphere guest ID in discovery** — pull it before the first
    `Plan`. Do not learn architecture from a failed boot.
 3. **MTV copy is not certification** — offload and VDDK move disks.
-   The certified guest list decides whether the destination is allowed.
+   Check Red Hat’s guest matrix for the applicable guest and hypervisor support tier.
 4. **Do not coerce a lab boot into production** — q35, virtio, and
    current firmware are the platform default. A snowflake machine type
    is not a landing-zone pattern.
@@ -232,7 +229,7 @@ without those rows.
 
 - [VMware to OpenShift Virtualization: Copy Offload](/posts/mtv-storage-copy-offload-vmware/)
 - [AI Agents for MTV: vSphere to OpenShift Virtualization](/posts/ai-agents-mtv-vsphere/)
-- [VDDK Off Broadcom's Public Portal: MTV Migrations](/posts/vddk-portal-mtv-openshift/)
+- [VDDK Download Access for VMware Migrations with MTV](/posts/vddk-portal-mtv-openshift/)
 - [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 
 > Want help filtering a VMware inventory before the first MTV wave?

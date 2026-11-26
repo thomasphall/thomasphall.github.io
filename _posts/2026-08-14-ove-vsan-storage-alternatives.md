@@ -110,7 +110,7 @@ and present RWX block through CSI. No external array required.
 
 | Product                 | Partner                    | Topology                                              | OVE virt fit                                      | Notes                                                                                          |
 | ----------------------- | -------------------------- | ----------------------------------------------------- | ------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| Portworx Enterprise     | Everpure (Pure lineage)    | HCI on local SCSI/NVMe; also FlashArray or other arrays | Certified, including local disk                 | Most common vSAN stand-in. Same product can later front a FlashArray if you leave HCI.         |
+| Portworx Enterprise     | Everpure (Pure lineage)    | HCI on local SCSI/NVMe; also FlashArray or other arrays | Certified, including local disk                 | Same product can later front a FlashArray if you leave HCI.         |
 | Dell PowerFlex          | Dell                       | HCI rack/appliance or two-layer SDS                   | Certified via Dell CSM                            | NVMe/TCP or PowerFlex protocol. Natural if the account already runs Dell SDS.                  |
 | LINSTOR + DRBD          | LINBIT                     | Replicated local block on OVE nodes                   | Certified for OpenShift Virtualization            | Lightest analog to vSAN FTT. Live migration, snapshots, clones, RWX verified.                  |
 | IBM Storage Fusion      | IBM                        | Fusion HCI appliance or SDS software                  | IBM + Red Hat joint path                          | Fusion Data Foundation is Ceph-family (ODF-like). Fusion Access for SAN is the shared-FS path. |
@@ -158,12 +158,14 @@ snapshots, and clones.
 | ------------------- | ---------------------------------------------------- | ---------------------------------------- | ------------------------------------------------- |
 | Everpure / Portworx | FlashArray via Portworx CSI or PX Enterprise         | iSCSI, FC, NVMe/TCP, NVMe/RDMA           | Yes, including VDI                                |
 | Dell                | PowerMax, PowerStore, PowerFlex                      | FC, iSCSI, NVMe/TCP, NFS (varies)        | Yes via Container Storage Modules                 |
-| NetApp              | AFF / FAS via Trident (certified operator)           | iSCSI, NVMe/TCP, NFS, SMB; FC tech preview | Yes, including VDI. Use SAN raw block or NAS for RWX live migration. |
+| NetApp              | AFF / FAS via Trident (certified operator)           | iSCSI, NVMe/TCP, NFS, SMB; FC supported by ONTAP-SAN since Trident 25.02 | Yes, including VDI. Use SAN raw block or NAS for RWX live migration. |
 | IBM                 | FlashSystem, SVC, Storage Virtualize, DS8000         | FC, iSCSI                                | Yes via IBM block storage CSI                     |
 | HPE                 | Alletra / Primera / Nimble; XP8; GreenLake File      | FC, iSCSI, NFS, NVMe (XP8)               | Yes via HPE CSI operators                         |
 | Hitachi Vantara     | VSP One Block; VSP One SDS                           | FC, iSCSI, NVMe-oF                       | Yes via Hitachi Storage Plug-in for Containers    |
 | Infinidat           | InfiniBox                                            | FC, iSCSI, NFS                           | Yes                                               |
 | Arctera             | Infoscale for Kubernetes                             | FC/SCSI on Hitachi, Pure, or VMware VMDK | Yes — shared-disk file system model               |
+
+Check the exact Trident and OpenShift pairing for your array. NetApp lists Fibre Channel support for ONTAP-SAN in its [25.02 release history](https://docs.netapp.com/us-en/trident-2606/trident-rn.html).
 
 NetApp Trident’s SAN drivers do RWX in **raw block** mode. Filesystem mode
 on those drivers is RWO. Live migration cares about that distinction more
@@ -187,7 +189,7 @@ storage copy offload can matter more than which HCI you pick. See
 
 If the requirement is **local disks like vSAN**, shortlist Portworx
 on local disks, Dell PowerFlex, LINBIT LINSTOR, or IBM Fusion HCI. Portworx
-is the most common OpenShift Virtualization HCI path. PowerFlex fits Dell
+is one option for a local-disk HCI design. PowerFlex fits Dell
 SDS accounts. LINSTOR is the lightest certified replica of local NVMe.
 Fusion is the IBM appliance/software path.
 
@@ -213,7 +215,7 @@ just an older release.
 ## The solutions architect takeaway
 
 1. **Local disks like vSAN** — shortlist Portworx, PowerFlex, LINSTOR, or
-   IBM Fusion HCI. Portworx is the usual OpenShift Virtualization HCI path.
+   IBM Fusion HCI.
 2. **A SAN already exists** — use the vendor CSI. Do not add ODF because a
    slide said to.
 3. **Ask for the virt badge** — RWX Block, snapshots, clones, live migration,

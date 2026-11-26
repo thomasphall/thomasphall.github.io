@@ -2,8 +2,8 @@
 title: "Fence Gray Host Failures on OpenShift Virtualization"
 description: >-
   Configure Node Health Check, FAR, and PowerStore CSI so OpenShift
-  Virtualization fences a hung host that still answers BMC—the gray
-  failure vSphere HA misses.
+  Virtualization fences a hung host that still answers BMC—a gray
+  failure that can leave management heartbeats healthy.
 date: 2026-08-26 09:30:00 -0500
 categories: [OpenShift, Virtualization]
 tags: [openshift, openshift-virtualization, vmware, storage, gitops, csi]
@@ -16,14 +16,13 @@ permalink: /posts/openshift-virt-gray-failure-ha/
 
 vSphere HA is excellent at the failure it was designed for: the host is gone.
 Heartbeats stop, the primary declares the host failed or isolated, and
-protected VMs restart elsewhere from shared disk. A **gray failure** is the
-other case. The host still answers management watchdogs and often still ticks
+protected VMs restart elsewhere from shared disk. Consider one **gray failure** in a cluster with host monitoring. The host still answers management watchdogs and often still ticks
 datastore heartbeats. Every guest is hung. The initiator keeps the storage
 fabric busy, so healthy hosts on the same shared array slow down. vCenter
-stays green. A human issues a hard reset. That reset is a crash for every
+stays green. If no configured response detects the stall, an operator issues a hard reset. That reset is a crash for every
 virtual machine (VM) on the box.
 
-![VMware HA stays idle on a catatonic host while OpenShift Virtualization detects, fences, unmaps, and restarts the VM.](/assets/img/posts/openshift-virt-gray-failure-ha/compare-flows.svg)
+![In this example VMware HA stays idle on a hung host while OpenShift Virtualization detects, fences, unmaps, and restarts the VM.](/assets/img/posts/openshift-virt-gray-failure-ha/compare-flows.svg)
 {: .shadow .rounded-10 .w-100 }
 
 _Same failure mode, two control planes. The guest still crashes. The difference is who fences the initiator, and when._
@@ -75,14 +74,13 @@ The sequence you want is:
 _Detect, fence host, unpublish, then start the VM. Never restart a disk-backed VMI while the old QEMU might still write._
 
 BMC answering is *required to fence*. It is not proof the node is healthy.
-That is the opposite of how vSphere HA treats management watchdogs in a gray
-failure. Live migration does not apply; you cannot migrate off a hung host.
+vSphere HA can also respond to VM monitoring signals and datastore all-paths-down or permanent-device-loss events. Which signals fire depends on the fault and the configured responses. [Broadcom HA settings](https://knowledge.broadcom.com/external/article/417356/considerations-for-implementing-vsphere.html) Live migration does not apply; you cannot migrate off a hung host.
 The guest still crashes. Application clustering still matters. For first-pass
 Virtualization hardening around those VMs, see
 [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/).
 
 > Path B honesty: default NHC only watches `Ready`. If kubelet still
-> heartbeats, OpenShift can miss the event the same way vSphere HA did. Close
+> heartbeats, OpenShift can miss the event as in the VMware scenario above. Close
 > that with a Self Node Remediation (SNR) hardware watchdog, a guest
 > watchdog, and I/O alerts. Do not claim Ready-based HA is complete.
 {: .prompt-warning }
@@ -390,8 +388,9 @@ in the loop—not a second uncoordinated remediator.
 ![Path A: I/O hang stalls PLEG and Ready flips so NHC fences. Path B: kubelet still heartbeats so default NHC misses it.](/assets/img/posts/openshift-virt-gray-failure-ha/path-a-path-b.svg)
 {: .shadow .rounded-10 .w-100 }
 
-_Path A is the automatic fence. Path B is the same class of miss as vSphere HA unless a watchdog or I/O alert fires._
+_Path A is the automatic fence. Path B can also escape automatic detection unless a watchdog or I/O alert fires._
 
+{% raw %}
 ```yaml
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
@@ -418,14 +417,11 @@ spec:
           labels:
             severity: warning
 ```
+{% endraw %}
 
-Order-of-magnitude time-to-fence, not an SLA: Path A is often **about 4–8
-minutes** with PLEG as the long pole (~3 minutes) plus a 60 second NHC wait
-and Redfish. vSphere HA in a gray failure is however long it takes a human
-to notice and reset. Path B without a watchdog is the same human clock.
-Guest OS boot is extra on both platforms. Measure it in the lab.
+The diagram’s 4–8 minute estimate assumes a PLEG stall, a 60-second NHC wait after the condition changes, and a Redfish reset. If kubelet heartbeats stop entirely, allow for the node controller’s grace period before `Ready` becomes `Unknown`. If no configured detector fires on either platform, recovery depends on operator intervention. Time detection, fencing and guest startup separately in the rehearsal.
 
-![Order-of-magnitude time-to-fence: VMware waits on a human versus OpenShift Path A of about 4 to 8 minutes versus Path B unbounded.](/assets/img/posts/openshift-virt-gray-failure-ha/time-to-fence.svg)
+![Order-of-magnitude time-to-fence: the illustrated VMware configuration waits on a human versus OpenShift Path A of about 4 to 8 minutes versus Path B unbounded.](/assets/img/posts/openshift-virt-gray-failure-ha/time-to-fence.svg)
 {: .shadow .rounded-10 .w-100 }
 
 _Not an SLA. PLEG is often the long pole on Path A. Guest OS boot is extra on both platforms._
@@ -439,9 +435,7 @@ Cordon is not the test.
 2. Each worker has a unique `/etc/nvme/hostnqn` and a PowerStore Host object.
 3. `fence_redfish --action=status` works for every virt worker iDRAC.
 4. Disposable VM on `powerstore-vm-rwx-block` with `runStrategy: Always`.
-5. Induce `Ready=False` (stop kubelet in a debug session, or power-cycle from
-   iDRAC) and watch `oc get nhc,far,snr -A`, nodes, VMIs, and
-   VolumeAttachments.
+5. In the rehearsal cluster, stop kubelet on the test worker and watch its Node condition. After the heartbeat grace period, expect `Ready=Unknown`. A kubelet that is still reporting can separately report `Ready=False`. The example NHC watches both. Track the remediations, VMIs and VolumeAttachments. [Kubernetes node conditions](https://kubernetes.io/docs/reference/node/node-status/)
 
 Expect a FAR custom resource named after the node, an iDRAC reboot, the
 out-of-service taint, VolumeAttachments gone, a new virtual machine instance
@@ -452,8 +446,7 @@ when the sick node’s operating system is healthy again.
 ## The solutions architect takeaway
 
 1. **BMC is a reset button** — health is kubelet, PLEG, metrics, and array
-   I/O. vSphere HA keys off management liveness, so this class of failure
-   stays unfenced.
+   I/O. Record which HA signals and responses are enabled on each platform.
 2. **Detect, fence host, unpublish, then start the VM** — never restart a
    disk-backed VMI while the old QEMU might still write.
 3. **OutOfServiceTaint xor CSM Resiliency** — pick one volume-revoke path.

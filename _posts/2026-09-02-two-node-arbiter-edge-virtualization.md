@@ -169,7 +169,7 @@ first. Storage decides the second.
 
 Live migration needs
 [RWX](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/live-migration)
-and, for VM disks, **Block** volume mode. LVM Storage (LVMS) and the
+access to shared storage on both hosts. Red Hat recommends **Block** volume mode for performance. A supported shared Filesystem volume can also provide RWX access. LVM Storage (LVMS) and the
 Local Storage Operator bind a volume to one node. That is the SNO
 pattern. It is still RWO on TNA. A VM on LVMS does not live-migrate; it
 powers off with the node. Fine for a lab disk. Wrong for the reason you
@@ -182,11 +182,7 @@ bought a second hypervisor.
 | LVMS / host-local RWO | Lab, or VMs that may die with the node | Coherent with SNO. Not why you added a second host |
 | OpenShift Data Foundation (ODF) internal | Do not assume TNA | ODF 4.22 added support for **two-node with fencing**, not for TNA as the Ceph topology. Confirm the current ODF deployment guide before anyone draws OSDs on the arbiter |
 
-The Portworx design for TNA is the clean mental model for local-disk
-SDS: a three-member storage cluster where the arbiter holds metadata and
-must not take volume replicas. Whatever CSI you pick, write that
-constraint down. The arbiter is not a third vSAN-style fault domain for
-data.
+For a two-node SDS design, verify the exact witness or metadata topology with the storage vendor. The OpenShift arbiter participates in etcd quorum. Its presence alone does not establish a third storage failure domain.
 
 [OpenShift Virtualization Engine (OVE)](https://www.redhat.com/en/technologies/cloud-computing/openshift/virtualization-engine)
 still does not include ODF. Edge TNA on OVE is almost always array CSI
@@ -276,7 +272,7 @@ TNA is a spoke shape, not a new control-plane product.
    virt form factor when a third full server is the thing you cannot buy.
 2. **The arbiter is local, small, and unschedulable** — etcd only. Remote
    arbiters are unsupported. It will not take VMs on a bad day.
-3. **Quorum is not live migration** — RWX block (array CSI or certified
+3. **Quorum is not live migration** — Shared RWX storage (array CSI or certified
    SDS) is what makes the second node useful for Virtualization. LVMS is
    still one failure domain.
 4. **You cannot grow this into a standard control plane later** — two

@@ -115,9 +115,7 @@ virtualization teams are asking for when they say “the VM IP must not be the
 pod IP.”
 
 Localnet is always secondary on the pod/VM network model (unless you take
-unsupported Multus routing tricks). Only the admin API—CUDN—can define
-localnet; the tenant `UserDefinedNetwork` API intentionally cannot, for
-security. Existing Multus secondary networks are not displaced when you adopt
+unsupported Multus routing tricks). Among the UDN APIs, only the cluster-scoped CUDN defines localnet. Administrators can also define a localnet secondary network with a [NetworkAttachmentDefinition](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/multiple_networks/secondary-networks). Existing Multus secondary networks are not displaced when you adopt
 UDN—you can introduce CUDN localnets alongside older NADs during a migration.
 
 ## Host networking: where localnet actually lands

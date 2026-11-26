@@ -36,13 +36,13 @@
   <text x="862" y="114" text-anchor="middle" fill="#fff" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="12">when initiator dies</text>
 
   <rect x="16" y="148" width="928" height="40" rx="8" fill="#f4f7fa" stroke="#d1d5db"/>
-  <text x="480" y="174" text-anchor="middle" fill="#0a3d62" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="14">This is the signal vSphere did not get from BMC still answering.</text>
+  <text x="480" y="174" text-anchor="middle" fill="#0a3d62" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="14">Node readiness and BMC reachability are independent signals.</text>
 
   <text x="24" y="220" fill="#c41e3a" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="16" font-weight="700">Path B - kubelet still heartbeats (true gray failure)</text>
 
   <rect x="16" y="236" width="300" height="120" rx="8" fill="#fff" stroke="#c41e3a"/>
   <text x="166" y="270" text-anchor="middle" fill="#c41e3a" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="15" font-weight="700">Default NHC misses it</text>
-  <text x="32" y="300" fill="#374151" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">Same class of miss as vSphere HA.</text>
+  <text x="32" y="300" fill="#374151" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">Workload I/O can stall while Ready stays true.</text>
   <text x="32" y="322" fill="#374151" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">Ready never flips, no FAR CR.</text>
   <text x="32" y="344" fill="#374151" font-family="system-ui, Segoe UI, Helvetica, sans-serif" font-size="13">PLEG keeps ticking.</text>
 

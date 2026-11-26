@@ -567,7 +567,7 @@ the same way tenant `NetworkPolicy` does.
 
 ## The solutions architect takeaway
 
-1. **Install Loki first, as a dedicated `openshift-network` LokiStack.** Share
+1. **For stored flow logs, install Loki first as a dedicated `openshift-network` LokiStack.** Share
    the Operator, never the logging stack.
 2. **One `FlowCollector` named `cluster`.** Set sampling, Loki, and
    `Service` vs `Kafka` on create. Edits restart the pipeline.

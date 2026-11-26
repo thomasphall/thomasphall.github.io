@@ -37,8 +37,7 @@ chapter for the operator version you will actually run.
 
 If you are still sequencing the landing zone, start with
 [How to Get Started with an OpenShift PoC](/posts/getting-started-openshift-poc/).
-Storage class and RWX Block still come before the first `Backup` custom
-resource (CR)—see
+Check that the StorageClass and backup method support the VM’s access and volume modes before creating the first `Backup` custom resource (CR). See
 [vSAN-like storage for OpenShift Virtualization Engine](/posts/ove-vsan-storage-alternatives/).
 Fleet backup policy belongs on
 [Red Hat Advanced Cluster Management for Kubernetes (RHACM)](/posts/acm-openshift-virtualization/),
@@ -161,8 +160,7 @@ program. The documented constraints are the ones that bite in a tabletop:
 - Backup storage location names and paths must match.
 - The clusters share object-storage credentials.
 - You do not restore onto an older Kubernetes version than the source.
-- Storage classes, snapshot classes, and RWX Block capability have to
-  exist on the destination the way they existed on the source.
+- Verify the destination storage and snapshot classes support the backup method and each restored PVC’s access and volume modes.
 - The VM still needs networks, IPAM, DNS, and RBAC after the PVC comes
   back.
 

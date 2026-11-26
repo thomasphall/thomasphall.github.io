@@ -204,7 +204,7 @@ qualify. Prove it with one VM and a `StorageMap`, as described in the
 offload post.
 vSAN and fast network copy still depend on a legal VMware Virtual
 Disk Development Kit image. For that procurement step, see
-[VDDK Off Broadcom's Public Portal: MTV Migrations](/posts/vddk-portal-mtv-openshift/).
+[VDDK Download Access for VMware Migrations with MTV](/posts/vddk-portal-mtv-openshift/).
 The advisor does not ship the SDK.
 
 ## Disconnect on purpose
@@ -247,7 +247,7 @@ of what remains. That file is the wave. The MTV `Plan` comes after it.
 
 - [vSphere to OpenShift Virtualization: Translation Guide](/posts/vsphere-to-openshift-translation-guide/)
 - [32-bit VMs Stay Out of OpenShift Wave 1](/posts/32-bit-vms-not-wave-1/)
-- [VDDK Off Broadcom's Public Portal: MTV Migrations](/posts/vddk-portal-mtv-openshift/)
+- [VDDK Download Access for VMware Migrations with MTV](/posts/vddk-portal-mtv-openshift/)
 - [VMware to OpenShift Virtualization: Copy Offload](/posts/mtv-storage-copy-offload-vmware/)
 
 > Want help turning a second migration advisor report into a wave list?

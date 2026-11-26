@@ -1,9 +1,8 @@
 ---
-title: "VDDK Off Broadcom's Public Portal: MTV Migrations"
+title: "VDDK Download Access for VMware Migrations with MTV"
 description: >-
-  Broadcom has gated VMware VDDK downloads behind TAP and entitlements.
-  How that change hits MTV migrations to OpenShift Virtualization—and
-  what to do instead.
+  Check VDDK download access before scheduling a VMware migration with MTV.
+  See which storage paths require the SDK and what to do if access is delayed.
 date: 2026-08-20 12:00:00 -0500
 categories: [OpenShift, Virtualization]
 tags: [openshift, openshift-virtualization, migration, vmware, storage]
@@ -58,35 +57,9 @@ Red Hat cannot host the tarball. Product docs also warn that putting the
 image in a **public** registry can violate VMware license terms. Keep it in
 a private registry the landing cluster can pull.
 
-## What changed on the portal
+## Check download access before planning cutover
 
-The kit is not gone as a product. Broadcom still publishes VDDK (9.1 is
-current as of this writing) and still has a
-[developer landing page](https://developer.broadcom.com/sdks/vmware-virtual-disk-development-kit-vddk/latest).
-What disappeared for a lot of VMware-exit teams is the **public,
-self-service download** that MTV documentation still tells you to use.
-
-In practice, customers and partners report some mix of:
-
-- Download buttons that return JSON errors or a permanent login loop.
-- Entitlement walls that a vSphere support contract does not clear.
-- Broadcom support directing people to the
-  [VMware Technology Alliance Program](https://tap.broadcom.com/)
-  (TAP).
-
-TAP is an **ISV and hardware-vendor** program: build, certify, and sell
-against VMware. It is not a customer off-ramp. Community reports from
-migration products (Nutanix Move is a public example) describe the same
-dead end: you need TAP, TAP asks whether you build software for Broadcom,
-and “we are leaving vSphere” is the wrong answer.
-
-Read that as a procurement and timeline problem, not as a conspiracy
-slide. The incentive is obvious. VDDK is how third-party tools read VMDKs
-efficiently. Gating it slows every exit that assumed the old VMware
-developer portal.
-
-MTV docs still say “navigate to the VMware VDDK download page.” That
-sentence is now the riskiest line in the runbook.
+Broadcom lists VDDK on its [developer portal](https://developer.broadcom.com/sdks/vmware-virtual-disk-development-kit-vddk/latest). Some customers and partners report sign-in loops, entitlement errors or referrals to the VMware Technology Alliance Program (TAP). Those reports describe individual accounts. Verify download access with the account that will obtain the archive, and ask Broadcom which entitlement applies if access fails.
 
 ## How migrations actually break
 
@@ -213,12 +186,7 @@ and the provider does not.
 
 ## The solutions architect takeaway
 
-Broadcom did not have to delete VDDK to slow VMware exits. Gating the
-public download is enough. MTV 2.12 still wants that SDK for fast
-network copy, for warm incremental work, for Deep Inspection, and
-**absolutely** for vSAN. OpenShift Virtualization is not blocked as a
-destination. The blocked thing is the *assumption* that VDDK is a free
-file on a portal.
+Verify access to a compatible VDDK archive before committing to a cutover window. With MTV 2.12, that check is essential for VMs on vSAN. For other storage, test the supported copy path and measure its duration.
 
 Lead with three decisions:
 

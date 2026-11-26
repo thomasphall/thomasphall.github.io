@@ -193,6 +193,7 @@ encoding):
 NVME_ADDRS=<PURE_DATA_IP_1>,<PURE_DATA_IP_2>
 NVME_NQN=<SUBSYSTEM_NQN>
 NVME_PORT=4420
+NVME_DEVICE=/dev/disk/by-id/<STABLE_NAMESPACE_ID>
 ```
 
 `/usr/local/sbin/nvme-tcp-connect.sh`:
@@ -210,14 +211,34 @@ source "$ENV_FILE"
 : "${NVME_ADDRS:?}"
 : "${NVME_NQN:?}"
 NVME_PORT="${NVME_PORT:-4420}"
-modprobe nvme-tcp || true
+# Use the namespace by-id link recorded for this volume during discovery.
+: "${NVME_DEVICE:?Set the expected namespace by-id path}"
+modprobe nvme-tcp
 IFS=',' read -r -a addrs <<< "$NVME_ADDRS"
 for addr in "${addrs[@]}"; do
   addr="$(echo "$addr" | tr -d '[:space:]')"
   [[ -z "$addr" ]] && continue
-  nvme connect -t tcp -a "$addr" -s "$NVME_PORT" -n "$NVME_NQN" || true
+  if ! nvme connect -t tcp -a "$addr" -s "$NVME_PORT" -n "$NVME_NQN"; then
+    echo "Connect to $addr returned an error; checking for a live path." >&2
+  fi
 done
-nvme list || true
+
+# An already connected portal may reject a duplicate connect. Wait for
+# a live TCP controller on this subsystem and the expected namespace.
+for ((attempt=0; attempt<15; attempt++)); do
+  if [[ -b "$NVME_DEVICE" ]]; then
+    for ctrl in /sys/class/nvme/nvme*; do
+      [[ -r "$ctrl/subsysnqn" && -r "$ctrl/transport" && -r "$ctrl/state" ]] || continue
+      if [[ $(<"$ctrl/subsysnqn") == "$NVME_NQN" &&
+            $(<"$ctrl/transport") == tcp && $(<"$ctrl/state") == live ]]; then
+        exit 0
+      fi
+    done
+  fi
+  sleep 1
+done
+echo "No usable path to $NVME_DEVICE on $NVME_NQN" >&2
+exit 1
 ```
 
 `/etc/systemd/system/nvme-tcp-connect.service`:
@@ -280,12 +301,12 @@ spec:
           overwrite: true
           contents:
             # Replace this base64 after substituting real NVME_* values
-            source: data:text/plain;charset=utf-8;base64,TlZNRV9BRERSUz08UFVSRV9EQVRBX0lQXzE+LDxQVVJFX0RBVEFfSVBfMj4KTlZNRV9OUU49PFNVQlNZU1RFTV9OUU4+Ck5WTUVfUE9SVD00NDIw
+            source: data:text/plain;charset=utf-8;base64,TlZNRV9BRERSUz08UFVSRV9EQVRBX0lQXzE+LDxQVVJFX0RBVEFfSVBfMj4KTlZNRV9OUU49PFNVQlNZU1RFTV9OUU4+Ck5WTUVfUE9SVD00NDIwCk5WTUVfREVWSUNFPS9kZXYvZGlzay9ieS1pZC88U1RBQkxFX05BTUVTUEFDRV9JRD4K
         - path: /usr/local/sbin/nvme-tcp-connect.sh
           mode: 493
           overwrite: true
           contents:
-            source: data:text/plain;charset=utf-8;base64,IyEvYmluL2Jhc2gKc2V0IC1ldW8gcGlwZWZhaWwKRU5WX0ZJTEU9L2V0Yy9udm1lL252bWUtdGNwLmVudgppZiBbWyAhIC1mICIkRU5WX0ZJTEUiIF1dOyB0aGVuCiAgZWNobyAibWlzc2luZyAkRU5WX0ZJTEUiID4mMgogIGV4aXQgMQpmaQojIHNoZWxsY2hlY2sgZGlzYWJsZT1TQzEwOTAKc291cmNlICIkRU5WX0ZJTEUiCjogIiR7TlZNRV9BRERSUzo/fSIKOiAiJHtOVk1FX05RTjo/fSIKTlZNRV9QT1JUPSIke05WTUVfUE9SVDotNDQyMH0iCm1vZHByb2JlIG52bWUtdGNwIHx8IHRydWUKSUZTPScsJyByZWFkIC1yIC1hIGFkZHJzIDw8PCAiJE5WTUVfQUREUlMiCmZvciBhZGRyIGluICIke2FkZHJzW0BdfSI7IGRvCiAgYWRkcj0iJChlY2hvICIkYWRkciIgfCB0ciAtZCAnWzpzcGFjZTpdJykiCiAgW1sgLXogIiRhZGRyIiBdXSAmJiBjb250aW51ZQogIG52bWUgY29ubmVjdCAtdCB0Y3AgLWEgIiRhZGRyIiAtcyAiJE5WTUVfUE9SVCIgLW4gIiROVk1FX05RTiIgfHwgdHJ1ZQpkb25lCm52bWUgbGlzdCB8fCB0cnVl
+            source: data:text/plain;charset=utf-8;base64,IyEvYmluL2Jhc2gKc2V0IC1ldW8gcGlwZWZhaWwKRU5WX0ZJTEU9L2V0Yy9udm1lL252bWUtdGNwLmVudgppZiBbWyAhIC1mICIkRU5WX0ZJTEUiIF1dOyB0aGVuCiAgZWNobyAibWlzc2luZyAkRU5WX0ZJTEUiID4mMgogIGV4aXQgMQpmaQojIHNoZWxsY2hlY2sgZGlzYWJsZT1TQzEwOTAKc291cmNlICIkRU5WX0ZJTEUiCjogIiR7TlZNRV9BRERSUzo/fSIKOiAiJHtOVk1FX05RTjo/fSIKTlZNRV9QT1JUPSIke05WTUVfUE9SVDotNDQyMH0iCiMgVXNlIHRoZSBuYW1lc3BhY2UgYnktaWQgbGluayByZWNvcmRlZCBmb3IgdGhpcyB2b2x1bWUgZHVyaW5nIGRpc2NvdmVyeS4KOiAiJHtOVk1FX0RFVklDRTo/U2V0IHRoZSBleHBlY3RlZCBuYW1lc3BhY2UgYnktaWQgcGF0aH0iCm1vZHByb2JlIG52bWUtdGNwCklGUz0nLCcgcmVhZCAtciAtYSBhZGRycyA8PDwgIiROVk1FX0FERFJTIgpmb3IgYWRkciBpbiAiJHthZGRyc1tAXX0iOyBkbwogIGFkZHI9IiQoZWNobyAiJGFkZHIiIHwgdHIgLWQgJ1s6c3BhY2U6XScpIgogIFtbIC16ICIkYWRkciIgXV0gJiYgY29udGludWUKICBpZiAhIG52bWUgY29ubmVjdCAtdCB0Y3AgLWEgIiRhZGRyIiAtcyAiJE5WTUVfUE9SVCIgLW4gIiROVk1FX05RTiI7IHRoZW4KICAgIGVjaG8gIkNvbm5lY3QgdG8gJGFkZHIgcmV0dXJuZWQgYW4gZXJyb3I7IGNoZWNraW5nIGZvciBhIGxpdmUgcGF0aC4iID4mMgogIGZpCmRvbmUKCiMgQW4gYWxyZWFkeSBjb25uZWN0ZWQgcG9ydGFsIG1heSByZWplY3QgYSBkdXBsaWNhdGUgY29ubmVjdC4gV2FpdCBmb3IKIyBhIGxpdmUgVENQIGNvbnRyb2xsZXIgb24gdGhpcyBzdWJzeXN0ZW0gYW5kIHRoZSBleHBlY3RlZCBuYW1lc3BhY2UuCmZvciAoKGF0dGVtcHQ9MDsgYXR0ZW1wdDwxNTsgYXR0ZW1wdCsrKSk7IGRvCiAgaWYgW1sgLWIgIiROVk1FX0RFVklDRSIgXV07IHRoZW4KICAgIGZvciBjdHJsIGluIC9zeXMvY2xhc3MvbnZtZS9udm1lKjsgZG8KICAgICAgW1sgLXIgIiRjdHJsL3N1YnN5c25xbiIgJiYgLXIgIiRjdHJsL3RyYW5zcG9ydCIgJiYgLXIgIiRjdHJsL3N0YXRlIiBdXSB8fCBjb250aW51ZQogICAgICBpZiBbWyAkKDwiJGN0cmwvc3Vic3lzbnFuIikgPT0gIiROVk1FX05RTiIgJiYKICAgICAgICAgICAgJCg8IiRjdHJsL3RyYW5zcG9ydCIpID09IHRjcCAmJiAkKDwiJGN0cmwvc3RhdGUiKSA9PSBsaXZlIF1dOyB0aGVuCiAgICAgICAgZXhpdCAwCiAgICAgIGZpCiAgICBkb25lCiAgZmkKICBzbGVlcCAxCmRvbmUKZWNobyAiTm8gdXNhYmxlIHBhdGggdG8gJE5WTUVfREVWSUNFIG9uICROVk1FX05RTiIgPiYyCmV4aXQgMQo=
         - path: /etc/systemd/system/nvme-tcp-connect.service
           mode: 420
           overwrite: true
@@ -299,7 +320,7 @@ spec:
 
 Modes `420` and `493` are Ignition decimal for `0644` and `0755`. The env
 file base64 above still contains the `<...>` placeholders—re-encode after you
-substitute real IPs and the subsystem NQN.
+substitute real portal IPs, the subsystem NQN, and the stable namespace by-id path. Unit success verifies at least one live path. Check each portal separately when validating redundancy.
 
 > Do not use Ignition `contents.inline` for these files. Some Machine Config
 > Operator versions reject it and the pool goes `RenderDegraded`.

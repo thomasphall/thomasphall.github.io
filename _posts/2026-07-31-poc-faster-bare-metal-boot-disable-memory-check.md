@@ -2,7 +2,7 @@
 title: "Faster Bare-Metal Boots in OpenShift PoCs"
 description: >-
   Cut POST wait time on Dell, HPE, Cisco, and Lenovo servers during
-  OpenShift bare-metal PoC redeploys, then turn memory checks back on
+  OpenShift bare-metal PoC redeploys, then restore the original settings
   before handback.
 date: 2026-07-31 12:50:00 -0500
 categories: [OpenShift]
@@ -27,7 +27,7 @@ that tax becomes the loudest part of the engagement.
 
 This post is a field runbook for **temporary** OpenShift PoCs: what “memory
 checking” usually means, when it is acceptable to turn it off, vendor steps to
-disable and re-enable it on Dell, HPE, Cisco, and Lenovo, and a handback
+change and restore it on Dell, HPE, Cisco, and Lenovo, and a handback
 checklist before you return the gear or promote anything toward production.
 
 ## Why PoC boot time hurts more than production
@@ -85,7 +85,7 @@ Disable (or confirm already disabled) when all of these are true:
 2. Nodes will be wiped or returned at the end of the engagement.
 3. You accept the risk of a latent DIMM fault showing up as random crashes
    instead of a clean POST failure.
-4. You have a teardown step on the calendar to restore vendor defaults.
+4. You have a teardown step on the calendar to restore the recorded pre-PoC settings.
 
 Keep checks on (or run one full test first) when:
 
@@ -125,11 +125,13 @@ racadm -r <idrac-host> -u <user> -p <password> \
   jobqueue create BIOS.Setup.1-1 -r pwrcycle -s TIME_NOW
 ```
 
-#### RACADM (re-enable before handback)
+#### RACADM handback
+
+Record the active `MemTest` value before the PoC. Supply that value below. On Dell’s 16G Intel systems the documented default is `Disabled`. [Dell BIOS guide](https://www.dell.com/en-us/infohub/articles/poweredge-bios-performance-and-workload-tuning-guide-for-16g)
 
 ```bash
 racadm -r <idrac-host> -u <user> -p <password> \
-  set BIOS.MemSettings.MemTest Enabled
+  set BIOS.MemSettings.MemTest "${ORIGINAL_MEMTEST:?Set this to the recorded BIOS value}"
 
 racadm -r <idrac-host> -u <user> -p <password> \
   jobqueue create BIOS.Setup.1-1 -r pwrcycle -s TIME_NOW
@@ -177,7 +179,9 @@ curl -k -u "<user>:<password>" -X PATCH \
 Then reset the server so pending BIOS settings apply (iLO virtual power /
 Redfish `Reset` action).
 
-#### Redfish (re-enable before handback)
+#### Redfish handback
+
+If the saved value was `Enabled`, restore it as shown. If it was `Disabled` and remains disabled, no change is needed.
 
 ```bash
 curl -k -u "<user>:<password>" -X PATCH \
@@ -260,7 +264,9 @@ Restart the system for the change to take effect. On XCC firmware older than
 (some AMD EPYC platforms, such as SR645/SR665, use this path too); check
 Lenovo’s OneCLI memory-test topic for your exact firmware stream.
 
-#### OneCLI (re-enable before handback)
+#### OneCLI handback
+
+The following example applies to a machine originally configured for `Enable` and `Repair`. Use the two values recorded for your machine.
 
 ```bash
 OneCli config set Memory.MemoryTest Enable \
@@ -293,6 +299,7 @@ environment variables or a local vault file that never leaves the laptop.
 Example pattern with `community.general.redfish_command` / raw URI calls
 (attribute names differ by vendor—parameterize them):
 
+{% raw %}
 ```yaml
 # poc-bios-memory-test.yaml
 ---
@@ -336,6 +343,7 @@ Example pattern with `community.general.redfish_command` / raw URI calls
           - BIOS.MemSettings.MemTest
           - Disabled
 ```
+{% endraw %}
 
 Run Ansible from a project-local venv:
 
@@ -378,8 +386,7 @@ pull secrets”:
 2. Reboot once and confirm the restored value is active, not merely pending.
 3. Optionally run one vendor full memory diagnostic on loaner gear before
    shipping it back.
-4. If the customer is keeping the hardware as a production seed, leave checks
-   **enabled** and do not hand over a “PoC-tuned” BIOS as the baseline.
+4. If the hardware will enter production, confirm the approved BIOS baseline with its owner and record any change from the original values.
 
 ## Recommended PoC policy
 

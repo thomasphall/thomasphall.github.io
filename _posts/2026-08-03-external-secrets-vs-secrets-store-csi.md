@@ -72,7 +72,7 @@ Kubernetes Secrets; SSCSI mounts them without making etcd the system of record.
 | GitOps fit | Declare ExternalSecrets; apps keep Secret name references | Declare SecretProviderClass + volume mounts; Secret objects optional |
 | Control-plane trust | You accept Secrets in the cluster (with encryption/RBAC) | You minimize Secrets in etcd; stronger when control plane is shared/managed |
 | Typical OpenShift surface | Operator + CRDs; non-privileged controller model | CSI driver DaemonSet + provider plugins; privileged / hostPath considerations on OpenShift |
-| Best-fit use | Platform integration, templating, image pulls, GitOps-native apps | Compliance “no secrets in etcd,” mount-only apps, tenant privacy from platform admins |
+| Best-fit use | Platform integration, templating, image pulls, GitOps-native apps | Compliance “no secrets in etcd,” mount-only apps |
 
 ## Day-2 differences that matter
 
@@ -109,11 +109,7 @@ Teams that trust the control plane—or run platform encryption and strong audit
 often accept that trade for compatibility.
 
 SSCSI’s appeal is the inverse: credentials stay in the central store and appear
-only as a short-lived mount for that pod. That maps to “secrets must not live in
-etcd” policies and to shared or managed control planes where tenants want
-credential privacy from platform admins. Optional sync-to-Secret narrows that
-advantage—the moment you sync, you reintroduce an etcd copy—so enable it
-deliberately.
+only as a short-lived mount for that pod. Mount-only delivery can meet a requirement to keep credentials out of etcd. Enabling Secret sync creates an etcd copy. Administrators with sufficient node access or permission to exec into the consuming workload can still read the mounted files. [CSI driver security model](https://secrets-store-csi-driver.sigs.k8s.io/concepts.html)
 
 ### Developer UX
 
@@ -213,7 +209,6 @@ security context on hybrid OpenShift estates, see
 
 - Compliance forbids durable credentials in etcd as Kubernetes Secrets
 - Workloads are file-oriented (or you will invest in that contract)
-- Control plane is shared/managed and tenants want credential privacy from platform admins
 - You can operate privileged CSI/provider DaemonSets under OpenShift SCCs
 - Image pulls and Secret-only APIs are handled by a different path (often ESO)
 

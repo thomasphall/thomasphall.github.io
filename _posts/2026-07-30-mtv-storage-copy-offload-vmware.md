@@ -33,7 +33,7 @@ runbook. For operator install, a vSphere provider, and VDDK setup in a PoC,
 use the
 [Migration Toolkit for Virtualization (OpenShift PoC)](https://openshift-ssa.github.io/openshift-poc/configure-the-cluster/mtv/)
 guide. If obtaining VDDK from Broadcom is the blocker, see
-[VDDK Off Broadcom's Public Portal: MTV Migrations](/posts/vddk-portal-mtv-openshift/).
+[VDDK Download Access for VMware Migrations with MTV](/posts/vddk-portal-mtv-openshift/).
 
 ## The traditional MTV path hits the network
 
@@ -234,7 +234,7 @@ before you assume ODF is the only landing pool.
 ## Related posts
 
 - [32-bit VMs Stay Out of OpenShift Wave 1](/posts/32-bit-vms-not-wave-1/)
-- [VDDK Off Broadcom's Public Portal: MTV Migrations](/posts/vddk-portal-mtv-openshift/)
+- [VDDK Download Access for VMware Migrations with MTV](/posts/vddk-portal-mtv-openshift/)
 - [AI Agents for MTV: vSphere to OpenShift Virtualization](/posts/ai-agents-mtv-vsphere/)
 - [vSAN-like Storage for OpenShift Virtualization Engine](/posts/ove-vsan-storage-alternatives/)
 
