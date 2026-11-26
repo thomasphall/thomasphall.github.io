@@ -95,8 +95,12 @@ CNV is a scoping problem, not proof that “security tools don’t work on VMs.�
 
 ## Guest vulnerability scanning in RHACS 4.10 and 5.0
 
-RHACS 4.10 introduced guest scanning as a Technology Preview. For production
-use with RHACS 5.0, check the secured cluster’s OpenShift version against the
+RHACS 4.10 introduced guest scanning as a Technology Preview. RHACS 5.0.0
+makes it generally available. The GitOps, the in-guest agent, and how guest
+findings differ from image findings are in
+[RHACS 5.0: RHEL VM Vulnerability Scanning](/posts/rhacs-5-rhel-vm-vulnerability-scanning/).
+
+For production use, check the secured cluster’s OpenShift version against the
 support matrix and select a supported RHEL guest. Enable the cluster’s VSOCK
 feature gate and set `spec.domain.devices.autoattachVSOCK: true` on the VM.
 OpenShift Virtualization must be installed on the secured cluster. Central
@@ -157,15 +161,17 @@ Lead with outcomes:
    workloads; RHACS can still surface risk and enforce policy on that surface.
 2. **Scope exceptions** — virt components may need allowances that look noisy;
    allowlist intentionally instead of disabling policy.
-3. **Check guest scanning eligibility.** Verify the RHACS and OpenShift versions, the RHEL guest release, and VSOCK configuration before relying on scan coverage.
-
+3. **Check guest scanning eligibility.** Verify the RHACS and OpenShift versions, the RHEL guest release, and VSOCK configuration before relying on scan coverage. Setup is in
+   [RHACS 5.0: RHEL VM Vulnerability Scanning](/posts/rhacs-5-rhel-vm-vulnerability-scanning/).
 4. **Keep guest OS work separate** — platform posture and guest posture are both
    required.
 
 If you are already running RHACS for containers and enabling OpenShift
 Virtualization, start the next conversation with a simple proof point: show a
 virt-launcher workload in the same risk view as your applications, agree which
-policies stay enforced in virtualization namespaces, and verify that a supported RHEL guest returns a package report in RHACS 5.0.
+policies stay enforced in virtualization namespaces. For the guest, follow
+[RHACS 5.0: RHEL VM Vulnerability Scanning](/posts/rhacs-5-rhel-vm-vulnerability-scanning/)
+and confirm a supported RHEL guest returns a package report.
 
 For GPU-backed AI where the security story is TEE attestation rather than
 deployment policy alone, see
@@ -178,6 +184,7 @@ and
 
 ## Related posts
 
+- [RHACS 5.0: RHEL VM Vulnerability Scanning](/posts/rhacs-5-rhel-vm-vulnerability-scanning/)
 - [Security Tools Across the OpenShift Stack](/posts/openshift-security-tools-stack/)
 - [OVE vs OpenShift Platform Plus: The SKU Choice](/posts/ove-vs-openshift-platform-plus/)
 - [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)

@@ -122,7 +122,12 @@ show up in the same control plane as a Deployment. That is why
 still applies. Policies that warn or block privileged paths, host devices,
 and risky images are the same policies you already run for containers—scoped
 so OpenShift Virtualization namespaces get intentional allowlists instead of
-a cluster-wide mute. Guest scanning was a preview in RHACS 4.10. On RHACS 5.0, use supported guest scans to identify vulnerable packages and send findings to the guest patch owner. Detail lives in
+a cluster-wide mute. RHACS 5.0 makes guest package scanning generally
+available for supported RHEL VMs. That guest finding sits next to the
+virt-launcher image finding, and guest patching remains its own program.
+Setup is in
+[RHACS 5.0: RHEL VM Vulnerability Scanning](/posts/rhacs-5-rhel-vm-vulnerability-scanning/).
+The platform-side view is in
 [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/).
 
 **Inside the guest.** Patching, CIS/STIG baselines, identity, and endpoint
@@ -280,6 +285,7 @@ and the
 ## Related posts
 
 - [Supply-Chain Security for Regulated Hybrid Cloud](/posts/openshift-security-platform-supply-chain/)
+- [RHACS 5.0: RHEL VM Vulnerability Scanning](/posts/rhacs-5-rhel-vm-vulnerability-scanning/)
 - [RHACS for OpenShift Virtualization Workloads](/posts/acs-openshift-virtualization/)
 - [Hardening OpenShift Virtualization: First Priorities](/posts/openshift-virtualization-hardening-priorities/)
 - [RHCOS 10 on OpenShift 4.22: What Changes](/posts/rhcos-10-openshift/)
