@@ -1,5 +1,5 @@
 ---
-title: "ACM 5.0 Argo CD Agent: Switch Push to Pull"
+title: "ACM 5.0 Argo CD Agent: Switch from Push to Pull"
 description: >-
   The Argo CD Agent pull model is GA in RHACM 5.0. Learn when outbound
   spokes beat hub push, what the switch breaks, and what to check before
@@ -31,17 +31,15 @@ The pull path is generally available in RHACM 5.0. Red Hat's
 [November 11 announcement](https://www.redhat.com/en/blog/red-hat-advanced-cluster-management-kubernetes-5)
 calls the Argo CD Agent integration generally available. The
 [November 25 Red Hat Developer article](https://developers.redhat.com/articles/2026/11/25/scaling-multicluster-gitops-with-argocd-agent-and-red-hat-advanced-cluster-management-for-kubernetes)
-walks managed mode, the default, and the `GitOpsCluster` that bootstraps it.
+walks through managed mode (the default) and the `GitOpsCluster` that bootstraps it.
 RHACM 2.16 still documents that add-on as
 [Technology Preview](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.16/html/gitops/gitops-overview).
-The YAML is familiar. RHACM 5.0 is the release whose guide and announcement
-call the integration generally available.
 
 ## The two fields that flip the model
 
 Push and pull both start from a `GitOpsCluster`. Push registers spokes with
-the hub Argo CD and leaves `gitopsAddon` off. The RHACM 5.0 agent sample
-turns the add-on on and turns the agent on under it. `mode` is optional.
+the Argo CD instance on the hub and leaves `gitopsAddon` off. The RHACM 5.0 agent sample
+enables both the add-on and its agent. `mode` is optional.
 The guide's default is `managed`.
 
 ```yaml
@@ -63,21 +61,21 @@ spec:
       enabled: true
 ```
 
-Nest `argoCDAgent` under `gitopsAddon`. That is the field the
+Nest `argoCDAgent` under `gitopsAddon`, as shown in the
 [RHACM 5.0 pull guide](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/5.0/html/gitops/gitops-pull-overview)
-reads. The November 25 article sets `mode: managed` in its example. Omit
+example. The November 25 article sets `mode: managed` in its example. Omit
 `mode` and the default is still managed.
 
 `gitopsAddon.enabled` installs the OpenShift GitOps operator and an Argo CD
 instance on every cluster the placement selects. `argoCDAgent.enabled` adds
-the agent and the hub principal. In managed mode you keep authoring
-`Application` and `ApplicationSet` objects on the hub. The principal
-dispatches them. The spoke application controller reconciles them. Set
+the agent and the hub principal. In managed mode, you keep authoring
+`Application` and `ApplicationSet` objects on the hub. The principal dispatches the resulting Applications to the spokes,
+where the application controllers reconcile them. Set
 `mode: autonomous` only when the spoke owns the `Application` and the hub
 copy must stay a read-only mirror.
 
 The placement that `placementRef` names is the infrastructure placement. It
-decides who receives the add-on. The `ApplicationSet` needs a second
+determines which clusters receive the add-on. The `ApplicationSet` needs a second
 `Placement`, even when the selectors match. The documented infrastructure
 placement tolerates unreachable and unavailable clusters, selects
 `vendor=OpenShift`, and excludes `local-cluster`.
@@ -92,15 +90,15 @@ Push keeps the application controller on the hub. Managed clusters do not
 run their own Argo CD. RHACM creates a cluster secret per spoke. The
 default `application-manager` service account on the spoke is
 `cluster-admin`, so that secret can apply anything. RHACM 2.16 documents
-the secret's server URL as the cluster proxy by default, and as the
-managed cluster API only when that add-on is unavailable, and only for
-OpenShift. Read the server field on the hub you have. A proxy URL means
+the cluster proxy as the default server URL in the secret. If the proxy
+add-on is unavailable, OpenShift clusters can fall back to the managed
+cluster API. Check the secret's `server` field on your hub. A proxy URL means
 push is already using the tunnel the spoke opened for RHACM. An API URL
 means the hub must route to that API.
 
 The agent changes the failure domain either way. The spoke dials the
-principal over mutual TLS, the apply happens on the spoke, and the agent
-authenticates with the client certificate the add-on issues. After the
+principal over mutual TLS and authenticates with the client certificate
+the add-on issues. The application controller applies changes on the spoke. After the
 switch, delete the old `application-manager` cluster secrets. The
 uninstall steps still name them.
 
@@ -127,7 +125,7 @@ Outbound-only spokes beat hub push when any of these are true.
 
 **The hub cannot apply.** The cluster proxy is off, or the fallback API
 URL is not reachable from the hub. Retail, factory, and other restricted
-sites in the November 11 announcement are this case. The agent needs
+sites in the November 11 announcement illustrate this case. The agent needs
 egress from the spoke to the principal route. It does not need a new
 inbound path to the spoke API. The RHACM klusterlet on that spoke is
 already outbound. GitOps delivery joins it.
@@ -142,8 +140,8 @@ policy is a separate privilege question, covered below.
 [September 24, 2026 lab](https://developers.redhat.com/articles/2026/09/24/scaling-gitops-pull-architecture-global-fleets)
 on OpenShift 4.21, RHACM 2.16, and OpenShift GitOps 1.20 synced 31,200
 applications and 3.12 million resources across 480 spokes in about 13
-minutes. The limits they recorded were hub API and etcd throughput, and
-ApplicationSet controller memory. That lab is the evidence for moving
+minutes. The lab identified three limits: hub API throughput, etcd throughput,
+and ApplicationSet controller memory. That lab is the evidence for moving
 reconciliation off the hub. It is an RHACM 2.16 measurement. The November
 25 article is the RHACM 5.0 integration: the add-on bootstraps the
 principal and the agents from a `GitOpsCluster`.
@@ -154,9 +152,8 @@ New hub-authored changes wait until the agent reconnects. Upstream
 [managed-mode guidance](https://argocd-agent.readthedocs.io/stable/user-guide/managed-agent/)
 adds the condition: if the spoke controller uses the hub repo server or
 hub Redis, the hub is still a single point of failure for rendering. The
-RHACM add-on installs an Argo CD instance on the spoke. Keep that
-instance's repository access on the spoke when hub loss is the failure
-you are buying pull to survive. The spoke still needs a path to Git for
+RHACM add-on installs an Argo CD instance on the spoke. If the spoke must keep reconciling during a hub outage, keep its
+repository access and rendering dependencies local to the spoke. The spoke still needs a path to Git for
 new commits. Repository secrets are created on the hub and distributed
 to matching agents. A gRPC session with no Git egress syncs nothing new.
 
@@ -177,8 +174,8 @@ Hub-local policy sync stays on the hub GitOps instance from
 ## What the switch breaks
 
 **Every push ApplicationSet on that `GitOpsCluster`.** The add-on
-disables push for all applications, so a mixed fleet on one object ends
-in the same change. Rewrite `destination.server` to `destination.name`
+disables push for all applications, so the cutover affects every spoke
+selected by that object. Rewrite `destination.server` to `destination.name`
 before the add-on is enabled. The principal routes on the name. A
 template that still carries the server URL is the push shape, and push
 is off.
@@ -219,8 +216,8 @@ different object from `gitops-placement`.
 
 **Hub-local Applications, if you copy the sample `ArgoCD`.** The hub
 procedure rewrites the hub `ArgoCD` before you create the
-`GitOpsCluster`. The sample sets the application controller off, turns
-the principal on, and exposes a route for the agents:
+`GitOpsCluster`. The sample disables the application controller, enables
+the principal, and exposes a route for the agents:
 
 ```yaml
 apiVersion: argoproj.io/v1beta1
@@ -289,12 +286,13 @@ OpenShift GitOps instance creates, `openshift-gitops-redis`.
 **AppProjects the principal will not propagate.** The principal ships
 an `AppProject` only when its destinations and `sourceNamespaces` match
 the agent. The documented `default` project uses wildcards so a lab
-can connect. Narrow `sourceRepos`, destinations, and
-`clusterResourceWhitelist` to the clusters and namespaces you deploy
-before that project is the one production Applications use.
+can connect. Before production Applications use the project, restrict `sourceRepos`
+to the repositories they need, destinations to their target clusters and
+namespaces, and `clusterResourceWhitelist` to the cluster-scoped resource
+kinds they need.
 
 **An empty placement.** The `ManagedClusterSetBinding` has to exist in
-`openshift-gitops`. Without it the placement selects nothing, the
+`openshift-gitops`. Without it, the placement selects nothing, the
 add-on goes nowhere, and the failure looks like a Git problem.
 
 **Spokes that already run GitOps.** The add-on enforces an `ArgoCD`
@@ -315,34 +313,34 @@ for the agent settings to replace it.
 
 **A rollback that deletes objects in the wrong order.** Remove the
 `ApplicationSet` resources and wait until the generated Applications
-are gone, then delete the `GitOpsCluster`, then the generated `Policy`
-and `PlacementBinding`. A `Policy` left behind keeps enforcing the
+are gone. Then delete the `GitOpsCluster`. Finally, delete the generated
+`Policy` and `PlacementBinding`. A `Policy` left behind keeps enforcing the
 spoke `ArgoCD`. The guide says the uninstall takes minutes and that
 finalizers should be left in place until cleanup finishes.
 
-ApplicationSet objects outside the Argo CD namespace, and progressive
-rollout, are still Technology Preview in the RHACM 5.0 GitOps guide.
+ApplicationSet objects outside the Argo CD namespace and progressive
+rollout are both listed as Technology Preview in the RHACM 5.0 GitOps guide.
 Leave both out of the cutover.
 
 ## What to check before you upgrade the hub
 
-RHACM 5.0 is platform-aligned with OpenShift 5.0. On the operators
-life-cycle page it supports OpenShift 4.22 and 5.0, with general
+RHACM 5.0 is platform-aligned with OpenShift 5.0. The operator
+life-cycle page lists support for OpenShift 4.22 and 5.0, with general
 availability on November 6, 2026, full support through November 30,
 2027, and maintenance through November 30, 2028. RHACM 2.16 supports
 OpenShift 4.19 through 4.22 and does not list 5.0. RHACM 2.17 lists
-4.20, 4.21, 4.22, and 5.0. A 5.0 hub can run 2.17 or 5.0. The agent
-procedure in this post is the 5.0 guide. The 2.17 GitOps PDF still
-titles the agent enablement Technology Preview. Confirm that release's
+4.20, 4.21, 4.22, and 5.0. An OpenShift 5.0 hub can run RHACM 2.17 or RHACM 5.0. This post
+follows the RHACM 5.0 agent procedure. The RHACM 2.17 GitOps PDF still
+labels agent enablement as Technology Preview. Confirm that release's
 chapter before you treat the agent as supported there.
 [Park on 4.22 or hop to 5.0](/posts/openshift-4-22-vs-5-0-upgrade-decision/)
 is the cluster decision. This is the GitOps decision that follows it.
 
 Red Hat describes the RHACM 5.0 upgrade as seamless in the same way as
-earlier releases. The pull switch is a separate edit. Leave the hub
-upgrade and `gitopsAddon.enabled` in different windows. Existing
+earlier releases. The pull switch is a separate edit. Schedule the hub
+upgrade and the switch to pull in separate change windows. Existing
 `GitOpsCluster` objects keep their current spec through the hub
-upgrade. Pull starts when you set `gitopsAddon.enabled`.
+upgrade. For agent pull, enable both the add-on and the agent in the later window.
 
 | Check | What you want before the placement goes wide |
 | ----- | -------------------------------------------- |
@@ -369,14 +367,14 @@ After the flip, read `status.conditions` on the `GitOpsCluster`:
 `Ready`, `PlacementResolved`, `CertificatesReady`, and
 `ArgoCDAgentPrereqsReady`. The principal pod label on the hub is
 `app.kubernetes.io/name=openshift-gitops-agent-principal`. The spoke
-agent label is `app.kubernetes.io/part-of=argocd-agent`. Applications
-should reach `Synced` from the spoke, visible on the hub.
+agent label is `app.kubernetes.io/part-of=argocd-agent`. Check the hub UI to confirm that Applications reconciled on the spoke
+show a status of `Synced`.
 
 ## The solutions architect takeaway
 
 1. **The cutover is two fields under `gitopsAddon`** — `enabled` and
    `argoCDAgent.enabled`. Managed mode is the default. Author
-   Applications on the hub, reconcile them on the spoke.
+   Applications on the hub and reconcile them on the spoke.
 2. **Enabling the add-on disables push for every application on that
    `GitOpsCluster`** — rewrite destinations to the cluster name in the
    same window. Hybrid keeps the hub controller for hub-local work and
@@ -389,8 +387,8 @@ should reach `Synced` from the spoke, visible on the hub.
    it. ManifestWork pull is the OpenShift-subscription path, with
    aggregated status, on OpenShift spokes.
 5. **Upgrade the hub first, on its own** — RHACM 5.0 is the release
-   whose guide documents this as generally available. Prove one
-   non-prod spoke, then widen the placement.
+   whose guide documents this as generally available. Verify that one
+   nonproduction spoke syncs before you widen the placement.
 
 For sites where the WAN is the design input, start with
 [OpenShift edge architectures](/posts/openshift-edge-architectures/).
@@ -405,7 +403,7 @@ is unchanged:
 - [OpenShift Edge Architectures: Form Factor, Then Fleet](/posts/openshift-edge-architectures/)
 - [OVE vs OpenShift Platform Plus: The SKU Choice](/posts/ove-vs-openshift-platform-plus/)
 
-> Want help deciding which spokes leave hub push before an RHACM 5.0
+> Want help deciding which spokes to switch to pull after your RHACM 5.0
 > hub upgrade? Reach out to your Red Hat account team—or inventory one
 > non-prod `GitOpsCluster` and its ApplicationSet destinations before
 > you enable the add-on.
