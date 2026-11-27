@@ -16,6 +16,8 @@ permalink: /posts/acm-openshift-virtualization/
 
 **November 24, 2026 update.** For an OpenShift 5.0 hub, Red Hat lists ACM 2.17 and ACM 5.0 as compatible releases. The ACM 2.16 entry ends at OpenShift 4.22. Check the hub version first, then use the release-specific support matrix to verify each managed cluster and the virtualization features you plan to use. [Operator lifecycles](https://access.redhat.com/support/policy/updates/openshift_operators) · [ACM support matrices](https://access.redhat.com/support/policy/updates/advanced-cluster-management).
 
+**November 27, 2026 update.** The Argo CD Agent pull path is generally available in RHACM 5.0. That change is how Applications reach spokes, separate from the virtualization fleet design in this post. The cutover is [ACM 5.0 Argo CD Agent: Switch Push to Pull](/posts/acm-5-argo-cd-agent-push-to-pull/).
+
 Give a platform team a second
 [OpenShift Virtualization](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/index)
 cluster and the OpenShift console stops being a control plane. It is still the

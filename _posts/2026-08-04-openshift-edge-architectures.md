@@ -476,7 +476,9 @@ That answer selects the form factor faster than a feature matrix.
    [GitOps should manage ACM, not the cluster](/posts/gitops-should-manage-acm/).
 4. **Connectivity is a day-0 design input** — mirrors, upgrade windows, and
    break-glass access decide whether the pretty topology survives first contact
-   with the WAN.
+   with the WAN. Sites that only dial out, or that should keep applying when
+   the hub path is down, are the RHACM 5.0 Argo CD Agent case:
+   [ACM 5.0 Argo CD Agent: Switch Push to Pull](/posts/acm-5-argo-cd-agent-push-to-pull/).
 5. **Storage follows the failure domain** — LVMS for local disks, external CSI
    when an array is real, ODF when the site earns replicated block/file/object.
    Disk types, IOPS, and what fails per architecture are in

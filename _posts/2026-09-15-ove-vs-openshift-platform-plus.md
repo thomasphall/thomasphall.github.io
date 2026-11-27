@@ -135,7 +135,12 @@ use cases. GitOps that implies Plus is the rest of the catalog: tenant
 apps in ApplicationSets, Pipelines baking images, Quay as the source of
 truth, RHACM policy across mixed clusters. That is
 [GitOps should manage ACM, not the cluster](/posts/gitops-should-manage-acm/)
-as an estate, not as a virt YAML habit. If the hub must manage non-Plus
+as an estate, not as a virt YAML habit. The Argo CD Agent is a sharper
+line inside that catalog: RHACM 5.0 documents it as a Platform Plus
+entitlement on every cluster that runs the agent, and the cutover is
+[ACM 5.0 Argo CD Agent: Switch Push to Pull](/posts/acm-5-argo-cd-agent-push-to-pull/).
+Push and the ManifestWork pull path stay on an OpenShift GitOps
+subscription. If the hub must manage non-Plus
 clusters, the RHACM that ships with Plus does not automatically cover
 them. Budget the add-on.
 

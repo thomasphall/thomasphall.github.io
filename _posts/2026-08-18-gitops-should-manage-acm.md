@@ -80,6 +80,12 @@ workloads. It is the opposite direction of GitOps managing RHACM so RHACM can
 reach platform configuration. You can run both. Name which one you mean in
 the design review.
 
+RHACM 5.0 keeps that registration and adds a supported pull path on the
+same object. Enabling the GitOps add-on and the Argo CD Agent is the
+cutover, and it disables hub push for the applications on that
+`GitOpsCluster`. The fields and the failure modes are in
+[ACM 5.0 Argo CD Agent: Switch Push to Pull](/posts/acm-5-argo-cd-agent-push-to-pull/).
+
 ## Why the hub should own day-2
 
 A spoke is a bad system of record for fleet intent. ApplicationSets that
@@ -284,6 +290,7 @@ then feed the hub on purpose.
 
 ## Related posts
 
+- [ACM 5.0 Argo CD Agent: Switch Push to Pull](/posts/acm-5-argo-cd-agent-push-to-pull/)
 - [Virtualization Autopilot vs GitOps on OpenShift](/posts/virt-platform-autopilot-vs-gitops/)
 - [ACM as the Fleet Control Plane for OpenShift VMs](/posts/acm-openshift-virtualization/)
 - [OVE vs OpenShift Platform Plus: The SKU Choice](/posts/ove-vs-openshift-platform-plus/)
